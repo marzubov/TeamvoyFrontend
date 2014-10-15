@@ -46,7 +46,7 @@ div.items
     position:absolute;
     top:31px;
     left:0px;
-    width:200px;
+    width:199px;
     border:1px solid black;
     overflow:hidden;
     display:none;
@@ -68,6 +68,10 @@ div.item:hover
 {
     background:lightblue;
 }
+div.item:focus
+{
+    background:lightblue;
+}
 select
 {
     position: absolute;
@@ -78,6 +82,10 @@ span.selectWrapper{
     position: relative;
     display: inline-block;
     margin: 5px;
+}
+span.selectWrapper:focus{
+    outline-width: 1px;
+    outline-color: lightblue;
 }
 #generateButton{
     display: block;
