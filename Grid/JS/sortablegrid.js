@@ -79,6 +79,9 @@ function SortableGrid(table) {
             var sortString = row.cells[cellIndex].textContent;
             store.push([sortString, row]);
         }
+        // if cell has number
+        parseFloat(store[0][0]) ?
+        store.sort(function(a,b){return a[0]-b[0];}) :
         store.sort();
         if (reverse) {
             store.reverse();
