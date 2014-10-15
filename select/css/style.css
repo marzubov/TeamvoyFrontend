@@ -41,7 +41,7 @@ span.selected[contenteditable=true]:focus{
     background-color: lightblue;
     outline: #cccccc;
 }
-div.items
+div.options
 {
     position:absolute;
     top:31px;
@@ -54,7 +54,7 @@ div.items
     max-height:105px;
     z-index: 1;
 }
-div.item
+div.option
 {
     position: relative;
     display:block;
@@ -64,18 +64,18 @@ div.item
     background:lightgrey;
 }
 
-div.item:hover
+div.option:hover
 {
     background:lightblue;
 }
-div.item:focus
+div.option:focus
 {
     background:lightblue;
 }
 select
 {
     position: absolute;
-    display: none;
+    display: inline-block;
 
 }
 span.selectWrapper{
