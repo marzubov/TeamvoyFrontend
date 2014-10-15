@@ -1,5 +1,5 @@
 function func() {
-    var array = ["Volvo","Saab","Mercedes","Audi","Man","Ford","Chevrolet","BMW"];
+    var array = ["Volvo","Saab","Mercedes","Audi","Man","Ford","Chevrolet","BMW","Volkswagen"];
     var selectWrapperDiv = document.createElement("span");
     var selectList = document.createElement("select");
     selectWrapperDiv.className = "selectWrapper";
@@ -20,12 +20,14 @@ function func() {
 
     arrowSpan.innerHTML = '&#8629';
     arrowSpan.className = 'arrow';
+
     selectDiv.appendChild(selectedSpan);
     selectDiv.appendChild(arrowSpan);
 
     selectWrapperDiv.appendChild(selectDiv);
 
     itemsDiv.className = "items";
+
     selectDiv.appendChild(itemsDiv);
 
     for (var i = 0; i < array.length; i++) {
@@ -41,13 +43,13 @@ function func() {
     }
     document.body.appendChild(selectWrapperDiv);
 
-    selectList.addEventListener("click", function (){console.log("native select clicked");});
+    selectList.addEventListener("click", function (){console.log("native select click triggered");});
+    selectList.addEventListener("keyup", function (){console.log("native select keyup triggered");});
 
     selectedSpan.addEventListener('keyup', function (){
-        var item1 = $(this).closest('.select').children('.items')[0];
-        //console.log(item1.childNodes);
+        var item1 = selectedSpan.parentNode.childNodes[2];
+
         for (var i = item1.childNodes.length - 1; i >= 0; i--) {
-            console.log(i);
             var temp = item1.childNodes[i];
             if (temp.innerHTML.indexOf(selectedSpan.innerHTML)==0)
             {
@@ -57,16 +59,26 @@ function func() {
                 temp.style.display = 'none';
             }
         }
+        if (item1.style.display=='none') {
+            itemsDiv.style.display = 'block';
+
+            setTimeout(function () {
+                window.onclick = function () {
+                    itemsDiv.style.display = 'none';
+                    window.onclick = "";
+                }
+            }, 0);
+        }
+
     });
 
     selectedSpan.addEventListener("click", function (){
         if (itemsDiv.style.display == 'block') {
             itemsDiv.style.display = 'none';
-            $(selectList).trigger("click");
         }
         else{
             itemsDiv.style.display = 'block';
-            $(selectList).trigger("click");
+
             setTimeout(function () {
                 window.onclick = function () {
                     itemsDiv.style.display = 'none';
@@ -76,17 +88,19 @@ function func() {
         }
         });
 
+    bindEl(selectedSpan);
+
     arrowSpan.addEventListener("click", function (el){
-        var itemsDiv1 = $(el.target).closest('.select').children('.items')[0];
-        //console.log(itemsDiv1);
+        var itemsDiv1 = selectedSpan.parentNode.childNodes[2];
+
         if (itemsDiv1.style.display == 'block')
         {
             itemsDiv1.style.display = 'none';
-            $(selectList).trigger("click");
+
         }
         else{
             itemsDiv1.style.display = 'block';
-            $(selectList).trigger("click");
+
             setTimeout(function () {
                 window.onclick = function () {
                     itemsDiv1.style.display = 'none';
@@ -96,11 +110,13 @@ function func() {
         }
     });
 
-    var items = $(selectedSpan).closest('.select').children('.items');
-    //console.log(items);
-    for (var i = items.length - 1; i >= 0; i--) {
-        items[i].onclick = function (el1) {
+    bindEl(arrowSpan);
 
+    var items = selectedSpan.parentNode.childNodes[2].childNodes;
+
+    for (var i = items.length - 1; i >= 0; i--) {
+
+        items[i].onclick = function (el1) {
             selectedSpan.innerHTML = el1.target.getAttribute('value');
 
             for (var i= selectList.options.length; i-->0;) {
@@ -110,6 +126,23 @@ function func() {
                 }
             }
         }
+        bindEl(items[i]);
     }
 
+    function bindEl(el){
+        el.addEventListener("click", function (){ selectList.click();});
+        el.addEventListener("focus", function (){ if (selectList.focus) selectList.focus();});
+        el.addEventListener("blur", function (){ if (selectList.blur) selectList.blur();});
+        el.addEventListener("change", function (){ if (selectList.change) selectList.change();});
+        el.addEventListener("dblclick", function (){ if (selectList.dblclick) selectList.dblclick();});
+        el.addEventListener("mousedown", function (){if (selectList.mousedown)  selectList.mousedown();});
+        el.addEventListener("mouseup", function (){ if (selectList.mouseup) selectList.mouseup();});
+        el.addEventListener("mouseover", function (){ if (selectList.mouseover) selectList.mouseover();});
+        el.addEventListener("mousemove", function (){ if (selectList.mousemove) selectList.mousemove();});
+        el.addEventListener("mouseout", function (){ if (selectList.mouseout) selectList.mouseout();});
+        el.addEventListener("keypress", function (){ if (selectList.keypress) selectList.keypress();});
+        el.addEventListener("keydown", function (){ if (selectList.keydown) selectList.keydown();});
+        el.addEventListener("keyup", function (){ if (selectList.keyup) selectList.keyup();});
+
+    }
 }
