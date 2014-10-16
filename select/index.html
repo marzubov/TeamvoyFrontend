@@ -4,45 +4,20 @@
 	<meta charset="UTF-8">
 	<title>Custom select</title>
 	<script src ="js/main.js"></script>
-	<script src ="js/init.js"></script>
-	<script src ="js/customSelect.js"></script>
-	<script src ="js/addEventsFunctions.js"></script>
-    <link REL="stylesheet" href="css/style.css" type="text/css">
+	<script src ="js/custom_select.js"></script>
+	<link REL="stylesheet" href="css/style.css" type="text/css">
 </head>
 
 <body>
 
-    <p id ="first">My Selects</p>
-    <div>Select1</div>
-    <select class="mySelect">
-    	<option>1</option>
-    	<option>2</option>
-    	<option>3</option>
-        <option>4</option>
-        <option>5</option>
-    </select>
-
-    <div>Select1</div>
-    <select class="mySelect">
-    	<option>One</option>
-    	<option>Two</option>
-    	<option>Three</option>
-        <option>Four</option>
-        <option>Five</option>
-    </select>
-    <p>Select3</p>
-    <select class="mySelect">
-    	<option>Audi</option>
-    	<option>Bmw</option>
-    	<option>Mazda</option>
-        <option>Mercedes</option>
-        <option>Honda</option>
-    </select>
+    <h3>My Custom Select inserted in div with id="first"</h3>
+    
+    <div id="first"></div>    
 
 <script>
     var variables;
     var config;
-    addCustomSelect(document.getElementById('first'),[],);
+    addCustomSelect(document.getElementById('first'),[1,2,3,4,5],[]);
 </script>
 </body>
 

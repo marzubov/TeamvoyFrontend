@@ -1,7 +1,3 @@
-(function(){
-   this.onload=function(){
-    var selects = document.querySelectorAll('select');
-    console.log(selects);
-    new init(selects);
+function addCustomSelect(container,variables,config){
+    container.appendChild(new customSelect(variables,config).getCustomSelect());
 }
-})();
