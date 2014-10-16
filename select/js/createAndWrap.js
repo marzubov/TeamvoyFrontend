@@ -5,7 +5,9 @@ function createCustomSelect(select){
     var selectedSpan = document.createElement('span');
     var arrowSpan = document.createElement('span');
     var options = document.createElement('div');
-    
+    var searchDiv = document.createElement('div');
+    var searchFieldSpan = document.createElement('span');
+    var searchIcon = document.createElement('span');
     selectWrapperDiv.className = "selectWrapper";
 
     selectDiv.className = "select";
@@ -14,7 +16,6 @@ function createCustomSelect(select){
     selectedSpan.className = "selected";
     selectedSpan.tabIndex = -1;
     selectedSpan.innerHTML = select.options[0].text;
-
     arrowSpan.innerHTML = '&#8629';
     arrowSpan.className = 'arrow';
 
@@ -24,8 +25,15 @@ function createCustomSelect(select){
     selectWrapperDiv.appendChild(selectDiv);
 
     options.className = "options";
-
+    searchDiv.className = "search";
+    searchFieldSpan.className = 'searchField';
+    searchFieldSpan.contentEditable = true;
+    searchIcon.className = "searchIcon";
+    searchIcon.innerHTML = 's';
     selectDiv.appendChild(options);
+    searchDiv.appendChild(searchFieldSpan);
+    searchDiv.appendChild(searchIcon);
+    options.appendChild(searchDiv);
 
     for (var i = 0; i < select.options.length; i++) {        
         var option = document.createElement('div');
@@ -33,7 +41,7 @@ function createCustomSelect(select){
         option.innerHTML = select.options[i].text;
         option.setAttribute('value', select.options[i].value);
         option.tabIndex = -1;
-        
+
         options.appendChild(option);
     }
     wrapSelect.call(this,select,selectWrapperDiv,selectedSpan, arrowSpan, options);

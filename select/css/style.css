@@ -76,6 +76,7 @@ select
 {
     position: absolute;
     display: inline-block;
+    /*display: none;*/
 
 }
 span.selectWrapper{
@@ -89,4 +90,29 @@ span.selectWrapper:focus{
 }
 #generateButton{
     display: block;
+}
+div.search{
+    position: relative;
+    display:block;
+    width:80%;
+    height:20px;
+    padding:5px 10%;
+    background:lightgrey;
+}
+span.searchField{
+    display: block;
+    position: relative;
+    width:110%;
+    line-height:22px;
+    margin-left: -8px;
+    border:1px solid black;
+    background:whitesmoke;
+}
+span.searchIcon{
+    display: inline-block;
+    position: absolute;
+    left: 175px;
+    top: 0px;
+    height: 10px;
+    z-index: 10;
 }

@@ -4,4 +4,5 @@ function init(select){
     for (var i = 0; i < documentSelectArray[0].length; i++) {
         new createCustomSelect(documentSelectArray[0][i]);
     };
+    console.log("success");
 }

@@ -4,4 +4,4 @@
     console.log(selects);
     new init(selects);
 }
-})()
+})();
