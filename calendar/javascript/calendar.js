@@ -8,8 +8,11 @@ Object.prototype.merge = function (obj) {
     for (key in obj) {
         if (this.hasOwnProperty(key)) { this[key] = obj[key]; }
     }
-    console.log("merge");
 };
+
+Calendar.queue = [];
+Calendar.countOfCreatedObject = 0;
+Calendar.LocalizationCache = { data : {}, keys : [] };
 
 function Calendar(properties) {
     "use strict";
@@ -20,31 +23,47 @@ function Calendar(properties) {
         locale: "en"
     };
     this.model = { chosenMonth: "", arrayOfDays: [] };
-    console.log("start");
     this.initialization(properties);
-}
+};
+
+Calendar.prototype.initialization = function (properties) {
+    "use strict";
+    this.config.merge(properties);
+    Calendar.countOfCreatedObject += 1;
+    this.loadFile("localization/" + this.config.locale + ".json", this.generateCalendar, this);
+};
 
 Calendar.prototype.loadFile = function (sURL, fCallback, obj) {
     "use strict";
-    console.log(obj.config.locale);
-        var oReq = new XMLHttpRequest();
-        console.log("load");
-        oReq.onload = function () {
-            if (Cache.exists(obj.config.locale)){
-                obj.generateCalendar(obj, Cache.get(obj.config.locale));
-                Queue.dequeue();
-            } else {
-                var dataMonth = JSON.parse(this.responseText);
-                console.log("onload");
-                Cache.add(obj.config.locale, dataMonth);
-                fCallback(obj, dataMonth);
-                Queue.dequeue();
-                //obj.printCalendar();
-            }
+        if (Calendar.LocalizationCache.keys.indexOf(obj.config.locale) !== -1){
+            setTimeout(function () {
+                if (Calendar.LocalizationCache.data.hasOwnProperty(obj.config.locale)){
+                    obj.generateCalendar(obj, Calendar.LocalizationCache.data[obj.config.locale]);
+                    if (Calendar.queue.length == Calendar.countOfCreatedObject) {
+                        for (var i = 0; i< Calendar.countOfCreatedObject; i += 1) {
+                            Calendar.queue.shift().printCalendar();
+                        };
+                    }
+                } else {
+                    this.AjaxRequest(sURL, fCallback, obj);
+                }
+            }, Calendar.countOfCreatedObject * 10);
+        } else {
+            this.AjaxRequest(sURL, fCallback, obj);
         };
-        oReq.open("post", sURL, true);
-        oReq.send(null);
 };
+
+Calendar.prototype.AjaxRequest = function (sURL, fCallback, obj) {
+    var oReq = new XMLHttpRequest();
+    Calendar.LocalizationCache.keys.push(obj.config.locale);
+    oReq.onload = function () {
+        var dataMonth = JSON.parse(this.responseText);
+        Calendar.LocalizationCache.data[obj.config.locale] = dataMonth;
+        fCallback(obj, dataMonth);
+    }
+    oReq.open("post", sURL, true);
+    oReq.send(null);
+}
 
 Calendar.prototype.generateCalendar = function (obj, dataMonth) {
     "use strict";
@@ -55,19 +74,14 @@ Calendar.prototype.generateCalendar = function (obj, dataMonth) {
             "november", "december"],
         myDays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"], indexOfstartDay, days = [];
 
-    console.log("generate");
-    //----------------get the index of the start day--------------------------------------------
     indexOfstartDay = myDays.indexOf(obj.config.firstDayOfWeek);
 
-    //----------------send the chosen month to the model----------------------------------------
     obj.model.chosenMonth = dataMonth.month[myMonth[obj.config.month - 1]];
 
-    //----------------create the right location of days of week and push it to the model--------
     for (i = 0; i < myDays.length; i += 1) { days[i] = dataMonth.daysOfWeek[myDays[i]]; }
     days = days.slice(indexOfstartDay, 7).concat(days.slice(0, indexOfstartDay));
     obj.model.arrayOfDays.push(days);
 
-    //----------------generate calendar---------------------------------------------------------
     month = Array.apply(null, {length: lastDay}).map(function (el, i) { return i + 1; });
     firstDayWeek = (7 - (indexOfstartDay + 1 - firstDayWeek)) % 7;
     monthPrefix = new Array(firstDayWeek);
@@ -75,23 +89,17 @@ Calendar.prototype.generateCalendar = function (obj, dataMonth) {
     for (i = 0; i < month.length; i += 7) {
         obj.model.arrayOfDays.push(month.slice(i, i + 7));
     }
-    Queue.enqueue(obj);
+    Calendar.queue.push(obj);
 };
 
 Calendar.prototype.printCalendar = function () {
     "use strict";
     var weeks = [], i;
-    console.log("print");
     weeks.push("<br><br>" + this.model.chosenMonth + "\t\t" + this.config.year);
     for (i = 0; i < this.model.arrayOfDays.length; i += 1) {
         weeks.push(this.model.arrayOfDays[i].join("\t"));
     }
-    document.write("<pre>" + weeks.join("<br>") + "</pre>");
-};
-
-Calendar.prototype.initialization = function (properties) {
-    "use strict";
-    console.log("initialization");
-    this.config.merge(properties);
-    this.loadFile("localization/" + this.config.locale + ".json", this.generateCalendar, this);
+    var container = document.createElement("div");
+    container.innerHTML = ("<pre>" + weeks.join("<br>") + "</pre>");
+    document.body.appendChild(container);
 };
