@@ -1,0 +1,9 @@
+.table-header{
+    cursor:pointer;
+}
+.table-header.active.dec:after{
+    content: url(img/arrow_up.png);
+}
+.table-header.active.inc:after{
+    content: url(img/arrow_down.png);
+}

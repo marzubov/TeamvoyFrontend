@@ -1,9 +1,12 @@
-fakeFactory=new DataFactory();
-var numberArray=fakeFactory.getNumberArray();
-var stringArray=fakeFactory.getStringArray();
-var configObject=fakeFactory.getConfigObject();
+var numberArray=getNumberArray();
+var stringArray=getStringArray();
+var configObject=getConfig();
 
 var container=document.getElementById('placeForTables');
 
-new SortableGrid(container,stringArray,configObject);
-new SortableGrid(container,numberArray,configObject);
+var table=new SortableGrid(container,stringArray,configObject).getCreatedElement();
+table.border='1';
+
+table =new SortableGrid(container,numberArray,configObject).getCreatedElement();
+table.border='3';
+table.style.backgroundColor='lightgray';
