@@ -16,7 +16,6 @@
     height: 20px;
     position: relative;
     display: block;
-    /*background:lightgrey;*/
     border:1px solid black;
 }
 .custom-selected:hover{
@@ -30,7 +29,6 @@
 {
     display: none;
     position: relative;
-    /*background:lightgrey;*/
 }
 .custom-option:hover{
     background:lightblue;

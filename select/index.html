@@ -3,19 +3,18 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Custom select</title>
-	<script src ="js/main.js"></script>
 	<script src ="js/custom_select.js"></script>
 	<link REL="stylesheet" href="css/style.css" type="text/css">
 </head>
 
 <body>
-
     <h3>My Custom Select inserted in div with id="first"</h3>
-    
-    <div id="first"></div>    
-
+    <div id="first"></div>
 <script>
-    new customSelect(document.getElementById('first'),[1,"Two",3,"four","П'ять",6,"Seven"],['white']);
+    new customSelect(document.getElementById('first')
+            ,[1,"Two",3,"four","П'ять",6,"Seven"]
+            ,['white']
+    );
 </script>
 </body>
 
