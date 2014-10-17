@@ -1,7 +1,3 @@
-var numberArray=getNumberArray();
-var stringArray=getStringArray();
-var configObject=getConfig();
-
 var container=document.getElementById('placeForTables');
 
 var table=new SortableGrid(container,stringArray,configObject).getCreatedElement();

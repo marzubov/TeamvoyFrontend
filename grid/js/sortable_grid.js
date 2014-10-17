@@ -20,7 +20,7 @@ function SortableGrid(container, dataArray, config) {
             else
                 return current[cellIndex]>next[cellIndex];
         });
-        reverse?dataArray.reverse():0;
+        reverse=='desc'?dataArray.reverse():0;
         // reDraw element
         reInit();
     }
@@ -45,31 +45,34 @@ function SortableGrid(container, dataArray, config) {
 
         // Places arrow in  head cell
         function headClicked() {
+
             var reverse;
-            if(this.className.search('table-header active inc') != -1){
-                this.className= this.className.replace(/table-header active inc/,'table-header active dec');
-                reverse=true;
+            if(this.classList.contains('asc')){
+                this.classList.add('desc');
+                this.classList.remove('asc');
+                reverse='desc';
             }
-            else if(this.className.search('table-header active dec') != -1){
-                this.className= this.className.replace(/table-header active dec/,'table-header active inc');
-                reverse=false;
+            else if(this.classList.contains('desc')){
+                this.classList.add('asc');
+                this.classList.remove('desc');
+                reverse='asc';
             }
             // Sort new column
             else{
+                reverse='asc';
                 deleteArrows();
-                this.className= this.className.replace(/table-header/,'table-header active inc');
+                this.classList.add('asc');
             }
-
-            sortArray(this.cellIndex, reverse);
+            sortedColumn=this.cellIndex;
+            sortArray(sortedColumn, reverse);
         }
 
         // When another cell clicked
        function deleteArrows() {
-           var cell=headCells.filter(function(el){
-              return el.className.search('table-header active')!=-1});
-           if(cell.length>0) {
-               cell[0].className = cell[0].className.replace(/table-header active inc/, 'table-header');
-               cell[0].className = cell[0].className.replace(/table-header active dec/, 'table-header');
+           // CAN BE ZERO THEN TRUE
+           if(sortedColumn != undefined) {
+               headCells[sortedColumn].classList.remove('desc');
+               headCells[sortedColumn].classList.remove('asc');
            }
        }
     }

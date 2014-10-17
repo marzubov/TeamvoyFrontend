@@ -1,9 +1,9 @@
 .table-header{
     cursor:pointer;
 }
-.table-header.active.dec:after{
+.table-header.desc:after{
     content: url(img/arrow_up.png);
 }
-.table-header.active.inc:after{
+.table-header.asc:after{
     content: url(img/arrow_down.png);
 }
