@@ -5,12 +5,14 @@ var stringArray= [
         ['Afanasiy', 'Bylba', 'Alchoball', '100'],
         ['Kerry', 'King', 'Guitar', '666']];
 
-var numberArray =Array.apply(null, {length: 10})
+var numberArray =Array.apply(null, {length: 100})
         .map(function(){
-           return Array.apply(null, {length: 4})
-                .map(function(){return Math.floor(Math.random()*100);});
+           return Array.apply(null, {length: 5})
+                .map(function(){return Math.floor(Math.random()*1000);});
         });
 
 var configObject= {
-            'headers':['1','2','3','4']
+            'headers':['1','2','3','4','5']
         };
+
+var maxRows = 10;
