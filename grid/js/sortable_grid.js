@@ -5,11 +5,16 @@ function SortableGrid(container, dataArray, config, maxRows) {
     var sortedColumn;
     var pageIndex;
     init();
+
     function init(){
         createTable();
         container.appendChild(element);
         container.appendChild(pages);
+        if (pages.children[0].children[0].children.length == 1){
+            pages.hidden = true;
+        }
     }
+
     function reInit(){
         changeData(pageIndex);
     }
@@ -24,9 +29,7 @@ function SortableGrid(container, dataArray, config, maxRows) {
                 return current[cellIndex]>next[cellIndex];
         });
         reverse=='desc'?dataArray.reverse():0;
-        // reDraw element
-        //reInit();
-        changeData(pageIndex);
+        reInit();
     }
 
     function createTable(){
@@ -37,19 +40,17 @@ function SortableGrid(container, dataArray, config, maxRows) {
         // Make body
         tableString +='<tbody class="data-body">';
         if(!maxRows) maxRows = dataArray.length;
-        for (var i=0;i<maxRows;i++){
-            tableString+='<tr><td>'+dataArray[i].join('</td><td>')+'</td></tr>';
-        }
-        
+        for (var i=0;i<maxRows;i++)tableString += '<tr><td>' + dataArray[i].join('</td><td>') + '</td></tr>';
+
         tableString+='</tbody>';
+
+        //Make pages
         pages = document.createElement('table');
         var pagesString = '<tbody><tr>';
-        for (var i = 1; i <= (dataArray.length/maxRows).toFixed(0); i++) {
-            pagesString+='<td>'+i+'</td>';
-        };
+        for (var i = 1; i <= (dataArray.length/maxRows).toFixed(0); i++) pagesString += '<td>' + i + '</td>';;
+
         element.innerHTML+=tableString;
-        pages.innerHTML+=pagesString;
-        pages.border = '1';
+        pages.innerHTML+=pagesString + '</tbody>';
         pageIndex = 1;
         var headCells=element.querySelector('thead').querySelector('tr').querySelectorAll('td');
         headCells=Array.prototype.slice.call(headCells);
@@ -57,19 +58,30 @@ function SortableGrid(container, dataArray, config, maxRows) {
             el.className+=' table-header';
             el.addEventListener('click',headClicked);
         });
-        
+
         Array.prototype.slice.call(pages.querySelectorAll('td'))
-        .forEach(function(el){
-            // if (el.innerHTML == '1') {
-            //     el.hidden = true;
-            // }
-            el.className = 'page';
+            .forEach(function(el){
+
+                el.className = 'page';
+
+                if (el.innerHTML == '1') {
+                    el.className = 'page-active';
+                }
+                var i = Array.prototype.indexOf.call(el.parentNode.children, el);
+                el.hidden = !!((i < (1 - 5)) || (i - 4 > 1));
+
                 el.addEventListener('click',function(){
-                changeData(this.innerHTML);
+                    var newPageIndex = this.innerHTML;
+                    Array.prototype.slice.call(this.parentNode.parentNode.querySelectorAll('td'))
+                        .forEach(function(el){
+                            el.className = 'page';
+                            var i = Array.prototype.indexOf.call(el.parentNode.children, el);
+                            el.hidden = !!((i < (newPageIndex - 4)) || (i - 3 > newPageIndex));
+                        });
+                    changeData(newPageIndex);
+                    this.className = 'page-active';
+                });
             });
-        });
-
-
 
         // Places arrow in  head cell
         function headClicked() {
@@ -97,23 +109,24 @@ function SortableGrid(container, dataArray, config, maxRows) {
 
         // When another cell clicked
         function deleteArrows() {
-           // CAN BE ZERO THEN TRUE
-           if(sortedColumn != undefined) {
-             headCells[sortedColumn].classList.remove('desc');
-             headCells[sortedColumn].classList.remove('asc');
-         }
-     }
- }
+            // CAN BE ZERO THEN TRUE
+            if(sortedColumn != undefined) {
+                headCells[sortedColumn].classList.remove('desc');
+                headCells[sortedColumn].classList.remove('asc');
+            }
+        }
+    }
 
     // after sorting
-    function changeData(newpageIndex){
-        pageIndex=newpageIndex;
-        //console.log(pageIndex);
+    function changeData(newPageIndex){
+        pageIndex=newPageIndex;
         var data= element.querySelector('.data-body');
         var dataString='';
-        for (var i=0 + (pageIndex-1)*maxRows;i<maxRows+(pageIndex-1)*maxRows;i++){
-        dataString+='<tr><td>'+dataArray[i].join('</td><td>')+'</td></tr>';
+        var maxRowIndex=maxRows+(pageIndex-1)*maxRows;
+        if (maxRows+(pageIndex-1)*maxRows > dataArray.length) maxRowIndex = dataArray.length;
+        for (var i=0 + (pageIndex-1)*maxRows;i<maxRowIndex;i++){
+            dataString+='<tr><td>'+dataArray[i].join('</td><td>')+'</td></tr>';
+        }
+        data.innerHTML=dataString;
     }
-    data.innerHTML=dataString;
-}
 }

@@ -1,9 +1,9 @@
 var stringArray= [
-        ['Evkakiy', 'Ignatovych', 'OOP', '2'],
-        ['Gnat', 'Kozlovskiy', 'Mathematic', '5'],
-        ['Ivan', 'Miladze', 'Facepalm', '1'],
-        ['Afanasiy', 'Bylba', 'Alchoball', '100'],
-        ['Kerry', 'King', 'Guitar', '666']];
+        ['Evkakiy', 'Ignatovych', 'OOP', '2','true'],
+        ['Gnat', 'Kozlovskiy', 'Mathematic', '5','false'],
+        ['Ivan', 'Miladze', 'Facepalm', '1','true'],
+        ['Afanasiy', 'Bylba', 'Alchoball', '100','false'],
+        ['Kerry', 'King', 'Guitar', '666','true']];
 
 var numberArray =Array.apply(null, {length: 100})
         .map(function(){
@@ -15,4 +15,4 @@ var configObject= {
             'headers':['1','2','3','4','5']
         };
 
-var maxRows = 10;
+var maxRows = 5;

@@ -7,3 +7,13 @@
 .table-header.asc:after{
     content: url(img/arrow_down.png);
 }
+.page{
+    color : purple;
+    font-weight : normal;
+    cursor : pointer;
+}
+.page-active{
+    color : black;
+    font-weight : bold;
+    cursor : pointer;
+}
