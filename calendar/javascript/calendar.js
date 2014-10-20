@@ -14,7 +14,7 @@ Calendar.queue = [];
 Calendar.countOfCreatedObject = 0;
 Calendar.LocalizationCache = { data : {}, keys : [] };
 
-function Calendar(properties) {
+function Calendar(properties,container) {
     "use strict";
     this.config = {
         year: (new Date()).getFullYear(),
@@ -24,7 +24,7 @@ function Calendar(properties) {
     };
     this.model = { chosenMonth: "", arrayOfDays: [] };
     this.initialization(properties);
-};
+}
 
 Calendar.prototype.initialization = function (properties) {
     "use strict";
@@ -41,8 +41,8 @@ Calendar.prototype.loadFile = function (sURL, fCallback, obj) {
                     obj.generateCalendar(obj, Calendar.LocalizationCache.data[obj.config.locale]);
                     if (Calendar.queue.length == Calendar.countOfCreatedObject) {
                         for (var i = 0; i< Calendar.countOfCreatedObject; i += 1) {
-                            Calendar.queue.shift().printCalendar();
-                        };
+                            Calendar.queue.shift().generateTable();
+                        }
                     }
                 } else {
                     this.AjaxRequest(sURL, fCallback, obj);
@@ -50,7 +50,7 @@ Calendar.prototype.loadFile = function (sURL, fCallback, obj) {
             }, Calendar.countOfCreatedObject * 10);
         } else {
             this.AjaxRequest(sURL, fCallback, obj);
-        };
+        }
 };
 
 Calendar.prototype.AjaxRequest = function (sURL, fCallback, obj) {
@@ -60,10 +60,10 @@ Calendar.prototype.AjaxRequest = function (sURL, fCallback, obj) {
         var dataMonth = JSON.parse(this.responseText);
         Calendar.LocalizationCache.data[obj.config.locale] = dataMonth;
         fCallback(obj, dataMonth);
-    }
+    };
     oReq.open("post", sURL, true);
     oReq.send(null);
-}
+};
 
 Calendar.prototype.generateCalendar = function (obj, dataMonth) {
     "use strict";
@@ -102,4 +102,21 @@ Calendar.prototype.printCalendar = function () {
     var container = document.createElement("div");
     container.innerHTML = ("<pre>" + weeks.join("<br>") + "</pre>");
     document.body.appendChild(container);
+};
+
+Calendar.prototype.generateTable = function(){
+    "use strict";
+    var table=document.createElement('table');
+    var tableString='';
+    tableString+='<caption>'+(this.model.chosenMonth + "\t\t" + this.config.year)+'</caption>';
+    //make header
+    tableString+='<thead><tr><td>'+this.model.arrayOfDays[0].join('</td><td>')+'</td></tr></thead>';
+    //make body
+    tableString+='<tbody>';
+    for (var i = 1; i < this.model.arrayOfDays.length; i++) {
+        tableString+='<tr><td>'+(this.model.arrayOfDays[i].join("</td><td>"))+'</td></tr>';
+    }
+    tableString+='<tbody>';
+    table.innerHTML=tableString;
+    document.body.appendChild(table);
 };
