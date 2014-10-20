@@ -33,6 +33,13 @@ Calendar.prototype.init = function (properties) {
     this.loadFile();
 };
 
+Calendar.prototype.reInit = function (element) {
+    "use strict";
+    this.config.month++;
+    this.generateCalendar();
+    this.printTable();
+};
+
 Calendar.prototype.loadFile = function () {
     "use strict";
     if(Calendar.LocalizationCache[this.config.locale]) {
@@ -84,6 +91,7 @@ Calendar.prototype.generateCalendar = function () {
     this.model.chosenMonth = dataMonth.month[myMonth[this.config.month - 1]];
 
     for (i = 0; i < myDays.length; i += 1) { days[i] = dataMonth.daysOfWeek[myDays[i]]; }
+    this.model.arrayOfDays=[];
     days = days.slice(indexOfstartDay, 7).concat(days.slice(0, indexOfstartDay));
     this.model.arrayOfDays.push(days);
 
@@ -91,6 +99,7 @@ Calendar.prototype.generateCalendar = function () {
     firstDayWeek = (7 - (indexOfstartDay + 1 - firstDayWeek)) % 7;
     monthPrefix = new Array(firstDayWeek);
     month = monthPrefix.concat(month);
+
     for (i = 0; i < month.length; i += 7) {
         this.model.arrayOfDays.push(month.slice(i, i + 7));
     }
@@ -111,10 +120,11 @@ Calendar.prototype.printCalendar = function () {
 
 Calendar.prototype.printTable = function(){
     "use strict";
+    var currentCalendar = this;
     var table=document.createElement('table');
     var tableString='';
-    tableString+='<caption><button>-</button>'+(this.model.chosenMonth + this.config.year)+'<button>+</button></caption>';
     //make header
+    tableString+='<caption><button>-</button>'+(this.model.chosenMonth + this.config.year)+'<button>+</button></caption>';
     tableString+='<thead><tr><td>'+this.model.arrayOfDays[0].join('</td><td>')+'</td></tr></thead>';
     //make body
     tableString+='<tbody>';
@@ -123,5 +133,12 @@ Calendar.prototype.printTable = function(){
     }
     tableString+='<tbody>';
     table.innerHTML=tableString;
+    var buttons=table.querySelectorAll('button');
+    buttons=Array.prototype.slice.call(buttons);
+    buttons.forEach(function(el) {
+        el.addEventListener('click',function(){
+            currentCalendar.reInit(this);
+        });
+    });
     document.body.appendChild(table);
 };
