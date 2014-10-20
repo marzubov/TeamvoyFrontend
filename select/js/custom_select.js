@@ -10,13 +10,12 @@ customSelect.ajaxRequest = function (container, URLorArray, config) {
                 var options = JSON.parse(this.responseText);
                 if (customSelect.queue[URLorArray]) { customSelect.queue[URLorArray] = options; }
                 customSelect.cache[URLorArray] = options;
-
                 var count = customSelect.correctOrder.length;
                 var endCount = 0;
                 for (var i = 0; i < customSelect.correctOrder.length; i += 1) {
                     if(customSelect.queue[customSelect.correctOrder[i]] == "temp") break;
                     if (customSelect.queue[customSelect.correctOrder[i]]) {
-                        new customSelect(document.getElementById("first"), customSelect.queue[customSelect.correctOrder[i]], ["white"]);
+                        new customSelect(container, customSelect.queue[customSelect.correctOrder[i]], config);
                         endCount += 1;
                     }
                 }

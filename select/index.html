@@ -11,12 +11,14 @@
     <h3>My Custom Select inserted in div with id="first"</h3>
     <div id="first"></div>
 <script>
+    customSelect.ajaxRequest(document.getElementById("first"), [1,2,3,4], ["white"]);
     customSelect.ajaxRequest(document.getElementById("first"), "file1.json", ["white"]);
     customSelect.ajaxRequest(document.getElementById("first"), "file1.json", ["white"]);
     customSelect.ajaxRequest(document.getElementById("first"), [1,2,3,4], ["white"]);
     customSelect.ajaxRequest(document.getElementById("first"), [5,6,7,8], ["white"]);
     customSelect.ajaxRequest(document.getElementById("first"), "file1.json", ["white"]);
     customSelect.ajaxRequest(document.getElementById("first"), "file2.json", ["white"]);
+    customSelect.ajaxRequest(document.getElementById("first"), [5,5,5,5], ["white"]);
     customSelect.ajaxRequest(document.getElementById("first"), "file2.json", ["white"]);
 </script>
 </body>
