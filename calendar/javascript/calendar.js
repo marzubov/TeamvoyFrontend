@@ -11,85 +11,90 @@ Object.prototype.merge = function (obj) {
 };
 
 Calendar.queue = [];
-Calendar.countOfCreatedObject = 0;
-Calendar.LocalizationCache = { data : {}, keys : [] };
+Calendar.LocalizationCache = {};
 
-function Calendar(properties,container) {
+function Calendar(properties) {
     "use strict";
     this.config = {
         year: (new Date()).getFullYear(),
         month: (new Date()).getMonth() + 1,
         firstDayOfWeek: "sunday",
-        locale: "en"
+        locale: "en",
+        output: "text"
     };
     this.model = { chosenMonth: "", arrayOfDays: [] };
-    this.initialization(properties);
+    this.init(properties);
 }
 
-Calendar.prototype.initialization = function (properties) {
+Calendar.prototype.init = function (properties) {
     "use strict";
+    Calendar.queue.push(this);
     this.config.merge(properties);
-    Calendar.countOfCreatedObject += 1;
-    this.loadFile("localization/" + this.config.locale + ".json", this.generateCalendar, this);
+    this.loadFile();
 };
 
-Calendar.prototype.loadFile = function (sURL, fCallback, obj) {
+Calendar.prototype.loadFile = function () {
     "use strict";
-        if (Calendar.LocalizationCache.keys.indexOf(obj.config.locale) !== -1){
-            setTimeout(function () {
-                if (Calendar.LocalizationCache.data.hasOwnProperty(obj.config.locale)){
-                    obj.generateCalendar(obj, Calendar.LocalizationCache.data[obj.config.locale]);
-                    if (Calendar.queue.length == Calendar.countOfCreatedObject) {
-                        for (var i = 0; i< Calendar.countOfCreatedObject; i += 1) {
-                            Calendar.queue.shift().generateTable();
-                        }
-                    }
-                } else {
-                    this.AjaxRequest(sURL, fCallback, obj);
+    if(Calendar.LocalizationCache[this.config.locale]) {
+        if (Calendar.LocalizationCache[this.config.locale] != 'Loading') {
+            while (true) {
+                if (Calendar.queue.length>0 &&
+                    Calendar.LocalizationCache[Calendar.queue[0].config.locale])
+                     {
+                    Calendar.queue[0].generateCalendar();
+                    Calendar.queue[0].config.output == "table" ?
+                        Calendar.queue.shift().printTable() :
+                        Calendar.queue.shift().printCalendar();
                 }
-            }, Calendar.countOfCreatedObject * 10);
-        } else {
-            this.AjaxRequest(sURL, fCallback, obj);
+                else {
+                    break;
+                }
+            }
+        }
+    }
+        else {
+            this.AjaxRequest();
         }
 };
 
-Calendar.prototype.AjaxRequest = function (sURL, fCallback, obj) {
+Calendar.prototype.AjaxRequest = function () {
+    var currentCalendar=this;
     var oReq = new XMLHttpRequest();
-    Calendar.LocalizationCache.keys.push(obj.config.locale);
+    Calendar.LocalizationCache[currentCalendar.config.locale]='Loading';
     oReq.onload = function () {
-        var dataMonth = JSON.parse(this.responseText);
-        Calendar.LocalizationCache.data[obj.config.locale] = dataMonth;
-        fCallback(obj, dataMonth);
+        Calendar.LocalizationCache[currentCalendar.config.locale] = JSON.parse(this.responseText);
+        currentCalendar.loadFile();
     };
-    oReq.open("post", sURL, true);
+    oReq.open("get","localization/" + currentCalendar.config.locale + ".json", true);
     oReq.send(null);
 };
 
-Calendar.prototype.generateCalendar = function (obj, dataMonth) {
+Calendar.prototype.generateCalendar = function () {
+    var dataMonth=Calendar.LocalizationCache[this.config.locale];
     "use strict";
-    var i, date = new Date(obj.config.year, obj.config.month - 1), month, monthPrefix,
+    var i, date = new Date(this.config.year, this.config.month - 1), month, monthPrefix,
         lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
         firstDayWeek = new Date(date.getFullYear(), date.getMonth(), 1).getDay(),
         myMonth = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october",
             "november", "december"],
         myDays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"], indexOfstartDay, days = [];
 
-    indexOfstartDay = myDays.indexOf(obj.config.firstDayOfWeek);
+    indexOfstartDay = myDays.indexOf(this.config.firstDayOfWeek);
 
-    obj.model.chosenMonth = dataMonth.month[myMonth[obj.config.month - 1]];
+    this.model.chosenMonth = dataMonth.month[myMonth[this.config.month - 1]];
 
     for (i = 0; i < myDays.length; i += 1) { days[i] = dataMonth.daysOfWeek[myDays[i]]; }
     days = days.slice(indexOfstartDay, 7).concat(days.slice(0, indexOfstartDay));
-    obj.model.arrayOfDays.push(days);
+    this.model.arrayOfDays.push(days);
 
     month = Array.apply(null, {length: lastDay}).map(function (el, i) { return i + 1; });
     firstDayWeek = (7 - (indexOfstartDay + 1 - firstDayWeek)) % 7;
     monthPrefix = new Array(firstDayWeek);
     month = monthPrefix.concat(month);
     for (i = 0; i < month.length; i += 7) {
-        obj.model.arrayOfDays.push(month.slice(i, i + 7));
+        this.model.arrayOfDays.push(month.slice(i, i + 7));
     }
-    Calendar.queue.push(obj);
+
 };
 
 Calendar.prototype.printCalendar = function () {
@@ -104,11 +109,11 @@ Calendar.prototype.printCalendar = function () {
     document.body.appendChild(container);
 };
 
-Calendar.prototype.generateTable = function(){
+Calendar.prototype.printTable = function(){
     "use strict";
     var table=document.createElement('table');
     var tableString='';
-    tableString+='<caption>'+(this.model.chosenMonth + "\t\t" + this.config.year)+'</caption>';
+    tableString+='<caption><button>-</button>'+(this.model.chosenMonth + this.config.year)+'<button>+</button></caption>';
     //make header
     tableString+='<thead><tr><td>'+this.model.arrayOfDays[0].join('</td><td>')+'</td></tr></thead>';
     //make body
