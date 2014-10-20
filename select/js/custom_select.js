@@ -1,3 +1,40 @@
+customSelect.ajaxRequest = function (container, URLorArray, config) {
+    customSelect.correctOrder.push(URLorArray);
+    if (typeof URLorArray == "string") {
+        if (customSelect.cache[URLorArray]) {
+            customSelect.queue[URLorArray] = customSelect.cache[URLorArray];
+        } else {
+            customSelect.cache[URLorArray] = "temp";
+            var oReq = new XMLHttpRequest();
+            oReq.onload = function () {
+                var options = JSON.parse(this.responseText);
+                if (customSelect.queue[URLorArray]) { customSelect.queue[URLorArray] = options; }
+                customSelect.cache[URLorArray] = options;
+
+                var count = customSelect.correctOrder.length;
+                var endCount = 0;
+                for (var i = 0; i < customSelect.correctOrder.length; i += 1) {
+                    if(customSelect.queue[customSelect.correctOrder[i]] == "temp") break;
+                    if (customSelect.queue[customSelect.correctOrder[i]]) {
+                        new customSelect(document.getElementById("first"), customSelect.queue[customSelect.correctOrder[i]], ["white"]);
+                        endCount += 1;
+                    }
+                }
+                customSelect.correctOrder.splice(0, endCount);
+            }
+            oReq.open("POST", "data_for_options/" + URLorArray, true);
+            oReq.send();
+        }
+    }
+    else {
+        customSelect.queue[URLorArray] = URLorArray;
+    }
+};
+
+customSelect.queue = [];
+customSelect.cache = [];
+customSelect.correctOrder = [];
+
 function customSelect(container,options,config){
     this.config = {
         style: "standard",
@@ -43,7 +80,7 @@ customSelect.prototype.configure = function(config){
     });
     //applying config data to our custom select
     this.selectFragment.className = 'custom-select';
-    this.selectFragment.childNodes[0].className = 'custom-selected';
+    this.selectFragment.childNodes[0].className = 'custom-selected';//span
     this.selectFragment.childNodes[0].innerHTML = myConfig.defaultOption;
     Array.prototype.forEach
         .call(this.selectFragment.childNodes, function (child) {
@@ -59,10 +96,10 @@ customSelect.prototype.events = function(){
     this.selectFragment.addEventListener('click',function(e){
         Array.prototype.forEach
             .call(e.target.childNodes, function(child) {
-        if((!child.style)||(!child.style.display)||(child.tagName=='SPAN')) return;
-        if(child.style.display == 'none'){child.style.display = 'block';}
-            else{child.style.display = 'none';}
-        });
+                if(child.tagName=='SPAN') return;
+                if(child.style.display == 'none'){child.style.display = 'block';}
+                else{child.style.display = 'none';}
+            });
         e.preventDefault();
     });
 

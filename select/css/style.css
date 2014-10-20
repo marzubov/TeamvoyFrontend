@@ -1,5 +1,4 @@
-.custom-select
-{
+.custom-select{
     position: relative;
     width:199px;
     border:1px solid black;
@@ -9,9 +8,10 @@
     overflow-y: auto;
     overflow-x: hidden;
     text-align: center;
+    float: left;
+    margin: 2px;
 }
-.custom-selected
-{
+.custom-selected{
     width: 100%;
     height: 20px;
     position: relative;
@@ -25,10 +25,15 @@
 .custom-selected:focus{
     background:lightblue;
 }
-.custom-option
-{
+.custom-option{
     display: none;
     position: relative;
+}
+.custom-option-active{
+    display: block;
+}
+.custom-option-notactive {
+    display: none;
 }
 .custom-option:hover{
     background:lightblue;
