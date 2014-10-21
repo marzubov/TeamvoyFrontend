@@ -39,11 +39,7 @@ Calendar.prototype.init = function (properties) {
     this.loadFile();
 
 };
-/**
- * Called when need to renew element
- * @param element
- */
-Calendar.prototype.reInit = function (element) {
+Calendar.prototype.reInit = function () {
     this.generateCalendar();
     this.generateTable();
 };
@@ -71,7 +67,7 @@ Calendar.prototype.ajaxRequest = function () {
         Calendar.localizationCache[currentCalendar.config.locale] = JSON.parse(this.responseText);
         currentCalendar.loadFile();
     };
-    oReq.open("get","localization/" + currentCalendar.config.locale + ".json", false);
+    oReq.open("post","localization/" + currentCalendar.config.locale + ".json", false);
     oReq.send(null);
 };
 /**
@@ -116,9 +112,9 @@ Calendar.prototype.generateTable = function(){
     var tableString='';
 
     //make header
-    tableString+='<caption><img class="calendar-button desc">'
+    tableString+='<caption><button class="calendar-button desc"></button>'
         +(this.model.chosenMonth +' '+ this.config.year)
-        +'<img class="calendar-button asc"></caption>';
+        +'<button class="calendar-button asc"></button></caption>';
     tableString+='<thead><tr><td>'+this.model.arrayOfDays[0].join('</td><td>')+'</td></tr></thead>';
 
     //make body
@@ -129,16 +125,44 @@ Calendar.prototype.generateTable = function(){
     tableString+='<tbody>';
     currentCalendar.element.innerHTML=tableString;
 
-
     // Set events
-    var buttons=currentCalendar.element.querySelectorAll('img');
+    var buttons=currentCalendar.element.querySelectorAll('button');
     buttons=Array.prototype.slice.call(buttons);
     buttons.forEach(function(el) {
         el.addEventListener('click',function(){
             currentCalendar.changeMonth(this);
         });
     });
+    testMouseWheelHandle(currentCalendar,buttons)
+
 };
+
+function testMouseWheelHandle(calendar,buttons){
+    // Testing mousewheel
+    var isFocused;
+    var temp=0;
+    calendar.element.onmouseover=function(){
+        isFocused=true;
+    };
+    calendar.element.onmouseout=function(){
+        isFocused=false;
+    };
+    window.addEventListener("DOMMouseScroll", function(e){
+        var direction = ((e.wheelDelta) ? e.wheelDelta/120 : e.detail/-3);
+        if(direction>0 && isFocused){
+            e.preventDefault();
+            temp++;
+            if(temp==5)
+                calendar.changeMonth(buttons[0]);
+        }
+        else if(isFocused){
+            e.preventDefault();
+            temp++;
+            if(temp==5)
+                calendar.changeMonth(buttons[1]);
+        }
+    });
+}
 /**
  * Set new month depending on button clicked.
  * @param button The button that called function
@@ -158,5 +182,5 @@ Calendar.prototype.changeMonth=function(button){
             this.config.year--;
         }
     }
-    this.reInit(this);
+    this.reInit();
 };
