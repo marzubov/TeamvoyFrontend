@@ -14,3 +14,6 @@ table.style.backgroundColor='lightblue';
 table =new SortableGrid(container,numberArray,configObject, maxRows).getCreatedElement();
 table.border='3';
 table.style.backgroundColor='white';
+table =new SortableGrid(container,null,configObject, maxRows).getCreatedElement();
+table.border='3';
+table.style.backgroundColor='white';

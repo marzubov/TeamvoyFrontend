@@ -12,7 +12,8 @@ var numberArray =Array.apply(null, {length: 100})
         });
 
 var configObject= {
-            'headers':['1','2','3','4','5']
+            'headers':['1','2','3','4','5'],
+                'url':'http://localhost:8001'
         };
 
 var maxRows = 5;
