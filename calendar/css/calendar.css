@@ -1,10 +1,16 @@
-.calendar-button {
+.calendar {
+    font: 13px/1 Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+.calendar .calendar-button {
     margin: 3px;
     cursor: pointer;
+    background: transparent;
+    border: none;
 }
-.calendar-button.asc:after{
+.calendar .calendar-button.asc:after{
     content: url(img/right.png);
 }
-.calendar-button.desc:after{
+.calendar .calendar-button.desc:after{
     content: url(img/left.png);
 }
