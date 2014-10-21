@@ -1,5 +1,5 @@
+#first { position: relative; }
 .custom-select{
-    position: relative;
     width:199px;
     border:1px solid black;
     max-height:105px;
@@ -27,18 +27,27 @@
 }
 .custom-option{
     display: none;
-    position: relative;
+    border:1px solid black;
+    background:lightgrey;
+    position: absolute;
+    width: 199px;
+    z-index: 1;
 }
 .custom-option-active{
     display: block;
+    position: relative;
 }
 .custom-option-notactive {
     display: none;
 }
-.custom-option:hover{
+.custom-option div:hover{
     background:lightblue;
+    border:1px solid #92CCE6;
     cursor: pointer;
 }
-.custom-option:focus{
+.custom-option div:focus{
     background:lightblue;
 }
+
+.options-active { display: block; position: absolute; }
+.options-not-active { display: none; position: absolute;}

@@ -1,0 +1,9 @@
+CustomSelect.createSelectByData(document.getElementById("first"), [1,2,3,4], {defaultOption: "data from array"});
+CustomSelect.createSelectByData(document.getElementById("first"), "file1", {defaultOption: "data from file"});
+CustomSelect.createSelectByData(document.getElementById("first"), "file1", {defaultOption: "data from file"});
+CustomSelect.createSelectByData(document.getElementById("first"), [1,2,3,4], {defaultOption: "data from array"});
+CustomSelect.createSelectByData(document.getElementById("first"), [5,6,7,8], {defaultOption: "data from array"});
+CustomSelect.createSelectByData(document.getElementById("first"), "file1", {defaultOption: "data from file"});
+CustomSelect.createSelectByData(document.getElementById("first"), "file2", {defaultOption: "data from file"});
+CustomSelect.createSelectByData(document.getElementById("first"), [5,5,5,5], {defaultOption: "data from array"});
+CustomSelect.createSelectByData(document.getElementById("first"), "file2", {defaultOption: "data from file"});
