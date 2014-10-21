@@ -3,18 +3,23 @@
 /*jslint latedef:false*/
 
 Object.prototype.merge = function (obj) {
-    "use strict";
-    var key;
-    for (key in obj) {
-        if (this.hasOwnProperty(key)) { this[key] = obj[key]; }
+    var propName;
+    for (propName in obj) {
+        if (this.hasOwnProperty(propName)) { this[propName] = obj[propName]; }
     }
 };
 
-Calendar.queue = [];
-Calendar.LocalizationCache = {};
-
-function Calendar(properties) {
-    "use strict";
+Calendar.localizationCache = {};
+/**
+ * Creates calendar and inserts it in container
+ * @param container. Place in the DOM where calendar will be inserted
+ * @param properties. Optional. Config object, has such fields like: year, month, firstDayOfWeek, locale, output
+ * @constructor
+ */
+function Calendar(container,properties) {
+    this.container=container;
+    this.element={};
+    this.model={};
     this.config = {
         year: (new Date()).getFullYear(),
         month: (new Date()).getMonth() + 1,
@@ -22,63 +27,58 @@ function Calendar(properties) {
         locale: "en",
         output: "text"
     };
-    this.model = { chosenMonth: "", arrayOfDays: [] };
+
     this.init(properties);
 }
-
+/**
+ * First function called from constructor
+ * @param properties
+ */
 Calendar.prototype.init = function (properties) {
-    "use strict";
-    Calendar.queue.push(this);
     this.config.merge(properties);
     this.loadFile();
-};
 
+};
+/**
+ * Called when need to renew element
+ * @param element
+ */
 Calendar.prototype.reInit = function (element) {
-    "use strict";
-    this.config.month++;
     this.generateCalendar();
-    this.printTable();
+    this.generateTable();
 };
-
+/**
+ * Checking if file is loaded in to cache
+ */
 Calendar.prototype.loadFile = function () {
-    "use strict";
-    if(Calendar.LocalizationCache[this.config.locale]) {
-        if (Calendar.LocalizationCache[this.config.locale] != 'Loading') {
-            while (true) {
-                if (Calendar.queue.length>0 &&
-                    Calendar.LocalizationCache[Calendar.queue[0].config.locale])
-                     {
-                    Calendar.queue[0].generateCalendar();
-                    Calendar.queue[0].config.output == "table" ?
-                        Calendar.queue.shift().printTable() :
-                        Calendar.queue.shift().printCalendar();
-                }
-                else {
-                    break;
-                }
-            }
-        }
+    if(Calendar.localizationCache[this.config.locale]) {
+        this.generateCalendar();
+        this.generateTable();
+        this.container.appendChild(this.element);
     }
         else {
-            this.AjaxRequest();
+            this.ajaxRequest();
         }
 };
-
-Calendar.prototype.AjaxRequest = function () {
+/**
+ * Downloads localization file
+ */
+Calendar.prototype.ajaxRequest = function () {
     var currentCalendar=this;
     var oReq = new XMLHttpRequest();
-    Calendar.LocalizationCache[currentCalendar.config.locale]='Loading';
+    Calendar.localizationCache[currentCalendar.config.locale]=XMLHttpRequest;
     oReq.onload = function () {
-        Calendar.LocalizationCache[currentCalendar.config.locale] = JSON.parse(this.responseText);
+        Calendar.localizationCache[currentCalendar.config.locale] = JSON.parse(this.responseText);
         currentCalendar.loadFile();
     };
-    oReq.open("get","localization/" + currentCalendar.config.locale + ".json", true);
+    oReq.open("get","localization/" + currentCalendar.config.locale + ".json", false);
     oReq.send(null);
 };
-
+/**
+ * Generates array with days depending on localization
+ */
 Calendar.prototype.generateCalendar = function () {
-    var dataMonth=Calendar.LocalizationCache[this.config.locale];
-    "use strict";
+    var dataMonth=Calendar.localizationCache[this.config.locale];
     var i, date = new Date(this.config.year, this.config.month - 1), month, monthPrefix,
         lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
         firstDayWeek = new Date(date.getFullYear(), date.getMonth(), 1).getDay(),
@@ -105,40 +105,58 @@ Calendar.prototype.generateCalendar = function () {
     }
 
 };
-
-Calendar.prototype.printCalendar = function () {
-    "use strict";
-    var weeks = [], i;
-    weeks.push("<br><br>" + this.model.chosenMonth + "\t\t" + this.config.year);
-    for (i = 0; i < this.model.arrayOfDays.length; i += 1) {
-        weeks.push(this.model.arrayOfDays[i].join("\t"));
-    }
-    var container = document.createElement("div");
-    container.innerHTML = ("<pre>" + weeks.join("<br>") + "</pre>");
-    document.body.appendChild(container);
-};
-
-Calendar.prototype.printTable = function(){
-    "use strict";
+/**
+ * Creates new table and insert it in container
+ */
+Calendar.prototype.generateTable = function(){
     var currentCalendar = this;
-    var table=document.createElement('table');
+    if(currentCalendar.element.localName!='table'){
+        currentCalendar.element =document.createElement('table');
+    }
     var tableString='';
+
     //make header
-    tableString+='<caption><button>-</button>'+(this.model.chosenMonth + this.config.year)+'<button>+</button></caption>';
+    tableString+='<caption><img class="calendar-button desc">'
+        +(this.model.chosenMonth +' '+ this.config.year)
+        +'<img class="calendar-button asc"></caption>';
     tableString+='<thead><tr><td>'+this.model.arrayOfDays[0].join('</td><td>')+'</td></tr></thead>';
+
     //make body
     tableString+='<tbody>';
     for (var i = 1; i < this.model.arrayOfDays.length; i++) {
         tableString+='<tr><td>'+(this.model.arrayOfDays[i].join("</td><td>"))+'</td></tr>';
     }
     tableString+='<tbody>';
-    table.innerHTML=tableString;
-    var buttons=table.querySelectorAll('button');
+    currentCalendar.element.innerHTML=tableString;
+
+
+    // Set events
+    var buttons=currentCalendar.element.querySelectorAll('img');
     buttons=Array.prototype.slice.call(buttons);
     buttons.forEach(function(el) {
         el.addEventListener('click',function(){
-            currentCalendar.reInit(this);
+            currentCalendar.changeMonth(this);
         });
     });
-    document.body.appendChild(table);
+};
+/**
+ * Set new month depending on button clicked.
+ * @param button The button that called function
+ */
+Calendar.prototype.changeMonth=function(button){
+    if(button.classList.contains('asc')){
+        this.config.month++;
+        if(this.config.month>12){
+            this.config.month=1;
+            this.config.year++;
+        }
+    }
+    else{
+        this.config.month--;
+        if(this.config.month<1){
+            this.config.month=12;
+            this.config.year--;
+        }
+    }
+    this.reInit(this);
 };

@@ -1,0 +1,10 @@
+.calendar-button {
+    margin: 3px;
+    cursor: pointer;
+}
+.calendar-button.asc:after{
+    content: url(img/right.png);
+}
+.calendar-button.desc:after{
+    content: url(img/left.png);
+}
