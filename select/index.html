@@ -8,9 +8,24 @@
 </head>
 
 <body>
-    <div id="first"></div>
-<script src="js/main.js">
-</script>
+<div>
+    <h1 align="center">custom select</h1>
+    Select is created with function createSelectByData of the class CustomSelect.<br>
+    The arguments of this function are:<br>
+    1. <b>container (string)</b> - The tag where select must be located, for example - document.getElementById("example");<br>
+    2. <b>options (string or array)</b>  - The array of options or name of file, where options is located, for example -
+    [1,2,3,4,5,6] or "file" (it's JSON format)<br>
+    3. <b>config (object)</b> - default configuration for select, for example - { defaultOption: "data from array", idOfTag: "example1" }<br>
+    <i>&nbsp;&nbsp;&nbsp;idOfTag</i> - id of element, where we return the data from select<br>
+    <i>&nbsp;&nbsp;&nbsp;defaultOption</i> - the first option of select<br>
+    <b><u>Example of using this function</u></b> -
+    <br>CustomSelect.createSelectByData(document.getElementById("one"), [1,2,3,4,5,6], {defaultOption: "data from array", idOfTag: "example1"});
+    <br>CustomSelect.createSelectByData(document.getElementById("two"), "file1", {defaultOption: "data from file", idOfTag: "example2"});<br><br>
+    <div id="one"></div><div id="example1"></div>
+</div>
+    <div id="two"></div><div id="example2"></div>
+    <div id="three"></div><div id="example3"></div>
+    <script src="js/main.js"></script>
 </body>
 
 </html>
