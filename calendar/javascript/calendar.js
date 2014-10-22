@@ -1,25 +1,16 @@
-/*global document*/
-/*jslint evil: true */
-/*jslint latedef:false*/
-
-Object.prototype.merge = function (obj) {
-    var propName;
-    for (propName in obj) {
-        if (this.hasOwnProperty(propName)) { this[propName] = obj[propName]; }
-    }
-};
-
-Calendar.localizationCache = {};
+(function(window,document) {
+    "use strict";
 /**
  * Creates calendar and inserts it in container
  * @param container. Place in the DOM where calendar will be inserted
  * @param properties. Optional. Config object, has such fields like: year, month, firstDayOfWeek, locale, output
  * @constructor
  */
-function Calendar(container,properties) {
-    this.container=container;
-    this.element={};
-    this.model={};
+window.Calendar = function(container, properties) {
+    var that=this;
+    this.container = container;
+    this.rootElement= undefined;
+    this.model = {};
     this.config = {
         year: (new Date()).getFullYear(),
         month: (new Date()).getMonth() + 1,
@@ -29,52 +20,84 @@ function Calendar(container,properties) {
     };
 
     this.init(properties);
-}
+};
+    function setEvents(calendar) {
+        var buttons = calendar.rootElement.querySelectorAll('button');
+        buttons = Array.prototype.slice.call(buttons);
+        buttons.forEach(function (el) {
+            el.addEventListener('click', function () {
+                this.classList.contains('asc')?
+                calendar.nextMonth(1):calendar.nextMonth(0);
+            });
+        });
+        var isFocused;
+        var temp = 0;
+        calendar.rootElement.onmouseover = function () {
+            isFocused = true;
+        };
+        calendar.rootElement.onmouseout = function () {
+            isFocused = false;
+        };
+        window.addEventListener("DOMMouseScroll", function (e) {
+            var direction = ((e.wheelDelta) ? e.wheelDelta / 120 : e.detail / -3);
+            if (isFocused) {
+                e.preventDefault();
+                temp++;
+                if (temp == 5)
+                // Up scroll signed with -
+                    calendar.nextMonth(0-direction);
+            }
+        });
+    }
+Calendar.localizationCache = {};
 /**
  * First function called from constructor
  * @param properties
  */
 Calendar.prototype.init = function (properties) {
     this.config.merge(properties);
-    this.loadFile();
+    this.loadLocalization();
+};
 
-};
-Calendar.prototype.reInit = function () {
+Calendar.prototype.reDraw = function () {
     this.generateCalendar();
-    this.generateTable();
+    this.renderTable();
 };
+
 /**
  * Checking if file is loaded in to cache
  */
-Calendar.prototype.loadFile = function () {
-    if(Calendar.localizationCache[this.config.locale]) {
-        this.generateCalendar();
-        this.generateTable();
-        this.container.appendChild(this.element);
+Calendar.prototype.loadLocalization = function () {
+    var that=this;
+    if (Calendar.localizationCache[that.config.locale]) {
+        that.generateCalendar();
+        that.renderTable();
+        that.container.appendChild(that.rootElement);
     }
-        else {
-            this.ajaxRequest();
-        }
+    else {
+        ajaxRequest(that);
+    }
 };
+    function ajaxRequest (that) {
+        var oReq = new XMLHttpRequest();
+        Calendar.localizationCache[that.config.locale] = XMLHttpRequest;
+        oReq.onload = function () {
+            Calendar.localizationCache[that.config.locale] = JSON.parse(this.responseText);
+            that.loadLocalization();
+        };
+        oReq.open("post", "localization/" + that.config.locale + ".json", false);
+        oReq.send(null);
+    }
 /**
  * Downloads localization file
  */
-Calendar.prototype.ajaxRequest = function () {
-    var currentCalendar=this;
-    var oReq = new XMLHttpRequest();
-    Calendar.localizationCache[currentCalendar.config.locale]=XMLHttpRequest;
-    oReq.onload = function () {
-        Calendar.localizationCache[currentCalendar.config.locale] = JSON.parse(this.responseText);
-        currentCalendar.loadFile();
-    };
-    oReq.open("post","localization/" + currentCalendar.config.locale + ".json", false);
-    oReq.send(null);
-};
+
+
 /**
  * Generates array with days depending on localization
  */
 Calendar.prototype.generateCalendar = function () {
-    var dataMonth=Calendar.localizationCache[this.config.locale];
+    var dataMonth = Calendar.localizationCache[this.config.locale];
     var i, date = new Date(this.config.year, this.config.month - 1), month, monthPrefix,
         lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
         firstDayWeek = new Date(date.getFullYear(), date.getMonth(), 1).getDay(),
@@ -86,12 +109,16 @@ Calendar.prototype.generateCalendar = function () {
 
     this.model.chosenMonth = dataMonth.month[myMonth[this.config.month - 1]];
 
-    for (i = 0; i < myDays.length; i += 1) { days[i] = dataMonth.daysOfWeek[myDays[i]]; }
-    this.model.arrayOfDays=[];
+    for (i = 0; i < myDays.length; i += 1) {
+        days[i] = dataMonth.daysOfWeek[myDays[i]];
+    }
+    this.model.arrayOfDays = [];
     days = days.slice(indexOfstartDay, 7).concat(days.slice(0, indexOfstartDay));
     this.model.arrayOfDays.push(days);
 
-    month = Array.apply(null, {length: lastDay}).map(function (el, i) { return i + 1; });
+    month = Array.apply(null, {length: lastDay}).map(function (el, i) {
+        return i + 1;
+    });
     firstDayWeek = (7 - (indexOfstartDay + 1 - firstDayWeek)) % 7;
     monthPrefix = new Array(firstDayWeek);
     month = monthPrefix.concat(month);
@@ -101,86 +128,50 @@ Calendar.prototype.generateCalendar = function () {
     }
 
 };
+
 /**
  * Creates new table and insert it in container
  */
-Calendar.prototype.generateTable = function(){
-    var currentCalendar = this;
-    if(currentCalendar.element.localName!='table'){
-        currentCalendar.element =document.createElement('table');
-    }
-    var tableString='';
-
-    //make header
-    tableString+='<caption><button class="calendar-button desc"></button>'
-        +(this.model.chosenMonth +' '+ this.config.year)
-        +'<button class="calendar-button asc"></button></caption>';
-    tableString+='<thead><tr><td>'+this.model.arrayOfDays[0].join('</td><td>')+'</td></tr></thead>';
-
+Calendar.prototype.renderTable = function () {
+    var that = this;
+    if(!that.rootElement)
+        that.rootElement = document.createElement('table');
+    that.rootElement.classList.add('calendar');
+    var tableString = '';
+    //make caption
+    tableString += '<caption><button class="calendar-button desc"></button>'
+        + (this.model.chosenMonth + ' ' + this.config.year)
+        + '<button class="calendar-button asc"></button></caption>';
     //make body
-    tableString+='<tbody>';
-    for (var i = 1; i < this.model.arrayOfDays.length; i++) {
-        tableString+='<tr><td>'+(this.model.arrayOfDays[i].join("</td><td>"))+'</td></tr>';
-    }
-    tableString+='<tbody>';
-    currentCalendar.element.innerHTML=tableString;
-
-    // Set events
-    var buttons=currentCalendar.element.querySelectorAll('button');
-    buttons=Array.prototype.slice.call(buttons);
-    buttons.forEach(function(el) {
-        el.addEventListener('click',function(){
-            currentCalendar.changeMonth(this);
-        });
+    tableString += '<tbody>';
+    this.model.arrayOfDays.forEach(function(el){
+        tableString += '<tr><td>' + (el.join("</td><td>")) + '</td></tr>';
     });
-    testMouseWheelHandle(currentCalendar,buttons)
-
+    tableString += '<tbody>';
+    that.rootElement.innerHTML = tableString;
+    setEvents(that);
 };
 
-function testMouseWheelHandle(calendar,buttons){
-    // Testing mousewheel
-    var isFocused;
-    var temp=0;
-    calendar.element.onmouseover=function(){
-        isFocused=true;
-    };
-    calendar.element.onmouseout=function(){
-        isFocused=false;
-    };
-    window.addEventListener("DOMMouseScroll", function(e){
-        var direction = ((e.wheelDelta) ? e.wheelDelta/120 : e.detail/-3);
-        if(direction>0 && isFocused){
-            e.preventDefault();
-            temp++;
-            if(temp==5)
-                calendar.changeMonth(buttons[0]);
-        }
-        else if(isFocused){
-            e.preventDefault();
-            temp++;
-            if(temp==5)
-                calendar.changeMonth(buttons[1]);
-        }
-    });
-}
+
 /**
  * Set new month depending on button clicked.
- * @param button The button that called function
+ * @param direction If this>0 take next month
  */
-Calendar.prototype.changeMonth=function(button){
-    if(button.classList.contains('asc')){
+Calendar.prototype.nextMonth = function (direction) {
+    if (direction>0) {
         this.config.month++;
-        if(this.config.month>12){
-            this.config.month=1;
+        if (this.config.month > 12) {
+            this.config.month = 1;
             this.config.year++;
         }
     }
-    else{
+    else {
         this.config.month--;
-        if(this.config.month<1){
-            this.config.month=12;
+        if (this.config.month < 1) {
+            this.config.month = 12;
             this.config.year--;
         }
     }
-    this.reInit();
+    this.reDraw();
 };
+})(window,document);

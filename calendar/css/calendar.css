@@ -1,5 +1,11 @@
+.calendar{
+    font-family: "Lucida Console", Monaco, monospace;
+    border-spacing: 10px;
+    border-collapse: separate;
+}
 .calendar-button {
-    margin: 3px;
+    border: none;
+    background: transparent;
     cursor: pointer;
 }
 .calendar-button.asc:after{
