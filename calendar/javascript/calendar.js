@@ -25,15 +25,14 @@
          * Generates new calendar. Config changes take effect
          */
         this.reDraw = function () {
-            generateCalendar();
-            renderTable();
+            loadLocalization(true);
         };
         /**
          * Add element to childs of container
          * @param container - place where element append
          */
         this.insertElement = function(container){
-           container = container ? container : this.container;
+            this.container = container ? container : this.container;
             container.appendChild(that.rootElement);
         };
 
@@ -45,22 +44,6 @@
             this.config.month = today.getMonth() + 1;
             this.config.year = today.getFullYear();
             this.reDraw();
-        };
-
-        /**
-         * Load localization if it does not in cache already
-         * @param locale. Example: 'en' gets english localization
-         */
-        this.loadLocalization = function(locale) {
-            this.config.locale = locale ? locale : this.config.locale;
-            if (Calendar.localizationCache[this.config.locale]) {
-                generateCalendar();
-                renderTable();
-                this.insertElement();
-            }
-            else {
-                ajaxRequest();
-            }
         };
 
         /**
@@ -167,6 +150,19 @@
             oReq.send(null);
         }
 
+        function loadLocalization(insertedAlready) {
+
+            if (Calendar.localizationCache[that.config.locale]) {
+                generateCalendar();
+                renderTable();
+                if(!insertedAlready)
+                    that.insertElement();
+            }
+            else {
+                ajaxRequest();
+            }
+        }
+
         function setEvents() {
             var buttons = that.rootElement.querySelectorAll('button');
             buttons = Array.prototype.slice.call(buttons);
@@ -177,7 +173,6 @@
                 });
             });
             var isFocused;
-            var temp = 0;
             that.rootElement.onmouseover = function () {
                 isFocused = true;
             };
@@ -188,7 +183,7 @@
 
         function init(properties) {
             that.config.merge(properties);
-            that.loadLocalization();
+            loadLocalization(false);
 
         }
     };
