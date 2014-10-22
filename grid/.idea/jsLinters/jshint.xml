@@ -5,7 +5,7 @@
     <option bitwise="true" />
     <option boss="false" />
     <option browser="true" />
-    <option camelcase="false" />
+    <option camelcase="true" />
     <option couch="false" />
     <option curly="true" />
     <option debug="false" />
@@ -36,7 +36,7 @@
     <option multistr="false" />
     <option newcap="false" />
     <option noarg="true" />
-    <option node="false" />
+    <option node="true" />
     <option noempty="true" />
     <option nomen="false" />
     <option nonbsp="false" />
