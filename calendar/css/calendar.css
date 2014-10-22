@@ -1,12 +1,15 @@
-.calendar {
-    font: 13px/1 Helvetica, Arial, "Lucida Grande", sans-serif;
+.calendar{
+    font-family: "Lucida Console", Monaco, monospace;
+    border-spacing: 10px;
+    border-collapse: separate;
 }
-
+.calendar .calendar-today{
+    background-color: lightgrey;
+}
 .calendar .calendar-button {
-    margin: 3px;
-    cursor: pointer;
-    background: transparent;
     border: none;
+    background: transparent;
+    cursor: pointer;
 }
 .calendar .calendar-button.asc:after{
     content: url(img/right.png);

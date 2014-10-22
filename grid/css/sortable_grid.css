@@ -11,9 +11,13 @@
     color : purple;
     font-weight : normal;
     cursor : pointer;
+    right: -1000px;
 }
 .page-active{
     color : black;
     font-weight : bold;
     cursor : pointer;
+}
+.pages{
+    width : 50%;
 }

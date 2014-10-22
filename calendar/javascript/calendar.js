@@ -1,15 +1,15 @@
-(function (global, document) {
-
+(function (window, document) {
+    "use strict";
     /**
      * Creates calendar and inserts it in container
-     * @param container. Place in the DOM where calendar will be inserted
-     * @param properties. Optional. Config object, has such fields like: year, month, firstDayOfWeek, locale, output
+     * @param container - Place in the DOM where calendar will be inserted
+     * @param properties - Optional. Config object, has such fields like: year, month, firstDayOfWeek, locale, output
      * @constructor
-     * @return {Element}
      */
-    var Calendar = global.Calendar = function (container, properties) {
+    window.Calendar = function (container, properties) {
+        var that = this;
         this.container = container;
-        this.element = {};
+        this.rootElement = undefined;
         this.model = {};
         this.config = {
             year: (new Date()).getFullYear(),
@@ -18,176 +18,173 @@
             locale: "en",
             output: "text"
         };
+        Calendar.localizationCache = {};
 
-        this.init(properties);
-    };
-
-    Calendar.localizationCache = {};
-
-    /**
-     *
-     * @param properties
-     */
-    Calendar.prototype.init = function (properties) {
-        this.config.merge(properties);
-        this.loadLocalization();
-
-    };
-
-    Calendar.prototype.reInit = function () {
-        this.generateCalendar();
-        this.renderTable();
-    };
-
-    /**
-     * Checking if file is loaded in to cache
-     */
-    Calendar.prototype.loadLocalization = function () {
-        if (Calendar.localizationCache[this.config.locale]) {
-            this.generateCalendar();
-            this.renderTable();
-            this.container.appendChild(this.element);
-        } else {
-            this.ajaxRequest();
-        }
-    };
-
-    /**
-     * Downloads localization file
-     */
-    Calendar.prototype.ajaxRequest = function () {
-        var currentCalendar = this;
-        var oReq = new XMLHttpRequest();
-        Calendar.localizationCache[currentCalendar.config.locale] = XMLHttpRequest;
-        oReq.onload = function () {
-            Calendar.localizationCache[currentCalendar.config.locale] = JSON.parse(this.responseText);
-            currentCalendar.loadLocalization();
+        //public methods
+        /**
+         * Generates new calendar. Config changes take effect
+         */
+        this.reDraw = function () {
+            loadLocalization(true);
         };
-        oReq.open("post", "localization/" + currentCalendar.config.locale + ".json", false);
-        oReq.send(null);
-    };
+        /**
+         * Add element to childs of container
+         * @param container - place where element append
+         */
+        this.insertElement = function(container){
+            this.container = container ? container : this.container;
+            container.appendChild(that.rootElement);
+        };
 
-    /**
-     * Generates array with days depending on localization
-     */
-    Calendar.prototype.generateCalendar = function () {
-        var dataMonth = Calendar.localizationCache[this.config.locale];
-        var i, date = new Date(this.config.year, this.config.month - 1), month, monthPrefix,
-            lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
-            firstDayWeek = new Date(date.getFullYear(), date.getMonth(), 1).getDay(),
-            myMonth = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october",
-                "november", "december"],
-            myDays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"], indexOfstartDay, days = [];
+        /**
+         * Show current day in calendar
+         */
+        this.showToday = function () {
+            var today = new Date();
+            this.config.month = today.getMonth() + 1;
+            this.config.year = today.getFullYear();
+            this.reDraw();
+        };
 
-        indexOfstartDay = myDays.indexOf(this.config.firstDayOfWeek);
+        /**
+         * Set month to next or previous
+         * @param direction. If direction>0 take next month else previous
+         */
+        this.nextMonth = function (direction) {
+            if (direction > 0) {
+                this.config.month++;
+                if (this.config.month > 12) {
+                    this.config.month = 1;
+                    this.config.year++;
+                }
+            }
+            else {
+                this.config.month--;
+                if (this.config.month < 1) {
+                    this.config.month = 12;
+                    this.config.year--;
+                }
+            }
+            this.reDraw();
+        };
 
-        this.model.chosenMonth = dataMonth.month[myMonth[this.config.month - 1]];
+        init(properties);
+        //private methods
 
-        for (i = 0; i < myDays.length; i += 1) {
-            days[i] = dataMonth.daysOfWeek[myDays[i]];
-        }
-        this.model.arrayOfDays = [];
-        days = days.slice(indexOfstartDay, 7).concat(days.slice(0, indexOfstartDay));
-        this.model.arrayOfDays.push(days);
+        function generateCalendar() {
+            var dataMonth = Calendar.localizationCache[that.config.locale];
+            var i, date = new Date(that.config.year, that.config.month - 1), month, monthPrefix,
+                lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
+                firstDayWeek = new Date(date.getFullYear(), date.getMonth(), 1).getDay(),
+                myMonth = ["january", "february", "march", "april", "may", "june",
+                    "july", "august",
+                    "september", "october",
+                    "november", "december"],
+                myDays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"],
+                indexOfStartDay, days = [];
 
-        month = Array.apply(null, {length: lastDay}).map(function (el, i) {
-            return i + 1;
-        });
-        firstDayWeek = (7 - (indexOfstartDay + 1 - firstDayWeek)) % 7;
-        monthPrefix = new Array(firstDayWeek);
-        month = monthPrefix.concat(month);
+            indexOfStartDay = myDays.indexOf(that.config.firstDayOfWeek);
 
-        for (i = 0; i < month.length; i += 7) {
-            this.model.arrayOfDays.push(month.slice(i, i + 7));
-        }
+            that.model.chosenMonth = dataMonth.month[myMonth[that.config.month - 1]];
 
-    };
+            for (i = 0; i < myDays.length; i += 1) {
+                days[i] = dataMonth.daysOfWeek[myDays[i]];
+            }
+            that.model.arrayOfDays = [];
+            days = days.slice(indexOfStartDay, 7).concat(days.slice(0, indexOfStartDay));
+            that.model.arrayOfDays.push(days);
 
-    /**
-     * Creates new table and insert it in container
-     */
-    Calendar.prototype.renderTable = function () {
-        var that = this;
-        var currentCalendar = this;
-
-        if (currentCalendar.element.localName != 'table') {
-            currentCalendar.element = document.createElement('table');
-            currentCalendar.element.classList.add("calendar");
-        }
-        var tableString = '';
-
-        //make header
-        tableString += '<caption><button class="calendar-button desc"></button>'
-            + (this.model.chosenMonth + ' ' + this.config.year)
-            + '<button class="calendar-button asc"></button></caption>';
-        tableString += '<thead><tr><td>' + this.model.arrayOfDays[0].join('</td><td>') + '</td></tr></thead>';
-
-        //make body
-        tableString += '<tbody>';
-        for (var i = 1; i < this.model.arrayOfDays.length; i++) {
-            tableString += '<tr><td>' + (this.model.arrayOfDays[i].join("</td><td>")) + '</td></tr>';
-        }
-        tableString += '<tbody>';
-        currentCalendar.element.innerHTML = tableString;
-
-        // Set events
-        var buttons = currentCalendar.element.querySelectorAll('button');
-        buttons = Array.prototype.slice.call(buttons);
-        buttons.forEach(function (el) {
-            el.addEventListener('click', function () {
-                currentCalendar.changeMonth(this);
+            month = Array.apply(null, {length: lastDay}).map(function (el, i) {
+                return i + 1;
             });
-        });
-        testMouseWheelHandle(currentCalendar, buttons);
+            firstDayWeek = (7 - (indexOfStartDay + 1 - firstDayWeek)) % 7;
+            monthPrefix = new Array(firstDayWeek);
+            month = monthPrefix.concat(month);
 
-        return this;
-    };
+            for (i = 0; i < month.length; i += 7) {
+                that.model.arrayOfDays.push(month.slice(i, i + 7));
+            }
 
-    function testMouseWheelHandle(calendar, buttons) {
-        // Testing mousewheel
-        var isFocused;
-        var temp = 0;
-        calendar.element.onmouseover = function () {
-            isFocused = true;
-        };
-        calendar.element.onmouseout = function () {
-            isFocused = false;
-        };
-        global.addEventListener("DOMMouseScroll", function (e) {
-            var direction = ((e.wheelDelta) ? e.wheelDelta / 120 : e.detail / -3);
-            if (direction > 0 && isFocused) {
-                e.preventDefault();
-                temp++;
-                if (temp == 5)
-                    calendar.changeMonth(buttons[0]);
+        }
+
+        function renderTable() {
+            if (!that.rootElement)
+                that.rootElement = document.createElement('table');
+            that.rootElement.classList.add('calendar');
+            var tableString = '',
+                today = new Date(),
+                isToday, td;
+            if(today.getMonth()+1 == that.config.month && today.getFullYear() == that.config.year){
+                isToday=true;
             }
-            else if (isFocused) {
-                e.preventDefault();
-                temp++;
-                if (temp == 5)
-                    calendar.changeMonth(buttons[1]);
+            //make caption
+            tableString += '<caption><button class="calendar-button desc"></button>'
+                + (that.model.chosenMonth + ' ' + that.config.year)
+                + '<button class="calendar-button asc"></button></caption>';
+            //make body
+            tableString += '<tbody>';
+            that.model.arrayOfDays.forEach(function (el) {
+                //mark current day
+                if(isToday)
+                el.forEach(function (day,i) {
+                    el[i] = day == today.getDate() ? '<span class="calendar-today">'+day+'</span>' : day;
+                });
+
+                tableString += '<tr><td>' + (el.join("</td><td>")) + '</td></tr>';
+            });
+            tableString += '<tbody>';
+            that.rootElement.innerHTML = tableString;
+            setEvents();
+        }
+
+        function ajaxRequest() {
+            var oReq = new XMLHttpRequest();
+            Calendar.localizationCache[that.config.locale] = XMLHttpRequest;
+            oReq.onload = function () {
+                Calendar.localizationCache[that.config.locale] = JSON.parse(this.responseText);
+                generateCalendar();
+                renderTable();
+                that.container.appendChild(that.rootElement);
+            };
+            oReq.open("post", "localization/" + that.config.locale + ".json", true);
+            oReq.send(null);
+        }
+
+        function loadLocalization(insertedAlready) {
+
+            if (Calendar.localizationCache[that.config.locale]) {
+                generateCalendar();
+                renderTable();
+                if(!insertedAlready)
+                    that.insertElement();
             }
-        });
-    }
-    /**
-     * Set new month depending on button clicked.
-     * @param button The button that called function
-     */
-    Calendar.prototype.changeMonth = function (button) {
-        if (button.classList.contains('asc')) {
-            this.config.month++;
-            if (this.config.month > 12) {
-                this.config.month = 1;
-                this.config.year++;
+            else {
+                ajaxRequest();
             }
         }
-        else {
-            this.config.month--;
-            if (this.config.month < 1) {
-                this.config.month = 12;
-                this.config.year--;
-            }
+
+        function setEvents() {
+            var buttons = that.rootElement.querySelectorAll('button');
+            buttons = Array.prototype.slice.call(buttons);
+            buttons.forEach(function (el) {
+                el.addEventListener('click', function () {
+                    this.classList.contains('asc') ?
+                        that.nextMonth(1) : that.nextMonth(-1);
+                });
+            });
+            var isFocused;
+            that.rootElement.onmouseover = function () {
+                isFocused = true;
+            };
+            that.rootElement.onmouseout = function () {
+                isFocused = false;
+            };
         }
-        this.reInit();
+
+        function init(properties) {
+            that.config.merge(properties);
+            loadLocalization(false);
+
+        }
     };
 })(window, document);
