@@ -34,7 +34,7 @@
     <option mootools="false" />
     <option moz="false" />
     <option multistr="false" />
-    <option newcap="false" />
+    <option newcap="true" />
     <option noarg="true" />
     <option node="true" />
     <option noempty="true" />
