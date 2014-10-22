@@ -42,18 +42,46 @@
             };
             xhr.send();
         }
+
+        function changePageData(fromPagesData) {
+            var data;
+            if (!fromPagesData) {
+                data = dataArray;
+            }
+            else {
+                data = pagesData[pageIndex - 1];
+            }
+            var dataBody = element.querySelector('.data-body');
+            var dataString = '';
+
+            var maxRowIndex = maxRows + (pageIndex - 1) * maxRows;
+            if (maxRows + (pageIndex - 1) * maxRows > data.length) {
+                maxRowIndex = data.length;
+            }
+            if (!fromPagesData) {
+                console.log('yeah');
+                for (var i = 0 + (pageIndex - 1) * maxRows; i < pageIndex * maxRows; i++) {
+                    dataString += '<tr><td>' + data[i].join('</td><td>') + '</td></tr>';
+                }
+            }
+            else {
+                for (i = 0; i < maxRows; i++) {
+                    dataString += '<tr><td>' + data[i].join('</td><td>') + '</td></tr>';
+                }
+            }
+            dataBody.innerHTML = dataString;
+        }
+
         function sortTable(cellIndex, reverse) {
             dataArray.sort(function (current, next) {
 
                 if (parseFloat(current[cellIndex])) {
                     return current[cellIndex] - next[cellIndex];
                 }
-                else {
-                    return current[cellIndex] > next[cellIndex];
-                }
+                return current[cellIndex] > next[cellIndex];
             });
             reverse === 'desc' ? dataArray.reverse() : 0;
-            changePageData();
+            changePageData(false);
         }
 
         function renderTable(sortable) {
@@ -136,7 +164,7 @@
                     tempData.push(tempArray);
                 });
             dataArray = tempData;
-            pagesData[pageIndex - 1] = tempData;
+            if (dataArray.length != maxDataLength) pagesData[pageIndex - 1] = tempData;
             if (!element.innerHTML) {
                 if (maxDataLength == dataArray.length) {
                     renderTable(false);
@@ -187,12 +215,10 @@
 
         function pageClick() {
             var el = this;
-            //console.log(this.innerHTML);
             if (el.innerHTML === "&lt;-") {
 //            if (el.parentNode.childNodes[pageIndex-1].innerHTML != "&lt;-"){
 //                //pageIndex--;
 //                //pageClick.call(el.parentNode.children[pageIndex-1]);
-//
 //            }
                 return;
             }
@@ -212,12 +238,17 @@
                 });
             pageIndex = newPageIndex;
             if (dataArray.length === maxDataLength) {
-                changePageData();
+                changePageData(false);
             }
             else {
                 if (!pagesData[el.innerHTML - 1]) {
                     console.log("new request");
-                    getData(config.url, (el.innerHTML - 1) * maxRows, el.innerHTML * maxRows);
+                    if (dataArray.length != maxDataLength) {
+                        getData(config.url, (el.innerHTML - 1) * maxRows, el.innerHTML * maxRows);
+                    }
+                    else {
+                        changePageData(false);
+                    }
                 }
                 else {
                     changePageData(true);
@@ -225,35 +256,6 @@
             }
 
             el.className = 'page-active';
-        }
-
-        // dynamically changing data of the table
-        function changePageData(fromPagesData) {
-            var data;
-            if (!fromPagesData) {
-                data = dataArray;
-            }
-            else {
-                data = pagesData[pageIndex - 1];
-            }
-            var dataBody = element.querySelector('.data-body');
-            var dataString = '';
-
-            var maxRowIndex = maxRows + (pageIndex - 1) * maxRows;
-            if (maxRows + (pageIndex - 1) * maxRows > data.length) {
-                maxRowIndex = data.length;
-            }
-            if (!fromPagesData) {
-                for (var i = 0 + (pageIndex - 1) * maxRows; i < pageIndex * maxRows; i++) {
-                    dataString += '<tr><td>' + data[i].join('</td><td>') + '</td></tr>';
-                }
-            }
-            else {
-                for (i = 0; i < maxRows; i++) {
-                    dataString += '<tr><td>' + data[i].join('</td><td>') + '</td></tr>';
-                }
-            }
-            dataBody.innerHTML = dataString;
         }
 
         function init() {
