@@ -3,14 +3,17 @@
     border-spacing: 10px;
     border-collapse: separate;
 }
-.calendar-button {
+.calendar .calendar-today{
+    background-color: lightgrey;
+}
+.calendar .calendar-button {
     border: none;
     background: transparent;
     cursor: pointer;
 }
-.calendar-button.asc:after{
+.calendar .calendar-button.asc:after{
     content: url(img/right.png);
 }
-.calendar-button.desc:after{
+.calendar .calendar-button.desc:after{
     content: url(img/left.png);
 }

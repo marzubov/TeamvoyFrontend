@@ -25,17 +25,28 @@
          * Generates new calendar. Config changes take effect
          */
         this.reDraw = function () {
-            this.loadLocalization(this.config.locale);
+            generateCalendar();
+            renderTable();
         };
+        /**
+         * Add element to childs of container
+         * @param container - place where element append
+         */
+        this.insertElement = function(container){
+           container = container ? container : this.container;
+            container.appendChild(that.rootElement);
+        };
+
         /**
          * Show current day in calendar
          */
-        this.today = function () {
+        this.showToday = function () {
             var today = new Date();
             this.config.month = today.getMonth() + 1;
             this.config.year = today.getFullYear();
             this.reDraw();
         };
+
         /**
          * Load localization if it does not in cache already
          * @param locale. Example: 'en' gets english localization
@@ -45,7 +56,7 @@
             if (Calendar.localizationCache[this.config.locale]) {
                 generateCalendar();
                 renderTable();
-                this.container.appendChild(this.rootElement);
+                this.insertElement();
             }
             else {
                 ajaxRequest();
@@ -178,6 +189,7 @@
         function init(properties) {
             that.config.merge(properties);
             that.loadLocalization();
+
         }
     };
 })(window, document);
