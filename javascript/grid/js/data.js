@@ -15,7 +15,7 @@ var numberArray = Array.apply(null, {length: 100})
     });
 
 var configObject = {
-    'headers': ['Test', '2', '3', '4', '5'],
+    'headers': ['1', '2', '3', '4', '5'],
     'url': 'http://localhost:8001',
     'loadByParts': true
 };
@@ -27,7 +27,7 @@ var configObjectPartialLoading = {
 };
 
 var configObjectFullLoading = {
-    'headers': ['Test', '2', '3', '4', '5'],
+    'headers': ['1', '2', '3', '4', '5'],
     'url': 'http://localhost:8001',
     'loadByParts': false
 };
