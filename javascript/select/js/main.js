@@ -1,15 +1,46 @@
-CustomSelect.createSelectByData(document.getElementById("one"), [1,2,3,4,5,6],
-    {defaultOption: "data from array", idOfTag: "example1"});
+(function () {
+    "use strict";
+    var containerOne = document.getElementById("one")
 
-CustomSelect.createSelectByData(document.getElementById("two"), "data_for_options/file1.json",
-    {defaultOption: "data from file", idOfTag: "example2"});
 
-CustomSelect.createSelectByData(document.getElementById("three"), "data_for_options/file2.json",
-    {defaultOption: "data from file", idOfTag: "example3"});
+    new CustomSelect(containerOne, [1, 2, 3, 4, 5, 6],
+        {
+            defaultOption: "data from array",
+            idOfTag: "example1"
+        }
+    );
 
-CustomSelect.createSelectByData(document.getElementById("four"), [{title: "option1", value: 1}, {title: "option2", value: 2}],
-    {defaultOption: "data from array with objects", idOfTag: "example4"});
+    new CustomSelect(document.getElementById("two"), "data_for_options/file1.json",
+        {
+            defaultOption: "data from file",
+            idOfTag: "example2"
+        }
+    );
 
-var a = CustomSelect.createSelectByData(document.getElementById("five"), "data_for_options/file_with_object.json",
-    {defaultOption: "data from file with objects", idOfTag: "example5"});
-console.log(a.getValue());
+    new CustomSelect(document.getElementById("three"), "data_for_options/file2.json",
+        {
+            defaultOption: "data from file",
+            idOfTag: "example3"
+        }
+    );
+
+    new CustomSelect(document.getElementById("four"),
+        [
+            {title: "option1", value: 1},
+            {title: "option2", value: 2}
+        ],
+        {
+            defaultOption: "data from array with objects",
+            idOfTag: "example4"
+        }
+    );
+
+    var selectTestInstance = new CustomSelect(document.getElementById("five"), "data_for_options/file_with_object.json",
+        {
+            defaultOption: "data from file with objects",
+            idOfTag: "example5"
+        }
+    );
+
+    console.log(selectTestInstance.getValue());
+})()
