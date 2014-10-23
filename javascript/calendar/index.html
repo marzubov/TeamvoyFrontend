@@ -10,27 +10,43 @@
     <script src="javascript/helper.js"></script>
 </head>
 <body>
-<button class="what-year"></button>
-<div class="col-xs-8 col-xs-offset-2" >
+
+<article class="col-xs-8 col-xs-offset-2" >
     <p>
-    <h1 style="text-align: center">Calendar Demo</h1>
-    <span style="font-size: 18px">To create calendar you need to call constructor:<br>
-        <b>new Calendar(container,config);</b><br>
-        container - required parameter, the place where calendar will be inserted.<br>
-        config - optional parameter, object with fields:
+    <h1 class="text-center">Calendar Demo</h1>
+    <h2>Syntax</h2>
+    <span>To create calendar you need to call constructor:<br>
+        <strong>new Calendar(container,config);</strong><br>
+        <b>container</b> - required parameter, the place where calendar will be inserted.<br>
+        <b>config</b> - optional parameter, object with fields:
     </span>
-    <ul style="font-size: 18px">
-        <li>year - current year, type: number;</li>
-        <li>month - current month, type: number;</li>
-        <li>firstDayOfWeek - first day of week in calendar, only english  language, type: string;</li>
-        <li>locale - language of calendar, short name, type: string.</li>
+    <ul>
+        <li><b>year</b> - current year, type: number;</li>
+        <li><b>month</b> - current month, type: number;</li>
+        <li><b>firstDayOfWeek</b> - first day of week in calendar, only english  language, type: string;</li>
+        <li><b>locale</b> - language of calendar, short name, type: string.</li>
     </ul>
-    <input type="text" placeholder="Type some year.."><button>Click me!</button>
+    <h2>Example</h2>
+    <span>Default calendar:</span><br>
     <div class="col-xs-4 col-xs-offset-4" id="firstCalendar">
+
     </div>
-    You can update data
-    <div class="col-xs-4 col-xs-offset-4" id="secondCalendar"></div>
-</div>
+    <span class="col-xs-12">You can change config property anytime with similar code:<br>
+        <b>myCalendarInstance.config = newConfig;</b><br>
+        It will reset data in calendar.
+    Try It!
+    <br></span>
+    <div class="col-xs-4 col-xs-offset-2" id="secondCalendar">
+
+    </div>
+    <aside class="col-xs-4">
+        <input class="year" type="text" placeholder="Type some year..">
+        <input class="month" type="text" placeholder="Type some month..">
+        <input class="firstDayOfWeek" type="text" placeholder="Type first day of week..">
+        <input class="locale" type="text" placeholder="Type some locale..">
+        <button class="btn btn-success">I want you to click me</button>
+    </aside>
+</article>
 </body>
 <script src="javascript/main.js"></script>
 </html>

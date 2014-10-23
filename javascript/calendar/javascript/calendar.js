@@ -23,6 +23,12 @@
                 return config;
         },
             set : function(value){
+                var propName;
+                for(propName in value){
+                    value[propName] = value[propName] ?
+                        value[propName]:
+                        config[propName];
+                }
                 config.merge(value);
                 that.reDraw();
             }
@@ -159,8 +165,7 @@
         function setEvents() {
             var tableCaption = that.rootElement.querySelector('caption');
             tableCaption.addEventListener('click', function (e) {
-                console.log(e);
-                if(e.target.localName == 'button')
+                if(e.target.classList.contains('calendar-button'))
                 e.target.classList.contains('asc') ?
                         that.nextMonth(1) : that.nextMonth(-1);
                 });
