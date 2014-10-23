@@ -1,6 +1,6 @@
 var http = require('http'),
     fs = require('fs'),
-    url = require('url'),
+    url = require('url');
 
 http.createServer(function (request, response) {
     "use strict";

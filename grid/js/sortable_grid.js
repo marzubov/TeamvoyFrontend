@@ -151,14 +151,10 @@
 
         function pageClick() {
             var el = this;
-            if (el.innerHTML === "&lt;-") {
+            if (el.innerHTML === "&lt;-" && el.innerHTML === "-&gt;") {
                 return;
             }
-            else {
-                if (el.innerHTML === "-&gt;") {
-                    return;
-                }
-            }
+
             var newPageIndex = this.innerHTML;
             Array.prototype.slice.call(this.parentNode.parentNode.querySelectorAll('td'))
                 .forEach(function (el) {
@@ -177,8 +173,7 @@
                     console.log("new request");
                     if (dataArray.length != maxDataLength) {
                         getData(config.url, (el.innerHTML - 1) * maxRows, el.innerHTML * maxRows);
-                    }
-                    else {
+                    } else {
                         changePageData(false);
                     }
                 }
@@ -212,8 +207,7 @@
             if (!element.innerHTML) {
                 if (maxDataLength == dataArray.length) {
                     renderTable(false);
-                }
-                else {
+                } else {
                     renderTable(true);
                 }
             }
