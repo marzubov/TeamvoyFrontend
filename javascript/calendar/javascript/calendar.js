@@ -20,7 +20,7 @@
         //getter setter
         Object.defineProperty(this, "config", {
             get: function () {
-
+                return config;
         },
             set : function(value){
                 config.merge(value);
