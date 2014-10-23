@@ -8,36 +8,25 @@
      */
     window.Calendar = function (container, properties) {
         var that = this,
-            model = {};
-        this.container = container;
-        var config = {
+            model = {},
+            config = {
             year: (new Date()).getFullYear(),
             month: (new Date()).getMonth() + 1,
             firstDayOfWeek: "sunday",
             locale: "en"
         };
+        this.container = container;
         this.rootElement={};
         //getter setter
-        this.config = {
-            get locale() {
-                return config.locale;
-            },
-            set locale(value) {
-                if (value.locale &&
-                    value.locale!='en' || value.locale!='ua')
-                console.error('This localization does not supported');
-                else
-                return config.locale = value;
-            },
+        Object.defineProperty(this, "config", {
+            get: function () {
 
-            get year(){
-                return config.year;
-            },
-            set year(value){
-                config.year = value;
+        },
+            set : function(value){
+                config.merge(value);
                 that.reDraw();
             }
-        };
+        });
         Calendar.localizationCache = {};
 
         //public methods
@@ -126,9 +115,6 @@
 
         }
 
-        function importantDay(){
-
-        }
         function renderTable() {
             that.rootElement.classList.add('calendar');
             var tableString = '',

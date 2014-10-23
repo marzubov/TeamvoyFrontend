@@ -11,5 +11,5 @@ document.querySelector('.what-year').onclick= function(){
     firstCalendar.showToday();
 };
 document.querySelector('div button').onclick = function () {
-    firstCalendar.config.year = document.querySelector('input').value;
+    firstCalendar.config = {year:document.querySelector('input').value};
 };
