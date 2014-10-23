@@ -10,21 +10,59 @@
 <body>
 <div>
     <h1 align="center">custom select</h1>
-    Select is created with function createSelectByData of the class CustomSelect.<br>
-    The arguments of this function are:<br>
-    1. <b>container (string)</b> - The tag where select must be located, for example - document.getElementById("example");<br>
-    2. <b>options (string or array)</b>  - The array of options or name of file, where options is located, for example -
-    [1,2,3,4,5,6] or "file" (it's JSON format)<br>
-    3. <b>config (object)</b> - default configuration for select, for example - { defaultOption: "data from array", idOfTag: "example1" }<br>
-    <i>&nbsp;&nbsp;&nbsp;idOfTag</i> - id of element, where we return the data from select<br>
-    <i>&nbsp;&nbsp;&nbsp;defaultOption</i> - the first option of select<br>
+    <p>
+        Select is created with function createSelectByData of the class CustomSelect.
+    </p>
+    <p>
+        The arguments of this function are:
+    </p>
+    <p>
+        1. <b>container (string)</b> - The tag where select must be located, for example - document.getElementById("example");
+    </p>
+    <p>
+        2. <b>options (string or array)</b>  - The array of options or name of file, where options is located, for example -
+        [1,2,3,4,5,6] or path to file<br>
+        <i>&nbsp;&nbsp;&nbsp;Array</i> - can be array of number or string, and also can be array of object [{"title" : "january", "value" : 1},...]
+            where title is showed in options and value is returned in tag written in idOfTag in config.<br>
+        <i>&nbsp;&nbsp;&nbsp;Path to file</i> - full path to file, where located simple array or array of object<br>
+    </p>
+    <p>
+        3. <b>config (object)</b> - default configuration for select, for example - { defaultOption: "data from array", idOfTag: "example1" }<br>
+        <i>&nbsp;&nbsp;&nbsp;idOfTag</i> - id of element, where we return the data from select<br>
+        <i>&nbsp;&nbsp;&nbsp;defaultOption</i> - the first option of select
+    </p>
     <b><u>Example of using this function</u></b> -
     <br>CustomSelect.createSelectByData(document.getElementById("one"), [1,2,3,4,5,6], {defaultOption: "data from array", idOfTag: "example1"});
-    <br>CustomSelect.createSelectByData(document.getElementById("two"), "file1", {defaultOption: "data from file", idOfTag: "example2"});<br><br>
-    <div id="one"></div><div id="example1"></div>
+    <br>CustomSelect.createSelectByData(document.getElementById("four"), [{title: "option1", value: 1}, {title: "option2", value: 2}],
+    {defaultOption: "data from array", idOfTag: "example4"});
+    <br>CustomSelect.createSelectByData(document.getElementById("two"), "data_for_options/file1.json", {defaultOption: "data from file", idOfTag: "example2"});<br><br>
 </div>
-    <div id="two"></div><div id="example2"></div>
-    <div id="three"></div><div id="example3"></div>
+    <div class="container">
+        This select is created with function: CustomSelect.createSelectByData(document.getElementById("one"), [1,2,3,4,5,6], {defaultOption: "data from array", idOfTag: "example1"});<br>
+        <div id="one"></div><div id="example1"></div>
+    </div>
+    <div class="container">
+        This select is created with function: CustomSelect.createSelectByData(document.getElementById("two"), "data_for_options/file1.json",
+        {defaultOption: "data from file", idOfTag: "example2"});<br>
+        <div id="two"></div><div id="example2"></div>
+    </div>
+    <div class="container">
+        This select is created with function: CustomSelect.createSelectByData(document.getElementById("two"), "data_for_options/file2.json",
+        {defaultOption: "data from file", idOfTag: "example2"});<br>
+        <div id="three"></div><div id="example3"></div>
+    </div>
+    <div class="container">
+        This select is created with function: CustomSelect.createSelectByData(document.getElementById("four"), [{title: "option1", value: 1}, {title: "option2", value: 2}],
+        {defaultOption: "data from array", idOfTag: "example4"});<br>
+        <div id="four"></div><div id="example4"></div>
+    </div>
+    <div class="container">
+        This select is created with function: CustomSelect.createSelectByData(document.getElementById("five"), "data_for_options/file_with_object.json",
+        {defaultOption: "data from file with objects", idOfTag: "example5"});
+        <div id="five"></div><div id="example5"></div>
+    </div>
+
+    <script src="js/helper.js"></script>
     <script src="js/main.js"></script>
 </body>
 
