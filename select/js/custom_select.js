@@ -1,19 +1,5 @@
 (function (global, document) {
     /**
-     * Merge two object.
-     * @param {object} obj - The object that we must merge
-     */
-    Object.prototype.merge = function (obj) {
-        "use strict";
-        var key;
-        for (key in obj) {
-            if (this.hasOwnProperty(key)) {
-                this[key] = obj[key];
-            }
-        }
-    };
-
-    /**
      * Represents a custom select.
      * @constructor
      * @param {string} container - The tag where select must be located.
@@ -22,10 +8,6 @@
      */
     var CustomSelect = global.CustomSelect = function(container, options, config) {
         this.config = {
-            style: "standard",
-            multiple: "false",
-            native: "false",
-            replace: "false",
             defaultOption: "Please Select Option",
             tabIndex: 0,
             idOfTag: "example"
@@ -38,10 +20,6 @@
 
     };
 
-    CustomSelect.prototype.getValue = function () {
-        return this.myTagSelect.childNodes[0].innerHTML;
-    }
-
     /**
      * get data from file or array and create custom select based on this data
      * @param {string} container - The tag where select must be located.
@@ -51,18 +29,19 @@
     CustomSelect.createSelectByData = function (container, data, config) {
         if (typeof data == "string") {
             var select = new CustomSelect(container, [], config);
-            select.myTagSelect.classList.add(data);
+            var nameOfFile = data.substring(data.lastIndexOf("/") + 1, data.indexOf("."));
+            select.myTagSelect.classList.add(nameOfFile);
             select.myTagSelect.setAttribute("data-tag", config.idOfTag);
             var oReq = new XMLHttpRequest();
             oReq.onload = function () {
                 var options = JSON.parse(this.responseText);
-                var allSameFile = document.querySelectorAll("." + data);
+                var allSameFile = document.querySelectorAll("." + nameOfFile);
                 for (var i = 0; i < allSameFile.length; i += 1) {
                     CustomSelect.UpdateOptions(allSameFile[i], options, allSameFile[i].getAttribute("data-tag"));
-                    allSameFile[i].classList.remove(data);
+                    allSameFile[i].classList.remove(nameOfFile);
                 }
             }
-            oReq.open("POST", "data_for_options/" + data + ".json", true);
+            oReq.open("POST", data, true);
             oReq.send();
         }
         else {
@@ -77,23 +56,19 @@
     CustomSelect.prototype.createSelect = function () {
         this.myTagSelect = document.createElement('div');
         this.myTagSelect.tabIndex = 0;
-
         var elementsOfSelect = document.createDocumentFragment();
         elementsOfSelect = document.createElement('span');
+        elementsOfSelect.innerHTML = this.config.defaultOption;
         elementsOfSelect.tabIndex = 0;
-        var image = document.createElement('img');
-        image.src = "css/down.png";
-        image.classList.add("select-image");
-        console.log(image);
-        elementsOfSelect.appendChild(image);
-        console.log(elementsOfSelect);
+        this.addImageToSelectedElement(elementsOfSelect);
         this.myTagSelect.appendChild(elementsOfSelect);
         elementsOfSelect = document.createElement("div");
         elementsOfSelect.tabIndex = 0;
         elementsOfSelect.classList.add("options-not-active");
         for (var i = 0; i < this.options.length; i++) {
             var option = document.createElement('div');
-            option.innerHTML = this.options[i];
+            if (typeof this.options[i] == "object" ) { option.innerHTML = this.options[i].title; }
+            else option.innerHTML = this.options[i];
             option.tabIndex = 0;
             elementsOfSelect.appendChild(option);
         }
@@ -116,18 +91,30 @@
         }
         for (var i = 0; i < options.length; i++) {
             var option = document.createElement('div');
-            option.innerHTML = options[i];
+            if (typeof options[i] == "object" ) { option.innerHTML = options[i].title; }
+            else option.innerHTML = options[i];
             option.tabIndex = 0;
             parentForOptions.appendChild(option);
         }
         Array.prototype.forEach
             .call(parentForOptions.childNodes, function (child) {
-                child.addEventListener('click', function () {
-                    if (child.tagName != 'SPAN') myTagSelect.childNodes[0].innerHTML = this.innerHTML;
-                    document.getElementById(tag).innerHTML = this.innerHTML;
+                child.addEventListener('mousedown', function () {
+                    if (child.tagName != 'SPAN') {
+                        myTagSelect.childNodes[0].innerHTML = this.innerHTML;
+                        var image = document.createElement('img');
+                        image.src = "css/down.png";
+                        image.classList.add("select-image");
+                        myTagSelect.childNodes[0].appendChild(image);
+                    }
+                    if (typeof options[0] == "object") {
+                        var test;
+                        for (var i = 0; i < options.length; i += 1) {
+                            if (options[i].title == this.innerHTML) { test = options[i].value; break; }
+                        }
+                        document.getElementById(tag).innerHTML = test;
+                    } else document.getElementById(tag).innerHTML = this.innerHTML;
                     //that.getValue();
                 });
-
             });
     }
 
@@ -138,7 +125,7 @@
         var myConfig = this.config;
         this.myTagSelect.className = 'custom-select';
         this.myTagSelect.childNodes[0].className = 'custom-selected';//span
-        this.myTagSelect.childNodes[0].innerHTML = myConfig.defaultOption;
+        //this.myTagSelect.childNodes[0].innerHTML = ;
         Array.prototype.forEach
             .call(this.myTagSelect.childNodes, function (child) {
                 child.tabIndex = myConfig.tabIndex;
@@ -155,19 +142,21 @@
         this.myTagSelect.addEventListener('click', function () {
             that.changeDisplayForOptions();
         });
-        /*Array.prototype.forEach
-            .call(this.myTagSelect.childNodes, function (child) {
-                child.addEventListener('blur', function () {
-                    var sel = that.myTagSelect.querySelector(".custom-option");
-                    sel.classList.remove("options-active");
-                    sel.classList.add("options-not-active");
-                });
-            });*/
         Array.prototype.forEach
             .call(this.myTagSelect.childNodes[1].childNodes, function (child) {
-                child.addEventListener('click', function () {
-                    if (child.tagName != 'SPAN') this.parentNode.parentNode.childNodes[0].innerHTML = this.innerHTML;
-                    document.getElementById(that.config.idOfTag).innerHTML = this.innerHTML;
+                child.addEventListener('mousedown', function () {
+                    if (child.tagName != 'SPAN') {
+                        this.parentNode.parentNode.childNodes[0].innerHTML = this.innerHTML;
+                        that.addImageToSelectedElement(this.parentNode.parentNode.childNodes[0]);
+                    }
+                    if (typeof that.options[0] == "object") {
+                        var test;
+                        for (var i = 0; i < that.options.length; i += 1) {
+                            if (that.options[i].title == this.innerHTML) { test = that.options[i].value; break; }
+                        }
+                        document.getElementById(that.config.idOfTag).innerHTML = test;
+                    } else
+                        document.getElementById(that.config.idOfTag).innerHTML = this.innerHTML;
                     that.getValue();
                 });
                 child.addEventListener('keydown', function (e) {
@@ -179,6 +168,14 @@
                     that.getKeyCode(e, child.parentNode.parentNode.childNodes[0]);
                     e.preventDefault();
                     return;
+                });
+            });
+        Array.prototype.forEach
+            .call(this.myTagSelect.childNodes, function (child) {
+                child.addEventListener('blur', function () {
+                    var sel = that.myTagSelect.querySelector(".custom-option");
+                    sel.classList.remove("options-active");
+                    sel.classList.add("options-not-active");
                 });
             });
     };
@@ -220,6 +217,13 @@
         }
     };
 
+    CustomSelect.prototype.addImageToSelectedElement = function (span) {
+        var image = document.createElement('img');
+        image.src = "css/down.png";
+        image.classList.add("select-image");
+        span.appendChild(image);
+    };
+
     /**
      * Get all key codes for keydown event
      * @param {object} element - for this element we use keydown event
@@ -254,4 +258,11 @@
                 break;
         }
     };
+
+    CustomSelect.prototype.getValue = function () {
+        var nameOfFile = this.myTagSelect.childNodes[0].innerHTML.
+                            substring(0, this.myTagSelect.childNodes[0].innerHTML.indexOf("<img"));
+        return nameOfFile;
+    };
+
 })(window, document);

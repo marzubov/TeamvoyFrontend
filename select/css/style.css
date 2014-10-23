@@ -1,4 +1,10 @@
-#example1, #example2, #example3 {
+div {
+    font-family: Helvetica;
+    font-size: 14px;
+    line-height: 19px;
+}
+.container { overflow: hidden; margin-bottom: 20px; }
+.container #example1, #example2, #example3, #example4, #example5 {
     width: 80px;
     height: 24px;
     border: 1px solid black;
@@ -8,7 +14,7 @@
 }
 
 .custom-select{
-    width:199px;
+    width:250px;
     max-height:200px;
     display: block;
     overflow-y: auto;
@@ -22,7 +28,7 @@
     letter-spacing: 0.7px;
     text-shadow: 1px 1px 1px black;
 }
-.custom-selected{
+.custom-select .custom-selected{
     padding-left: 10px;
     width: 95%;
     height: 25px;
@@ -39,44 +45,39 @@
     background: linear-gradient(to bottom,  rgba(201,222,150,1) 0%,rgba(138,182,107,1) 44%,rgba(57,130,53,1) 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c9de96', endColorstr='#398235',GradientType=0 ); /* IE6-9 */
     padding-top: 5px;
-
 }
 
-.custom-selected .select-image {
+.custom-select .custom-selected .select-image {
+    position: absolute;
     width: 20px;
     height: 20px;
+    left: 85%;
 }
-.custom-selected:hover{
-    background:lightblue;
+.custom-select .custom-selected:hover, .custom-select .custom-selected:focus{
+    background: rgb(169, 222, 140); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(169, 222, 140, 1) 0%, rgba(119, 153, 95,1) 44%, rgba(49, 98, 49,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(169, 222, 140, 1)), color-stop(44%,rgba(119, 153, 95,1)), color-stop(100%,rgba(49, 98, 49,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(169, 222, 140, 1) 0%,rgba(119, 153, 95,1) 44%,rgba(49, 98, 49,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(169, 222, 140, 1) 0%,rgba(119, 153, 95,1) 44%,rgba(49, 98, 49,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(169, 222, 140, 1) 0%,rgba(119, 153, 95,1)44%,rgba(49, 98, 49,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(169, 222, 140, 1) 0%,rgba(119, 153, 95,1) 44%,rgba(49, 98, 49,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c9de96', endColorstr='#398235',GradientType=0 ); /* IE6-9 */
     cursor: pointer;
 }
-.custom-selected:focus{
-    background:lightblue;
-}
-.custom-option{
+.custom-select .custom-option{
     text-align: center;
+    background: rgba(186, 207, 134, 0.70);
     display: none;
-    border:1px solid black;
-    background:lightgrey;
     position: absolute;
-    width: 199px;
+    margin-left: 5px;
+    width: 240px;
     z-index: 1;
 }
-.custom-option-active{
-    display: block;
-    position: relative;
-}
-.custom-option-notactive {
-    display: none;
-}
-.custom-option div:hover{
-    background:lightblue;
-    border:1px solid #92CCE6;
+.custom-select .custom-option div:hover, .custom-select .custom-option div:hover{
+    background: #77995f;
+    border:1px solid #316231;
     cursor: pointer;
 }
-.custom-option div:focus{
-    background:lightblue;
-}
 
-.options-active { display: block; position: absolute; }
-.options-not-active { display: none; position: absolute;}
+.custom-select .options-active { display: block; position: absolute; }
+.custom-select .options-not-active { display: none; position: absolute;}

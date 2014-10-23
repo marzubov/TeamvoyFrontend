@@ -36,7 +36,7 @@
                 data = pagesData[pageIndex - 1];
             }
             if (!fromPagesData) {
-                for (i = 0 + (pageIndex - 1) * maxRows; i < pageIndex * maxRows; i++) {
+                for (i = (pageIndex - 1) * maxRows; i < pageIndex * maxRows; i++) {
                     dataString += '<tr><td>' + data[i].join('</td><td>') + '</td></tr>';
                 }
             } else {
@@ -126,35 +126,63 @@
                 container.removeChild(pages);
                 return;
             }
-            var pagesString = '<tbody><tr>' /*+ '<td><-</td>'*/;
+            var pagesString = '<tbody><tr>' + '<td><--</td>' + '<td><-</td>';
             for (var i = 1; i <= (maxDataLength / maxRows).toFixed(0); i++) {
                 pagesString += '<td>' + i + '</td>';
             }
 
-            pages.innerHTML += pagesString /*+ '<td>' + '->' + '</td>' */+ '</tbody>';
+            pages.innerHTML += pagesString + '<td>' + '->' + '</td>' + '<td>' + '-->' + '</td>' + '</tbody>';
             Array.prototype.slice.call(pages.querySelectorAll('td'))
                 .forEach(function (el) {
-
                     el.className = 'page';
 
                     if (el.innerHTML === '1') {
                         el.className = 'page-active';
                     }
                     var i = Array.prototype.indexOf.call(el.parentNode.children, el);
-                    if ((el.innerHTML !== "&lt;-") && (el.innerHTML !== "-&gt;")) {
+                    if ((el.innerHTML !== "&lt;-") && (el.innerHTML !== "-&gt;")&&(el.innerHTML !== "&lt;--")&&(el.innerHTML !== "--&gt;")) {
                         el.hidden = !!((i < (1 - 5)) || (i - 4 > 1));
                     }
-
                     el.addEventListener('click', pageClick);
+                    //el.onclick = pageClick;
                 });
         }
 
         function pageClick() {
+            if(!this) return;
             var el = this;
-            if (el.innerHTML === "&lt;-" && el.innerHTML === "-&gt;") {
-                return;
-            }
-
+            console.log(this);
+            var temp = el.innerHTML.toString();
+//            if (temp === "&lt;-") {
+//                if (+pageIndex>2){
+//                    //console.log(pages.childNodes[0].childNodes[0].childNodes[+pageIndex-1]);
+//                    pageClick.call(pages.childNodes[0].childNodes[0].childNodes[+pageIndex-1]);
+//                }
+//                return;
+//            }
+//            else {
+//                if (el.innerHTML === "-&gt;") {
+//                    if(+pageIndex<pages.childNodes[0].childNodes[0].childNodes.length - 3){
+//                       pageClick.call(pages.childNodes[0].childNodes[0].childNodes[+pageIndex+1]);
+//                    }
+//                    return;
+//                }
+//                else {
+//                    if (el.innerHTML === "&lt;--") {
+//                       //console.log(pages.childNodes[0].childNodes[0].childNodes[2]);
+//                           // pageClick.call(pages.childNodes[0].childNodes[0].childNodes[2]);
+//
+//                        return;
+//                    }
+//                    else {
+//                        if (el.innerHTML === "--&gt;") {
+//                            //console.log(pageClick.call(pages.childNodes[0].childNodes[0].childNodes[pages.childNodes[0].childNodes[0].childNodes.length - 3]));
+//                                //pageClick.call(pages.childNodes[0].childNodes[0]
+//                                //    .childNodes[pages.childNodes[0].childNodes[0].childNodes.length - 3]);
+//
+//                            return;
+//                        }
+//            }
             var newPageIndex = this.innerHTML;
             Array.prototype.slice.call(this.parentNode.parentNode.querySelectorAll('td'))
                 .forEach(function (el) {
@@ -170,10 +198,11 @@
             }
             else {
                 if (!pagesData[el.innerHTML - 1]) {
-                    console.log("new request");
                     if (dataArray.length != maxDataLength) {
+                        console.log("new request");
                         getData(config.url, (el.innerHTML - 1) * maxRows, el.innerHTML * maxRows);
-                    } else {
+                    }
+                    else {
                         changePageData(false);
                     }
                 }
@@ -207,7 +236,8 @@
             if (!element.innerHTML) {
                 if (maxDataLength == dataArray.length) {
                     renderTable(false);
-                } else {
+                }
+                else {
                     renderTable(true);
                 }
             }
@@ -244,8 +274,6 @@
             }
         }
 
-        init();
-
         //public methods
         this.getCreatedElement = function () {
             return this;
@@ -258,5 +286,7 @@
         this.refresh = function () {
             console.log('refresh');
         };
+
+        init();
     };
 })(window, document);

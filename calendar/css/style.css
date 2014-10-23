@@ -1,7 +1,12 @@
+
 .what-year{
     width: 140px;
     height: 119px;
-    position: absolute;
-    margin-left: 500px;
+    cursor: pointer;
+    position: fixed;
     background-image: url(img/year.jpg);
+    right:-120px;
+}
+.what-year:hover{
+    right: 0;
 }

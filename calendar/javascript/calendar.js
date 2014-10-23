@@ -7,16 +7,36 @@
      * @constructor
      */
     window.Calendar = function (container, properties) {
-        var that = this;
+        var that = this,
+            model = {};
         this.container = container;
-        this.rootElement = undefined;
-        this.model = {};
-        this.config = {
+        var config = {
             year: (new Date()).getFullYear(),
             month: (new Date()).getMonth() + 1,
             firstDayOfWeek: "sunday",
-            locale: "en",
-            output: "text"
+            locale: "en"
+        };
+        this.rootElement={};
+        //getter setter
+        this.config = {
+            get locale() {
+                return config.locale;
+            },
+            set locale(value) {
+                if (value.locale &&
+                    value.locale!='en' || value.locale!='ua')
+                console.error('This localization does not supported');
+                else
+                return config.locale = value;
+            },
+
+            get year(){
+                return config.year;
+            },
+            set year(value){
+                config.year = value;
+                that.reDraw();
+            }
         };
         Calendar.localizationCache = {};
 
@@ -25,14 +45,13 @@
          * Generates new calendar. Config changes take effect
          */
         this.reDraw = function () {
-            loadLocalization(true);
+            generateCalendar();
+            renderTable();
         };
         /**
          * Add element to childs of container
-         * @param container - place where element append
          */
-        this.insertElement = function(container){
-            this.container = container ? container : this.container;
+        this.insertElement = function(){
             container.appendChild(that.rootElement);
         };
 
@@ -41,8 +60,8 @@
          */
         this.showToday = function () {
             var today = new Date();
-            this.config.month = today.getMonth() + 1;
-            this.config.year = today.getFullYear();
+            config.month = today.getMonth() + 1;
+            config.year = today.getFullYear();
             this.reDraw();
         };
 
@@ -52,17 +71,17 @@
          */
         this.nextMonth = function (direction) {
             if (direction > 0) {
-                this.config.month++;
-                if (this.config.month > 12) {
-                    this.config.month = 1;
-                    this.config.year++;
+                config.month++;
+                if (config.month > 12) {
+                    config.month = 1;
+                    config.year++;
                 }
             }
             else {
-                this.config.month--;
-                if (this.config.month < 1) {
-                    this.config.month = 12;
-                    this.config.year--;
+                config.month--;
+                if (config.month < 1) {
+                    config.month = 12;
+                    config.year--;
                 }
             }
             this.reDraw();
@@ -72,8 +91,8 @@
         //private methods
 
         function generateCalendar() {
-            var dataMonth = Calendar.localizationCache[that.config.locale];
-            var i, date = new Date(that.config.year, that.config.month - 1), month, monthPrefix,
+            var dataMonth = Calendar.localizationCache[config.locale];
+            var i, date = new Date(config.year, config.month - 1), month, monthPrefix,
                 lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
                 firstDayWeek = new Date(date.getFullYear(), date.getMonth(), 1).getDay(),
                 myMonth = ["january", "february", "march", "april", "may", "june",
@@ -83,16 +102,16 @@
                 myDays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"],
                 indexOfStartDay, days = [];
 
-            indexOfStartDay = myDays.indexOf(that.config.firstDayOfWeek);
+            indexOfStartDay = myDays.indexOf(config.firstDayOfWeek);
 
-            that.model.chosenMonth = dataMonth.month[myMonth[that.config.month - 1]];
+            model.chosenMonth = dataMonth.month[myMonth[config.month - 1]];
 
             for (i = 0; i < myDays.length; i += 1) {
                 days[i] = dataMonth.daysOfWeek[myDays[i]];
             }
-            that.model.arrayOfDays = [];
+            model.arrayOfDays = [];
             days = days.slice(indexOfStartDay, 7).concat(days.slice(0, indexOfStartDay));
-            that.model.arrayOfDays.push(days);
+            model.arrayOfDays.push(days);
 
             month = Array.apply(null, {length: lastDay}).map(function (el, i) {
                 return i + 1;
@@ -102,28 +121,29 @@
             month = monthPrefix.concat(month);
 
             for (i = 0; i < month.length; i += 7) {
-                that.model.arrayOfDays.push(month.slice(i, i + 7));
+                model.arrayOfDays.push(month.slice(i, i + 7));
             }
 
         }
 
+        function importantDay(){
+
+        }
         function renderTable() {
-            if (!that.rootElement)
-                that.rootElement = document.createElement('table');
             that.rootElement.classList.add('calendar');
             var tableString = '',
                 today = new Date(),
                 isToday, td;
-            if(today.getMonth()+1 == that.config.month && today.getFullYear() == that.config.year){
+            if(today.getMonth()+1 == config.month && today.getFullYear() == config.year){
                 isToday=true;
             }
             //make caption
-            tableString += '<caption><button class="calendar-button desc"></button>'
-                + (that.model.chosenMonth + ' ' + that.config.year)
-                + '<button class="calendar-button asc"></button></caption>';
+            tableString += '<caption><button class="calendar-button desc"></button><span>'
+                + (model.chosenMonth + ' ' + config.year)
+                + '</span><button class="calendar-button asc"></button></caption>';
             //make body
             tableString += '<tbody>';
-            that.model.arrayOfDays.forEach(function (el) {
+            model.arrayOfDays.forEach(function (el) {
                 //mark current day
                 if(isToday)
                 el.forEach(function (day,i) {
@@ -139,51 +159,36 @@
 
         function ajaxRequest() {
             var oReq = new XMLHttpRequest();
-            Calendar.localizationCache[that.config.locale] = XMLHttpRequest;
+            Calendar.localizationCache[config.locale] = XMLHttpRequest;
             oReq.onload = function () {
-                Calendar.localizationCache[that.config.locale] = JSON.parse(this.responseText);
+                Calendar.localizationCache[config.locale] = JSON.parse(this.responseText);
                 generateCalendar();
                 renderTable();
                 that.container.appendChild(that.rootElement);
             };
-            oReq.open("post", "localization/" + that.config.locale + ".json", true);
+            oReq.open("post", "localization/" + config.locale + ".json", true);
             oReq.send(null);
         }
 
-        function loadLocalization(insertedAlready) {
+        function setEvents() {
+            var tableCaption = that.rootElement.querySelector('caption');
+            tableCaption.addEventListener('click', function (e) {
+                console.log(e);
+                if(e.target.localName == 'button')
+                e.target.classList.contains('asc') ?
+                        that.nextMonth(1) : that.nextMonth(-1);
+                });
+        }
 
-            if (Calendar.localizationCache[that.config.locale]) {
-                generateCalendar();
-                renderTable();
-                if(!insertedAlready)
-                    that.insertElement();
+        function init(properties) {
+            that.rootElement=document.createElement('table');
+            config.merge(properties);
+            if (Calendar.localizationCache[config.locale]) {
+                that.insertElement();
             }
             else {
                 ajaxRequest();
             }
-        }
-
-        function setEvents() {
-            var buttons = that.rootElement.querySelectorAll('button');
-            buttons = Array.prototype.slice.call(buttons);
-            buttons.forEach(function (el) {
-                el.addEventListener('click', function () {
-                    this.classList.contains('asc') ?
-                        that.nextMonth(1) : that.nextMonth(-1);
-                });
-            });
-            var isFocused;
-            that.rootElement.onmouseover = function () {
-                isFocused = true;
-            };
-            that.rootElement.onmouseout = function () {
-                isFocused = false;
-            };
-        }
-
-        function init(properties) {
-            that.config.merge(properties);
-            loadLocalization(false);
 
         }
     };

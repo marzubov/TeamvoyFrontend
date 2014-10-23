@@ -4,14 +4,31 @@
     <meta charset="UTF-8">
     <title>Calendar</title>
     <link rel="stylesheet" href="css/calendar.css"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
     <link rel="stylesheet" href="css/style.css"/>
     <script src="javascript/calendar.js"></script>
     <script src="javascript/helper.js"></script>
 </head>
 <body>
 <button class="what-year"></button>
-<div id="placeForCalendar">
-
+<div class="col-xs-8 col-xs-offset-2" >
+    <p>
+    <h1 style="text-align: center">Calendar Demo</h1>
+    <span style="font-size: 18px">To create calendar you need to call constructor:<br>
+        <b>new Calendar(container,config);</b><br>
+        container - required parameter, the place where calendar will be inserted.<br>
+        config - optional parameter, object with fields:
+    </span>
+    <ul style="font-size: 18px">
+        <li>year - current year, type: number;</li>
+        <li>month - current month, type: number;</li>
+        <li>firstDayOfWeek - first day of week in calendar, only english  language, type: string;</li>
+        <li>locale - language of calendar, short name, type: string.</li>
+    </ul>
+    <input type="text" placeholder="Type some year.."><button>Click me!</button>
+    <div class="col-xs-4 col-xs-offset-4" id="firstCalendar">
+    </div>
+    <div class="col-xs-4 col-xs-offset-4" id="secondCalendar"></div>
 </div>
 </body>
 <script src="javascript/main.js"></script>
