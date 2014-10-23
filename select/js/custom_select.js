@@ -61,7 +61,6 @@
         elementsOfSelect.innerHTML = this.config.defaultOption;
         elementsOfSelect.tabIndex = 0;
         this.addImageToSelectedElement(elementsOfSelect);
-        console.log(elementsOfSelect);
         this.myTagSelect.appendChild(elementsOfSelect);
         elementsOfSelect = document.createElement("div");
         elementsOfSelect.tabIndex = 0;
@@ -115,7 +114,6 @@
                         document.getElementById(tag).innerHTML = test;
                     } else document.getElementById(tag).innerHTML = this.innerHTML;
                     //that.getValue();
-                    console.log("click file option");
                 });
             });
     }
@@ -143,7 +141,6 @@
         var that = this;
         this.myTagSelect.addEventListener('click', function () {
             that.changeDisplayForOptions();
-            console.log("change class");
         });
         Array.prototype.forEach
             .call(this.myTagSelect.childNodes[1].childNodes, function (child) {
@@ -160,17 +157,14 @@
                         document.getElementById(that.config.idOfTag).innerHTML = test;
                     } else
                         document.getElementById(that.config.idOfTag).innerHTML = this.innerHTML;
-                    console.log("click");
                     that.getValue();
                 });
                 child.addEventListener('keydown', function (e) {
                     that.getKeyCode(e, child);
-                    console.log("keydown option");
                     e.preventDefault();
                     return;
                 });
                 child.parentNode.parentNode.childNodes[0].addEventListener('keydown', function (e) {
-                    console.log("keydown span");
                     that.getKeyCode(e, child.parentNode.parentNode.childNodes[0]);
                     e.preventDefault();
                     return;
@@ -179,7 +173,6 @@
         Array.prototype.forEach
             .call(this.myTagSelect.childNodes, function (child) {
                 child.addEventListener('blur', function () {
-                    console.log("blur");
                     var sel = that.myTagSelect.querySelector(".custom-option");
                     sel.classList.remove("options-active");
                     sel.classList.add("options-not-active");
