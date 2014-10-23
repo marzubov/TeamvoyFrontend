@@ -260,7 +260,9 @@
     };
 
     CustomSelect.prototype.getValue = function () {
-        return this.myTagSelect.childNodes[0].innerHTML;
+        var nameOfFile = this.myTagSelect.childNodes[0].innerHTML.
+                            substring(0, this.myTagSelect.childNodes[0].innerHTML.indexOf("<img"));
+        return nameOfFile;
     };
 
 })(window, document);
