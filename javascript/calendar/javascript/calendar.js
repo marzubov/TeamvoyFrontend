@@ -10,23 +10,29 @@
         var that = this,
             model = {},
             config = {
-            year: (new Date()).getFullYear(),
-            month: (new Date()).getMonth() + 1,
-            firstDayOfWeek: "sunday",
-            locale: "en"
-        };
+                year: (new Date()).getFullYear(),
+                month: (new Date()).getMonth() + 1,
+                firstDayOfWeek: "sunday",
+                locale: "en",
+                dayEvents: [{
+                    year:(new Date()).getFullYear(),
+                    month:(new Date()).getMonth() + 1,
+                    day:(new Date()).getDate(),
+                    text:'Current day'
+                }]
+            };
         this.container = container;
-        this.rootElement={};
+        this.rootElement = {};
         //getter setter
         Object.defineProperty(this, "config", {
             get: function () {
                 return config;
-        },
-            set : function(value){
+            },
+            set: function (value) {
                 var propName;
-                for(propName in value){
+                for (propName in value) {
                     value[propName] = value[propName] ?
-                        value[propName]:
+                        value[propName] :
                         config[propName];
                 }
                 config.merge(value);
@@ -46,7 +52,7 @@
         /**
          * Add element to childs of container
          */
-        this.insertElement = function(){
+        this.insertElement = function () {
             container.appendChild(that.rootElement);
         };
 
@@ -126,8 +132,8 @@
             var tableString = '',
                 today = new Date(),
                 isToday, td;
-            if(today.getMonth()+1 == config.month && today.getFullYear() == config.year){
-                isToday=true;
+            if (today.getMonth() + 1 == config.month && today.getFullYear() == config.year) {
+                isToday = true;
             }
             //make caption
             tableString += '<caption><button class="calendar-button desc"></button><span>'
@@ -137,10 +143,10 @@
             tableString += '<tbody>';
             model.arrayOfDays.forEach(function (el) {
                 //mark current day
-                if(isToday)
-                el.forEach(function (day,i) {
-                    el[i] = day == today.getDate() ? '<span class="calendar-today">'+day+'</span>' : day;
-                });
+                if (isToday)
+                    el.forEach(function (day, i) {
+                        el[i] = day == today.getDate() ? '<span class="calendar-today">' + day + '</span>' : day;
+                    });
 
                 tableString += '<tr><td>' + (el.join("</td><td>")) + '</td></tr>';
             });
@@ -165,14 +171,14 @@
         function setEvents() {
             var tableCaption = that.rootElement.querySelector('caption');
             tableCaption.addEventListener('click', function (e) {
-                if(e.target.classList.contains('calendar-button'))
-                e.target.classList.contains('asc') ?
+                if (e.target.classList.contains('calendar-button'))
+                    e.target.classList.contains('asc') ?
                         that.nextMonth(1) : that.nextMonth(-1);
-                });
+            });
         }
 
         function init(properties) {
-            that.rootElement=document.createElement('table');
+            that.rootElement = document.createElement('table');
             config.merge(properties);
             if (Calendar.localizationCache[config.locale]) {
                 that.insertElement();
