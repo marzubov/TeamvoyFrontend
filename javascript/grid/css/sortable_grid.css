@@ -29,3 +29,20 @@
 .my-pager {
     width: 100%;
 }
+
+.noselect {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.dragged{
+    position: fixed;
+    text-align: center;
+    border: 1px solid black;
+    width : 75px;
+    height: 20px;
+    top : 0px;
+    left: 0px;
+}

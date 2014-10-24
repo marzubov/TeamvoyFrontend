@@ -1,9 +1,8 @@
 (function (global, document) {
     "use strict";
     global.SortableGrid = function SortableGrid(container, dataArray, config, maxRows) {
-        var element, pager, maxDataLength, pagesData = [], sortedColumn, pageIndex = 1, that;
+        var root, pager, maxDataLength, pagesData = [], sortedColumn, pageIndex = 1, that;
 
-        //private methods
         function getData(url, start, end) {
             url += '/getdata';
             if (start || end) {
@@ -23,7 +22,7 @@
             xhr.onerror = function () {
                 //removing table on error
 
-                container.removeChild(element);
+                container.removeChild(root);
                 container.removeChild(pager);
                 alert('Woops, there was an error making the request.');
             };
@@ -31,7 +30,7 @@
         }
 
         function changePageData(fromPagesData) {
-            var data, i, dataBody = element.querySelector('.data-body'), dataString = '';
+            var data, i, dataBody = root.querySelector('.data-body'), dataString = '';
             if (!fromPagesData) {
                 data = dataArray;
             } else {
@@ -92,12 +91,9 @@
         function renderTable(sortable) {
             // Make headers
 
-            element.classList.add("table");
-            element.classList.add("table-striped");
-            element.classList.add("table-bordered");
-//            pages.classList.add('table');
-//            pages.classList.add('table-striped');
-//            pages.classList.add('table-bordered');
+            root.classList.add("table");
+            root.classList.add("table-striped");
+            root.classList.add("table-bordered");
 
             var tableString = '<thead><tr><td>' + config.headers.join('</td><td>') + '</td></thead>';
             // Make body
@@ -112,9 +108,9 @@
                 tableString += '<tr><td>' + dataArray[i].join('</td><td>') + '</td></tr>';
             }
             tableString += '</tbody>';
-            element.innerHTML += tableString;
+            root.innerHTML += tableString;
 
-            var headCells = element.querySelector('thead').querySelector('tr').querySelectorAll('td');
+            var headCells = root.querySelector('thead').querySelector('tr').querySelectorAll('td');
             headCells = Array.prototype.slice.call(headCells);
             headCells.forEach(function (el) {
                 el.className += ' table-header';
@@ -155,10 +151,8 @@
                 }
             }
 
-            //Make pages
-            //console.log(this);
-            //console.log();
-            new renderPager(pager, maxDataLength, that.goTo);
+            new RenderPager(pager, maxDataLength, that.goTo);
+            if (dataArray.length == maxDataLength) new DragColumn(root, dataArray);
         }
 
         function xhrOnLoad(xhr) {
@@ -180,7 +174,7 @@
                 });
             dataArray = tempData;
             if (dataArray.length != maxDataLength) pagesData[pageIndex - 1] = tempData;
-            if (!element.innerHTML) {
+            if (!root.innerHTML) {
                 if (maxDataLength == dataArray.length) {
                     renderTable(false);
                 }
@@ -197,11 +191,12 @@
         }
 
         function init() {
-            element = document.createElement('table');
+            root = document.createElement('table');
             pager = document.createElement('nav');
-            container.appendChild(element);
+            container.appendChild(root);
             container.appendChild(pager);
             that = this;
+
             if (dataArray === null) {
                 console.log('dataArray == null');
                 if (config.loadByParts) {
@@ -212,19 +207,47 @@
             } else {
                 renderTable.call(this);
             }
+
+
         }
 
-        //public methods
         this.getCreatedElement = function () {
             return this;
+        };
+
+        this.getRoot = function () {
+            return root
+        };
+
+        this.getData = function () {
+            return dataArray;
         };
 
         this.sort = function () {
             sortTable();
         };
 
-        this.refresh = function () {
-            console.log('refresh');
+        this.refresh = function (newDataArray, newConfig, newMaxRows) {
+            that = this;
+            if (newDataArray) {
+                dataArray = newDataArray;
+            }
+            if (newConfig) {
+                config = newConfig;
+            }
+            if (newMaxRows) {
+                maxRows = newMaxRows;
+            }
+            if (dataArray === null) {
+                console.log('dataArray == null');
+                if (config.loadByParts) {
+                    getData(config.url, 0, maxRows);
+                } else {
+                    getData(config.url);
+                }
+            } else {
+                renderTable.call(this);
+            }
         };
 
         init.call(this);

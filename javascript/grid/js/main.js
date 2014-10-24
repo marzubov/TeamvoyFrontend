@@ -5,7 +5,8 @@ var table;
 text.innerHTML = 'Table with data from simple array';
 container.appendChild(text);
 table = new SortableGrid(container, stringArray, configObject, maxRows).getCreatedElement();
-
+//new dragColumn(table.root()).swapColumns(0,1,table.root());
+//new DragColumn(table.data()).swapArrayColumns(0,1,table.data());
 text = document.createElement('h4');
 text.innerHTML = 'Table with data from array with randomly generated numbers';
 container.appendChild(text);

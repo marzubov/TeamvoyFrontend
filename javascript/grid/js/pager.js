@@ -1,7 +1,7 @@
 /**
  * Created by MU on 10/23/14.
  */
-function renderPager(pager, maxDataLength, goTo) {
+function RenderPager(pager, maxDataLength, goTo) {
     "use strict";
 
     pager.classList.add('my-pager');
