@@ -12,8 +12,12 @@
             config = {
                 year: (new Date()).getFullYear(),
                 month: (new Date()).getMonth() + 1,
-                firstDayOfWeek: "sunday",
-                locale: "en"
+                firstDayOfWeek: 'sunday',
+                locale: 'en',
+                dayEvents: [{
+                    message:'Current day',
+                    date: new Date()
+                }]
             };
         this.container = container;
         this.rootElement = {};
@@ -33,6 +37,7 @@
                 reDraw();
             }
         });
+
         Calendar.localizationCache = {};
 
         //public methods
@@ -81,8 +86,8 @@
         //private methods
 
         function generateCalendar() {
-            var dataMonth = Calendar.localizationCache[config.locale];
-            var i, date = new Date(config.year, config.month - 1), month, monthPrefix,
+            var dataMonth = Calendar.localizationCache[config.locale],
+                i, date = new Date(config.year, config.month - 1), month, monthPrefix,
                 lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
                 firstDayWeek = new Date(date.getFullYear(), date.getMonth(), 1).getDay(),
                 myMonth = ["january", "february", "march", "april", "may", "june",
@@ -91,39 +96,29 @@
                     "november", "december"],
                 myDays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"],
                 indexOfStartDay, days = [];
-
             indexOfStartDay = myDays.indexOf(config.firstDayOfWeek);
-
             model.chosenMonth = dataMonth.month[myMonth[config.month - 1]];
-
             for (i = 0; i < myDays.length; i += 1) {
                 days[i] = dataMonth.daysOfWeek[myDays[i]];
             }
             model.arrayOfDays = [];
             days = days.slice(indexOfStartDay, 7).concat(days.slice(0, indexOfStartDay));
             model.arrayOfDays.push(days);
-
             month = Array.apply(null, {length: lastDay}).map(function (el, i) {
                 return i + 1;
             });
             firstDayWeek = (7 - (indexOfStartDay + 1 - firstDayWeek)) % 7;
             monthPrefix = new Array(firstDayWeek);
             month = monthPrefix.concat(month);
-
             for (i = 0; i < month.length; i += 7) {
                 model.arrayOfDays.push(month.slice(i, i + 7));
             }
-
         }
 
         function renderTable() {
             that.rootElement.classList.add('calendar');
             var tableString = '',
-                today = new Date(),
-                isToday, td;
-            if (today.getMonth() + 1 == config.month && today.getFullYear() == config.year) {
-                isToday = true;
-            }
+                td;
             //make caption
             tableString += '<caption><button class="calendar-button desc"></button><span>'
                 + (model.chosenMonth + ' ' + config.year)
@@ -131,12 +126,6 @@
             //make body
             tableString += '<tbody>';
             model.arrayOfDays.forEach(function (el) {
-                //mark current day
-                if (isToday)
-                    el.forEach(function (day, i) {
-                        el[i] = day == today.getDate() ? '<span class="calendar-today">' + day + '</span>' : day;
-                    });
-
                 tableString += '<tr><td>' + (el.join("</td><td>")) + '</td></tr>';
             });
             tableString += '<tbody>';
@@ -175,7 +164,6 @@
             else {
                 ajaxRequest();
             }
-
         }
 
         function reDraw() {
