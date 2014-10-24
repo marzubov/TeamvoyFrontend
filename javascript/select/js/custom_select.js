@@ -16,7 +16,7 @@
         this.containerForSelect = container;
         this.rootElement;
         this.config.merge(config);
-        this.createSelectByData();
+        this.getOptionsFromFile();
         this.render();
 
     };
@@ -27,7 +27,7 @@
      * @param {string, array} options - The array of options or name of file, where options is located.
      * @param {object} config - default configuration for select
      */
-    CustomSelect.prototype.createSelectByData = function () {
+    CustomSelect.prototype.getOptionsFromFile = function () {
         if (typeof this.options == "string") {
             var oReq = new XMLHttpRequest();
             var nameOfFile = this.options.substring(this.options.lastIndexOf("/") + 1, this.options.indexOf("."));
@@ -69,8 +69,12 @@
                 var option = document.createElement('div');
                 if (typeof this.options[i] == "object") {
                     option.innerHTML = this.options[i].title;
+                    option.setAttribute("data-value",this.options[i].value);
                 }
-                else option.innerHTML = this.options[i];
+                else {
+                    option.innerHTML = this.options[i];
+                    option.setAttribute("data-value",this.options[i]);
+                }
                 option.tabIndex = 0;
                 elementsOfSelect.appendChild(option);
             }
@@ -93,30 +97,16 @@
         }
         for (var i = 0; i < options.length; i++) {
             var option = document.createElement('div');
-            if (typeof options[i] == "object" ) { option.innerHTML = options[i].title; }
-            else option.innerHTML = options[i];
+            if (typeof options[i] == "object" ) {
+                option.innerHTML = options[i].title;
+                option.setAttribute("data-value",options[i].value);
+            } else {
+                option.innerHTML = options[i];
+                option.setAttribute("data-value",options[i]);
+            }
             option.tabIndex = 0;
             parentForOptions.appendChild(option);
         }
-        Array.prototype.forEach
-            .call(parentForOptions.childNodes, function (child) {
-                child.addEventListener('mousedown', function () {
-                    if (!child.classList.contains("selected")) {
-                        myTagSelect.childNodes[0].innerHTML = this.innerHTML;
-                        var image = document.createElement('img');
-                        image.src = "css/down.png";
-                        myTagSelect.childNodes[0].appendChild(image);
-                    }
-                    if (typeof options[0] == "object") {
-                        var test;
-                        for (var i = 0; i < options.length; i += 1) {
-                            if (options[i].title == this.innerHTML) { test = options[i].value; break; }
-                        }
-                        document.getElementById(tag).innerHTML = test;
-                    } else document.getElementById(tag).innerHTML = this.innerHTML;
-                    //that.getValue();
-                });
-            });
     }
 
     /**
@@ -133,48 +123,45 @@
             });
     };
 
+    CustomSelect.prototype.clickOnOptions = function (that, target) {
+        that.changeDisplayForOptions();
+        that.rootElement.childNodes[0].innerHTML = target.innerHTML;
+        that.addImageToSelectedElement(that.rootElement.childNodes[0]);
+        document.getElementById(that.config.idOfTag).innerHTML = target.getAttribute("data-value");
+    };
+
     /**
      * Add click, keydown, blur events for custom select
      */
     CustomSelect.prototype.addEventsForSelect = function () {
         var that = this;
-        this.rootElement.addEventListener('click', function () {
+        this.rootElement.addEventListener('mousedown', function () {
+            that.rootElement.childNodes[0].classList.remove('keydown');
             that.changeDisplayForOptions();
         });
+        this.rootElement.childNodes[1].addEventListener('mousedown', function (e){
+            var event = e || window.event;
+            var target = event.target || event.srcElement;
+            that.clickOnOptions(that, target);
+        });
+        this.rootElement.addEventListener('keydown', function (e){
+            var event = e || window.event;
+            var target = event.target || event.srcElement;
+            that.rootElement.childNodes[0].classList.add('keydown');
+            that.getKeyCode(e, target);
+            e.preventDefault(); e.stopPropagation(); return false;
 
-        //TODO: rewrite to Event delegation;
-        Array.prototype.forEach
-            .call(this.rootElement.childNodes[1].childNodes, function (child) {
-                child.addEventListener('mousedown', function () {
-                    if (!child.classList.contains("selected")) {
-                        this.parentNode.parentNode.childNodes[0].innerHTML = this.innerHTML;
-                        that.addImageToSelectedElement(this.parentNode.parentNode.childNodes[0]);
-                    }
-                    if (typeof that.options[0] == "object") {
-                        var test;
-                        for (var i = 0; i < that.options.length; i += 1) {
-                            if (that.options[i].title == this.innerHTML) { test = that.options[i].value; break; }
-                        }
-                        document.getElementById(that.config.idOfTag).innerHTML = test;
-                    } else
-                        document.getElementById(that.config.idOfTag).innerHTML = this.innerHTML;
-                    that.getValue();
-                });
-                child.addEventListener('keydown', function (e) {
-                    that.getKeyCode(e, child);
-                    e.preventDefault();
-                    e.stopPropagation();
-                    return false;
-                });
-                child.parentNode.parentNode.childNodes[0].addEventListener('keydown', function (e) {
-                    that.getKeyCode(e, child.parentNode.parentNode.childNodes[0]);
-                    e.preventDefault();
-                    return;
-                });
-            });
+        });
         Array.prototype.forEach
             .call(this.rootElement.childNodes, function (child) {
-                child.addEventListener('blur', function () {
+                child.addEventListener('blur', function (e) {
+                    var event = e || window.event;
+                    var target = event.target || event.srcElement;
+                    if (target.classList.contains("keydown")) {
+                        target.classList.remove('keydown');
+                        return false;
+                    }
+                    console.log("blur");
                     var sel = that.rootElement.querySelector(".option");
                     sel.classList.remove("options-active");
                     sel.classList.add("options-not-active");
@@ -231,15 +218,16 @@
      * @param {event:customSelect} e - a custom select event
      */
     CustomSelect.prototype.getKeyCode = function (e, element) {
+        console.log("keycode");
         switch (e.keyCode) {
             case 13://enter
-                element.click();
+                this.clickOnOptions(this, e.target);
                 break;
             case 27://esc
-                element.click();
+                this.clickOnOptions(this, e.target);
                 break;
             case 38://up
-                if (!child.classList.contains("selected")) {
+                if (!element.classList.contains("selected")) {
                     this.getPreviousOption(e.target).focus();
                 }
                 else {
@@ -247,7 +235,7 @@
                 }
                 break;
             case 40://down
-                if (!child.classList.contains("selected")) {
+                if (!element.classList.contains("selected")) {
                     this.getNextOption(e.target).focus();
                 }
                 else {
