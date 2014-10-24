@@ -7,6 +7,7 @@ function DragColumn(table, dataArray, sortableGrid) {
     //onMouseDown
     function drag(e) {
         if (e.target == this) return false;
+        if (e.target.parentNode.parentNode.tagName == 'thead') console.log('header');
         document.addEventListener('mouseup', drop);
         table.classList.add('.noselect');
         col1 = that.findColumnIndex(e.target);
@@ -21,14 +22,32 @@ function DragColumn(table, dataArray, sortableGrid) {
 
     //rendering dragged column
     function renderDraggedColumn(e) {
-        draggedColumn = table.rows[0].childNodes[col1].cloneNode(true);
+        draggedColumn = table.cloneNode(true);
+//        Array.prototype.slice.call(draggedColumn.rows)
+//            .forEach(function (el) {
+//                Array.prototype.slice.call(el)
+//                    .forEach(function (el) {
+//                        if (el.index != col1) el.hidden = true;
+//                            });
+//            });
+        for (var i = 0; i < draggedColumn.rows.length; i++) {
+            for (var j = 0; j<draggedColumn.rows[i].cells.length; j++)
+            {
+                if (j != col1) {
+                    console.log("yeah");
+                    draggedColumn.rows[i].cells[j].hidden = true;
+                    //draggedColumn.rows[i].removeChild(draggedColumn.rows[i].cells[j]);
+                }
+            }
+        }
+
         draggedColumn.classList.add('dragged');
         draggedColumn.style.left = (e.clientX + 10).toString() + 'px';
         draggedColumn.style.top = e.clientY.toString() + 'px';
         document.addEventListener('mousemove', function onmousemove(e) {
             if (!draggedColumn) return false;
             draggedColumn.style.left = (e.clientX + 10).toString() + 'px';
-            draggedColumn.style.top = e.clientY.toString() + 'px';
+            //draggedColumn.style.top = e.clientY.toString() + 'px';
         });
         table.addEventListener('mouseout', function onmouseout(e) {
             if (e.target == this){
@@ -37,7 +56,7 @@ function DragColumn(table, dataArray, sortableGrid) {
                 document.removeEventListener('mouseup', drop);
             }
         });
-        table.appendChild(draggedColumn);
+        table.parentNode.appendChild(draggedColumn);
     }
 
     //onMouseUp
@@ -52,10 +71,6 @@ function DragColumn(table, dataArray, sortableGrid) {
         if ((!col2)&&(col2!=0)) return false;
         if (col1 == col2) return false;
 
-        //this if only is used with sortableGrid class
-        if (sortableGrid) {
-            sortableGrid.deleteAllArrows();
-        }
         that.swapTableColumns(col1, col2);
         that.swapArrayColumns(col1, col2);
     }
@@ -75,12 +90,15 @@ function DragColumn(table, dataArray, sortableGrid) {
             targetTable = table;
         }
 
-        var rowLength = targetTable.rows.length, i = 0, tempCell = 0;
+        var rowLength = targetTable.rows.length, i = 0;
 
         for (i; i < rowLength; i++) {
-            tempCell = targetTable.rows[i].cells[firstCol].innerHTML;
-            targetTable.rows[i].cells[firstCol].innerHTML = targetTable.rows[i].cells[secondCol].innerHTML;
-            targetTable.rows[i].cells[secondCol].innerHTML = tempCell;
+            var tempCellStyle1 = targetTable.rows[i].cells[firstCol].cloneNode(true);
+
+            var tempCellStyle2 = targetTable.rows[i].cells[secondCol].cloneNode(true);
+
+            targetTable.rows[i].cells[firstCol].parentNode.replaceChild(tempCellStyle2, targetTable.rows[i].cells[firstCol]);
+            targetTable.rows[i].cells[secondCol].parentNode.replaceChild(tempCellStyle1, targetTable.rows[i].cells[secondCol]);
         }
     };
 
@@ -89,7 +107,6 @@ function DragColumn(table, dataArray, sortableGrid) {
         if (!targetArray) {
             targetArray = dataArray;
         }
-        //here goes logic of swapping columns
         var rowLength = targetArray.length, i = 0, tempCell = 0;
 
         for (i; i < rowLength; i++) {
@@ -101,7 +118,7 @@ function DragColumn(table, dataArray, sortableGrid) {
 
     //binding events
     function bindEvents() {
-        table.addEventListener('mousedown', drag);
+        table.rows[0].addEventListener('mousedown', drag);
         console.log('binded');
     }
 

@@ -39,10 +39,5 @@
 }
 .dragged{
     position: fixed;
-    text-align: center;
-    border: 1px solid black;
-    width : 75px;
-    height: 20px;
-    top : 0px;
-    left: 0px;
+    display : block;
 }
