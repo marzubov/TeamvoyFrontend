@@ -1,8 +1,8 @@
 #Custom Select component
 
-Select is created with function createSelectByData of the class CustomSelect.
+Select is created with class CustomSelect.
 
-The arguments of this function are:
+The arguments of this class are:
 
 1. container (string) - The tag where select must be located, for example - document.getElementById("example");
 
@@ -16,7 +16,7 @@ The arguments of this function are:
 Example of using this function -
 
 ```javascript
-CustomSelect.createSelectByData(document.getElementById("one"), [1,2,3,4,5,6], {defaultOption: "data from array", idOfTag: "example1"});
-CustomSelect.createSelectByData(document.getElementById("four"), [{title: "option1", value: 1}, {title: "option2", value: 2}], {defaultOption: "data from array with objects", idOfTag: "example4"});
-CustomSelect.createSelectByData(document.getElementById("two"), "data_for_options/file1.json", {defaultOption: "data from file", idOfTag: "example2"});
+new CustomSelect(document.getElementById("one"), [1,2,3,4,5,6], {defaultOption: "data from array", idOfTag: "example1"});
+new CustomSelect(document.getElementById("four"), [{title: "option1", value: 1}, {title: "option2", value: 2}], {defaultOption: "data from array with objects", idOfTag: "example4"});
+new CustomSelect(document.getElementById("two"), "data_for_options/file1.json", {defaultOption: "data from file", idOfTag: "example2"});
 ```
