@@ -116,7 +116,7 @@
         var myConfig = this.config;
         this.rootElement.classList.add('custom-select');
         this.rootElement.childNodes[0].className = "selected";
-        this.rootElement.childNodes[1].className = "option";
+        this.rootElement.childNodes[1].classList.add("option");
         Array.prototype.forEach
                        .call(this.rootElement.childNodes, function (child) {
                 child.tabIndex = myConfig.tabIndex;
@@ -135,7 +135,8 @@
      */
     CustomSelect.prototype.addEventsForSelect = function () {
         var that = this;
-        this.rootElement.addEventListener('mousedown', function () {
+        this.rootElement.addEventListener('click', function () {
+            that.rootElement.childNodes[0].focus();
             that.rootElement.childNodes[0].classList.remove('keydown');
             that.changeDisplayForOptions();
         });
@@ -195,14 +196,17 @@
      * Open and hide select options
      */
     CustomSelect.prototype.changeDisplayForOptions = function () {
-        var sel = this.rootElement.querySelector(".option");
+        console.log("change");
+        var sel = this.rootElement.childNodes[1];
         if (sel.classList.contains("options-not-active")) {
             sel.classList.remove("options-not-active");
             sel.classList.add("options-active");
+            console.log("1");
         }
         else {
             sel.classList.remove("options-active");
             sel.classList.add("options-not-active");
+            console.log("2");
         }
     };
 
