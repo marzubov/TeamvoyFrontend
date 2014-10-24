@@ -108,7 +108,7 @@
                 tableString += '<tr><td>' + dataArray[i].join('</td><td>') + '</td></tr>';
             }
             tableString += '</tbody>';
-            root.innerHTML += tableString;
+            root.innerHTML = tableString;
 
             var headCells = root.querySelector('thead').querySelector('tr').querySelectorAll('td');
             headCells = Array.prototype.slice.call(headCells);
@@ -143,6 +143,7 @@
             }
 
             // When another cell clicked
+
             function deleteArrows() {
                 // CAN BE ZERO THEN TRUE
                 if (sortedColumn !== undefined) {
@@ -152,7 +153,9 @@
             }
 
             new RenderPager(pager, maxDataLength, that.goTo);
-            if (dataArray.length == maxDataLength) new DragColumn(root, dataArray);
+            if (dataArray.length == maxDataLength) {
+                new DragColumn(root, dataArray, that);
+            }
         }
 
         function xhrOnLoad(xhr) {
@@ -215,6 +218,10 @@
             return this;
         };
 
+        this.renderTable = function () {
+            return renderTable();
+        };
+
         this.getRoot = function () {
             return root
         };
@@ -223,12 +230,19 @@
             return dataArray;
         };
 
+        this.deleteAllArrows = function () {
+            var headCells = Array.prototype.slice.call(root.rows[0].cells);
+            headCells.forEach(function (el) {
+                el.classList.remove('desc');
+                el.classList.remove('asc');
+            });
+        };
+
         this.sort = function () {
             sortTable();
         };
 
         this.refresh = function (newDataArray, newConfig, newMaxRows) {
-            that = this;
             if (newDataArray) {
                 dataArray = newDataArray;
             }
@@ -238,16 +252,14 @@
             if (newMaxRows) {
                 maxRows = newMaxRows;
             }
-            if (dataArray === null) {
-                console.log('dataArray == null');
-                if (config.loadByParts) {
-                    getData(config.url, 0, maxRows);
-                } else {
-                    getData(config.url);
-                }
-            } else {
-                renderTable.call(this);
-            }
+
+            pager.innerHTML = "";
+            pager.className = "";
+            root.innerHTML = "";
+            pager.innerHTML = "";
+            if (dataArray.length == maxDataLength) renderTable(false);
+            else renderTable(true);
+            that.goTo(1);
         };
 
         init.call(this);

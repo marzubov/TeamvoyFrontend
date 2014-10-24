@@ -1,7 +1,7 @@
 /**
  * Created by MU on 10/24/14.
  */
-function DragColumn(table, dataArray) {
+function DragColumn(table, dataArray, sortableGrid) {
     var that, col1, col2, draggedColumn;
 
     //onMouseDown
@@ -51,6 +51,11 @@ function DragColumn(table, dataArray) {
         col2 = that.findColumnIndex(e.target);
         if ((!col2)&&(col2!=0)) return false;
         if (col1 == col2) return false;
+
+        //this if only is used with sortableGrid class
+        if (sortableGrid) {
+            sortableGrid.deleteAllArrows();
+        }
         that.swapTableColumns(col1, col2);
         that.swapArrayColumns(col1, col2);
     }
