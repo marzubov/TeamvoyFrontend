@@ -13,13 +13,7 @@
                 year: (new Date()).getFullYear(),
                 month: (new Date()).getMonth() + 1,
                 firstDayOfWeek: "sunday",
-                locale: "en",
-                dayEvents: [{
-                    year:(new Date()).getFullYear(),
-                    month:(new Date()).getMonth() + 1,
-                    day:(new Date()).getDate(),
-                    text:'Current day'
-                }]
+                locale: "en"
             };
         this.container = container;
         this.rootElement = {};
@@ -36,23 +30,18 @@
                         config[propName];
                 }
                 config.merge(value);
-                that.reDraw();
+                reDraw();
             }
         });
         Calendar.localizationCache = {};
 
         //public methods
+
         /**
-         * Generates new calendar. Config changes take effect
+         * Copy calendar to another container
+         * @param container {Object} - place where calendar will be inserted
          */
-        this.reDraw = function () {
-            generateCalendar();
-            renderTable();
-        };
-        /**
-         * Add element to childs of container
-         */
-        this.insertElement = function () {
+        this.insertElement = function (container) {
             container.appendChild(that.rootElement);
         };
 
@@ -63,7 +52,7 @@
             var today = new Date();
             config.month = today.getMonth() + 1;
             config.year = today.getFullYear();
-            this.reDraw();
+            reDraw();
         };
 
         /**
@@ -85,7 +74,7 @@
                     config.year--;
                 }
             }
-            this.reDraw();
+            reDraw();
         };
 
         init(properties);
@@ -181,12 +170,17 @@
             that.rootElement = document.createElement('table');
             config.merge(properties);
             if (Calendar.localizationCache[config.locale]) {
-                that.insertElement();
+                that.insertElement(that.container);
             }
             else {
                 ajaxRequest();
             }
 
+        }
+
+        function reDraw() {
+            generateCalendar();
+            renderTable();
         }
     };
 })(window, document);
