@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    var containerOne = document.getElementById("one")
+    var containerOne = document.getElementById("one");
 
 
     new CustomSelect(containerOne, [1, 2, 3, 4, 5, 6],

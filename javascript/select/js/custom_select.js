@@ -16,6 +16,7 @@
         this.containerForSelect = container;
         this.rootElement;
         this.config.merge(config);
+        this.createSelectByData();
         this.render();
 
     };
@@ -26,13 +27,10 @@
      * @param {string, array} options - The array of options or name of file, where options is located.
      * @param {object} config - default configuration for select
      */
-    CustomSelect.createSelectByData = function (container, data, config) {
-        if (typeof data == "string") {
-            var select = new CustomSelect(container, [], config);
-            var nameOfFile = data.substring(data.lastIndexOf("/") + 1, data.indexOf("."));
-            select.rootElement.classList.add(nameOfFile);
-            select.rootElement.setAttribute("data-tag", config.idOfTag);
+    CustomSelect.prototype.createSelectByData = function () {
+        if (typeof this.options == "string") {
             var oReq = new XMLHttpRequest();
+            var nameOfFile = this.options.substring(this.options.lastIndexOf("/") + 1, this.options.indexOf("."));
             oReq.onload = function () {
                 var options = JSON.parse(this.responseText);
                 var allSameFile = document.querySelectorAll("." + nameOfFile);
@@ -41,13 +39,9 @@
                     allSameFile[i].classList.remove(nameOfFile);
                 }
             }
-            oReq.open("POST", data, true);
+            oReq.open("POST", this.options, true);
             oReq.send();
         }
-        else {
-            var select = new CustomSelect(container, data, config);
-        }
-        return select;
     };
 
     /**
@@ -55,6 +49,11 @@
      */
     CustomSelect.prototype.render = function () {
         this.rootElement = document.createElement('div');
+        if (typeof this.options == "string") {
+            this.rootElement.classList.add(
+                this.options.substring(this.options.lastIndexOf("/") + 1, this.options.indexOf(".")));
+            this.rootElement.setAttribute("data-tag", this.config.idOfTag);
+        }
         this.rootElement.tabIndex = 0;
         var elementsOfSelect = document.createDocumentFragment();
         elementsOfSelect = document.createElement('span');
@@ -65,15 +64,18 @@
         elementsOfSelect = document.createElement("div");
         elementsOfSelect.tabIndex = 0;
         elementsOfSelect.classList.add("options-not-active");
-        for (var i = 0; i < this.options.length; i++) {
-            var option = document.createElement('div');
-            if (typeof this.options[i] == "object" ) { option.innerHTML = this.options[i].title; }
-            else option.innerHTML = this.options[i];
-            option.tabIndex = 0;
-            elementsOfSelect.appendChild(option);
+        if (typeof this.options != "string") {
+            for (var i = 0; i < this.options.length; i++) {
+                var option = document.createElement('div');
+                if (typeof this.options[i] == "object") {
+                    option.innerHTML = this.options[i].title;
+                }
+                else option.innerHTML = this.options[i];
+                option.tabIndex = 0;
+                elementsOfSelect.appendChild(option);
+            }
         }
         this.rootElement.appendChild(elementsOfSelect);
-
         this.addClassesForSelect();
         this.addEventsForSelect();
         this.containerForSelect.appendChild(this.rootElement);
@@ -85,7 +87,7 @@
      * @param {array} options - The array of options.
      */
     CustomSelect.updateOptions = function (myTagSelect, options, tag) {
-        var parentForOptions = myTagSelect.querySelector(".custom-option");
+        var parentForOptions = myTagSelect.querySelector(".option");
         while (parentForOptions.firstChild) {
             parentForOptions.removeChild(parentForOptions.firstChild);
         }
@@ -99,11 +101,10 @@
         Array.prototype.forEach
             .call(parentForOptions.childNodes, function (child) {
                 child.addEventListener('mousedown', function () {
-                    if (child.tagName != 'SPAN') {
+                    if (!child.classList.contains("selected")) {
                         myTagSelect.childNodes[0].innerHTML = this.innerHTML;
                         var image = document.createElement('img');
                         image.src = "css/down.png";
-                        image.classList.add("select-image");
                         myTagSelect.childNodes[0].appendChild(image);
                     }
                     if (typeof options[0] == "object") {
@@ -123,13 +124,12 @@
      */
     CustomSelect.prototype.addClassesForSelect = function () { //TODO: move to private (if possible).
         var myConfig = this.config;
-        this.rootElement.className = 'custom-select';
-        //this.rootElement.childNodes[0].innerHTML = ;
+        this.rootElement.classList.add('custom-select');
+        this.rootElement.childNodes[0].className = "selected";
+        this.rootElement.childNodes[1].className = "option";
         Array.prototype.forEach
-            .call(this.rootElement.childNodes, function (child) {
+                       .call(this.rootElement.childNodes, function (child) {
                 child.tabIndex = myConfig.tabIndex;
-                if (child.tagName == 'SPAN') return;
-                child.classList.add('custom-option');
             });
     };
 
@@ -146,7 +146,7 @@
         Array.prototype.forEach
             .call(this.rootElement.childNodes[1].childNodes, function (child) {
                 child.addEventListener('mousedown', function () {
-                    if (child.tagName != 'SPAN') {
+                    if (!child.classList.contains("selected")) {
                         this.parentNode.parentNode.childNodes[0].innerHTML = this.innerHTML;
                         that.addImageToSelectedElement(this.parentNode.parentNode.childNodes[0]);
                     }
@@ -175,7 +175,7 @@
         Array.prototype.forEach
             .call(this.rootElement.childNodes, function (child) {
                 child.addEventListener('blur', function () {
-                    var sel = that.rootElement.querySelector(".custom-option");
+                    var sel = that.rootElement.querySelector(".option");
                     sel.classList.remove("options-active");
                     sel.classList.add("options-not-active");
                 });
@@ -208,7 +208,7 @@
      * Open and hide select options
      */
     CustomSelect.prototype.changeDisplayForOptions = function () {
-        var sel = this.rootElement.querySelector(".custom-option");
+        var sel = this.rootElement.querySelector(".option");
         if (sel.classList.contains("options-not-active")) {
             sel.classList.remove("options-not-active");
             sel.classList.add("options-active");
@@ -222,7 +222,6 @@
     CustomSelect.prototype.addImageToSelectedElement = function (span) {
         var image = document.createElement('img');
         image.src = "css/down.png";
-        image.classList.add("select-image");
         span.appendChild(image);
     };
 
@@ -240,7 +239,7 @@
                 element.click();
                 break;
             case 38://up
-                if (element.tagName != 'SPAN') {
+                if (!child.classList.contains("selected")) {
                     this.getPreviousOption(e.target).focus();
                 }
                 else {
@@ -248,7 +247,7 @@
                 }
                 break;
             case 40://down
-                if (element.tagName != 'SPAN') {
+                if (!child.classList.contains("selected")) {
                     this.getNextOption(e.target).focus();
                 }
                 else {

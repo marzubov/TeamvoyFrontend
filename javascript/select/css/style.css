@@ -28,7 +28,7 @@ div {
     letter-spacing: 0.7px;
     text-shadow: 1px 1px 1px black;
 }
-.custom-select .custom-selected{
+.custom-select .selected{
     padding-left: 10px;
     width: 95%;
     height: 25px;
@@ -47,13 +47,13 @@ div {
     padding-top: 5px;
 }
 
-.custom-select .custom-selected .select-image {
+.custom-select .selected img {
     position: absolute;
     width: 20px;
     height: 20px;
     left: 85%;
 }
-.custom-select .custom-selected:hover, .custom-select .custom-selected:focus{
+.custom-select .selected:hover, .custom-select .selected:focus{
     background: rgb(169, 222, 140); /* Old browsers */
     background: -moz-linear-gradient(top,  rgba(169, 222, 140, 1) 0%, rgba(119, 153, 95,1) 44%, rgba(49, 98, 49,1) 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(169, 222, 140, 1)), color-stop(44%,rgba(119, 153, 95,1)), color-stop(100%,rgba(49, 98, 49,1))); /* Chrome,Safari4+ */
@@ -64,7 +64,7 @@ div {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c9de96', endColorstr='#398235',GradientType=0 ); /* IE6-9 */
     cursor: pointer;
 }
-.custom-select .custom-option{
+.custom-select .option{
     text-align: center;
     background: rgba(186, 207, 134, 0.70);
     display: none;
@@ -73,7 +73,7 @@ div {
     width: 240px;
     z-index: 1;
 }
-.custom-select .custom-option div:hover, .custom-select .custom-option div:hover{
+.custom-select .option div:hover, .select .option div:hover{
     background: #77995f;
     border:1px solid #316231;
     cursor: pointer;
