@@ -38,6 +38,15 @@
     user-select: none;
 }
 .dragged{
-    position: fixed;
-    display : block;
+    position: absolute;
+    outline: 3px dashed lightblue;
+    z-index: 1000;
+    opacity: 0.9;
+    pointer-events: none;
+}
+.dragged-shadow{
+    position: absolute;
+    background-color: lightgrey;
+    border: 1px solid black;
+    z-index: 999;
 }

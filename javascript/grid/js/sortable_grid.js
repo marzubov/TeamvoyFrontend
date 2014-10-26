@@ -1,7 +1,7 @@
 (function (global, document) {
     "use strict";
     global.SortableGrid = function SortableGrid(container, dataArray, config, maxRows) {
-        var root, pager, maxDataLength, pagesData = [], sortedColumn, pageIndex = 1, that;
+        var root, pager, maxDataLength, pagesData = [], sortedColumn, pageIndex = 1, that, draggable, filterable;
 
         function getData(url, start, end) {
             url += '/getdata';
@@ -154,7 +154,7 @@
 
             new RenderPager(pager, maxDataLength, that.goTo);
             if (dataArray.length == maxDataLength) {
-                new DragColumn(root, dataArray, that);
+                draggable = new Draggable(root, dataArray, that);
             }
         }
 
