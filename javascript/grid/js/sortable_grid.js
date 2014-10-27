@@ -89,13 +89,14 @@
         };
 
         function renderTable(sortable) {
-            // Make headers
 
+            // Make headers
             root.classList.add("table");
             root.classList.add("table-striped");
             root.classList.add("table-bordered");
 
             var tableString = '<thead><tr><td>' + config.headers.join('</td><td>') + '</td></thead>';
+
             // Make body
             tableString += '<tbody class="data-body ">';
             if (!maxRows) {
@@ -113,7 +114,7 @@
             var headCells = root.querySelector('thead').querySelector('tr').querySelectorAll('td');
             headCells = Array.prototype.slice.call(headCells);
             headCells.forEach(function (el) {
-                el.className += ' table-header';
+                el.classList.add('table-header');
                 if (!sortable) {
                     el.addEventListener('click', headClicked);
                 }
@@ -143,7 +144,6 @@
             }
 
             // When another cell clicked
-
             function deleteArrows() {
                 // CAN BE ZERO THEN TRUE
                 if (sortedColumn !== undefined) {
@@ -154,9 +154,21 @@
 
             new RenderPager(pager, maxDataLength, that.goTo);
             if (dataArray.length == maxDataLength) {
-                draggable = new Draggable(root, dataArray, that);
+                //draggable = new Draggable(root, dataArray);
+                //filterable = new Filterable(root, dataArray);
             }
         }
+
+        this.filter = function (e) {
+            var index = 0;
+            Array.prototype.slice.call(root.rows)
+                .forEach(function (row) {
+                    if (index == 0){index = 1; return;}
+                    var text = row.cells[1].textContent.toLowerCase(), val = e.target.value.toLowerCase();
+                    row.hidden = text.indexOf(val) == -1;
+                });
+            console.log('filtered');
+        };
 
         function xhrOnLoad(xhr) {
             var receivedText = xhr.responseText.split('__objectmaxlength__'),
@@ -189,7 +201,6 @@
                 changePageData(true);
             }
             //alert('Response from CORS request to' + url + ': ' + xhr.responseText);
-
             return(xhr.responseText);
         }
 
@@ -210,8 +221,6 @@
             } else {
                 renderTable.call(this);
             }
-
-
         }
 
         this.getCreatedElement = function () {
@@ -264,4 +273,9 @@
 
         init.call(this);
     };
+    SortableGrid.prototype = new EventMachine();
+    SortableGrid.functions = {change: "",
+    click: "sadasdsa"
+    };
+
 })(window, document);

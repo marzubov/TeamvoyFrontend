@@ -12,43 +12,58 @@
         document.addEventListener('mouseup', drop);
         table.classList.add('.noselect');
         col1 = that.findColumnIndex(e.target);
-        renderDraggedColumn(e);
+        render(e);
         previousPos = e.clientX;
         e.preventDefault();
         return false;
     }
 
     //rendering dragged column
-    function renderDraggedColumn(e) {
+    function render() {
+
+        //current position
+        var currentPosition = findPos(table.rows[0].cells[col1]);
+
+        //saving current position of the mouse
+        previousPos = currentPosition.left.toString();
+
+        //rendering dragged column and its shadow
+        renderDraggedColumn(currentPosition);
+        renderDraggedShadow(currentPosition);
+
+        //adding mouse move event to the table
+        table.addEventListener('mousemove', onMouseMove);
+    }
+
+    function renderDraggedColumn(currentPosition){
         var cellIndex;
 
         //cloning table, and removing unnecessary columns
         draggedColumn = table.cloneNode(true);
-        
-        Array.prototype.slice.call(draggedColumn.rows)
-        .forEach(function (el) {
-            cellIndex = 0;
-            Array.prototype.slice.call(el.cells)
-            .forEach(function (el1) {
-                if (cellIndex != col1){
-                    el.removeChild(el1);
-                }
-                cellIndex++;
-            });
 
-        });
+        Array.prototype.slice.call(draggedColumn.rows)
+            .forEach(function (el) {
+                cellIndex = 0;
+                Array.prototype.slice.call(el.cells)
+                    .forEach(function (el1) {
+                        if (cellIndex != col1){
+                            el.removeChild(el1);
+                        }
+                        cellIndex++;
+                    });
+
+            });
 
         //styling dragged column
         draggedColumn.classList.add('dragged');
         draggedColumn.classList.add('column');
         draggedColumn.style.width = (table.rows[0].cells[col1].offsetWidth+'px');
-        var currentPosition = findPos(table.rows[0].cells[col1]);
         draggedColumn.style.top = currentPosition.top.toString() + 'px';
         draggedColumn.style.left = currentPosition.left.toString() + 'px';
         table.appendChild(draggedColumn);
+    }
 
-        //saving current position of the mouse
-        previousPos = currentPosition.left.toString();
+    function renderDraggedShadow(currentPosition){
 
         //creating and styling dragged column shadow
         draggedShadow = document.createElement('div');
@@ -58,13 +73,9 @@
         draggedShadow.style.top = currentPosition.top.toString() + 'px';
         draggedShadow.style.left = currentPosition.left.toString() + 'px';
         table.appendChild(draggedShadow);
-
-        //adding mouse move event to the table
-        table.addEventListener('mousemove', onMouseMove);
     }
 
-    function onMouseMove(e)
-    {
+    function onMouseMove(e){
         if (!draggedColumn) return false;
         var newPos = draggedColumn.offsetLeft - previousPos;
         newPos += e.clientX;

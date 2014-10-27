@@ -2,11 +2,11 @@
     cursor: pointer;
 }
 
-.table-header.desc:after {
+.table-header.desc:before {
     content: url(img/arrow_up.png);
 }
 
-.table-header.asc:after {
+.table-header.asc:before {
     content: url(img/arrow_down.png);
 }
 
@@ -37,6 +37,7 @@
     -ms-user-select: none;
     user-select: none;
 }
+
 .dragged{
     position: absolute;
     outline: 3px dashed lightblue;
@@ -44,9 +45,27 @@
     opacity: 0.9;
     pointer-events: none;
 }
+
 .dragged-shadow{
     position: absolute;
     background-color: lightgrey;
     border: 1px solid black;
     z-index: 999;
+}
+
+.filterable{
+    position: relative;
+    display: none;
+    z-index:1000;
+    /*margin-top: -22px;*/
+    /*margin-left: -7px;*/
+    width: 100%;
+    margin: auto;
+    border: none;
+    text-align: center;
+    outline: 1px solid lightblue;
+}
+
+.filterable-active{
+   display: block;
 }
