@@ -132,13 +132,10 @@
         var rowLength = targetTable.rows.length, i = 0;
 
         for (i; i < rowLength; i++) {
-            var tempCellStyle1 = targetTable.rows[i].cells[firstCol].cloneNode(true);
-
-            var tempCellStyle2 = targetTable.rows[i].cells[secondCol].cloneNode(true);
-
-            targetTable.rows[i].cells[firstCol].parentNode.replaceChild(tempCellStyle2, targetTable.rows[i].cells[firstCol]);
-            targetTable.rows[i].cells[secondCol].parentNode.replaceChild(tempCellStyle1, targetTable.rows[i].cells[secondCol]);
+            targetTable.rows[i].cells[firstCol].parentNode.insertBefore(targetTable.rows[i].cells[firstCol],targetTable.rows[i].cells[secondCol]);
         }
+
+
     };
 
     //swapping array columns
