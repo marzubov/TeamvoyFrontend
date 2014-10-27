@@ -20,7 +20,6 @@
                     date: new Date()
                 }]
             };
-
         Calendar.localizationCache = {};
         this.container = container;
         this.rootElement = {};
@@ -37,6 +36,9 @@
                     value[propName] = value[propName] ?
                         value[propName] :
                         config[propName];
+                }
+                if(value['month']!=config['month']){
+                    that.trigger('onMonthChanged');
                 }
                 config.merge(value);
                 render();
@@ -109,7 +111,7 @@
             });
             tableString += '<tbody>';
             that.rootElement.innerHTML = tableString;
-            setEvents();
+
         }
 
         function ajaxRequest() {
@@ -122,10 +124,9 @@
 
         function setEvents() {
             that.rootElement
-                .querySelector('.caption')
                 .addEventListener('click', function(e){
-                    if (e.target.classList.contains('calendar-button')){
-                        e.target.classList.contains('asc') ? config.month++ : config.month--;
+                    if (e.explicitOriginalTarget.classList.contains('calendar-button')){
+                        e.explicitOriginalTarget.classList.contains('asc') ? config.month++ : config.month--;
                         if(config.month > 12){
                             config.year++;
                             config.month = 1;
@@ -134,10 +135,9 @@
                             config.year--;
                             config.month = 12;
                         }
-                        that.trigger('calendarClick');
+                        that.trigger('onMonthChanged');
                         render();
                     }
-
                 });
 
 
@@ -165,6 +165,7 @@
                     container.appendChild(that.rootElement);
                 };
             }
+            setEvents();
         }
     };
     Calendar.prototype = new EventMachine();

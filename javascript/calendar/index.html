@@ -30,6 +30,13 @@
     <h3>Methods</h3>
     <ul>
         <li><code>myCalendar.showToday();</code> - set calendar config to show current day;</li>
+        <li><code>myCalendar.on(eventName,callback);</code> - add new function to event listener;</li>
+        <li><code>myCalendar.off(eventName,callback);</code> - remove function from event listener;</li>
+        <li><code>myCalendar.trigger(eventName);</code> - call event.</li>
+    </ul>
+    <h3>Event List</h3>
+    <ul>
+        <li>onMonthChanged - occur when config month data changed</li>
     </ul>
     <h2>Example</h2>
     <span>Default calendar:</span><br>
@@ -45,6 +52,7 @@
 
     </div>
     <aside class="col-xs-4">
+        <label>Month Changed: <span id="eventCount"></span> </label>
         <input class="year" type="text" placeholder="Some year..">
         <input class="month" type="text" placeholder="Some month..">
         <label>
