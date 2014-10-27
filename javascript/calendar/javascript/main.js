@@ -3,13 +3,10 @@ var secondContainer = document.getElementById('secondCalendar');
 
 var firstCalendar = new Calendar(firstContainer);
 var secondCalendar = new Calendar(secondContainer,{year: 2014, month: 5, firstDayOfWeek: "monday", locale: "ua"});
-
 firstCalendar.rootElement.classList.add('table');
 firstCalendar.rootElement.classList.add('table-striped');
 secondCalendar.rootElement.classList.add('table');
 secondCalendar.rootElement.classList.add('table-striped');
-
-//document.querySelector('.what-year').onclick= function(){
 
 document.querySelector('.btn').onclick = function () {
     var newConfig = {};

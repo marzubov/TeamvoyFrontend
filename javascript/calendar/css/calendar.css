@@ -1,14 +1,15 @@
 .calendar{
 }
-.calendar caption span{
+.calendar .caption{
     font-size: 20px;
 }
 .calendar tr:nth-child(1){
     font-weight: bold;
 }
-.calendar .calendar-today{
+.calendar .calendar-event{
     border: 1px solid crimson;
     padding: 2px;
+    cursor: pointer;
 }
 .calendar .calendar-button {
     border: none;

@@ -19,8 +19,11 @@
                     date: new Date()
                 }]
             };
+        Calendar.localizationCache = {};
         this.container = container;
         this.rootElement = {};
+        init();
+
         //getter setter
         Object.defineProperty(this, "config", {
             get: function () {
@@ -34,21 +37,9 @@
                         config[propName];
                 }
                 config.merge(value);
-                reDraw();
+                render();
             }
         });
-
-        Calendar.localizationCache = {};
-
-        //public methods
-
-        /**
-         * Copy calendar to another container
-         * @param container {Object} - place where calendar will be inserted
-         */
-        this.insertElement = function (container) {
-            container.appendChild(that.rootElement);
-        };
 
         /**
          * Show current day in calendar
@@ -57,50 +48,23 @@
             var today = new Date();
             config.month = today.getMonth() + 1;
             config.year = today.getFullYear();
-            reDraw();
+            render();
         };
-
-        /**
-         * Set month to next or previous
-         * @param direction. If direction>0 take next month else previous
-         */
-        this.nextMonth = function (direction) {
-            if (direction > 0) {
-                config.month++;
-                if (config.month > 12) {
-                    config.month = 1;
-                    config.year++;
-                }
-            }
-            else {
-                config.month--;
-                if (config.month < 1) {
-                    config.month = 12;
-                    config.year--;
-                }
-            }
-            reDraw();
-        };
-
-        init(properties);
-        //private methods
 
         function generateCalendar() {
             var dataMonth = Calendar.localizationCache[config.locale],
                 i, date = new Date(config.year, config.month - 1), month, monthPrefix,
                 lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
                 firstDayWeek = new Date(date.getFullYear(), date.getMonth(), 1).getDay(),
-                myMonth = ["january", "february", "march", "april", "may", "june",
-                    "july", "august",
-                    "september", "october",
-                    "november", "december"],
+                myMonth = ["january", "february", "march", "april", "may", "june", "july", "august",
+                    "september", "october", "november", "december"],
                 myDays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"],
                 indexOfStartDay, days = [];
             indexOfStartDay = myDays.indexOf(config.firstDayOfWeek);
             model.chosenMonth = dataMonth.month[myMonth[config.month - 1]];
-            for (i = 0; i < myDays.length; i += 1) {
-                days[i] = dataMonth.daysOfWeek[myDays[i]];
-            }
+            myDays.forEach(function(el,i){
+                days[i] = dataMonth.daysOfWeek[el];
+            });
             model.arrayOfDays = [];
             days = days.slice(indexOfStartDay, 7).concat(days.slice(0, indexOfStartDay));
             model.arrayOfDays.push(days);
@@ -113,6 +77,19 @@
             for (i = 0; i < month.length; i += 7) {
                 model.arrayOfDays.push(month.slice(i, i + 7));
             }
+            markDayEvents();
+        }
+
+        function markDayEvents(){
+            config.dayEvents.forEach(function(dEvent){
+                if(dEvent.date.getFullYear() === config.year &&
+                    dEvent.date.getMonth()+1 === config.month){
+                    model.arrayOfDays.forEach(function(week){
+                        week[week.indexOf(dEvent.date.getDate())] = '<span data-message="'+ dEvent.message +'" class="calendar-event">'
+                            + week[week.indexOf(dEvent.date.getDate())] + '<span>';
+                    });
+                }
+            })
         }
 
         function renderTable() {
@@ -120,7 +97,7 @@
             var tableString = '',
                 td;
             //make caption
-            tableString += '<caption><button class="calendar-button desc"></button><span>'
+            tableString += '<caption class="caption"><button class="calendar-button desc"></button><span>'
                 + (model.chosenMonth + ' ' + config.year)
                 + '</span><button class="calendar-button asc"></button></caption>';
             //make body
@@ -136,39 +113,53 @@
         function ajaxRequest() {
             var oReq = new XMLHttpRequest();
             Calendar.localizationCache[config.locale] = XMLHttpRequest;
-            oReq.onload = function () {
-                Calendar.localizationCache[config.locale] = JSON.parse(this.responseText);
-                generateCalendar();
-                renderTable();
-                that.container.appendChild(that.rootElement);
-            };
             oReq.open("post", "localization/" + config.locale + ".json", true);
             oReq.send(null);
+            return oReq;
         }
 
         function setEvents() {
-            var tableCaption = that.rootElement.querySelector('caption');
-            tableCaption.addEventListener('click', function (e) {
-                if (e.target.classList.contains('calendar-button'))
-                    e.target.classList.contains('asc') ?
-                        that.nextMonth(1) : that.nextMonth(-1);
+            that.rootElement
+                .querySelector('.caption')
+                .addEventListener('click',
+                function (e) {
+                if (e.target.classList.contains('calendar-button')){
+                    e.target.classList.contains('asc') ? config.month++ : config.month--;
+                    if(config.month > 12){
+                        config.year++;
+                        config.month = 1;
+                    }
+                    else if(config.month < 1){
+                        config.year--;
+                        config.month = 12;
+                    }
+                    render();
+                }
             });
+           Array.prototype.slice.call(that.rootElement.querySelectorAll('.calendar-event'))
+                .forEach(function(el){
+                    el.addEventListener('mouseover', function(){
+                        console.log(el.dataset.message);
+                    })
+                })
         }
 
-        function init(properties) {
-            that.rootElement = document.createElement('table');
-            config.merge(properties);
-            if (Calendar.localizationCache[config.locale]) {
-                that.insertElement(that.container);
-            }
-            else {
-                ajaxRequest();
-            }
-        }
-
-        function reDraw() {
+        function render() {
             generateCalendar();
             renderTable();
+        }
+
+        function init(){
+            that.rootElement = document.createElement('table');
+            config.merge(properties);
+            if (!Calendar.localizationCache[config.locale]) {
+                ajaxRequest()
+                    .onload = function () {
+                    Calendar.localizationCache[config.locale] = JSON.parse(this.responseText);
+                    render();
+                    container.appendChild(that.rootElement);
+                };
+            }
         }
     };
 })(window, document);
