@@ -1,24 +1,82 @@
-﻿td {
-    height: 30px;
-    width: 65px;
+﻿table{
+width: 100%;
 }
-.side-menu {
-    position: absolute;
+.search{
+width: 100%;
+}
+body{
+margin-left: 100px;
+}
+td{
+height: 40px;
 }
 .content {
-    position: absolute;
-    margin-left: 200px;
     empty-cells:show;
-
 }
-.menu {
-    text-align: right;
+menu{
+margin: 0;
 }
 .logo {
     height: 35px;
     width: 90px;
 }
-.search-input {
-    width: 40%;
-    margin-left: 30px;
+.colum-1{
+float: left;
+width: 80px;
+min-height: 1px;
+}
+.colum-2{
+float: left;
+width: 160px;
+min-height: 1px;
+}
+.colum-3{
+float: left;
+width: 240px;
+min-height: 1px;
+}
+.colum-4{
+float: left;
+width: 320px;
+min-height: 1px;
+}
+.colum-5{
+float: left;
+width: 400px;
+min-height: 1px;
+}
+.colum-6{
+float: left;
+width: 480px;
+min-height: 1px;
+}
+.colum-7{
+float: left;
+width: 560px;
+min-height: 1px;
+}
+.colum-8{
+float: left;
+width: 640px;
+min-height: 1px;
+}
+.colum-9{
+float: left;
+width: 720px;
+min-height: 1px;
+}
+.colum-10{
+float: left;
+width: 800px;
+min-height: 1px;
+}
+.colum-11{
+float: left;
+width: 880px;
+min-height: 1px;
+}
+.colum-12{
+float: left;
+width: 960px;
+min-height: 1px;
 }
