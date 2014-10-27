@@ -3,123 +3,241 @@
     <head>
         <title>GitHub</title>
         <meta charset="UTF-8">
+        <!-- Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+
+        <script src="js/less-1.7.5.min.js"></script>
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
     </head>
     <body>
         <section>
             <header>
-                <figure>
-                    <img src="logo.src" alt="logotype">
-                </figure>
-                <form>
-                    <input type="search">
-                    <input type="submit" value="Search">
-                </form>
-                <nav id="mainMenu">
-                    <ul>
-                        <li><a href="#">Explore</a></li>
-                        <li><a href="#">Gist</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Help</a></li>
-                    </ul>
-                </nav>
-                <figure>
-                    <img src="avatar.src" alt="avatar">
-                    <figcaption>TetianaStoyko</figcaption>
-                </figure>
-                <nav id="ToolBar">
-                    <ul>
-                        <li><img src="create_new.png"></li>
-                        <li><img src="notifications.png"></li>
-                        <li><img src="settings.png"></li>
-                        <li><img src="sign_out.png"></li>
-                    </ul>
-                </nav>
+                <div class="container-fluid header">
+                    <div class="container">
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1">
+                            <figure>
+                                <img class="logo" src="images/logo.png" alt="logotype">
+                            </figure>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <form>
+                                <div class="input-group">
+                                    <span class="input-group-addon">In repository</span>
+                                    <input type="search" class="form-control" placeholder="Search">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <nav id="mainMenu">
+                                <ul class="nav nav-pills">
+                                    <li><a href="#">Explore</a></li>
+                                    <li><a href="#">Gist</a></li>
+                                    <li><a href="#">Blog</a></li>
+                                    <li><a href="#">Help</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="col-lg-3 col-md-3">
+                        <figure>
+                            <span class="glyphicon glyphicon-user avatar"></span>
+                            <figcaption>TetianaStoyko</figcaption>
+                        </figure>
+                        <nav id="ToolBar">
+                            <ul class="nav nav-pills">
+                                <li><span class="glyphicon glyphicon-plus"></span></li>
+                                <li><span class="glyphicon glyphicon-inbox"></span></li>
+                                <li><span class="glyphicon glyphicon-wrench"></span></li>
+                                <li><span class="glyphicon glyphicon-log-out"></span></li>
+                            </ul>
+                        </nav>
+                        </div>
+                    </div>
+                    </div>
+                </div>
             </header>
         </section>
         <section class="path-to-repository">
-            <aside>
-                <figure>
-                    <img src="icon-repository.png">
-                </figure>
-                <h1>User's name / <b>Name of repository</b></h1>
-                <form name="marks">
-                    <select>
-                        <option>Not watching</option>
-                        <option>Watching</option>
-                        <option>Ignoring</option>
-                    </select>
-                    <input type="button" name="star">
-                    <input type="button" name="fork">
-                </form>
-            </aside>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="container">
+                        <div class="col-lg-7 col-md-7">
+                            <figure>
+                                <span class="glyphicon glyphicon-book repository"></span>
+                            </figure>
+                            <h3><a href="#">User's name</a> / <a href="#"><b>Name of repository</b></a></h3>
+                        </div>
+                        <div class="col-lg-5 col-md-5">
+                            <form name="marks" class="marks">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                    Unwatch
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">Dropdown link</a></li>
+                                    <li><a href="#">Dropdown link</a></li>
+                                </ul>
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button">0</button>
+                                    </span>
+                                    <button type="button" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        Star
+                                    </button>
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button">7</button>
+                                    </span>
+                                    <button type="button" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-random"></span>
+                                       Fork
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
         <section id="content">
-            <aside>
-                <nav id="actionInRepository">
-                    <ul>
-                        <li><a href="#">Commits</a></li>
-                        <li><a href="#">Branch</a></li>
-                        <li><a href="#">Releases</a></li>
-                        <li><a href="#">Contributors</a></li>
-                    </ul>
-                </nav>
-                <form id="branch">
-                    <button><img src="compareRequest.png"></button>
-                    <select>
-                        <option><input type="search" id="searchBranch"></option>
-                        <option>Master</option>
-                    </select>
-                    <h1><b>Name of repository</b></h1>
-                </form>
-                <table id="workSpace">
-                    <tr>
-                        <td colspan="3">workspace</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">Latest commit</td>
-                    </tr>
-                    <tr>
-                        <td>Folder</td>
-                        <td>Commit</td>
-                        <td>Hours</td>
-                    </tr>
-                </table>
-            </aside>
-            <aside id="rightPanel">
-                <nav id="actionWithFolder">
-                    <ul>
-                        <li><a href=""><img src="code.png">Code</a></li>
-                        <li><a href=""><img src="issues.png">Issues</a></li>
-                        <li><a href=""><img src="pull.png">Pull requests</a></li>
-                        <li><a href=""><img src="wiki.png">Wiki</a></li>
-                        <li><a href=""><img src="pulse.png">Pulse</a></li>
-                        <li><a href=""><img src="graphs.png">Graphs</a></li>
-                    </ul>
-                </nav>
-                <article>
-                    <p>HTTP clone URL:</p>
-                    <form id="forClone">
-                        <input type="text">
-                        <button><img src="copyclonepath.png"></button>
-                        <label>You can clone with HTTPS, SSH</label>
-                        <button><img src="clone.png">Clone to desktop</button>
-                        <button><img src="download.png">Download ZIP</button>
-                    </form>
-                </article>
-            </aside>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9 col-md-9">
+                        <aside>
+                            <nav id="actionInRepository">
+                                <ul class="nav nav-pills text-center">
+                                    <li><a href="#">0 Commits</a></li>
+                                    <li><a href="#">91Branch</a></li>
+                                    <li><a href="#">1 Releases</a></li>
+                                    <li><a href="#">4 Contributors</a></li>
+                                </ul>
+                            </nav>
+                            <form id="branch">
+                                <button type="button" class="btn btn-success">
+                                    <span class="glyphicon glyphicon-retweet"></span>
+                                </button>
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    Branch: master
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">Dropdown link</a></li>
+                                    <li><a href="#">Dropdown link</a></li>
+                                </ul>
+                                <h4><b><a href="">Name of repository</a></b></h4>
+                            </form>
+                            <table class="table table-bordered" id="workSpace">
+                                <tr class="info">
+                                    <td colspan="3">workspace</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">TetianaStoyko, 5 hours ago</td>
+                                    <td>Latest commit</td>
+                                </tr>
+                                <tr class="active">
+                                    <td>Folder</td>
+                                    <td>Commit</td>
+                                    <td>Hours</td>
+                                </tr>
+                                <tr class="active">
+                                    <td>Folder</td>
+                                    <td>Commit</td>
+                                    <td>Hours</td>
+                                </tr>
+                            </table>
+                            <div class="readme">
+                                <div class="row">
+                                    <div class="col-lg-9 col-md-9">
+                                        We recommed add the readme to this repository to help give people an overview of your project.
+                                    </div>
+                                    <div class="col-lg-3 col-md-3">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <aside id="rightPanel">
+                            <nav id="actionWithFolder">
+                                <div class="btn-group-vertical">
+                                    <button type="button" class="btn btn-default">Code</button>
+                                    <button type="button" class="btn btn-default">Issues</button>
+                                    <button type="button" class="btn btn-default">Pull requests</button>
+                                    <button type="button" class="btn btn-default">Wiki</button>
+                                    <button type="button" class="btn btn-default">Pulse</button>
+                                    <button type="button" class="btn btn-default">Graphs</button>
+                                </div>
+                            </nav>
+                            <article>
+                                <p>HTTPs clone URL:</p>
+                                <form id="forClone">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control">
+                                        <span class="input-group-btn">
+                                           <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-save"></span></button>
+                                        </span>
+                                    </div>
+                                    <label>You can clone with HTTPS, SSH</label>
+                                    <button class="btn btn-default" type="button">
+                                        <span class="glyphicon glyphicon-download-alt"></span> Clone to desktop
+                                    </button>
+                                    <button class="btn btn-default" type="button">
+                                        <span class="glyphicon glyphicon-saved"></span> Download ZIP
+                                    </button>
+                                </form>
+                            </article>
+                        </aside>
+                    </div>
+                </div>
+            </div>
         </section>
         <section>
             <footer>
-                <p>CopyRigth 2014</p>
-                <nav id="footerMenu">
-                    <ul>
-                        <li><a href="#">Terms</a></li>
-                        <li><a href="#">Privacy</a></li>
-                        <li><a href="#">Security</a></li>
-                        <li><a href="#">Contacts</a></li>
-                    </ul>
-                </nav>
+                <div class="container footer">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5">
+                            <p>&copy; CopyRigth 2014</p>
+                            <nav class="footerMenu">
+                                <ul class="nav nav-pills">
+                                    <li><a href="#">Terms</a></li>
+                                    <li><a href="#">Privacy</a></li>
+                                    <li><a href="#">Security</a></li>
+                                    <li><a href="#">Contacts</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="col-lg-2 col-md-2 text-center">
+                            <figure>
+                                <img class="logo" src="images/logo.png" alt="logotype">
+                            </figure>
+                        </div>
+                        <div class="col-lg-5 col-md-5">
+                            <nav class="footerMenu">
+                                <ul class="nav nav-pills">
+                                    <li><a href="#">Terms</a></li>
+                                    <li><a href="#">Privacy</a></li>
+                                    <li><a href="#">Security</a></li>
+                                    <li><a href="#">Contacts</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
             </footer>
         </section>
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="js/bootstrap.min.js"></script>
     </body>
 </html>
