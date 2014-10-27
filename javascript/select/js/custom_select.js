@@ -59,11 +59,16 @@
         this.rootElement.tabIndex = 0;
         var elementsOfSelect = document.createDocumentFragment();
         elementsOfSelect = document.createElement('span');
+        //elementsOfSelect.classList.add("btn"); elementsOfSelect.classList.add("btn-default");
+        //elementsOfSelect.classList.add("dropdown-toggle");
+        //elementsOfSelect.setAttribute("id", "dropdown-menu1");
         elementsOfSelect.innerHTML = this.config.defaultOption;
         elementsOfSelect.tabIndex = 0;
         this.addImageToSelectedElement(elementsOfSelect);
         this.rootElement.appendChild(elementsOfSelect);
         elementsOfSelect = document.createElement("div");
+        //elementsOfSelect.classList.add("dropdown-menu");
+        //elementsOfSelect.setAttribute("aria-labelledby", "dropdown-menu1");
         elementsOfSelect.tabIndex = 0;
         elementsOfSelect.classList.add("options-not-active");
         if (typeof this.options != "string") {
@@ -117,7 +122,7 @@
     CustomSelect.prototype.addClassesForSelect = function () { //TODO: move to private (if possible).
         var myConfig = this.config;
         this.rootElement.classList.add('custom-select');
-        this.rootElement.childNodes[0].className = "selected";
+        this.rootElement.childNodes[0].classList.add("selected");
         this.rootElement.childNodes[1].classList.add("option");
         Array.prototype.forEach
                        .call(this.rootElement.childNodes, function (child) {

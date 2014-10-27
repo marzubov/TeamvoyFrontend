@@ -44,6 +44,7 @@
     selectTestInstance.on("change", function() { console.log("Hello"); });
     selectTestInstance.on("change", function() { console.log("1111111"); });
     selectTestInstance.off("change", function() { console.log("Hello"); });
+    selectTestInstance.trigger("change");
 
 
     console.log(selectTestInstance.getValue());
