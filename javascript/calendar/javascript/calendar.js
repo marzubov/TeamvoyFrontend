@@ -6,6 +6,7 @@
      * @param properties - Optional. Config object, has such fields like: year, month, firstDayOfWeek, locale, output
      * @constructor
      */
+
     window.Calendar = function (container, properties) {
         var that = this,
             model = {},
@@ -19,6 +20,7 @@
                     date: new Date()
                 }]
             };
+
         Calendar.localizationCache = {};
         this.container = container;
         this.rootElement = {};
@@ -121,21 +123,24 @@
         function setEvents() {
             that.rootElement
                 .querySelector('.caption')
-                .addEventListener('click',
-                function (e) {
-                if (e.target.classList.contains('calendar-button')){
-                    e.target.classList.contains('asc') ? config.month++ : config.month--;
-                    if(config.month > 12){
-                        config.year++;
-                        config.month = 1;
+                .addEventListener('click', function(e){
+                    if (e.target.classList.contains('calendar-button')){
+                        e.target.classList.contains('asc') ? config.month++ : config.month--;
+                        if(config.month > 12){
+                            config.year++;
+                            config.month = 1;
+                        }
+                        else if(config.month < 1){
+                            config.year--;
+                            config.month = 12;
+                        }
+                        that.trigger('calendarClick');
+                        render();
                     }
-                    else if(config.month < 1){
-                        config.year--;
-                        config.month = 12;
-                    }
-                    render();
-                }
-            });
+
+                });
+
+
            Array.prototype.slice.call(that.rootElement.querySelectorAll('.calendar-event'))
                 .forEach(function(el){
                     el.addEventListener('mouseover', function(){
@@ -162,4 +167,5 @@
             }
         }
     };
+    Calendar.prototype = new EventMachine();
 })(window, document);

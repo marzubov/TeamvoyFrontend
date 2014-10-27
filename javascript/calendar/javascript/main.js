@@ -16,3 +16,7 @@ document.querySelector('.btn').onclick = function () {
     newConfig.locale=document.querySelector('.locale').value;
     secondCalendar.config = newConfig;
 };
+
+firstCalendar.on('calendarClick',function(){
+    console.log('It`s Alive!!');
+});

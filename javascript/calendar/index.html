@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="css/calendar.css"/>
     <link rel="stylesheet" href="css/bootstrap.css"/>
     <link rel="stylesheet" href="css/style.css"/>
+    <script src="javascript/event_machine.js"></script>
     <script src="javascript/calendar.js"></script>
     <script src="javascript/helper.js"></script>
 </head>
@@ -29,9 +30,6 @@
     <h3>Methods</h3>
     <ul>
         <li><code>myCalendar.showToday();</code> - set calendar config to show current day;</li>
-        <li><code>myCalendar.nextMonth(direction);</code> - show next/previous month,
-            if month>12 take next year. If direction >0 take next else take previous;</li>
-        <li><code>myCalendar.insertElement(container);</code> - Copy created calendar to another container</li>
     </ul>
     <h2>Example</h2>
     <span>Default calendar:</span><br>
@@ -51,8 +49,8 @@
         <input class="month" type="text" placeholder="Some month..">
         <label>
             <select class="firstDayOfWeek">
-                <option>monday</option>
                 <option>sunday</option>
+                <option>monday</option>
                 <option>tuesday</option>
                 <option>wednesday</option>
                 <option>thursday</option>
