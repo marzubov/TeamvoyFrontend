@@ -21,6 +21,8 @@
 
     };
 
+    CustomSelect.prototype = new EventMachine();
+
     /**
      * get data from file or array and create custom select based on this data
      * @param {string} container - The tag where select must be located.
@@ -257,5 +259,4 @@
                             substring(0, this.rootElement.childNodes[0].innerHTML.indexOf("<img"));
         return nameOfFile;
     };
-
 })(window, document);

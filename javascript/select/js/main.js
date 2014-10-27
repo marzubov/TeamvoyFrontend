@@ -41,6 +41,10 @@
             idOfTag: "example5"
         }
     );
+    selectTestInstance.on("change", function() { console.log("Hello world"); });
+    selectTestInstance.on("change", function() { console.log("I'm Tanya"); });
+    selectTestInstance.off("change", function() { console.log("Hello world"); });
+
 
     console.log(selectTestInstance.getValue());
 })()
