@@ -1,7 +1,7 @@
 (function (global, document) {
     "use strict";
     global.SortableGrid = function SortableGrid(container, dataArray, config, maxRows) {
-        var root, pager, maxDataLength, pagesData = [], sortedColumn, pageIndex = 1, that;
+        var root, pager, maxDataLength, pagesData = [], sortedColumn, pageIndex = 1, that, draggable, filterable;
 
         function getData(url, start, end) {
             url += '/getdata';
@@ -89,13 +89,14 @@
         };
 
         function renderTable(sortable) {
-            // Make headers
 
+            // Make headers
             root.classList.add("table");
             root.classList.add("table-striped");
             root.classList.add("table-bordered");
 
             var tableString = '<thead><tr><td>' + config.headers.join('</td><td>') + '</td></thead>';
+
             // Make body
             tableString += '<tbody class="data-body ">';
             if (!maxRows) {
@@ -108,12 +109,12 @@
                 tableString += '<tr><td>' + dataArray[i].join('</td><td>') + '</td></tr>';
             }
             tableString += '</tbody>';
-            root.innerHTML += tableString;
+            root.innerHTML = tableString;
 
             var headCells = root.querySelector('thead').querySelector('tr').querySelectorAll('td');
             headCells = Array.prototype.slice.call(headCells);
             headCells.forEach(function (el) {
-                el.className += ' table-header';
+                el.classList.add('table-header');
                 if (!sortable) {
                     el.addEventListener('click', headClicked);
                 }
@@ -152,8 +153,22 @@
             }
 
             new RenderPager(pager, maxDataLength, that.goTo);
-            if (dataArray.length == maxDataLength) new DragColumn(root, dataArray);
+            if (dataArray.length == maxDataLength) {
+                //draggable = new Draggable(root, dataArray);
+                //filterable = new Filterable(root, dataArray);
+            }
         }
+
+        this.filter = function (e) {
+            var index = 0;
+            Array.prototype.slice.call(root.rows)
+                .forEach(function (row) {
+                    if (index == 0){index = 1; return;}
+                    var text = row.cells[1].textContent.toLowerCase(), val = e.target.value.toLowerCase();
+                    row.hidden = text.indexOf(val) == -1;
+                });
+            console.log('filtered');
+        };
 
         function xhrOnLoad(xhr) {
             var receivedText = xhr.responseText.split('__objectmaxlength__'),
@@ -186,7 +201,6 @@
                 changePageData(true);
             }
             //alert('Response from CORS request to' + url + ': ' + xhr.responseText);
-
             return(xhr.responseText);
         }
 
@@ -207,12 +221,14 @@
             } else {
                 renderTable.call(this);
             }
-
-
         }
 
         this.getCreatedElement = function () {
             return this;
+        };
+
+        this.renderTable = function () {
+            return renderTable();
         };
 
         this.getRoot = function () {
@@ -223,12 +239,19 @@
             return dataArray;
         };
 
+        this.deleteAllArrows = function () {
+            var headCells = Array.prototype.slice.call(root.rows[0].cells);
+            headCells.forEach(function (el) {
+                el.classList.remove('desc');
+                el.classList.remove('asc');
+            });
+        };
+
         this.sort = function () {
             sortTable();
         };
 
         this.refresh = function (newDataArray, newConfig, newMaxRows) {
-            that = this;
             if (newDataArray) {
                 dataArray = newDataArray;
             }
@@ -238,18 +261,21 @@
             if (newMaxRows) {
                 maxRows = newMaxRows;
             }
-            if (dataArray === null) {
-                console.log('dataArray == null');
-                if (config.loadByParts) {
-                    getData(config.url, 0, maxRows);
-                } else {
-                    getData(config.url);
-                }
-            } else {
-                renderTable.call(this);
-            }
+
+            pager.innerHTML = "";
+            pager.className = "";
+            root.innerHTML = "";
+            pager.innerHTML = "";
+            if (dataArray.length == maxDataLength) renderTable(false);
+            else renderTable(true);
+            that.goTo(1);
         };
 
         init.call(this);
     };
+    SortableGrid.prototype = new EventMachine();
+    SortableGrid.functions = {change: "",
+    click: "sadasdsa"
+    };
+
 })(window, document);

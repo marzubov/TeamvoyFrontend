@@ -1,29 +1,21 @@
-var container = document.getElementById('placeForTables');
-var text = document.createElement('h4');
-var table;
+var container = document.getElementById('draggable');
+var draggableTable, filteredTable, fullDataTable, partDataTable;
 
-text.innerHTML = 'Table with data from simple array';
-container.appendChild(text);
-table = new SortableGrid(container, stringArray, configObject, maxRows).getCreatedElement();
-//new dragColumn(table.root()).swapColumns(0,1,table.root());
-//new DragColumn(table.data()).swapArrayColumns(0,1,table.data());
-text = document.createElement('h4');
-text.innerHTML = 'Table with data from array with randomly generated numbers';
-container.appendChild(text);
-table = new SortableGrid(container, numberArray, configObject, maxRows).getCreatedElement();
+draggableTable = new SortableGrid(container, numberArray, configObject, maxRows).getCreatedElement();;
+var draggable = new Draggable(draggableTable.getRoot(), draggableTable.getData());
 
-text = document.createElement('h4');
-text.innerHTML = 'Table with data from server json file';
-container.appendChild(text);
-text = document.createElement('p');
-text.innerHTML = 'Loading full data from server\'s .json file, so sorting is available '
-container.appendChild(text);
-table = new SortableGrid(container, null, configObjectFullLoading, maxRows).getCreatedElement();
+container = document.getElementById('filterable');
+filteredTable = new SortableGrid(container, stringArray, configObject, maxRows).getCreatedElement();
+var filterable = new Filterable(filteredTable.getRoot());
+filterable.enable(1);
+//filteredTable.getRoot().rows[0].cells[1].addEventListener('dblclick', function(){filterable.enable(1)});
+filterable.on('change', function(){console.log('1');});
+filterable.on('change', function(){console.log('2');});
+filterable.on('change', function(){console.log('3');});
+filterable.on('change', filteredTable.filter);
 
-text = document.createElement('h4');
-text.innerHTML = 'Table with data from server json file';
-container.appendChild(text);
-text = document.createElement('p');
-text.innerHTML = 'Loading part of data from server\'s .json file, so sorting is not available'
-container.appendChild(text);
-table = new SortableGrid(container, null, configObjectPartialLoading, maxRows).getCreatedElement();
+container = document.getElementById('fullServerData');
+fullDataTable = new SortableGrid(container, null, configObjectFullLoading, maxRows).getCreatedElement();
+
+container = document.getElementById('partialServerData');
+partDataTable = new SortableGrid(container, null, configObjectPartialLoading, maxRows).getCreatedElement();
