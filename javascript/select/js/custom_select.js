@@ -18,9 +18,9 @@
         this.config.merge(config);
         this.getOptionsFromFile();
         this.render();
-
+        this.prototype = new EventMachine();
     };
-    CustomSelect.prototype = new EventMachine();
+
     /**
      * get data from file or array and create custom select based on this data
      * @param {string} container - The tag where select must be located.

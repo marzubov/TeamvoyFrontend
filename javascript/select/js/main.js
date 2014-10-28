@@ -35,7 +35,7 @@
             idOfTag: "example5"
         }
     );
-    fifthSelect.on('event', function(){console.log('event test')});
-    fourthSelect.on('event', function(){console.log('event test')});
-    fifthSelect.trigger('event event2');
+    fifthSelect.prototype.on('event', function(){console.log('event test')});
+    fourthSelect.prototype.on('event', function(){console.log('event test')});
+    fifthSelect.prototype.trigger('event event2');
 })();
