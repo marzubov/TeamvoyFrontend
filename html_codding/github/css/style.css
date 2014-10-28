@@ -1,27 +1,39 @@
-.header { min-height: 50px; background: #efefef; border-bottom: 1px solid lightgray;  }
-.header .logo, footer .logo { width: 45px; height: 45px; padding-top: 3px; }
-.header .input-group { padding: 6px; }
-.header #mainMenu { padding-top: 3px; }
-.header #mainMenu ul li { font-weight: 700; }
-.header .avatar { font-size: 20px; float: left; padding: 12px 5px 0 0; }
-.header .avatar + figcaption { font-size: 12px; padding: 15px 15px 0 0; font-weight: bold; letter-spacing: 0.7px; float: left; }
-.header #ToolBar ul li { padding: 15px 7px 0 0; }
+@import "../../reset.css";
 
-.path-to-repository { min-height: 70px; border-bottom: 1px solid lightgray; }
-.path-to-repository .container, .path-to-repository .col-lg-7 { padding-left: 8px; }
-.path-to-repository .repository { font-size: 35px; padding: 15px 10px 0 0; color: lightgrey; float: left;  }
-.path-to-repository .marks button { margin: 15px 15px 0 0; float: left;}
-.path-to-repository .marks .input-group { float: left; width: 20%; }
+.show-grid {}
 
-#content { padding-top: 20px; }
-#content #actionInRepository { padding: 0 10px; border: 1px solid lightgray; border-radius: 5px; margin-bottom: 10px; }
-#content #actionInRepository ul li { width: 24%; }
-#content #branch button { float: left; margin-right: 20px; }
-#content #branch h4 { padding-top: 10px; }
-#content .readme { border-radius: 5px; background: #98D3C5; padding: 20px; }
+.show-grid .main-header {
+    background: royalblue;
+}
 
-#rightPanel #actionWithFolder { margin-bottom: 10px; }
-#rightPanel article p, #rightPanel article label { font-size: 12px; }
 
-.footer { border-top: 1px solid lightgrey; padding-top: 25px; margin-top: 20px; }
-.footer p { color: gray; font-size: 12px; float: left; padding: 13px 20px 0 0;  }
+.show-grid .main-content .repository-header {
+    background: #66512c;
+}
+.show-grid .main-content .repository-files {    background: goldenrod;}
+
+
+.show-grid .main-content .repository-options {background: red;}
+.show-grid .github-info {
+    background: palegoldenrod;
+}
+
+.content-wrapper {
+    width: 960px;
+    margin: auto;
+}
+
+
+.main-content {overflow: hidden;}
+
+
+
+.main-content .repository-files { margin-right: 130px;}
+
+.main-content .repository-options {
+    width: 130px;
+    float: right;
+
+    overflow: hidden;
+}
+
