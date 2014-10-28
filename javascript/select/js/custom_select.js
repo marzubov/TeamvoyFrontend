@@ -20,9 +20,7 @@
         this.render();
 
     };
-
     CustomSelect.prototype = new EventMachine();
-
     /**
      * get data from file or array and create custom select based on this data
      * @param {string} container - The tag where select must be located.
@@ -43,6 +41,7 @@
             };
             oReq.open("POST", this.options, true);
             oReq.send();
+            return oReq;
         }
     };
 
@@ -59,16 +58,11 @@
         this.rootElement.tabIndex = 0;
         var elementsOfSelect = document.createDocumentFragment();
         elementsOfSelect = document.createElement('span');
-        //elementsOfSelect.classList.add("btn"); elementsOfSelect.classList.add("btn-default");
-        //elementsOfSelect.classList.add("dropdown-toggle");
-        //elementsOfSelect.setAttribute("id", "dropdown-menu1");
         elementsOfSelect.innerHTML = this.config.defaultOption;
         elementsOfSelect.tabIndex = 0;
         this.addImageToSelectedElement(elementsOfSelect);
         this.rootElement.appendChild(elementsOfSelect);
         elementsOfSelect = document.createElement("div");
-        //elementsOfSelect.classList.add("dropdown-menu");
-        //elementsOfSelect.setAttribute("aria-labelledby", "dropdown-menu1");
         elementsOfSelect.tabIndex = 0;
         elementsOfSelect.classList.add("options-not-active");
         if (typeof this.options != "string") {
