@@ -1,32 +1,39 @@
 @import "../../reset.css";
 
+.show-grid {}
+
+.show-grid .main-header {
+    background: royalblue;
+}
+
+
+.show-grid .main-content .repository-header {
+    background: #66512c;
+}
+.show-grid .main-content .repository-files {    background: goldenrod;}
+
+
+.show-grid .main-content .repository-options {background: red;}
+.show-grid .github-info {
+    background: palegoldenrod;
+}
+
 .content-wrapper {
     width: 960px;
     margin: auto;
 }
 
-.main-header {
-    background: royalblue;
-}
 
 .main-content {overflow: hidden;}
 
-.main-content .repository-header {
-    background: #66512c;
-}
 
-.main-content .repository-files {
-    margin-right: 130px;
-    background: goldenrod;
-}
+
+.main-content .repository-files { margin-right: 130px;}
 
 .main-content .repository-options {
     width: 130px;
     float: right;
-    background: red;
+
     overflow: hidden;
 }
 
-.github-info {
-    background: palegoldenrod;
-}
