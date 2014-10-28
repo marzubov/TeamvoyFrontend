@@ -11,7 +11,8 @@
         //table.tabIndex = 0;
         document.addEventListener('mouseup', drop);
         table.classList.add('.noselect');
-        col1 = that.findColumnIndex(e.target);
+        col1 = that.findColumnIndex(e.clientX);
+        if (col1 == -1) return false;
         render(e);
         previousPos = e.clientX;
         e.preventDefault();
@@ -32,7 +33,7 @@
         renderDraggedShadow(currentPosition);
 
         //adding mouse move event to the table
-        table.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mousemove', onMouseMove);
     }
 
     function renderDraggedColumn(currentPosition){
@@ -82,7 +83,8 @@
 
         draggedColumn.style.left = (newPos).toString() + 'px';
         previousPos = e.clientX;
-        col2 = that.findColumnIndex(e.target);
+        col2 = that.findColumnIndex(e.clientX);
+        if ((col1 == -1)||(col2 == -1)) return false;
 
         if ((col1!=col2)&&(e.target != draggedShadow)){
 
@@ -97,17 +99,18 @@
 
     //onMouseUp
     function drop(e) {
-        console.log('dropped');
+        //console.log('dropped');
         if (!draggedColumn) return false;
         if (document.body.contains(draggedColumn)) {
             table.removeChild(draggedColumn);
             table.removeChild(draggedShadow);
         }
-        table.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('mouseup', drop);
         if (e.target == this) return false;
         table.classList.remove('.noselect');
-        col2 = that.findColumnIndex(e.target);
+        col2 = that.findColumnIndex(e.clientX);
+        if ((col1 == -1)||(col2 == -1)) return false;
         if ((!col2)&&(col2!=0)) return false;
         if (col1 == col2) return false;
 
@@ -120,7 +123,14 @@
         if (!targetTable) {
             targetTable = table;
         }
-        return target.cellIndex;
+        for (var i = 0; i < table.rows[0].cells.length; i += 1){
+            if ((target > findPos(table.rows[0].cells[i]).left) &&
+                (target < findPos(table.rows[0].cells[i]).left + table.rows[0].cells[i].offsetWidth)) {
+                //console.log("position", i);
+                return i;
+            }
+        }
+        return -1;
     };
 
     //swapping table columns
@@ -161,7 +171,7 @@
     //init
     function init() {
         that = this;
-        console.log('binding');
+        //console.log('binding');
         that.enable();
     }
 
@@ -178,13 +188,13 @@
     this.enable = function(){
         enabled = true;
         table.rows[0].addEventListener('mousedown', drag);
-        console.log('enabled');
+        //console.log('enabled');
     }
 
     this.disable = function(){
         enabled = false;
         table.rows[0].removeEventListener('mousedown', drag);
-        console.log('disabled');
+        //console.log('disabled');
     }
     init.call(this);
 }

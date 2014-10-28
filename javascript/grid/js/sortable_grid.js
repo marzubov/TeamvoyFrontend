@@ -8,7 +8,7 @@
             if (start || end) {
                 url += '_' + start + '_' + end;
             }
-            console.log(url);
+            //console.log(url);
             var xhr = createCORSRequest('GET', url);
             if (!xhr) {
                 alert('CORS not supported');
@@ -175,8 +175,8 @@
                 receivedObject = JSON.parse(receivedText[0]),
                 tempData = [];
             maxDataLength = receivedText[1];
-            console.log("response object ", receivedObject);
-            console.log("response object max length", receivedText[1]);
+            //console.log("response object ", receivedObject);
+            //console.log("response object max length", receivedText[1]);
 
             //tempData and tempArray for temporary storing data
             Array.prototype.slice.call(receivedObject)
@@ -212,7 +212,7 @@
             that = this;
 
             if (dataArray === null) {
-                console.log('dataArray == null');
+                //console.log('dataArray == null');
                 if (config.loadByParts) {
                     getData(config.url, 0, maxRows);
                 } else {
