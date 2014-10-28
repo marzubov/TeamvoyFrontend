@@ -14,7 +14,7 @@
         };
         this.options = options;
         this.containerForSelect = container;
-        this.rootElement;
+        this.rootElement={};
         this.config.merge(config);
         this.getOptionsFromFile();
         this.render();
@@ -40,7 +40,7 @@
                     CustomSelect.updateOptions(allSameFile[i], options, allSameFile[i].getAttribute("data-tag"));
                     allSameFile[i].classList.remove(nameOfFile);
                 }
-            }
+            };
             oReq.open("POST", this.options, true);
             oReq.send();
         }
@@ -208,18 +208,16 @@
         if (sel.classList.contains("options-not-active")) {
             sel.classList.remove("options-not-active");
             sel.classList.add("options-active");
-            console.log("1");
         }
         else {
             sel.classList.remove("options-active");
             sel.classList.add("options-not-active");
-            console.log("2");
         }
     };
 
     CustomSelect.prototype.addImageToSelectedElement = function (span) {
         var image = document.createElement('img');
-        image.src = "css/down.png";
+        image.src = "css/img/down.png";
         span.appendChild(image);
     };
 
