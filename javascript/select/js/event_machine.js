@@ -16,10 +16,9 @@
             eventArray=eventArray.split(' ');
             eventArray.forEach(function(event){
                 that.funcArray=that.funcArray.filter(function(el){
-                    return el.event != event && el.callback != callback;
+                    return !(el.event == event && el.callback.toString() == callback.toString());
                 });
             });
-
             return this;
         };
 
