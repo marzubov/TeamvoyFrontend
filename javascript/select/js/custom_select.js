@@ -139,7 +139,7 @@
             var event = e || window.event;
             var target = event.target || event.srcElement;
             that.rootElement.childNodes[0].classList.add('keydown');
-            that.getKeyCode(e, target);
+            getKeyCode.call(e, target);
             e.preventDefault(); e.stopPropagation(); return false;
 
         });
@@ -204,13 +204,7 @@
         span.appendChild(image);
     };
 
-    /**
-     * Get all key codes for keydown event
-     * @param {object} element - for this element we use keydown event
-     * @param {event:customSelect} e - a custom select event
-     */
-    CustomSelect.prototype.getKeyCode = function (e, element) {
-        console.log("keycode");
+    function getKeyCode (e, element) {
         switch (e.keyCode) {
             case 13://enter
                 this.clickOnOptions(this, e.target);
@@ -238,7 +232,7 @@
                 element.parentNode.focus();
                 break;
         }
-    };
+    }
 
     CustomSelect.prototype.getValue = function () {
         var nameOfFile = this.rootElement.childNodes[0].innerHTML.
