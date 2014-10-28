@@ -7,6 +7,9 @@
      * @param {object} config - default configuration for select
      */
     var CustomSelect = global.CustomSelect = function(container, options, config) {
+        // OOP magic
+        CustomSelect.superclass.constructor.call(this);
+
         this.config = {
             defaultOption: "Please Select Option",
             tabIndex: 0,
@@ -18,9 +21,10 @@
         this.config.merge(config);
         this.getOptionsFromFile();
         this.render();
-        this.__proto__ = new EventMachine();
+
     };
 
+    extend(CustomSelect,EventMachine);
     /**
      * get data from file or array and create custom select based on this data
      * @param {string} container - The tag where select must be located.
