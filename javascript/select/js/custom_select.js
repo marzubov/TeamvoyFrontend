@@ -7,31 +7,22 @@
      * @param {object} config - default configuration for select
      */
     var CustomSelect = global.CustomSelect = function(container, options, config) {
-        // OOP magic
         CustomSelect.superclass.constructor.call(this);
 
         this.config = {
             defaultOption: "Please Select Option",
-            tabIndex: 0,
             idOfTag: "example"
         };
         this.options = options;
         this.containerForSelect = container;
         this.rootElement={};
         this.config.merge(config);
-        this.getOptionsFromFile();
+        getOptionsFromFile.call(this);
         this.render();
-
     };
-
     extend(CustomSelect,EventMachine);
-    /**
-     * get data from file or array and create custom select based on this data
-     * @param {string} container - The tag where select must be located.
-     * @param {string, array} options - The array of options or name of file, where options is located.
-     * @param {object} config - default configuration for select
-     */
-    CustomSelect.prototype.getOptionsFromFile = function () {
+
+    function getOptionsFromFile () {
         if (typeof this.options == "string") {
             var oReq = new XMLHttpRequest();
             var nameOfFile = this.options.substring(this.options.lastIndexOf("/") + 1, this.options.indexOf("."));
@@ -47,7 +38,7 @@
             oReq.send();
             return oReq;
         }
-    };
+    }
 
     /**
      * Create select element and all options inside it.
@@ -85,8 +76,8 @@
             }
         }
         this.rootElement.appendChild(elementsOfSelect);
-        this.addClassesForSelect();
-        this.addEventsForSelect();
+        addClassesForSelect.call(this);
+        addEventsForSelect.call(this);
         this.containerForSelect.appendChild(this.rootElement);
     };
 
@@ -114,10 +105,7 @@
         }
     };
 
-    /**
-     * Add classes for main elements of select
-     */
-    CustomSelect.prototype.addClassesForSelect = function () { //TODO: move to private (if possible).
+    function addClassesForSelect() {
         var myConfig = this.config;
         this.rootElement.classList.add('custom-select');
         this.rootElement.childNodes[0].classList.add("selected");
@@ -126,7 +114,7 @@
                        .call(this.rootElement.childNodes, function (child) {
                 child.tabIndex = myConfig.tabIndex;
             });
-    };
+    }
 
     CustomSelect.prototype.clickOnOptions = function (that, target) {
         that.changeDisplayForOptions();
@@ -135,10 +123,7 @@
         document.getElementById(that.config.idOfTag).innerHTML = target.getAttribute("data-value");
     };
 
-    /**
-     * Add click, keydown, blur events for custom select
-     */
-    CustomSelect.prototype.addEventsForSelect = function () {
+    function addEventsForSelect () {
         var that = this;
         this.rootElement.addEventListener('click', function () {
             that.rootElement.childNodes[0].focus();
@@ -173,7 +158,7 @@
                     sel.classList.add("options-not-active");
                 });
             });
-    };
+    }
 
     /**
      * Get next option
@@ -260,4 +245,5 @@
                             substring(0, this.rootElement.childNodes[0].innerHTML.indexOf("<img"));
         return nameOfFile;
     };
+
 })(window, document);
