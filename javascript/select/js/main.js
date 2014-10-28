@@ -34,14 +34,3 @@ var fifthSelect = new CustomSelect(document.getElementById("five"),
         idOfTag: "example5"
     }
 );
-
-fifthSelect.on('event event2', function () {
-    console.log('event test')
-});
-fifthSelect.off('event', function () {
-    console.log('event test')
-});
-fourthSelect.on('event event2', function () {
-    console.log('event test')
-});
-fifthSelect.trigger('event event2');
