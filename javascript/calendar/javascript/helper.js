@@ -6,3 +6,13 @@ Object.prototype.merge = function (obj) {
         }
     }
 };
+
+function findPos(elem) {
+    var top=0, left=0;
+    while(elem) {
+        top = top + parseInt(elem.offsetTop);
+        left = left + parseInt(elem.offsetLeft);
+        elem = elem.offsetParent;
+    }
+    return {top: top, left: left};
+}
