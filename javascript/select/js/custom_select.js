@@ -114,7 +114,7 @@
             option.tabIndex = 0;
             parentForOptions.appendChild(option);
         }
-    }
+    };
 
     /**
      * Add classes for main elements of select
