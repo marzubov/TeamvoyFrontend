@@ -18,7 +18,7 @@
         this.config.merge(config);
         this.getOptionsFromFile();
         this.render();
-        this.prototype = new EventMachine();
+        this.__proto__ = new EventMachine();
     };
 
     /**
