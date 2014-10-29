@@ -19,24 +19,18 @@
  </article>
 </body>
 <script>
-//    window.Calendar.myFunction = function (){
-//        console.log('bitch');
-//    };
     var firstContainer = document.getElementById('firstCalendar');
     var firstCalendar = new Calendar(firstContainer,{});
 
     //style
     firstCalendar.getRoot().classList.add('table');
     firstCalendar.getRoot().classList.add('table-striped');
-//
-//    firstCalendar.customize.call(firstCalendar);
-    //customizeCalendar = new CustomizeCalendar(firstCalendar.root);
-    //console.log(document.getElementById('firstCalendar').childNodes);
+
     //events
-//    var eventTestFunction = function(){
-//        console.log('month changed');
-//    };
-//    firstCalendar.on('onMonthChanged',eventTestFunction);
+    var eventTestFunction = function(){
+        console.log('month changed');
+    };
+    firstCalendar.on('onMonthChanged',eventTestFunction);
 
 </script>
 </html>
