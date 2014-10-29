@@ -38,6 +38,8 @@
             return today;
         };
 
+        this.customizeCalendar = CustomizeCalendar;
+
         /**
          * Generating calendar
          */
@@ -80,6 +82,11 @@
          */
         this.getDayEvent = function (day) {
             return config.dayEvents[0];
+        };
+
+
+        this.getRoot = function (){
+            return this.rootElement;
         };
 
         /**
@@ -189,6 +196,7 @@
         function render() {
             generateCalendar();
             renderTable();
+            that.customizeCalendar(that);
         }
 
         /**

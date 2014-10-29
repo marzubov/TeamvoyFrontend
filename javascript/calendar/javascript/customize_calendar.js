@@ -5,24 +5,25 @@ function CustomizeCalendar(calendar){
      *  Customizing days styles
      */
     this.day = function (){
-        var weekNumber = 0
+        var weekNumber = 0;
         Array.prototype.slice.call(calendar.rootElement.rows)
             .forEach(function (row) {
                 Array.prototype.slice.call(row.cells)
                     .forEach(function (cell) {
                         if (weekNumber == 0){
                             // its just day names, so we are skipping this iteration
+
                             return false;
                         }else {
 
                             //here customizing days
-                            weekNumber++;
                             //checking if day isn't from another month
                             if (!cell.classList.contains('non-active-day')){
                                 cell.classList.add('active-day');
                             }
                         }
                     });
+                weekNumber++;
             });
     };
 
@@ -30,7 +31,6 @@ function CustomizeCalendar(calendar){
      *  Customizing days names style
      */
     this.dayNames = function (){
-        console.log(calendar.rootElement.rows);
         Array.prototype.slice.call(calendar.rootElement.rows[0].cells)
             .forEach(function (dayName) {
                 dayName.classList.add('day-name');
