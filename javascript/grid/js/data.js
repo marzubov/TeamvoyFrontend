@@ -23,13 +23,23 @@ var configObject = {
 var configObjectPartialLoading = {
     'headers': ['1', '2', '3', '4', '5'],
     'url': 'http://localhost:8001',
-    'loadByParts': true
+    'loadByParts': true,
+    'withTemplates': false
 };
 
 var configObjectFullLoading = {
     'headers': ['1', '2', '3', '4', '5'],
     'url': 'http://localhost:8001',
-    'loadByParts': false
+    'loadByParts': false,
+    'withTemplates': false
 };
+
+var configObjectFullLoadingWithTemplate = {
+    'headers': ['1', '2', '3', '4', '5'],
+    'url': 'http://localhost:8001',
+    'loadByParts': false,
+    'withTemplates': true
+};
+
 
 var maxRows = 5;

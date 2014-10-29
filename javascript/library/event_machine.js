@@ -42,7 +42,11 @@
         this.trigger = function(events){
             events.split(/\s+/)
                   .forEach(function(event) {
-                    funcArray[event].forEach(function(handler){handler()})
+                    if (funcArray[event]) {
+                        funcArray[event].forEach(function (handler) {
+                            handler()
+                        });
+                    }
             });
             return this;
         }

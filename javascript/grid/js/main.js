@@ -22,5 +22,8 @@ filterable.trigger('change event');
 container = document.getElementById('fullServerData');
 fullDataTable = new SortableGrid(container, null, configObjectFullLoading, maxRows).getCreatedElement();
 
-container = document.getElementById('partialServerData');
-partDataTable = new SortableGrid(container, null, configObjectPartialLoading, maxRows).getCreatedElement();
+container = document.getElementById('withTemplate');
+fullDataTable = new SortableGrid(container, null, configObjectFullLoadingWithTemplate, maxRows).getCreatedElement();
+
+//container = document.getElementById('partialServerData');
+//partDataTable = new SortableGrid(container, null, configObjectPartialLoading, maxRows).getCreatedElement();

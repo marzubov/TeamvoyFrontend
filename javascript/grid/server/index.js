@@ -14,20 +14,22 @@ http.createServer(function (request, response) {
         jf.readFile(file, function (err, obj) {
             if (!((path[1]) && (path[2]))) {
                 response.writeHead(200, { 'Content-Type': 'text/html', 'Access-Control-Allow-Origin': '*' });
-                data = JSON.stringify(obj) + "__objectmaxlength__" + obj.length.toString();
-                console.log(data);
+                //console.log(obj.length);
+                data = JSON.stringify(obj);
+                //console.log(data);
                 response.end(data);
-
             }
-            for (var i = +path[1]; i < +path[2]; i++) {
-                console.log(obj[i]);
-                if (obj[i])
-                    data.push(obj[i]);
+            else {
+                for (var i = +path[1]; i < +path[2]; i++) {
+                    console.log(obj[i]);
+                    if (obj[i])
+                        data.push(obj[i]);
+                }
+                ;
+                console.log(data);
+                response.writeHead(200, { 'Content-Type': 'text/html', 'Access-Control-Allow-Origin': '*' });
+                response.end(JSON.stringify(data) + "__objectmaxlength__" + obj.length.toString());
             }
-            ;
-            console.log(data);
-            response.writeHead(200, { 'Content-Type': 'text/html', 'Access-Control-Allow-Origin': '*' });
-            response.end(JSON.stringify(data) + "__objectmaxlength__" + obj.length.toString());
         });
     }
 }).listen(8001);
