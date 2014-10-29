@@ -15,10 +15,12 @@
                 month: (new Date()).getMonth() + 1,
                 firstDayOfWeek: 'sunday',
                 locale: 'en',
-                dayEvents: [{
-                    message:'Current day',
-                    date: new Date()
-                }]
+                dayEvents: [
+                    {
+                        message: 'Current day',
+                        date: new Date()
+                    }
+                ]
             };
         Calendar.localizationCache = {};
         this.container = container;
@@ -39,7 +41,7 @@
                         value[propName] :
                         config[propName];
                 }
-                if(value['month']!=config['month']){
+                if (value['month'] != config['month']) {
                     that.trigger('onMonthChanged');
                 }
                 config.merge(value);
@@ -68,7 +70,7 @@
                 indexOfStartDay, days = [];
             indexOfStartDay = myDays.indexOf(config.firstDayOfWeek);
             model.chosenMonth = dataMonth.month[myMonth[config.month - 1]];
-            myDays.forEach(function(el,i){
+            myDays.forEach(function (el, i) {
                 days[i] = dataMonth.daysOfWeek[el];
             });
             model.arrayOfDays = [];
@@ -83,17 +85,22 @@
             for (i = 0; i < month.length; i += 7) {
                 model.arrayOfDays.push(month.slice(i, i + 7));
             }
-            markDayEvents();
         }
 
-        function markDayEvents(){
-            config.dayEvents.forEach(function(dEvent){
-                if(dEvent.date.getFullYear() === config.year &&
-                    dEvent.date.getMonth()+1 === config.month){
-                    model.arrayOfDays.forEach(function(week){
-                        week[week.indexOf(dEvent.date.getDate())] = '<span data-message="'+ dEvent.message +'" class="calendar-event">'
-                            + week[week.indexOf(dEvent.date.getDate())] + '<span>';
-                    });
+        function markDayEvents() {
+            config.dayEvents.forEach(function (dEvent) {
+                if (dEvent.date.getFullYear() === config.year &&
+                    dEvent.date.getMonth() + 1 === config.month) {
+                    Array.prototype.slice.call(that.rootElement.rows)
+                        .forEach(function (row) {
+                            //console.log(row);
+                            Array.prototype.slice.call(row.cells)
+                                .forEach(function (cell) {
+                                    if ((cell.innerHTML == dEvent.date.getDate().toString()) && (cell.classList.contains('active-day'))) {
+                                        cell.classList.add('super-active');
+                                    }
+                                });
+                        });
                 }
             })
         }
@@ -117,32 +124,32 @@
             that.rootElement.innerHTML = tableString;
         }
 
-        function renderNamesOfWeek(){
+        function renderNamesOfWeek() {
             //adding non-active class to the names of days
             Array.prototype.slice.call(that.rootElement.rows[0].cells)
                 .forEach(function (cell) {
                     cell.classList.remove('active-day');
-                    cell.classList.add('non-active-day');
+                    cell.classList.add('week-name');
                 });
         }
 
-        function renderNonActiveDays(){
+        function renderNonActiveDays() {
 
             var date = new Date(config.year, config.month - 2), td,
                 lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
-                firstDayWeek = new Date(date.getFullYear(), date.getMonth()+1, 1).getDay(),
+                firstDayWeek = new Date(date.getFullYear(), date.getMonth() + 1, 1).getDay(),
                 rowLength;
-            if (config.locale == 'en'){
-                firstDayWeek-=1;
+            if (config.locale == 'en') {
+                firstDayWeek -= 1;
             }
-            else{
-                firstDayWeek-=2;
+            else {
+                firstDayWeek -= 2;
             }
 
             //adding previous month and next month days in empty cells
             Array.prototype.slice.call(that.rootElement.rows[1].cells)
                 .forEach(function (cell) {
-                    if (cell.innerHTML == ''){
+                    if (cell.innerHTML == '') {
                         cell.innerHTML = (lastDay - firstDayWeek).toString();
                         firstDayWeek--;
                         cell.classList.remove('active-day');
@@ -150,45 +157,64 @@
                     }
                 });
 
-            rowLength = that.rootElement.rows[that.rootElement.rows.length-1].cells.length.valueOf();
-            for (var i = 0; i<7-rowLength;i++){
+            rowLength = that.rootElement.rows[that.rootElement.rows.length - 1].cells.length.valueOf();
+            var i;
+            for (i = 0; i < 7 - rowLength; i++) {
                 td = document.createElement('td');
                 td.classList.add("non-active-day");
-                td.innerHTML = (i+1).toString();
-                that.rootElement.rows[that.rootElement.rows.length-1].appendChild(td);
+                td.innerHTML = (i + 1).toString();
+                that.rootElement.rows[that.rootElement.rows.length - 1].appendChild(td);
+            }
+
+            var k = 0;
+
+            while (that.rootElement.rows.length < 7) {
+                i++;
+                var newRow = document.createElement('tr');
+                for (var j = 0; j < 7; j++) {
+                    newRow.innerHTML += '<td class="non-active-day">' + i.toString() + '</td>';
+                    i++;
+                }
+                that.rootElement.childNodes[1].appendChild(newRow);
+                k++;
             }
         }
 
-        function renderInfoContainer(){
-            var infoContainer = document.createElement('div'),
-                dayInfo = document.createElement('span');
-            infoContainer.classList.add('info-container');
-            dayInfo.innerHTML = " Her goes clicked day information";
-            that.dayInfo = dayInfo;
-            infoContainer.appendChild(dayInfo);
-            infoContainer.appendChild(createCloseButton());
-            document.body.appendChild(infoContainer);
-            return infoContainer;
+        function renderInfoContainer() {
+            that.infoContainer.classList.add('info-container');
+            that.dayInfo.innerHTML = " Her goes clicked day information";
+            return that.infoContainer;
         }
 
-        function showDayInfo(e){
-            if (e.target != this){
+        function showDayInfo(e) {
+            if (e.target != this) {
                 if (e.target.classList.contains('active-day')) {
-                    var currentPosition = findPos(e.target);
+                    var currentPosition = findPos(e.target), currentDayEvent;
                     that.infoContainer.classList.add('info-container-active');
                     that.infoContainer.style.left = (currentPosition.left + e.target.offsetWidth).toString() + 'px';
                     that.infoContainer.style.top = (currentPosition.top + e.target.offsetHeight).toString() + 'px';
-                    that.dayInfo.innerHTML = "Day info: <br/>" + e.target.innerHTML +'.'+ that.config.month + '.' + that.config.year;
+                    config.dayEvents.forEach(function (dEvent) {
+                        if (dEvent.date.getFullYear() === config.year &&
+                            dEvent.date.getMonth() + 1 === config.month) {
+                            if (e.target.innerHTML == dEvent.date.getDate().toString()) {
+                                currentDayEvent = dEvent.message;
+                            }
+                        }
+                    });
+                    that.dayInfo.innerHTML = "Day info: <br/>" + e.target.innerHTML + '.' + that.config.month + '.' + that.config.year;
+                    if (currentDayEvent) {
+                        that.dayInfo.innerHTML += '<br/>Day event:' + '<br/>' + currentDayEvent.toString();
+                    }
                     return true;
                 }
                 return false;
             }
-            else{
+            else {
                 return false;
             }
         }
 
-        function createCloseButton(){
+        function createCloseButton() {
             var closeButton = document.createElement('div');
             closeButton.innerHTML = '<button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>';
             closeButton.childNodes[0].addEventListener('click', closeInfoContainer);
@@ -196,7 +222,7 @@
             return closeButton.childNodes[0];
         }
 
-        function closeInfoContainer(){
+        function closeInfoContainer() {
             that.infoContainer.classList.remove('info-container-active');
         }
 
@@ -210,14 +236,14 @@
 
         function setEvents() {
             that.rootElement
-                .addEventListener('click', function(e){
-                    if (e.target.classList.contains('calendar-button')){
+                .addEventListener('click', function (e) {
+                    if (e.target.classList.contains('calendar-button')) {
                         e.target.classList.contains('asc') ? config.month++ : config.month--;
-                        if(config.month > 12){
+                        if (config.month > 12) {
                             config.year++;
                             config.month = 1;
                         }
-                        else if(config.month < 1){
+                        else if (config.month < 1) {
                             config.year--;
                             config.month = 12;
                         }
@@ -227,9 +253,9 @@
                 });
 
 
-           Array.prototype.slice.call(that.rootElement.querySelectorAll('.calendar-event'))
-                .forEach(function(el){
-                    el.addEventListener('mouseover', function(){
+            Array.prototype.slice.call(that.rootElement.querySelectorAll('.calendar-event'))
+                .forEach(function (el) {
+                    el.addEventListener('mouseover', function () {
                         console.log(el.dataset.message);
                     })
                 })
@@ -240,12 +266,20 @@
             renderTable();
             renderNamesOfWeek();
             renderNonActiveDays();
+            markDayEvents();
             that.infoContainer = renderInfoContainer();
             that.rootElement.addEventListener('click', showDayInfo);
         }
 
-        function init(){
+        function init() {
             that.rootElement = document.createElement('table');
+
+            that.infoContainer = document.createElement('div');
+            that.dayInfo = document.createElement('span');
+
+            that.infoContainer.appendChild(that.dayInfo);
+            that.infoContainer.appendChild(createCloseButton());
+            document.body.appendChild(that.infoContainer);
             config.merge(properties);
             if (!Calendar.localizationCache[config.locale]) {
                 ajaxRequest()
@@ -257,6 +291,8 @@
             }
             setEvents();
         }
+
+
     };
     Calendar.prototype = new EventMachine();
 })(window, document);

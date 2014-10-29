@@ -1,24 +1,86 @@
 .calendar{
 }
+
 .calendar .caption{
     font-size: 20px;
 }
+
 .calendar tr:nth-child(1){
     font-weight: bold;
 }
+
 .calendar .calendar-event{
     border: 1px solid crimson;
     padding: 2px;
     cursor: pointer;
 }
+
 .calendar .calendar-button {
     border: none;
     background: transparent;
     cursor: pointer;
 }
+
+.calendar .calendar-button.asc{
+    float: right;
+    outline: none;
+}
+
+.calendar .calendar-button.asc:active{
+    opacity: 0.7;
+}
+
 .calendar .calendar-button.asc:after{
     content: url(img/right.png);
 }
+
+.calendar .calendar-button.desc{
+    float: left;
+    outline: none;
+}
+
+.calendar .calendar-button.desc:active{
+    opacity: 0.7;
+}
+
 .calendar .calendar-button.desc:after{
     content: url(img/left.png);
+    float: left;
+}
+
+.non-active-day{
+    opacity: .5;
+    padding: 1px;
+}
+
+.active-day{
+    padding: 1px;
+}
+
+.active-day:hover{
+    outline: 3px dashed lightblue;
+    cursor: pointer;
+}
+
+.info-container{
+    position: absolute;
+    background: white;
+    border: 1px solid lightblue;
+    display: none;
+    z-index: 9999;
+}
+
+.info-container-active{
+    display: block !important;
+}
+
+.close-button{
+}
+
+.week-name{
+    opacity: .75;
+}
+
+.super-active{
+    border:1px solid red !important;
 }
