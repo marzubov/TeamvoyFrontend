@@ -1,7 +1,7 @@
 (function (global, document) {
     "use strict";
     global.SortableGrid = function SortableGrid(container, dataArray, config, maxRows) {
-        var root, pager, maxDataLength, pagesData = [], sortedColumn, pageIndex = 1, that, draggable, filterable;
+        var root, pager, maxDataLength, pagesData = [], sortedColumn, pageIndex = 1, that, draggable, filterable, object;
 
         function getData(url, start, end) {
             url += '/getdata';
@@ -96,20 +96,36 @@
             root.classList.add("table-bordered");
 
             var tableString = '<thead><tr><td>' + config.headers.join('</td><td>') + '</td></thead>';
-
+            console.log(tableString);
             // Make body
-            tableString += '<tbody class="data-body ">';
-            if (!maxRows) {
-                maxRows = dataArray.length;
+
+            if (config.withTemplates) {
+                tableString += '<tbody class="data-body templateTable">';
+                tableString += "<script id='template' type='text/x-handlebars-template'>{{#each items}}<tr>";
+                for (var i = 0; i < maxRows; i++) tableString += "<td>{{age"+(i+1)+"}}</td>";
+                tableString += "</tr> {{/each}}</script>";
+            } else {
+                tableString += '<tbody class="data-body">';
+                if (!maxRows) {
+                    maxRows = dataArray.length;
+                }
+                if (!maxDataLength) {
+                    maxDataLength = dataArray.length;
+                }
+                for (var i = 0; i < maxRows; i++) {
+                    tableString += '<tr><td>' + dataArray[i].join('</td><td>') + '</td></tr>';
+                }
+                tableString += '</tbody>';
+
             }
-            if (!maxDataLength) {
-                maxDataLength = dataArray.length;
-            }
-            for (var i = 0; i < maxRows; i++) {
-                tableString += '<tr><td>' + dataArray[i].join('</td><td>') + '</td></tr>';
-            }
-            tableString += '</tbody>';
             root.innerHTML = tableString;
+
+            if (config.withTemplates) {
+                var template = Handlebars.compile( document.getElementById('template').innerHTML );
+                var allRows = (template(object).toString()).split(" "), rowsForPrint = "";
+                for (var i = 0; i < maxRows; i++) rowsForPrint += allRows[i];
+                document.querySelector('.templateTable').innerHTML = rowsForPrint;
+            }
 
             var headCells = root.querySelector('thead').querySelector('tr').querySelectorAll('td');
             headCells = Array.prototype.slice.call(headCells);
@@ -171,15 +187,16 @@
         };
 
         function xhrOnLoad(xhr) {
-            var receivedText = xhr.responseText.split('__objectmaxlength__'),
-                receivedObject = JSON.parse(receivedText[0]),
+            var receivedText = xhr.responseText,
+                receivedObject = JSON.parse(receivedText),
                 tempData = [];
-            maxDataLength = receivedText[1];
+            object = receivedObject;
+            maxDataLength = receivedObject.items.length;
             //console.log("response object ", receivedObject);
             //console.log("response object max length", receivedText[1]);
 
             //tempData and tempArray for temporary storing data
-            Array.prototype.slice.call(receivedObject)
+            Array.prototype.slice.call(receivedObject.items)
                 .forEach(function (el) {
                     var tempArray = [];
                     Object.keys(el).forEach(function (key, index) {
