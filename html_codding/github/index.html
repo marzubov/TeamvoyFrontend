@@ -4,77 +4,211 @@
         <title>GitHub</title>
         <meta charset="UTF-8">
         <link href="css/style.css" rel="stylesheet">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     </head>
     <body>
 
         <header class="main-header">
-            <div class="content-wrapper">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad, adipisci aspernatur cupiditate debitis deserunt, dolor dolore, esse fuga in laboriosam necessitatibus odio perspiciatis quaerat quam sint suscipit tempora. Amet, ducimus.
+            <div class="content-wrapper container">
+                <div class="col-lg-1 col-md-1">
+                    <figure>
+                        <img class="logo" src="css/images/logo.png" alt="logotype">
+                    </figure>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <form>
+                        <div class="input-group">
+                            <span class="input-group-addon">In repository</span>
+                            <input type="search" class="form-control" placeholder="Search">
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <nav id="mainMenu">
+                        <ul class="nav nav-pills">
+                            <li><a href="#">Explore</a></li>
+                            <li><a href="#">Gist</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Help</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <figure>
+                        <span class="glyphicon glyphicon-user avatar"></span>
+                        <figcaption>TetianaStoyko</figcaption>
+                    </figure>
+                    <nav id="ToolBar">
+                        <ul class="nav nav-pills">
+                            <li><span class="glyphicon glyphicon-plus"></span></li>
+                            <li><span class="glyphicon glyphicon-inbox"></span></li>
+                            <li><span class="glyphicon glyphicon-wrench"></span></li>
+                            <li><span class="glyphicon glyphicon-log-out"></span></li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
         </header>
 
         <section class = "main-content">
 
                 <header class="repository-header">
-                    <div class="content-wrapper">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad animi consequuntur debitis expedita facere in ipsa mollitia officiis, omnis. Adipisci corporis dicta expedita ipsa maxime nisi pariatur possimus quis quo.
+                    <div class="content-wrapper container">
+                        <div class="col-lg-7 col-md-7">
+                            <figure>
+                                <span class="glyphicon glyphicon-book repository"></span>
+                            </figure>
+                            <h3><a href="#">User's name</a> / <a href="#"><b>Name of repository</b></a></h3>
+                        </div>
+                        <div class="col-lg-5 col-md-5">
+                            <form name="marks" class="marks">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                    Unwatch
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">Dropdown link</a></li>
+                                    <li><a href="#">Dropdown link</a></li>
+                                </ul>
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button">0</button>
+                                    </span>
+                                    <button type="button" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        Star
+                                    </button>
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button">7</button>
+                                    </span>
+                                    <button type="button" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-random"></span>
+                                        Fork
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </header>
 
-                <div class="content-wrapper">
-                    <aside class="repository-options">
-                        <ul>
-                            <li>repository option 1</li>
-                            <li>repository option 2</li>
-                            <li>repository option 3</li>
-                            <li>repository option 4</li>
-                            <li>repository option 5</li>
-                            <li>repository option 6</li>
-                            <li>repository option 7</li>
-                            <li>repository option 8</li>
-                            <li>repository option 9</li>
-                            <li>repository option 10</li>
-                        </ul>
+                <div class="content-wrapper container">
+                    <aside class="repository-options col-lg-3 col-md-3">
+                        <nav id="actionWithFolder">
+                            <div class="btn-group-vertical">
+                                <button type="button" class="btn btn-default">Code</button>
+                                <button type="button" class="btn btn-default">Issues</button>
+                                <button type="button" class="btn btn-default">Pull requests</button>
+                                <button type="button" class="btn btn-default">Wiki</button>
+                                <button type="button" class="btn btn-default">Pulse</button>
+                                <button type="button" class="btn btn-default">Graphs</button>
+                            </div>
+                        </nav>
+                        <article>
+                            <p>HTTPs clone URL:</p>
+                            <form id="forClone">
+                                <div class="input-group">
+                                    <input type="text" class="form-control">
+                                        <span class="input-group-btn">
+                                           <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-save"></span></button>
+                                        </span>
+                                </div>
+                                <label>You can clone with HTTPS, SSH</label>
+                                <button class="btn btn-default" type="button">
+                                    <span class="glyphicon glyphicon-download-alt"></span> Clone to desktop
+                                </button>
+                                <button class="btn btn-default" type="button">
+                                    <span class="glyphicon glyphicon-saved"></span> Download ZIP
+                                </button>
+                            </form>
+                        </article>
                     </aside>
 
-                    <section class="repository-files">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, aut est laboriosam nesciunt quo sapiente tenetur totam vitae? Adipisci commodi cupiditate deleniti est molestiae nesciunt, nisi quisquam quos ratione veniam.
+                    <section class="repository-files col-lg-9 col-md-9">
+                                <nav id="actionInRepository">
+                                    <ul class="nav nav-pills text-center">
+                                        <li><a href="#">0 Commits</a></li>
+                                        <li><a href="#">91Branch</a></li>
+                                        <li><a href="#">1 Releases</a></li>
+                                        <li><a href="#">4 Contributors</a></li>
+                                    </ul>
+                                </nav>
+                                <form id="branch">
+                                    <button type="button" class="btn btn-success">
+                                        <span class="glyphicon glyphicon-retweet"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        Branch: master
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Dropdown link</a></li>
+                                        <li><a href="#">Dropdown link</a></li>
+                                    </ul>
+                                    <h4><b><a href="">Name of repository</a></b></h4>
+                                </form>
+                                <table class="table table-bordered" id="workSpace">
+                                    <tr class="info">
+                                        <td colspan="3">workspace</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">TetianaStoyko, 5 hours ago</td>
+                                        <td>Latest commit</td>
+                                    </tr>
+                                    <tr class="active">
+                                        <td>Folder</td>
+                                        <td>Commit</td>
+                                        <td>Hours</td>
+                                    </tr>
+                                    <tr class="active">
+                                        <td>Folder</td>
+                                        <td>Commit</td>
+                                        <td>Hours</td>
+                                    </tr>
+                                </table>
+                                <div class="readme">
+                                    <div class="row">
+                                        <div class="col-lg-9 col-md-9">
+                                            We recommed add the readme to this repository to help give people an overview of your project.
+                                        </div>
+                                        <div class="col-lg-3 col-md-3">
+
+                                        </div>
+                                    </div>
+                                </div>
                     </section>
                 </div>
+
         </section>
 
         <footer class="github-info content-wrapper">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias cupiditate delectus error, et, excepturi facilis magni nihil officia reiciendis reprehenderit veritatis vitae, voluptas voluptate. Animi commodi doloremque ex tenetur voluptatum.
+            <div class="col-lg-5 col-md-5">
+                <p>&copy; CopyRigth 2014</p>
+                <nav class="footerMenu">
+                    <ul class="nav nav-pills">
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Security</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-2 col-md-2 text-center">
+                <figure>
+                    <img class="logo" src="css/images/logo.png" alt="logotype">
+                </figure>
+            </div>
+            <div class="col-lg-5 col-md-5">
+                <nav class="footerMenu">
+                    <ul class="nav nav-pills">
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Security</a></li>
+                        <li><a href="#">Contacts</a></li>
+                    </ul>
+                </nav>
+            </div>
         </footer>
     </body>
 </html>
