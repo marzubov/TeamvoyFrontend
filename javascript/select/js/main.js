@@ -24,8 +24,7 @@ var firstSelect = new CustomSelect(containerOne, {
                 "value" : 5
             }
         ],
-        defaultOption: "data from array",
-        idOfTag: "example1"
+        defaultOption: "Wow, so default"
     }
 );
 var secondSelect = new CustomSelect(containerOne, {
@@ -51,6 +50,5 @@ var secondSelect = new CustomSelect(containerOne, {
             "value" : 5
         }
     ],
-    defaultOption: "data from array",
-    idOfTag: "example1"
+    defaultOption: "click me"
 });
