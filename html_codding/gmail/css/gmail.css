@@ -1,30 +1,60 @@
 @import "../../reset.css";
 
 .main-header {
-    background: gold;
-    height: 100px;
+    /*background: gold;*/
+    height: 50px;
+    overflow: hidden;
+}
+.mails-header {
+    /*background: gold;*/
+    height: 50px;
     overflow: hidden;
 }
 
 .user-options {
-    background: red;
+    /*background: red;*/
     position: absolute;
     width: 150px;
-    top: 100px;
+    top: 170px;
     bottom: 0;
     left: 0;
-    overflow: auto;
 }
-.user-options nav {}
+.user-options nav{
+    display: block;
+    position: relative;
+    overflow: hidden;
+}
+.user-options nav a{
+    display: block;
+    margin-left: 15%;
+    margin-top: 10%;
+}
+
+.user-options .chat{
+    overflow-y: auto;
+}
+
+.chat{
+    padding: 10px;
+    overflow: auto;
+    top: 275px;
+    position: absolute;
+    bottom: 0;
+}
 
 .mails {
     position: absolute;
-    top: 100px;
+    top: 170px;
     bottom: 0;
     right: 0;
-    left: 150px;
-    background: greenyellow;
+    left: 170px;
+    /*background: greenyellow;*/
     overflow: auto;
 }
 
-.mails .mails-list {}
+.mails .mails-list {
+}
+
+body{
+    overflow: hidden;
+}
