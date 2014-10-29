@@ -9,15 +9,24 @@
 <body>
 
 <header class="main-header">
-    Google
-    <div class="search"></div>
+    <img src="css/img/logo_default.png" class="logo" alt=""/>
+    <input type="text" class="search-input">
+    <button class = "search-btn">Search</button>
 </header>
 <hr>
 <header class = "mails-header">
-    Gmail
+    <h3>Gmail</h3>
+    <span class="controls">
+        <button>
+            <input type="checkbox"/>
+        </button>
+        <button class="glyphicon glyphicon-refresh"></button>
+        <button>More</button>
+    </span>
 </header>
 <hr>
 <aside class="user-options">
+    <button class="compose">Compose</button>
     <nav>
         <a href="#">Inbox</a>
         <a href="#">Starred</a>
@@ -36,11 +45,26 @@
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi aperiam, asperiores, aspernatur autem beatae culpa dolorem ducimus excepturi facere, placeat sed veniam voluptates? Aliquam at atque eveniet repellendus unde.
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi aperiam, asperiores, aspernatur autem beatae culpa dolorem ducimus excepturi facere, placeat sed veniam voluptates? Aliquam at atque eveniet repellendus unde.
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi aperiam, asperiores, aspernatur autem beatae culpa dolorem ducimus excepturi facere, placeat sed veniam voluptates? Aliquam at atque eveniet repellendus unde.
+
     </section>
-    <footer></footer>
+    <footer>
+        <button>
+            chat:)
+        </button>
+    </footer>
+
 </aside>
 
 <section class="mails">
+    <div class="tab-control">
+        <button>
+            Primary
+        </button>
+        <button>Social</button>
+        <button>Promotions</button>
+        <button>Updates</button>
+        <button>Forums</button>
+    </div>
     <div class="mails-list">
         <table class="table table-striped">
             <thead><tr><th>Column 1</th><th>Column 2</th><th>Column 3</th><th>Column 4</th></tr></thead>
@@ -86,8 +110,8 @@
             </tbody>
         </table>
     </div>
-    <footer>
-        foofooo
+    <footer class = "main-footer">
+        ©2014 Google - Terms & Privacy
     </footer>
 </section>
 
