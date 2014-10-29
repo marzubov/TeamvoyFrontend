@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendar</title>
+    <link rel="stylesheet" href="css/calendar.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css"/>
+    <script src="../library/event_machine.js"></script>
+    <script src="javascript/calendar.js"></script>
+    <script src="javascript/helper.js"></script>
+    <script src="javascript/customize_calendar.js"></script>
+</head>
+<body>
+<article class="col-xs-8 col-xs-offset-2" >
+<div class="col-xs-4 col-xs-offset-4" id="firstCalendar">
+
+</div>
+ </article>
+</body>
+<script>
+    var firstContainer = document.getElementById('firstCalendar');
+    var firstCalendar = new Calendar(firstContainer,{});
+
+    //style
+    firstCalendar.rootElement.classList.add('table');
+    firstCalendar.rootElement.classList.add('table-striped');
+    customizeCalendar = new CustomizeCalendar(firstCalendar);
+    //events
+//    var eventTestFunction = function(){
+//        console.log('month changed');
+//    };
+//    firstCalendar.on('onMonthChanged',eventTestFunction);
+
+</script>
+</html>
