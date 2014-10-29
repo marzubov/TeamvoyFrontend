@@ -20,3 +20,17 @@ function extend(Child, Parent) {
     Child.prototype.constructor = Child;
     Child.superclass = Parent.prototype;
 }
+
+Element.prototype.addClasses = function(string){
+    var that=this;
+    string.split(/\s+/).forEach(function(css){
+        that.classList.add(css);
+    })
+};
+
+Element.prototype.classContains = function(string){
+    var that=this;
+    string.split(/\s+/).every(function(css){
+        that.classList.contains(css);
+    })
+};

@@ -1,47 +1,18 @@
 .custom-select{
-    width:250px;
-    max-height:200px;
-    display: block;
-    overflow-y: auto;
-    overflow-x: hidden;
-    float: left;
-    margin: 2px;
-    padding: 2px;
-    font-family: Arial;
-    font-size: 14px;
-    letter-spacing: 0.7px;
-}
-.custom-select .selected{
-    padding-left: 10px;
-    width: 95%;
-    height: 25px;
-    position: relative;
-    display: block;
-    border:1px solid #298228;
-    border-radius: 7px;
-    padding-top: 5px;
-}
-
-.custom-select .selected img {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    left: 85%;
-}
-.custom-select .selected:hover, .custom-select .selected:focus{
     cursor: pointer;
 }
-.custom-select .option{
+.custom-select .selector{
+    width: 100%;
+}
+.custom-select .options{
+    position: absolute;
+    width: 100%;
     text-align: center;
+}
+.custom-select .options .hide{
     display: none;
-    position: absolute;
-    margin-left: 5px;
-    width: 240px;
-    z-index: 1;
 }
-.custom-select .option div:hover, .select .option div:hover{
-    cursor: pointer;
+.custom-select .option:hover{
+    text-align: center;
+    background-color: beige;
 }
-
-.custom-select .options-active { display: block; position: absolute; }
-.custom-select .options-not-active { display: none; position: absolute;}

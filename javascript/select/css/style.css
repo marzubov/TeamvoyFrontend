@@ -1,15 +1,1 @@
-div {
-    font-family: Helvetica;
-    font-size: 14px;
-    line-height: 19px;
-}
-.container { overflow: hidden; margin-bottom: 20px; }
-.container #example1, #example2, #example3, #example4, #example5 {
-    width: 80px;
-    height: 24px;
-    border: 1px solid black;
-    float: left;
-    padding: 5px 0 0 10px;
-    margin: 4px 100px 4px 10px;
-}
-
+@import "reset.css";
