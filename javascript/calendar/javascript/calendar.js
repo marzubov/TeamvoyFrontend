@@ -107,8 +107,7 @@
 
         function renderTable() {
             that.rootElement.classList.add('calendar');
-            var tableString = '',
-                td;
+            var tableString = '';
 
             //make caption
             tableString += '<caption class="caption"><button class="calendar-button desc"></button><span>'
@@ -117,51 +116,119 @@
 
             //make body
             tableString += '<tbody>';
-            model.arrayOfDays.forEach(function (el) {
-                tableString += '<tr><td class="active-day">' + (el.join("</td><td class='active-day' >")) + '</td></tr>';
-            });
+            tableString += renderDays();
             tableString += '<tbody>';
             that.rootElement.innerHTML = tableString;
         }
 
-        function renderNamesOfWeek() {
-            //adding non-active class to the names of days
-            Array.prototype.slice.call(that.rootElement.rows[0].cells)
-                .forEach(function (cell) {
-                    cell.classList.remove('active-day');
-                    cell.classList.add('week-name');
-                });
-        }
-
-        function renderNonActiveDays() {
-
-            var date = new Date(config.year, config.month - 2), td,
+        function renderDays(){
+            var tableString = '';
+            var k = 0, date = new Date(config.year, config.month - 2), td,
                 lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
                 firstDayWeek = new Date(date.getFullYear(), date.getMonth() + 1, 1).getDay(),
-                rowLength;
+                firstWeekendDay = 0, secondWeekendDay = 6;
             if (config.locale == 'en') {
                 firstDayWeek -= 1;
             }
             else {
                 firstDayWeek -= 2;
             }
+            model.arrayOfDays.forEach(function (el) {
 
-            //adding previous month and next month days in empty cells
-            Array.prototype.slice.call(that.rootElement.rows[1].cells)
-                .forEach(function (cell) {
-                    if (cell.innerHTML == '') {
-                        cell.innerHTML = (lastDay - firstDayWeek).toString();
-                        firstDayWeek--;
-                        cell.classList.remove('active-day');
-                        cell.classList.add('non-active-day');
+                //rendering day rows
+                switch (k){
+                    case 0: {
+
+                        //row with week names
+                        tableString+='<tr>';
+                        for (var i = 0; i < 7; i++){
+                            if (config.locale == 'en'){
+                                if(i == firstWeekendDay) {
+                                    tableString+='<td class="day-name weekend">' + el[i] + '</td>';
+                                }else if(i == secondWeekendDay){
+                                    tableString+='<td class="day-name weekend">' + el[i] + '</td>';
+                                }else {
+                                    tableString+='<td class="day-name">' + el[i] + '</td>';
+                                }
+                            }
+                        }
+                        tableString+='</tr>';
+                        k++;
+                        break;
                     }
-                });
+                    case 1:{
 
+                        //1st month days row with possible non active days + checking for day events
+                        tableString+='<tr>';
+                        for (var i = 0; i < 7; i++){
+                            if (config.locale == 'en'){
+
+                                    if (i == firstWeekendDay) {
+                                        if (el[i]) {
+                                            tableString += '<td class="active-day weekend">' + el[i] + '</td>';
+                                        }
+                                        else{
+                                            tableString += '<td class="non-active-day weekend">' + (lastDay - firstDayWeek).toString() + '</td>';
+                                            firstDayWeek--;
+                                        }
+
+                                    } else if (i == secondWeekendDay) {
+                                        tableString += '<td class="active-day weekend">' + el[i] + '</td>';
+                                    } else {
+
+                                        if (el[i]) {
+                                            tableString += '<td class="active-day">' + el[i] + '</td>';
+                                        }
+                                        else{
+                                            tableString += '<td class="non-active-day">' + (lastDay - firstDayWeek).toString() + '</td>';
+                                            firstDayWeek--;
+                                        }
+                                    }
+                                }
+                        }
+                        tableString+='</tr>';
+                        k++;
+                        break;
+                    }
+                    default:{
+
+                        //rows with all active days + checking for day events
+                        tableString+='<tr>';
+                        for (var i = 0; i < 7; i++){
+                            if (config.locale == 'en'){
+                                if(el[i]) {
+                                    if (i == firstWeekendDay) {
+                                        tableString += '<td class="active-day weekend">' + el[i] + '</td>';
+                                    } else if (i == secondWeekendDay) {
+                                        tableString += '<td class="active-day weekend">' + el[i] + '</td>';
+                                    } else {
+                                        tableString += '<td class="active-day">' + el[i] + '</td>';
+                                    }
+                                }
+                                else{
+                                    //tableString += '<td></td>';
+                                }
+                            }
+                        }
+                        tableString+='</tr>';
+                        k++;
+                        break;
+                    }
+                }
+            });
+            return tableString;
+        }
+
+        function renderEndOfTheMonth() {
+            var td,rowLength;
             rowLength = that.rootElement.rows[that.rootElement.rows.length - 1].cells.length.valueOf();
             var i;
             for (i = 0; i < 7 - rowLength; i++) {
                 td = document.createElement('td');
                 td.classList.add("non-active-day");
+                if (i+1 == 7 - rowLength){
+                    td.classList.add("weekend");
+                }
                 td.innerHTML = (i + 1).toString();
                 that.rootElement.rows[that.rootElement.rows.length - 1].appendChild(td);
             }
@@ -172,7 +239,11 @@
                 i++;
                 var newRow = document.createElement('tr');
                 for (var j = 0; j < 7; j++) {
-                    newRow.innerHTML += '<td class="non-active-day">' + i.toString() + '</td>';
+                    if ((j == 0) || (j ==6)){
+                        newRow.innerHTML += '<td class="non-active-day weekend">' + i.toString() + '</td>';
+                    }else{
+                        newRow.innerHTML += '<td class="non-active-day">' + i.toString() + '</td>';
+                    }
                     i++;
                 }
                 that.rootElement.childNodes[1].appendChild(newRow);
@@ -264,8 +335,7 @@
         function render() {
             generateCalendar();
             renderTable();
-            renderNamesOfWeek();
-            renderNonActiveDays();
+            renderEndOfTheMonth();
             markDayEvents();
             that.infoContainer = renderInfoContainer();
             that.rootElement.addEventListener('click', showDayInfo);

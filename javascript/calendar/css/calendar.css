@@ -77,8 +77,12 @@
 .close-button{
 }
 
-.week-name{
-    opacity: .75;
+.day-name{
+    /*opacity: .75;*/
+}
+
+.weekend{
+    background: lightpink !important;
 }
 
 .super-active{
