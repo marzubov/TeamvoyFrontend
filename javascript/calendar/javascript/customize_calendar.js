@@ -7,7 +7,6 @@
      */
     global.Calendar.prototype.CustomizeCalendar = function (calendar){
         var that = this;
-
         /**
          *  Customizing days styles
          */
@@ -53,6 +52,9 @@
 
         };
 
+        /**
+         *  Initializing
+         */
         this.init = function(){
             that.day();
             that.dayNames();
