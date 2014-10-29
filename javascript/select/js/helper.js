@@ -27,10 +27,3 @@ Element.prototype.addClasses = function(string){
         that.classList.add(css);
     })
 };
-
-Element.prototype.classContains = function(string){
-    var that=this;
-    string.split(/\s+/).every(function(css){
-        that.classList.contains(css);
-    })
-};

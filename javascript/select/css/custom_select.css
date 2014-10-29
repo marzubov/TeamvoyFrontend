@@ -12,7 +12,6 @@
 .custom-select .options .hide{
     display: none;
 }
-.custom-select .option:hover{
-    text-align: center;
+.hover{
     background-color: beige;
 }

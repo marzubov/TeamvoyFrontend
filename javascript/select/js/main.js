@@ -1,7 +1,7 @@
 "use strict";
 var containerOne = document.getElementById("one");
 
-new CustomSelect(containerOne, {
+var firstSelect = new CustomSelect(containerOne, {
         options: [
             {
                 "title" : "january",
@@ -28,7 +28,7 @@ new CustomSelect(containerOne, {
         idOfTag: "example1"
     }
 );
-new CustomSelect(containerOne, {
+var secondSelect = new CustomSelect(containerOne, {
     options: [
         {
             "title" : "january",

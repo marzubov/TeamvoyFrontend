@@ -12,7 +12,7 @@
 </head>
 
 <body>
-<div>
+
     <h1 align="center">custom select</h1>
     <p>Select is created with class CustomSelect.</p>
     <p>The arguments of this class are:</p>
@@ -34,7 +34,13 @@
     <br>new CustomSelect(document.getElementById("four"), [{title: "option1", value: 1}, {title: "option2", value: 2}],
     {defaultOption: "data from array with objects", idOfTag: "example4"});
     <br>new CustomSelect(document.getElementById("two"), "data_for_options/file1.json", {defaultOption: "data from file", idOfTag: "example2"});<br><br>
-</div>
+    <label><select>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+    </select>
+    </label>
     <div id="one"></div>
     <script src="js/helper.js"></script>
     <script src="js/main.js"></script>
