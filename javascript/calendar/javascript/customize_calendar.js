@@ -1,54 +1,63 @@
-function CustomizeCalendar(calendar){
-    var that = this;
-
+(function (global, document) {
+    "use strict";
     /**
-     *  Customizing days styles
+     *
+     * @param calendar
+     * @constructor
      */
-    this.day = function (){
-        var weekNumber = 0;
-        Array.prototype.slice.call(calendar.rootElement.rows)
-            .forEach(function (row) {
-                Array.prototype.slice.call(row.cells)
-                    .forEach(function (cell) {
-                        if (weekNumber == 0){
-                            // its just day names, so we are skipping this iteration
+    global.Calendar.prototype.CustomizeCalendar = function (calendar){
+        var that = this;
 
-                            return false;
-                        }else {
+        /**
+         *  Customizing days styles
+         */
+        this.day = function (){
+            var weekNumber = 0;
+            Array.prototype.slice.call(calendar.getRoot().rows)
+                .forEach(function (row) {
+                    Array.prototype.slice.call(row.cells)
+                        .forEach(function (cell) {
+                            if (weekNumber == 0){
+                                // its just day names, so we are skipping this iteration
 
-                            //here customizing days
-                            //checking if day isn't from another month
-                            if (!cell.classList.contains('non-active-day')){
-                                cell.classList.add('active-day');
+                                return false;
+                            }else {
+
+                                //here customizing days
+                                //checking if day isn't from another month
+
+                                if (!cell.classList.contains('non-active-day')){
+                                    cell.classList.add('active-day');
+                                }
                             }
-                        }
-                    });
-                weekNumber++;
-            });
+                        });
+                    weekNumber++;
+                });
+        };
+
+        /**
+         *  Customizing days names style
+         */
+        this.dayNames = function (){
+            Array.prototype.slice.call(calendar.getRoot().rows[0].cells)
+                .forEach(function (dayName) {
+                    dayName.classList.add('day-name');
+                });
+        };
+
+        this.weekends = function (){
+
+        };
+
+        this.today = function (){
+
+        };
+
+        this.init = function(){
+            that.day();
+            that.dayNames();
+        };
+
+        that.init();
     };
-
-    /**
-     *  Customizing days names style
-     */
-    this.dayNames = function (){
-        Array.prototype.slice.call(calendar.rootElement.rows[0].cells)
-            .forEach(function (dayName) {
-                dayName.classList.add('day-name');
-            });
-    };
-
-    this.weekends = function (){
-
-    };
-
-    this.today = function (){
-
-    };
-
-    this.init = function(){
-        that.day();
-        that.dayNames();
-    };
-
-    that.init();
-}
+})(window, document);

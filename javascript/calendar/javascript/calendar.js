@@ -10,6 +10,7 @@
     window.Calendar = function (container, properties) {
         var that = this,
             model = {},
+            root,
             config = {
                 year: (new Date()).getFullYear(),
                 month: (new Date()).getMonth() + 1,
@@ -24,7 +25,11 @@
             };
         Calendar.localizationCache = {};
         this.container = container;
-        this.rootElement = {};
+        //root;
+        this.customize = function (){
+            console.log(that.getRoot().rows);
+            //that.CustomizeCalendar();
+        };
         init();
 
         /**
@@ -37,8 +42,6 @@
             render();
             return today;
         };
-
-        this.customizeCalendar = CustomizeCalendar;
 
         /**
          * Generating calendar
@@ -86,14 +89,14 @@
 
 
         this.getRoot = function (){
-            return this.rootElement;
+            return root;
         };
 
         /**
          * rendering table
          */
         function renderTable() {
-            that.rootElement.classList.add('calendar');
+            root.classList.add('calendar');
             var tableString = '', i = 0, newMonthDay = 1,
                 date = new Date(config.year, config.month - 2),
                 lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
@@ -129,7 +132,7 @@
             tableString += nextMonthDays(newMonthDay);
 
             tableString += '</tbody>';
-            that.rootElement.innerHTML = tableString;
+            root.innerHTML = tableString;
         }
 
         /**
@@ -166,7 +169,7 @@
          * setting events on table
          */
         function setEvents() {
-            that.rootElement
+            root
                 .addEventListener('click', function (e) {
                     if (e.target.classList.contains('calendar-button')) {
                         e.target.classList.contains('asc') ? config.month++ : config.month--;
@@ -196,14 +199,14 @@
         function render() {
             generateCalendar();
             renderTable();
-            that.customizeCalendar(that);
+            that.CustomizeCalendar(that);
         }
 
         /**
          * initialize
          */
         function init() {
-            that.rootElement = document.createElement('table');
+            root = document.createElement('table');
 
             Object.defineProperty(that, "config", {
                 get: function () {
@@ -230,7 +233,7 @@
                     .onload = function () {
                     Calendar.localizationCache[config.locale] = JSON.parse(this.responseText);
                     render();
-                    container.appendChild(that.rootElement);
+                    container.appendChild(root);
                 };
             }
             setEvents();

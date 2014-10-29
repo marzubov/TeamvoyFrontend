@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="css/style.css"/>
     <script src="../library/event_machine.js"></script>
     <script src="javascript/calendar.js"></script>
-    <script src="javascript/helper.js"></script>
     <script src="javascript/customize_calendar.js"></script>
+    <script src="javascript/helper.js"></script>
 </head>
 <body>
 <article class="col-xs-8 col-xs-offset-2" >
@@ -19,13 +19,18 @@
  </article>
 </body>
 <script>
+//    window.Calendar.myFunction = function (){
+//        console.log('bitch');
+//    };
     var firstContainer = document.getElementById('firstCalendar');
     var firstCalendar = new Calendar(firstContainer,{});
 
     //style
-    firstCalendar.rootElement.classList.add('table');
-    firstCalendar.rootElement.classList.add('table-striped');
-    //customizeCalendar = new CustomizeCalendar(firstCalendar.rootElement);
+    firstCalendar.getRoot().classList.add('table');
+    firstCalendar.getRoot().classList.add('table-striped');
+//
+//    firstCalendar.customize.call(firstCalendar);
+    //customizeCalendar = new CustomizeCalendar(firstCalendar.root);
     //console.log(document.getElementById('firstCalendar').childNodes);
     //events
 //    var eventTestFunction = function(){

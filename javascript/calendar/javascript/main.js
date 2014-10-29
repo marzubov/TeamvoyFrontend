@@ -3,10 +3,10 @@ var secondContainer = document.getElementById('secondCalendar');
 
 var firstCalendar = new Calendar(firstContainer,{});
 var secondCalendar = new Calendar(secondContainer,{year: 2014, month: 5, firstDayOfWeek: "monday", locale: "ua"});
-firstCalendar.rootElement.classList.add('table');
-firstCalendar.rootElement.classList.add('table-striped');
-secondCalendar.rootElement.classList.add('table');
-secondCalendar.rootElement.classList.add('table-striped');
+firstCalendar.getRoot().classList.add('table');
+firstCalendar.getRoot().classList.add('table-striped');
+secondCalendar.getRoot().classList.add('table');
+secondCalendar.getRoot().classList.add('table-striped');
 
 document.querySelector('.btn').onclick = function () {
     var newConfig = {};
