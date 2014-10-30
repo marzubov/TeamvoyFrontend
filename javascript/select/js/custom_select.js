@@ -4,7 +4,8 @@
         var that = this,
             selector = document.createElement('input'),
             hovered, //remembers selected option
-            options = document.createElement('div');
+            options = document.createElement('div'),
+            optionsData = config.options;
         this.config = {
             options: [
                 {}
@@ -21,35 +22,58 @@
             selector.value = title;
         };
 
+        /**
+         * Switch options show/hide
+         */
         this.toggleOptions = function () {
             options.classList.toggle('hide');
-            this.trigger('')
+            options.classList.contains('hide') ? this.trigger('onhide')
+                : this.trigger('onshow');
         };
-        init();
 
+        /**
+         * Filter all options by title
+         * @param searchString
+         * @returns {*} Array of options with title and value
+         */
+        this.filter = function(searchString){
+            this.config.options = optionsData.filter(function(option){
+                return new RegExp(searchString,'i').test(option.title);
+            });
+            renderOptions();
+            hovered = options.querySelector('.option');
+            that.setSelected(hovered.dataset['value'], hovered.innerHTML);
+            return this.config.options;
+        };
+
+        init(); // It`s all begins here!
         function init() {
             render();
             setEvents();
             that.toggleOptions();
         }
 
-        function render() {
-            that.rootElement = document.createElement('div');
-            that.rootElement.addClasses('custom-select');
-            selector.addClasses('custom-select selector');
+        // Change data in select options
+        function renderOptions(){
             var optionString = '';
-            options.addClasses('custom-select options');
             that.config.options.forEach(function (option) {
                 optionString += '<div data-value="' + option.value
                     + '" class="custom-select option">' + option.title + '</div>'
             });
             options.innerHTML = optionString;
-
+        }
+        // Generate whole element
+        function render() {
+            that.rootElement = document.createElement('div');
+            that.rootElement.addClasses('custom-select');
+            selector.addClasses('custom-select selector');
+            options.addClasses('custom-select options');
+            renderOptions();
+            that.container.appendChild(that.rootElement);
             that.rootElement.appendChild(selector);
             that.rootElement.appendChild(options);
-            that.container.appendChild(that.rootElement);
         }
-
+        // Create listeners on selector and options
         function setEvents() {
             options.addEventListener('mousedown', function () {
                 that.setSelected(hovered.dataset['value'], hovered.innerHTML)
@@ -70,7 +94,7 @@
                 keyboardEvent(e);
             });
         }
-
+        // Need for correct work with select from keyboard
         function keyboardEvent(e) {
             switch (e.keyCode) {
                 case 13://enter

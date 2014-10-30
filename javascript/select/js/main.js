@@ -30,23 +30,23 @@ var firstSelect = new CustomSelect(containerOne, {
 var secondSelect = new CustomSelect(containerOne, {
     options: [
         {
-            "title" : "january",
+            "title" : 1,
             "value" : 1
         },
         {
-            "title" : "february",
+            "title" : 2,
             "value" : 2
         },
         {
-            "title" : "march",
+            "title" : 3,
             "value" : 3
         },
         {
-            "title" : "april",
+            "title" : 4,
             "value" : 4
         },
         {
-            "title" : "may",
+            "title" : 5,
             "value" : 5
         }
     ],

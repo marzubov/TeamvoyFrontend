@@ -1,1 +1,7 @@
 @import "reset.css";
+
+#one{
+    position: absolute;
+    left: 30%;
+    right: 30%;
+}
