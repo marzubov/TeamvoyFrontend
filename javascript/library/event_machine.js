@@ -37,14 +37,16 @@
         /**
          * Call listeners of event
          * @param events {String} - event names separated by space;
+         * @param parameters {Array} - array of args
          * @returns {window.EventMachine}
          */
-        this.trigger = function(events){
+        this.trigger = function(events,parameters){
+            var that = this;
             events.split(/\s+/)
                   .forEach(function(event) {
                     if (funcArray[event]) {
                         funcArray[event].forEach(function (handler) {
-                            handler()
+                            handler.apply(that,parameters)
                         });
                     }
             });
