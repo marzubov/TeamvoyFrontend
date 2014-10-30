@@ -5,6 +5,9 @@ span{
 input{
     margin: 5px;
 }
+.aside-config{
+    float:right;
+}
 .what-year {
     width: 140px;
     height: 119px;

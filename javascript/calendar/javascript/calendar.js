@@ -18,18 +18,19 @@
                 locale: 'en',
                 dayEvents: [
                     {
-                        message: 'Current day',
-                        date: new Date()
+                        28: {message: 'Current day',
+                            date: new Date()
+                        }
+                    },
+                    {
+                        29: {message: 'Current day',
+                            date: new Date()
+                        }
                     }
                 ]
             };
         Calendar.localizationCache = {};
         this.container = container;
-        //root;
-        this.customize = function (){
-            console.log(that.getRoot().rows);
-            //that.CustomizeCalendar();
-        };
         init();
 
         /**
@@ -40,6 +41,8 @@
             config.month = today.getMonth() + 1;
             config.year = today.getFullYear();
             render();
+            that.customizeToday(today);
+            that.trigger('onDayChanged');
             return today;
         };
 
@@ -84,10 +87,20 @@
          * @returns {*}
          */
         this.getDayEvent = function (day) {
-            return config.dayEvents[0];
+            var _dayEvents = {};
+            Array.prototype.slice.call(config.dayEvents)
+                .forEach(function (dayEvent) {
+                    if (dayEvent[day]){
+                        _dayEvents = dayEvent[day];
+                    }
+                });
+            return _dayEvents;
         };
 
-
+        /**
+         *
+         * @returns {element}
+         */
         this.getRoot = function (){
             return root;
         };
@@ -115,7 +128,7 @@
 
                 for (i = 0; i < 7; i++) {
                     if (week[i]) {
-                        tableString += '<td>' + week[i].toString() + '</td>';
+                        tableString += '<td dayNumber = '+week[i].toString()+'>' + week[i].toString() + '</td>';
                     } else if (weekNumber == 1) {//previous month non active days
                         tableString += '<td class="non-active-day">' + (lastDay - firstDayWeek).toString() + '</td>';
                         firstDayWeek--;
@@ -181,12 +194,13 @@
                             config.year--;
                             config.month = 12;
                         }
-                        that.trigger('onMonthChanged');
+                        that.trigger('onMonthChanged', [e]);
                         render();
                         return true;
                     }
                     else if (e.target != this) {
-                        that.trigger('onDayChanged');
+                        console.log(e);
+                        that.trigger('onDayChanged', [e]);
                         return true;
                     }
                     return false;
@@ -200,6 +214,15 @@
             generateCalendar();
             renderTable();
             that.CustomizeCalendar(that);
+            if (config.locale == 'en') {
+                that.customizeWeekends(0,6);
+            } else {
+                that.customizeWeekends(5,6);
+            }
+            var today = new Date();
+            if ((today.getMonth()+1 == config.month)&& (today.getFullYear() == config.year)) {
+                that.customizeToday(new Date());
+            }
         }
 
         /**

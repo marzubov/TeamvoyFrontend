@@ -30,7 +30,7 @@
         }
 
         function changePageData(fromPagesData) {
-            var data, i, dataBody = root.querySelector('.data-body'), dataString = '';
+            var data, i, dataBody = root.querySelector('.data-body'), dataString = '', k = 0;
             if (!fromPagesData) {
                 data = dataArray;
             } else {
@@ -38,11 +38,36 @@
             }
             if (!fromPagesData) {
                 for (i = (pageIndex - 1) * maxRows; i < pageIndex * maxRows; i++) {
-                    dataString += '<tr><td>' + data[i].join('</td><td>') + '</td></tr>';
+                    dataString += "<tr>";
+                    if (config.withTemplates) {
+                            for (var j = 0; j < data[i].length; j++) {
+                                if (config.columnTemplates[j]) {
+                                    dataString += '<td>' + config.columnTemplates[j](object[i]) + '</td>';
+                                } else {
+                                    dataString += '<td>' + data[i][j] + '</td>';
+                                }
+                        }
+                    } else {
+                            dataString += '<td>' + data[i].join('</td><td>') + '</td>';
+                    }
+                    dataString += "</tr>";
                 }
             } else {
                 for (i = 0; i < maxRows; i++) {
-                    dataString += '<tr><td>' + data[i].join('</td><td>') + '</td></tr>';
+                    dataString += "<tr>";
+                    if (config.withTemplates) {
+                        for (var j = 0; j < data[i].length; j++) {
+                            if (config.columnTemplates[j]) {
+                                dataString += '<td>' + config.columnTemplates[j](object[i]) + '</td>';
+                            } else {
+                                dataString += '<td>' + data[i][j] + '</td>';
+                            }
+
+                        }
+                    } else {
+                        dataString += '<td>' + data[i].join('</td><td>') + '</td>';
+                    }
+                    dataString += "</tr>";
                 }
             }
             dataBody.innerHTML = dataString;
@@ -96,14 +121,21 @@
             root.classList.add("table-bordered");
 
             var tableString = '<thead><tr><td>' + config.headers.join('</td><td>') + '</td></thead>';
-            console.log(tableString);
             // Make body
 
             if (config.withTemplates) {
-                tableString += '<tbody class="data-body templateTable">';
-                tableString += "<script id='template' type='text/x-handlebars-template'>{{#each items}}<tr>";
-                for (var i = 0; i < maxRows; i++) tableString += "<td>{{age"+(i+1)+"}}</td>";
-                tableString += "</tr> {{/each}}</script>";
+                tableString += '<tbody id="template" class="data-body templateTable">';
+                for (var i = 0; i < maxRows; i++) {
+                    tableString += "<tr>";
+                    for (var j = 0; j < dataArray[i].length; j++) {
+                        if (config.columnTemplates[j]) {
+                            tableString += '<td>' + config.columnTemplates[j](object[i]) + '</td>';
+                        } else {
+                            tableString += '<td>' + dataArray[i][j] + '</td>';
+                        }
+                    }
+                    tableString += "</tr>";
+                }
             } else {
                 tableString += '<tbody class="data-body">';
                 if (!maxRows) {
@@ -113,19 +145,11 @@
                     maxDataLength = dataArray.length;
                 }
                 for (var i = 0; i < maxRows; i++) {
-                    tableString += '<tr><td>' + dataArray[i].join('</td><td>') + '</td></tr>';
+                        tableString += '<tr><td>' + dataArray[i].join('</td><td>') + '</td></tr>';
                 }
-                tableString += '</tbody>';
-
             }
+            tableString += '</tbody>';
             root.innerHTML = tableString;
-
-            if (config.withTemplates) {
-                var template = Handlebars.compile( document.getElementById('template').innerHTML );
-                var allRows = (template(object).toString()).split(" "), rowsForPrint = "";
-                for (var i = 0; i < maxRows; i++) rowsForPrint += allRows[i];
-                document.querySelector('.templateTable').innerHTML = rowsForPrint;
-            }
 
             var headCells = root.querySelector('thead').querySelector('tr').querySelectorAll('td');
             headCells = Array.prototype.slice.call(headCells);
@@ -187,16 +211,15 @@
         };
 
         function xhrOnLoad(xhr) {
-            var receivedText = xhr.responseText,
-                receivedObject = JSON.parse(receivedText),
+            var receivedText = xhr.responseText.split("__obj__"),
+                receivedObject = JSON.parse(receivedText[0]),
                 tempData = [];
+            maxDataLength = receivedText[1];
             object = receivedObject;
-            maxDataLength = receivedObject.items.length;
-            //console.log("response object ", receivedObject);
-            //console.log("response object max length", receivedText[1]);
+
 
             //tempData and tempArray for temporary storing data
-            Array.prototype.slice.call(receivedObject.items)
+            Array.prototype.slice.call(receivedObject)
                 .forEach(function (el) {
                     var tempArray = [];
                     Object.keys(el).forEach(function (key, index) {
