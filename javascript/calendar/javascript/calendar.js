@@ -14,16 +14,19 @@
             config = {
                 year: (new Date()).getFullYear(),
                 month: (new Date()).getMonth() + 1,
-                firstDayOfWeek: 'sunday',
+                firstDayOfWeek: 'SUN',
                 locale: 'en',
+                daysInWeek: 14,
                 dayEvents: [
                     {
-                        28: {message: 'Current day',
+                        28: {
+                            message: 'Current day',
                             date: new Date()
                         }
                     },
                     {
-                        29: {message: 'Current day',
+                        29: {
+                            message: 'Current day',
                             date: new Date()
                         }
                     }
@@ -47,38 +50,51 @@
         };
 
         /**
-         * Generating calendar
+         * @variable lastDay - last day of the month
+         * @variable firstDayWeek - start day of the week
+         * @variable myDays - day names for calendar taken from config.locale
+         * @variable myMonths - month names for calendar taken from config.locale
+         * @variable indexOfStartDay - index of starting day taken from calling indexOf on myDays with config.firstDayOfWeek parameter
+         * @variable monthPrefix - day names for calendar taken from config.locale
+         * @variable maxDaysNumber - its = all days of current month + days of previous and next that we show in our calendar
          */
         function generateCalendar() {
-            var dataMonth = Calendar.localizationCache[config.locale],
-                i, date = new Date(config.year, config.month - 1), month, monthPrefix,
+            var i, date = new Date(config.year, config.month - 1), month, monthPrefix,
                 lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
                 firstDayWeek = new Date(date.getFullYear(), date.getMonth(), 1).getDay(),
-                myMonth = ["january", "february", "march", "april", "may", "june", "july", "august",
-                    "september", "october", "november", "december"],
-                myDays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"],
-                indexOfStartDay, days = [];
+                indexOfStartDay, days = [],
+                maxDaysNumber = (1 + parseFloat(Math.ceil(30 / config.daysInWeek))) * config.daysInWeek,
+                myMonth = Object.keys(Calendar.localizationCache[config.locale].month).map(function (key, index) {
+                    return Calendar.localizationCache[config.locale].month[key];
+                }),
+                myDays = Object.keys(Calendar.localizationCache[config.locale].daysOfWeek).map(function (key, index) {
+                    return Calendar.localizationCache[config.locale].daysOfWeek[key];
+                });
 
             indexOfStartDay = myDays.indexOf(config.firstDayOfWeek);
-            model.chosenMonth = dataMonth.month[myMonth[config.month - 1]];
+            model.chosenMonth = myMonth[config.month - 1];
 
             myDays.forEach(function (el, i) {
-                days[i] = dataMonth.daysOfWeek[el];
+                days[i] = el;
             });
 
             model.arrayOfDays = [];
-            days = days.slice(indexOfStartDay, 7).concat(days.slice(0, indexOfStartDay));
+            days = days.slice(indexOfStartDay, config.daysInWeek).concat(days.slice(0, indexOfStartDay));
             model.arrayOfDays.push(days);
 
             month = Array.apply(null, {length: lastDay}).map(function (el, i) {
                 return i + 1;
             });
-            firstDayWeek = (7 - (indexOfStartDay + 1 - firstDayWeek)) % 7;
+
+            firstDayWeek = (config.daysInWeek - (indexOfStartDay + 1 - firstDayWeek)) % config.daysInWeek;
             monthPrefix = new Array(firstDayWeek);
             month = monthPrefix.concat(month);
-            for (i = 0; i < month.length; i += 7) {
-                model.arrayOfDays.push(month.slice(i, i + 7));
+            month = month.concat(new Array(maxDaysNumber - month.length));
+
+            for (i = 0; i < month.length; i += config.daysInWeek) {
+                model.arrayOfDays.push(month.slice(i, i + config.daysInWeek));
             }
+            return this;
         }
 
         /**
@@ -90,7 +106,7 @@
             var _dayEvents = {};
             Array.prototype.slice.call(config.dayEvents)
                 .forEach(function (dayEvent) {
-                    if (dayEvent[day]){
+                    if (dayEvent[day]) {
                         _dayEvents = dayEvent[day];
                     }
                 });
@@ -101,51 +117,73 @@
          *
          * @returns {element}
          */
-        this.getRoot = function (){
+        this.getRoot = function () {
             return root;
         };
 
         /**
+         *  Renders headings and returns string of rendered element
+         * @returns {string}
+         */
+        function renderCaption() {
+            var tableString = '<caption class="caption"><button class="calendar-button desc"></button><span>'
+                + (model.chosenMonth + ' ' + config.year)
+                + '</span><button class="calendar-button asc"></button></caption>';
+            root.innerHTML = tableString;
+            return tableString;
+        }
+
+        function renderHeader() {
+            var weekNumber = 0, tableString = '<thead>';
+            for (var i = 0; i < config.daysInWeek; i++) {
+                weekNumber = Math.floor(i / 7);
+                //console.log(weekNumber, model.arrayOfDays[0][i-weekNumber*7]);
+                tableString += '<td dayName = ' + model.arrayOfDays[0][i - weekNumber * 7].toString() + '>' + model.arrayOfDays[0][i - weekNumber * 7].toString() + '</td>';
+            }
+            tableString += '</thead>';
+            root.innerHTML += tableString;
+            return tableString;
+        }
+
+        /**
          * rendering table
          */
-        function renderTable() {
+        function renderBody() {
             root.classList.add('calendar');
             var tableString = '', i = 0, newMonthDay = 1,
                 date = new Date(config.year, config.month - 2),
                 lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
                 firstDayWeek = new Date(date.getFullYear(), date.getMonth() + 1, 1).getDay();
-
-            //make caption
-            tableString += '<caption class="caption"><button class="calendar-button desc"></button><span>'
-                + (model.chosenMonth + ' ' + config.year)
-                + '</span><button class="calendar-button asc"></button></caption>';
-
-            //make body
             tableString += '<tbody>';
             var weekNumber = 0;
-            model.arrayOfDays.forEach(function (week) {
-                tableString += '<tr>';
+            model.arrayOfDays.map(function (week) {
 
-                for (i = 0; i < 7; i++) {
+                if (weekNumber == 0) {
+                    weekNumber++;
+                    return false;
+                }
+                tableString += '<tr>';
+                for (i = 0; i < config.daysInWeek; i++) {
                     if (week[i]) {
-                        tableString += '<td dayNumber = '+week[i].toString()+'>' + week[i].toString() + '</td>';
-                    } else if (weekNumber == 1) {//previous month non active days
-                        tableString += '<td class="non-active-day">' + (lastDay - firstDayWeek).toString() + '</td>';
-                        firstDayWeek--;
-                    } else {//next month non active days
-                        tableString += '<td class="non-active-day">' + newMonthDay.toString() + '</td>';
-                        newMonthDay++;
+                        tableString += '<td dayNumber = ' + week[i].toString() + 'class="active-day">' + week[i].toString() + '</td>';
+                    }
+                    else {
+                        if (weekNumber == 1) {
+                            tableString += '<td class="non-active-day">' + (lastDay - firstDayWeek + 1 -config.daysInWeek + 7).toString() + '</td>';
+                            firstDayWeek--;
+                        } else {
+                            tableString += '<td class="non-active-day">' + (newMonthDay).toString() + '</td>';
+                            newMonthDay++;
+                        }
+
                     }
                 }
                 tableString += '</tr>';
                 weekNumber++;
             });
-
-            //adding additional non active week to feet standard calendar length
-            tableString += nextMonthDays(newMonthDay);
-
             tableString += '</tbody>';
-            root.innerHTML = tableString;
+            root.innerHTML += tableString;
+            return this;
         }
 
         /**
@@ -156,9 +194,9 @@
         function nextMonthDays(startDay) {
             //adding next month week if calendar doesn't  feet standard length
             var newRow = '';
-            for (var j = 0; j < 7 - model.arrayOfDays.length; j++) {
+            for (var j = 0; j < config.daysInWeek - model.arrayOfDays.length; j++) {
                 newRow += '<tr>';
-                for (var i = 1; i <= 7; i++) {
+                for (var i = 0 + j * config.daysInWeek; i < (j + 1) * config.daysInWeek; i++) {
                     newRow += '<td class="non-active-day">' + (i + startDay).toString() + '</td>';
                 }
                 newRow += '</tr>';
@@ -210,18 +248,21 @@
          * rendering
          */
         function render() {
-            generateCalendar();
-            renderTable();
-            that.CustomizeCalendar(that);
+            var generatedCalendar = generateCalendar();
+            var renderedCaption = renderCaption();
+            var renderedHeader = renderHeader();
+            var renderedBody = renderBody();
+            that.customizeCalendar(that);
             if (config.locale == 'en') {
-                that.customizeWeekends(0,6);
+                that.customizeWeekends(0, 6);
             } else {
-                that.customizeWeekends(5,6);
+                that.customizeWeekends(5, 6);
             }
             var today = new Date();
-            if ((today.getMonth()+1 == config.month)&& (today.getFullYear() == config.year)) {
+            if ((today.getMonth() + 1 == config.month) && (today.getFullYear() == config.year)) {
                 that.customizeToday(new Date());
             }
+            return this;
         }
 
         /**

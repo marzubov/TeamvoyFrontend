@@ -5,7 +5,7 @@
      * @param calendar
      * @constructor
      */
-    global.Calendar.prototype.CustomizeCalendar = function (calendar){
+    global.Calendar.prototype.customizeCalendar = function (calendar){
         var that = this;
         /**
          *  Customizing days styles
@@ -18,13 +18,10 @@
                         .forEach(function (cell) {
                             if (weekNumber == 0){
                                 // its just day names, so we are skipping this iteration
-
                                 return false;
                             }else {
-
                                 //here customizing days
                                 //checking if day isn't from another month
-
                                 if (!cell.classList.contains('non-active-day')){
                                     cell.classList.add('active-day');
                                 }
@@ -32,6 +29,7 @@
                         });
                     weekNumber++;
                 });
+            return this;
         };
 
         /**
@@ -42,6 +40,7 @@
                 .forEach(function (dayName) {
                     dayName.classList.add('day-name');
                 });
+            return this;
         };
 
         this.customizeWeekends = function (first,second){
@@ -51,8 +50,8 @@
                 .forEach(function (row) {
                     Array.prototype.slice.call(row.cells)
                         .forEach(function (cell) {
-
-                            if ((dayNumber == first)||(dayNumber == second)){
+                            weekNumber = Math.floor(dayNumber / 7);
+                            if ((dayNumber == first + weekNumber*7)||(dayNumber == second + weekNumber*7)){
                                 cell.classList.add('weekend');
                             }
                             dayNumber++;
@@ -60,6 +59,7 @@
                     weekNumber++;
                     dayNumber = 0;
                 });
+            return this;
         };
 
         this.customizeToday = function (today){
@@ -72,14 +72,15 @@
                             }
                         });
                 });
+            return this;
         };
 
         /**
          *  Initializing
          */
         this.init = function(){
-            that.customizeDays();
-            that.customizeDayNames();
+            var customizedDays = that.customizeDays();
+            var customizedDayNames = that.customizeDayNames();
         };
 
         that.init();
