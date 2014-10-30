@@ -1,82 +1,48 @@
-﻿table{
-width: 100%;
+﻿@import "../../reset.css";
+
+.main-header {
+    background-color: red;
+    height: 35px;
+    overflow: hidden;
 }
-.search{
-width: 100%;
+.calendar-options {
+    background-color: gold;
+    overflow: hidden;
 }
-body{
-margin-left: 100px;
-}
-td{
-height: 40px;
-}
-.content {
-    empty-cells:show;
-}
-menu{
-margin: 0;
+.header-menu{
+    position: absolute;
+    right: 0;
 }
 .logo {
     height: 35px;
     width: 90px;
+    position: absolute;
+    left: 0;
 }
-.colum-1{
-float: left;
-width: 80px;
-min-height: 1px;
+.search{
+    width: 200px;
 }
-.colum-2{
-float: left;
-width: 160px;
-min-height: 1px;
+.search-box{
+    position: absolute;
+    left: 15%;
+    right: 25%;
 }
-.colum-3{
-float: left;
-width: 240px;
-min-height: 1px;
+.calendar {
+    background-color: blue;
+    position: absolute;
+    top: 100px;
+    bottom: 0;
+    right: 0;
+    left: 150px;
+    overflow: auto;
+    empty-cells: show;
 }
-.colum-4{
-float: left;
-width: 320px;
-min-height: 1px;
-}
-.colum-5{
-float: left;
-width: 400px;
-min-height: 1px;
-}
-.colum-6{
-float: left;
-width: 480px;
-min-height: 1px;
-}
-.colum-7{
-float: left;
-width: 560px;
-min-height: 1px;
-}
-.colum-8{
-float: left;
-width: 640px;
-min-height: 1px;
-}
-.colum-9{
-float: left;
-width: 720px;
-min-height: 1px;
-}
-.colum-10{
-float: left;
-width: 800px;
-min-height: 1px;
-}
-.colum-11{
-float: left;
-width: 880px;
-min-height: 1px;
-}
-.colum-12{
-float: left;
-width: 960px;
-min-height: 1px;
+.calendar-menu{
+    background-color: gray;
+    position: absolute;
+    width: 150px;
+    top: 100px;
+    bottom: 0;
+    left: 0;
+    overflow: auto;
 }
