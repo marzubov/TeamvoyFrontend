@@ -14,22 +14,22 @@ http.createServer(function (request, response) {
         jf.readFile(file, function (err, obj) {
             if (!((path[1]) && (path[2]))) {
                 response.writeHead(200, { 'Content-Type': 'text/html', 'Access-Control-Allow-Origin': '*' });
-                //console.log(obj.length);
-                data = JSON.stringify(obj);
+                console.log(obj.items.length);
+                data = JSON.stringify(obj.items) + "__obj__" + obj.items.length.toString() + "__obj__" + JSON.stringify(obj);
                 //console.log(data);
                 response.end(data);
             }
-            else {
+            //else {
                 for (var i = +path[1]; i < +path[2]; i++) {
                     console.log(obj[i]);
-                    if (obj[i])
-                        data.push(obj[i]);
+                    if (obj.items[i])
+                        data.push(obj.items[i]);
                 }
                 ;
                 console.log(data);
                 response.writeHead(200, { 'Content-Type': 'text/html', 'Access-Control-Allow-Origin': '*' });
-                response.end(JSON.stringify(data) + "__objectmaxlength__" + obj.length.toString());
-            }
+                response.end(JSON.stringify(data) + "__obj__" + obj.items.length.toString()) + "__obj__" + JSON.stringify(obj);;
+            //}
         });
     }
 }).listen(8001);

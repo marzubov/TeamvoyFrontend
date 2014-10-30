@@ -17,14 +17,18 @@ var numberArray = Array.apply(null, {length: 100})
 var configObject = {
     'headers': ['1', '2', '3', '4', '5'],
     'url': 'http://localhost:8001',
-    'loadByParts': true
+    'loadByParts': true,
+    'withTemplates': false
 };
 
 var configObjectPartialLoading = {
     'headers': ['1', '2', '3', '4', '5'],
     'url': 'http://localhost:8001',
     'loadByParts': true,
-    'withTemplates': false
+    'withTemplates': true,
+    'columnTemplates': {
+        1 : Handlebars.compile("<b>{{age2}}</b>")
+    }
 };
 
 var configObjectFullLoading = {
@@ -38,7 +42,11 @@ var configObjectFullLoadingWithTemplate = {
     'headers': ['1', '2', '3', '4', '5'],
     'url': 'http://localhost:8001',
     'loadByParts': false,
-    'withTemplates': true
+    'withTemplates': true,
+    'columnTemplates': {
+        1 : Handlebars.compile("<i><b>{{age2}}</b></i>"),
+        4 : Handlebars.compile("<u>{{age5}}</u>")
+    }
 };
 
 
