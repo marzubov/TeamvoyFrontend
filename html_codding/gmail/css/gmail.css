@@ -11,23 +11,31 @@
     overflow: hidden;
 }
 
-.mails-header h3{
+.mails-header h1{
     display: inline-block;
     padding-left: 15px;
     width: 10%;
+    position: relative;
+    margin-left: 10px;
+}
+.mails-header span{
+    display: inline-block;
+    margin-top: 15px;
 }
 
 .controls {
     position: relative;
     top:-5px;
+    margin-left: 5.5%;
 }
 .controls button{
     margin-left: 10px;
     height:30px;
     width: 75px;
+    position: relative;
 }
-.controls input{
-
+.controls button input{
+    position: relative;
 }
 .user-options {
     /*background: red;*/
@@ -47,11 +55,15 @@ margin-top: 5px;
     margin-left: 50px;
     height: 30px;
     width: 40%;
+    position: relative;
+    top: -20px;
 }
 .search-btn{
     background: lightskyblue;
     border: none;
-    height: 30px;
+    height: 35px;
+    position: relative;
+    top: -20px;
 }
 hr{
     margin: 0 !important;
@@ -88,6 +100,29 @@ hr{
     display: block;
     position: absolute;
     bottom: 30px;
+}
+
+.mails .mails-list table{
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+    background-color: transparent;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+.mails .mails-list table thead tr td{
+    border-top: 0;
+    vertical-align: bottom;
+    border-bottom: 2px solid #ddd;
+    padding: 8px;
+    line-height: 1.42857143;
+    text-align: left;
+}
+.mails .mails-list table tbody td{
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
 }
 
 .mails {
