@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="css/style.css"/>
     <script src="../library/event_machine.js"></script>
     <script src="javascript/calendar.js"></script>
-    <script src="javascript/helper.js"></script>
     <script src="javascript/customize_calendar.js"></script>
+    <script src="javascript/helper.js"></script>
 </head>
 <body>
 <article class="col-xs-8 col-xs-offset-2" >
@@ -23,14 +23,14 @@
     var firstCalendar = new Calendar(firstContainer,{});
 
     //style
-    firstCalendar.rootElement.classList.add('table');
-    firstCalendar.rootElement.classList.add('table-striped');
-    customizeCalendar = new CustomizeCalendar(firstCalendar);
+    firstCalendar.getRoot().classList.add('table');
+    firstCalendar.getRoot().classList.add('table-striped');
+
     //events
-//    var eventTestFunction = function(){
-//        console.log('month changed');
-//    };
-//    firstCalendar.on('onMonthChanged',eventTestFunction);
+    var eventTestFunction = function(){
+        console.log('month changed');
+    };
+    firstCalendar.on('onMonthChanged',eventTestFunction);
 
 </script>
 </html>

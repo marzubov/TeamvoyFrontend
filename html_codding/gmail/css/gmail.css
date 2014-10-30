@@ -1,30 +1,202 @@
 @import "../../reset.css";
 
+button{
+    border: none;
+    border-radius: 3px;
+}
 .main-header {
-    background: gold;
-    height: 100px;
+    background: #f5f5f5;
+    height: 50px;
+    overflow: hidden;
+}
+.mails-header {
+    /*background: gold;*/
+    height: 50px;
     overflow: hidden;
 }
 
+.mails-header h1{
+    display: inline-block;
+    padding-left: 15px;
+    width: 10%;
+    position: relative;
+    margin-left: 10px;
+}
+.mails-header span{
+    display: inline-block;
+    margin-top: 15px;
+}
+
+.controls {
+    position: relative;
+    top:-5px;
+    left: 100px;
+}
+.controls button{
+    background-color: lightgrey;
+    height: 30px;
+    width: 75px;
+    position: relative;
+}
+
+.checkbox{
+    top:-1px;
+}
 .user-options {
-    background: red;
+    /*background: red;*/
     position: absolute;
     width: 150px;
-    top: 100px;
+    top: 105px;
     bottom: 0;
     left: 0;
-    overflow: auto;
+    overflow: hidden;
 }
-.user-options nav {}
+
+.logo{
+margin-top: 5px;
+    margin-left: 10px;
+}
+
+.search-input{
+    margin-left: 40px;
+    height: 30px;
+    width: 40%;
+    position: relative;
+    top: -20px;
+}
+
+.search-btn{
+    background: lightskyblue;
+    border: none;
+    height: 35px;
+    position: relative;
+    top: -20px;
+}
+
+hr{
+    margin: 0 !important;
+    height: 1px;
+    border-width: 0;
+    background-color: lightgrey;
+}
+
+.user-options nav{
+    display: block;
+    position: relative;
+    overflow: hidden;
+}
+.user-options nav a{
+    display: block;
+    margin-left: 15%;
+    margin-top: 10%;
+    margin-bottom: 5%;
+}
+
+.user-options footer{
+    position: absolute;
+    bottom: 0;
+}
+.user-options hr{
+    margin-left: 15% !important;
+}
+
+.user-options footer hr{
+    width: 150px;
+}
+
+.user-options footer button{
+    margin-top: 5px;
+    margin-left: 63px;
+    position: relative;
+}
+
+.compose{
+    position: relative;
+    margin-top: 7%;
+    margin-left: 15%;
+    width: 75px;
+    height: 30px;
+    background-color: orangered;
+    color: white;
+}
+
+.chat{
+    padding: 10px;
+    overflow: auto;
+    top: 270px;
+    display: block;
+    position: absolute;
+    bottom: 30px;
+    left: 10%;
+}
+
+.mails .mails-list table{
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+    background-color: transparent;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+.mails .mails-list table thead tr td{
+    border-top: 0;
+    vertical-align: bottom;
+    border-bottom: 2px solid #ddd;
+    padding: 8px;
+    line-height: 1.42857143;
+    text-align: left;
+}
+.mails .mails-list table tbody td{
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}
+
+/*.mails .mails-list table tbody tr :hover{*/
+    /*background: lightblue;*/
+/*}*/
 
 .mails {
     position: absolute;
-    top: 100px;
+    top: 105px;
     bottom: 0;
-    right: 0;
-    left: 150px;
-    background: greenyellow;
+    right: 20px;
+    left: 170px;
+    /*background: greenyellow;*/
     overflow: auto;
 }
 
-.mails .mails-list {}
+.mails footer{
+    text-align: center;
+}
+
+.mails .mails-list {
+    background: #f5f5f5;
+}
+
+.tab-control{
+    margin-top: 10px;
+}
+.tab-control button{
+    border: none;
+    border-radius: 0;
+    height:50px;
+    width: 15%;
+    background: lightgrey;
+    padding: 0;
+}
+
+.tab-control button:hover{
+    background: #f5f5f5;
+    cursor: pointer;
+}
+
+body{
+    overflow: hidden;
+}
+
+.letter:hover{
+    background: white;
+    cursor: pointer;
+}
