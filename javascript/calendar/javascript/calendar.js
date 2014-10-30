@@ -199,7 +199,6 @@
                         return true;
                     }
                     else if (e.target != this) {
-                        console.log(e);
                         that.trigger('onDayChanged', [e]);
                         return true;
                     }
