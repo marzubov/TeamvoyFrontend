@@ -26,11 +26,17 @@
     firstCalendar.getRoot().classList.add('table');
     firstCalendar.getRoot().classList.add('table-striped');
 
+    //firstCalendar.showToday();
+
     //events
-    var eventTestFunction = function(){
-        console.log('month changed');
+    var monthTestFunction = function(e){
+        console.log('month changed', e, this);
     };
-    firstCalendar.on('onMonthChanged',eventTestFunction);
+    var dayTestFunction = function(e){
+        console.log('day changed', e, this);
+    };
+    firstCalendar.on('onMonthChanged',monthTestFunction);
+    firstCalendar.on('onDayChanged',dayTestFunction);
 
 </script>
 </html>

@@ -10,7 +10,7 @@
         /**
          *  Customizing days styles
          */
-        this.day = function (){
+        this.customizeDays = function (){
             var weekNumber = 0;
             Array.prototype.slice.call(calendar.getRoot().rows)
                 .forEach(function (row) {
@@ -37,27 +37,49 @@
         /**
          *  Customizing days names style
          */
-        this.dayNames = function (){
+        this.customizeDayNames = function (){
             Array.prototype.slice.call(calendar.getRoot().rows[0].cells)
                 .forEach(function (dayName) {
                     dayName.classList.add('day-name');
                 });
         };
 
-        this.weekends = function (){
+        this.customizeWeekends = function (first,second){
+            var weekNumber = 0;
+            var dayNumber = 0;
+            Array.prototype.slice.call(calendar.getRoot().rows)
+                .forEach(function (row) {
+                    Array.prototype.slice.call(row.cells)
+                        .forEach(function (cell) {
 
+                            if ((dayNumber == first)||(dayNumber == second)){
+                                cell.classList.add('weekend');
+                            }
+                            dayNumber++;
+                        });
+                    weekNumber++;
+                    dayNumber = 0;
+                });
         };
 
-        this.today = function (){
-
+        this.customizeToday = function (today){
+            Array.prototype.slice.call(calendar.getRoot().rows)
+                .forEach(function (row) {
+                    Array.prototype.slice.call(row.cells)
+                        .forEach(function (cell) {
+                            if (today.getDate() == cell.getAttribute('dayNumber')){
+                                cell.classList.add('today')
+                            }
+                        });
+                });
         };
 
         /**
          *  Initializing
          */
         this.init = function(){
-            that.day();
-            that.dayNames();
+            that.customizeDays();
+            that.customizeDayNames();
         };
 
         that.init();

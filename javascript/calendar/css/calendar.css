@@ -2,11 +2,16 @@
 }
 
 .calendar .caption{
+    background-color: dodgerblue;
+    color: #ffffff;
     font-size: 20px;
 }
 
 .calendar tr:nth-child(1){
     font-weight: bold;
+}
+.calendar td{
+    background: #ffffff !important;
 }
 
 .calendar .calendar-event{
@@ -82,9 +87,12 @@
 }
 
 .weekend{
-    background: lightpink !important;
+    /*background: lightgreen !important;*/
+    color: red;
 }
 
-.super-active{
-    border:1px solid red !important;
+.today{
+    border:2px solid dodgerblue !important;
+    font-weight: bold;
+    color: dodgerblue;
 }
