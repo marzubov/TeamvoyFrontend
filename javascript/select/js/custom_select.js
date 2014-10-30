@@ -3,21 +3,7 @@
         CustomSelect.superclass.constructor.call(this);
         var that = this,
             optionsData = config.options,
-            hovered = { //Remembers hovered element
-                isDefined: function () { // Need for checking
-                    return this.realElement
-                },
-                realElement: 0,
-                get element() {
-                    return this.realElement
-                },
-                set element(value) { //Delete previous hovered element
-                    if(this.isDefined())
-                    this.realElement.classList.remove('hover');
-                    this.realElement = value;
-                    this.realElement.classList.add('hover')
-                }
-            };
+            hovered = 0;
         this.config = config;
 
         /**
@@ -45,9 +31,11 @@
 
 
         this.setSelected = function (value, title) {
+            if(this.value != value){
             this.value = value;
             this.selector.value = title;
             this.trigger('change');
+            }
         };
 
         /**
@@ -61,6 +49,18 @@
             });
             return this.config.options;
         };
+
+        Object.defineProperty(this,'hovered',{
+            get: function () {
+                return hovered;
+            },
+            set: function (value) {
+               hovered && (hovered.classList.remove('hover'));
+                hovered = value;
+                hovered.classList.add('hover');
+                return hovered;
+            }
+        });
 
         init(); // It`s all begins here!
         function init() {
@@ -102,10 +102,10 @@
         // Create listeners on selector and options
         function listenUserActions() {
             that.options.addEventListener('mousedown', function () {
-                that.setSelected(hovered.element.dataset['value'], hovered.element.innerHTML)
+                that.setSelected(hovered.dataset['value'], hovered.innerHTML)
             });
             that.options.addEventListener('mouseover', function (e) {
-                hovered.element = e.target;
+                that.hovered = e.target;
             });
             that.selector.addEventListener('blur', function () {
                 that.hide();
@@ -122,16 +122,16 @@
                         that.hide();
                         break;
                     case 40://down
-                        if(hovered.element.nextSibling){
-                            hovered.element = hovered.element.nextSibling;
-                            that.setSelected(hovered.element.dataset['value'], hovered.element.innerHTML);
-                        }
+                        that.hovered = that.hovered ?
+                            that.hovered.nextSibling || that.hovered :
+                            that.options.querySelector('.option');
+                        that.setSelected(that.hovered.dataset['value'], that.hovered.innerHTML);
                         break;
                     case 38://up
-                        if(hovered.element.previousSibling){
-                            hovered.element = hovered.element.previousSibling;
-                            that.setSelected(hovered.element.dataset['value'], hovered.element.innerHTML);
-                        }
+                        that.hovered = that.hovered ?
+                            that.hovered.previousSibling || that.hovered:
+                            that.options.querySelector('.option');
+                        that.setSelected(that.hovered.dataset['value'], that.hovered.innerHTML);
                         break;
                     default :
                         that.show();
