@@ -2,35 +2,52 @@
     var CustomSelect = global.CustomSelect = function (container, config) {
         CustomSelect.superclass.constructor.call(this);
         var that = this,
-            selector = document.createElement('input'),
-            hovered, //remembers selected option
-            options = document.createElement('div'),
-            optionsData = config.options;
-        this.config = {
-            options: [
-                {}
-            ],
-            defaultOption: "Please Select Option"
-        };
-        this.value = {};
-        this.container = container;
-        this.rootElement = {};
-        this.config.merge(config);
-        selector.value = this.config.defaultOption;
+            optionsData = config.options,
+            hovered = { //Remembers hovered element
+                isDefined: function () { // Need for checking
+                    return this.realElement
+                },
+                realElement: 0,
+                get element() {
+                    return this.realElement
+                },
+                set element(value) { //Delete previous hovered element
+                    if(this.isDefined())
+                    this.realElement.classList.remove('hover');
+                    this.realElement = value;
+                    this.realElement.classList.add('hover')
+                }
+            };
+        this.config = config;
 
-        this.setSelected = function (value, title) {
-            this.value = value;
-            selector.value = title;
-            this.trigger('change');
+        /**
+         * Hide options
+         */
+        this.hide = function(){
+            this.options.classList.add('hide');
+            that.trigger('hide')
         };
 
         /**
-         * Switch options show/hide
+         * Show options
          */
-        this.toggleOptions = function () {
-            options.classList.toggle('hide');
-            options.classList.contains('hide') ? this.trigger('hide'):
-                this.trigger('show');
+        this.show = function(){
+            this.options.classList.remove('hide');
+            that.trigger('show');
+        };
+
+        /**
+         * Toggle options
+         */
+        this.toggle = function(){
+            this.options.classList.contains('hide') ? this.show()  : this.hide();
+        };
+
+
+        this.setSelected = function (value, title) {
+            this.value = value;
+            this.selector.value = title;
+            this.trigger('change');
         };
 
         /**
@@ -38,105 +55,91 @@
          * @param searchString
          * @returns {*} Array of options with title and value
          */
-        this.filter = function(searchString){
-            this.config.options = optionsData.filter(function(option){
-                return new RegExp(searchString,'i').test(option.title);
+        this.filter = function (searchString) {
+            this.config.options = optionsData.filter(function (option) {
+                return new RegExp(searchString, 'i').test(option.title);
             });
-            renderOptions();
-            hovered = options.querySelector('.option');
-            that.setSelected(hovered.dataset['value'], hovered.innerHTML);
             return this.config.options;
         };
 
         init(); // It`s all begins here!
         function init() {
-            render();
-            setEvents();
-            that.toggleOptions();
+            that.rootElement = render();
+            that.rootElement.appendChild(that.selector = renderSelector());
+            that.rootElement.appendChild(that.options = renderOptions());
+            container.appendChild(that.rootElement);
+            listenUserActions(that.rootElement);
+            that.hide();
         }
 
-        // Change data in select options
-        function renderOptions(){
+        // Generate root element
+        function render() {
+            var mainElement = document.createElement('div');
+            mainElement.classList.add('custom-select');
+            return mainElement;
+        }
+
+        // Generate data in select options
+        function renderOptions() {
+            var options = document.createElement('div');
+            options.classList.add('custom-select', 'options');
             var optionString = '';
-            that.config.options.forEach(function (option) {
+            that.config.optionsData.forEach(function (option) {
                 optionString += '<div data-value="' + option.value
                     + '" class="custom-select option">' + option.title + '</div>'
             });
             options.innerHTML = optionString;
+            return options;
         }
-        // Generate whole element
-        function render() {
-            that.rootElement = document.createElement('div');
-            that.rootElement.addClasses('custom-select');
-            selector.addClasses('custom-select selector');
-            options.addClasses('custom-select options');
-            renderOptions();
-            that.container.appendChild(that.rootElement);
-            that.rootElement.appendChild(selector);
-            that.rootElement.appendChild(options);
+
+        // Generate selector input
+        function renderSelector() {
+            var selector = document.createElement('input');
+            selector.classList.add('custom-select', 'selector');
+            return selector;
         }
+
         // Create listeners on selector and options
-        function setEvents() {
-            options.addEventListener('mousedown', function () {
-                that.setSelected(hovered.dataset['value'], hovered.innerHTML)
+        function listenUserActions() {
+            that.options.addEventListener('mousedown', function () {
+                that.setSelected(hovered.element.dataset['value'], hovered.element.innerHTML)
             });
-            options.addEventListener('mouseover', function (e) {
-                hovered &&
-                hovered.classList.remove('hover');
-                hovered = e.target;
-                hovered.classList.add('hover');
+            that.options.addEventListener('mouseover', function (e) {
+                hovered.element = e.target;
             });
-            selector.addEventListener('blur', function () {
-                options.classList.add('hide');
+            that.selector.addEventListener('blur', function () {
+                that.hide();
             });
-            selector.addEventListener('click', function () {
-                that.toggleOptions();
+            that.selector.addEventListener('click', function () {
+                that.toggle();
             });
-            selector.addEventListener('keydown', function (e) {
-                keyboardEvent(e);
+            that.selector.addEventListener('keydown', function (e) {
+                switch (e.keyCode) {
+                    case 13://enter
+                        that.toggle();
+                        break;
+                    case 27://esc
+                        that.hide();
+                        break;
+                    case 40://down
+                        if(hovered.element.nextSibling){
+                            hovered.element = hovered.element.nextSibling;
+                            that.setSelected(hovered.element.dataset['value'], hovered.element.innerHTML);
+                        }
+                        break;
+                    case 38://up
+                        if(hovered.element.previousSibling){
+                            hovered.element = hovered.element.previousSibling;
+                            that.setSelected(hovered.element.dataset['value'], hovered.element.innerHTML);
+                        }
+                        break;
+                    default :
+                        that.show();
+                        break;
+                }
             });
-        }
-        // Need for correct work with select from keyboard
-        function keyboardEvent(e) {
-            switch (e.keyCode) {
-                case 13://enter
-                    that.toggleOptions();
-                    e.preventDefault();
-                    break;
-                case 27://esc
-                    options.classList.add('hide');
-                    e.preventDefault();
-                    break;
-                case 40://down
-                    if (hovered) {
-                        hovered.classList.remove('hover');
-                        hovered = hovered.nextSibling ? hovered.nextSibling : hovered;
-                        hovered.classList.add('hover');
-                    } else {
-                        hovered = options.querySelector('.custom-select .option');
-                        hovered.classList.add('hover');
-                    }
-                    that.setSelected(hovered.dataset['value'], hovered.innerHTML);
-                    e.preventDefault();
-                    break;
-                case 38://up
-                    if (hovered) {
-                        hovered.classList.remove('hover');
-                        hovered = hovered.previousSibling ? hovered.previousSibling : hovered;
-                        hovered.classList.add('hover');
-                    } else {
-                        hovered = options.querySelector('.custom-select .option');
-                        hovered.classList.add('hover');
-                    }
-                    e.preventDefault();
-                    that.setSelected(hovered.dataset['value'], hovered.innerHTML);
-                    break;
-                default :
-                    options.classList.remove('hide');
-                    break;
-            }
         }
     };
 
-    extend(CustomSelect, EventMachine);
+    CustomSelect.extend(EventMachine);
 })(window, document);

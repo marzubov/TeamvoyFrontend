@@ -12,18 +12,10 @@ Object.prototype.merge = function (obj) {
     }
 };
 
-function extend(Child, Parent) {
-    var F = function () {
-    };
+Function.prototype.extend = function(Parent) {
+    var F = function () {};
     F.prototype = Parent.prototype;
-    Child.prototype = new F();
-    Child.prototype.constructor = Child;
-    Child.superclass = Parent.prototype;
-}
-
-Element.prototype.addClasses = function(string){
-    var that=this;
-    string.split(/\s+/).forEach(function(css){
-        that.classList.add(css);
-    })
+    this.prototype = new F();
+    this.prototype.constructor = this;
+    this.superclass = Parent.prototype;
 };

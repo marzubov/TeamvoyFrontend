@@ -2,7 +2,7 @@
 var containerOne = document.getElementById("first");
 var containerTwo = document.getElementById("second");
 var firstSelect = new CustomSelect(containerOne, {
-        options: [
+        optionsData: [
             {
                 "title" : "january",
                 "value" : 1
@@ -28,7 +28,7 @@ var firstSelect = new CustomSelect(containerOne, {
     }
 );
 var secondSelect = new CustomSelect(containerTwo, {
-    options: [
+    optionsData: [
         {
             "title" : 1,
             "value" : 1
