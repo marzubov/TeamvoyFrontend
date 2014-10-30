@@ -1,29 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>Custom select</title>
+    <meta charset="UTF-8">
+    <title>Custom select</title>
     <script src="js/helper.js"></script>
     <script src="../library/event_machine.js"></script>
-	<script src ="js/custom_select.js"></script>
+    <script src="js/custom_select.js"></script>
     <link rel="stylesheet" href="css/custom_select.css" type="text/css">
-	<link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
     <link rel="stylesheet" href="css/bootstrap.css" type="text/css">
 </head>
 
 <body>
 
-    <h1 align="center">custom select</h1>
-    <label><select>
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-    </select>
-    </label>
-    <div id="one"></div>
-    <script src="js/helper.js"></script>
-    <script src="js/main.js"></script>
+<h1 align="center">Custom select</h1>
+<article>
+    <h2>Syntax</h2>
+
+    <p>To create custom select u need to call <code>new CustomSelect(container,config);</code>
+        U can work with custom select just like with native<br>
+        <b>container</b> - place where select will be inserted;<br>
+        <b>config</b> - object, with properties:
+    <ul>
+        <li><b>options</b> - array of object with properties <u>title</u> and <u>value</u>;</li>
+        <li><b>defaultOption</b> - default title of selector</li>
+    </ul>
+
+    First select value: <span id="value"></span><br>
+    First select state: <span id="state"></span>
+    <div id="first">
+
+    </div>
+    <div id="second">
+
+    </div>
+</article>
+
+<script src="js/helper.js"></script>
+<script src="js/main.js"></script>
 </body>
 
 </html>

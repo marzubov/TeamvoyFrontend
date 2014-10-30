@@ -1,7 +1,7 @@
 @import "reset.css";
+article{
+    margin: 5px;
+}
+#first,#second{
 
-#one{
-    position: absolute;
-    left: 30%;
-    right: 30%;
 }

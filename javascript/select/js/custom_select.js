@@ -12,6 +12,7 @@
             ],
             defaultOption: "Please Select Option"
         };
+        this.value = {};
         this.container = container;
         this.rootElement = {};
         this.config.merge(config);
@@ -20,6 +21,7 @@
         this.setSelected = function (value, title) {
             this.value = value;
             selector.value = title;
+            this.trigger('change');
         };
 
         /**
@@ -27,8 +29,8 @@
          */
         this.toggleOptions = function () {
             options.classList.toggle('hide');
-            options.classList.contains('hide') ? this.trigger('onhide')
-                : this.trigger('onshow');
+            options.classList.contains('hide') ? this.trigger('hide'):
+                this.trigger('show');
         };
 
         /**

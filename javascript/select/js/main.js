@@ -1,6 +1,6 @@
 "use strict";
-var containerOne = document.getElementById("one");
-
+var containerOne = document.getElementById("first");
+var containerTwo = document.getElementById("second");
 var firstSelect = new CustomSelect(containerOne, {
         options: [
             {
@@ -27,7 +27,7 @@ var firstSelect = new CustomSelect(containerOne, {
         defaultOption: "Wow, so default"
     }
 );
-var secondSelect = new CustomSelect(containerOne, {
+var secondSelect = new CustomSelect(containerTwo, {
     options: [
         {
             "title" : 1,
@@ -51,4 +51,8 @@ var secondSelect = new CustomSelect(containerOne, {
         }
     ],
     defaultOption: "click me"
+});
+
+firstSelect.on('change', function(){
+    document.querySelector('#value').innerHTML = firstSelect.value;
 });
