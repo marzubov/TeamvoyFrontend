@@ -1,0 +1,17 @@
+.template{
+    overflow: auto;
+    border-right: 5px #000000 solid;
+    border-left: 5px #000000 solid;
+}
+.template .film-logo{
+    float: left;
+    margin-left: 50px;
+    border-right: 4px darkred solid;
+    height: 256px;
+    width: 256px;
+}
+.template  .text{
+    margin-top: 3%;
+    margin-left: 260px;
+    max-width: 50%;
+}

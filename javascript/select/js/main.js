@@ -53,7 +53,6 @@
         ],
         defaultOption: "click me"
     });
-
     firstSelect.on('change', function () {
         document.querySelector('#value').innerHTML = firstSelect.value;
     });
@@ -68,4 +67,35 @@
     nativeSelect.addEventListener('change',function(){
         customSelect.setSelected(nativeSelect.value,nativeSelect.value);
     });
+
+    var templateConfig = {
+        optionsData: [
+            {
+                "title": 'HTML',
+                "value": 1
+            },
+            {
+                "title": 'HTML',
+                "value": 2
+            },
+            {
+                "title": 'HTML',
+                "value": 3
+            },
+            {
+                "title": 'HTML',
+                "value": 4
+            }
+        ],
+        template:{
+            HTML:'<div class="template img-circle"><img class="film-logo" src="{{image}}"><div class="text">{{text}}</div></div>',
+            text: ['The Hobbit','Metallica Movie!','Terminator','Awesome face!!'],
+            image: ['http://www.egmnow.com/wp-content/themes/egmnowv3/images/icons/renobadgeicon/The-Hobbit-An-Unexpected-Journey.png',
+                'http://pyramida.info/2013/10/01/Metallica%2BThrough%2Bthe%2BNever%2BHD%2B%2BPNG.png',
+                'http://icon.gamerzcraft.com/capas/Terminator_Salvation_%5B530-51-1202609%5D.png',
+                'http://3.bp.blogspot.com/-f0NsmUHz2kM/T8GUGoydNpI/AAAAAAAAAfg/KnEkgnFPzpc/s1600/smiley.png']
+        }
+    };
+    var templateSelect = new CustomSelect(containerTwo,templateConfig);
+
 })(document,window);
