@@ -38,8 +38,9 @@
             if (!fromPagesData) {
                 for (i = (pageIndex - 1) * config.maxRows; i < pageIndex * config.maxRows; i++) {
                     dataString += "<tr>";
-                    for (var j = 0; j < data[i].length; j++) {
-                        if (config.withTemplates) {
+                    if (config.withTemplates) {
+                        for (var j = 0; j < data[i].length; j++) {
+
                             if (config.columnTemplates[j]) {
                                 dataString += '<td>' + config.columnTemplates[j](object[i]) + '</td>';
                                 //console.log(dataArray[i][j].match(/<.+?>/g))
@@ -47,15 +48,17 @@
                             } else {
                                 dataString += '<td>' + data[i][j] + '</td>';
                             }
+
                         }
-                    }
+                    } else dataString += '<td>' + data[i].join('</td><td>') + '</td>';
                     dataString += "</tr>";
                 }
             } else {
                 for (i = 0; i < config.maxRows; i++) {
                     dataString += "<tr>";
+                    if (config.withTemplates) {
                     for (var j = 0; j < data[i].length; j++) {
-                        if (config.withTemplates) {
+
                             if (config.columnTemplates[j]) {
                                 dataString += '<td>' + config.columnTemplates[j](object[i]) + '</td>';
                                 //console.log(dataArray[i][j].match(/<.+?>/g))
@@ -63,8 +66,9 @@
                             } else {
                                 dataString += '<td>' + data[i][j] + '</td>';
                             }
-                        }
+
                     }
+                    } else dataString += '<td>' + data[i].join('</td><td>') + '</td>';
                     dataString += "</tr>";
                 }
             }

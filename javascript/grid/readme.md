@@ -41,7 +41,7 @@ Where:
 Where:
 
 ```js
-    container = document.getElementById('draggable');<br>
+    container = document.getElementById('draggable');
     numberArray = Array.apply(null, {length: 100})
         .map(function () {
             return Array.apply(null, {length: 5})
@@ -55,3 +55,5 @@ Where:
         'withTemplates': false
     };
 ```
+
+###Table with filter
