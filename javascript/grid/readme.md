@@ -8,7 +8,7 @@ Calling new SortableGrid(...).getCreateElement will return
 For creating this table such code is used:
 
 ```js
-var table = new SortableGrid(container, array, config, maxRows).getCreatedElement();
+    var table = new SortableGrid(container, array, config, maxRows).getCreatedElement();
 ```
 
 Where:
@@ -31,9 +31,27 @@ Where:
 ###Draggable table
 
 ```js
-var draggableTable = new SortableGrid(
-        container,
-        numberArray,
-        configObject,
-    ).getCreatedElement();
+    var draggableTable = new SortableGrid(
+            container,
+            numberArray,
+            configObject,
+        ).getCreatedElement();
+```
+
+Where:
+
+```js
+    container = document.getElementById('draggable');<br>
+    numberArray = Array.apply(null, {length: 100})
+        .map(function () {
+            return Array.apply(null, {length: 5})
+                .map(function () {
+                    return Math.floor(Math.random() * 1000);
+            });
+    });
+    configObject = {
+        'headers': ['1', '2', '3', '4', '5'],
+        'maxRows': 5,
+        'withTemplates': false
+    };
 ```
