@@ -10,3 +10,9 @@ For creating this table such code is used:
 ```js
 var table = new SortableGrid(container, array, config, maxRows).getCreatedElement();
 ```
+
+Where:
+    * Container - the HTML tag where this table will be located. For example,
+      ```js
+      document.getElementById("container");
+      ```
