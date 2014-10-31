@@ -25,5 +25,15 @@ Where:
         *  url - urt to local server
         *  loadByParts (boolean) - whether the file will be load by part or not.
         *  withTemplates (boolean) - whether the columns will have the templates or not.
-        *  columnsTemplate - if the table columns will be created with templates, in this option we point the object:
-           index of column and function with template
+        *  columnsTemplate - if the table columns will be created with templates, in this option we
+           point the object: index of column and function with template
+
+###Draggable table
+
+```js
+var draggableTable = new SortableGrid(
+        container,
+        numberArray,
+        configObject,
+    ).getCreatedElement();
+```
