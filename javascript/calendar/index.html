@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css"/>
     <script src="../library/event_machine.js"></script>
+    <script src="javascript/helper.js"></script>
     <script src="javascript/calendar.js"></script>
     <script src="javascript/customize_calendar.js"></script>
-    <script src="javascript/helper.js"></script>
 </head>
 <body>
 
@@ -34,16 +34,28 @@
         <li><code>myCalendar.on(eventName,callback);</code> - add new function to event listener;</li>
         <li><code>myCalendar.off(eventName,callback);</code> - remove function from event listener;</li>
         <li><code>myCalendar.trigger(eventName);</code> - call event.</li>
+        <li><code>myCalendar.trigger(eventName);</code> - call event.</li>
+        <li><code>myCalendar.trigger(eventName);</code> - call event.</li>
+        <li><code>myCalendar.trigger(eventName);</code> - call event.</li>
+        <li><code>myCalendar.trigger(eventName);</code> - call event.</li>
+
     </ul>
     <h3>Event List</h3>
     <ul>
         <li>onMonthChanged - occur when config month data changed</li>
     </ul>
-    <h2>Example</h2>
+    <h2>Examples:</h2>
     <span>Default calendar:</span><br>
     <div class="col-xs-4 col-xs-offset-4" id="firstCalendar">
 
     </div>
+
+    <span class="col-xs-12">You can style calendar with classes for each component: caption, days, weekends etc. <br>
+        Classes are adding to the components in <code>customize_calendar.js</code> file
+    <br></span>
+    <div class="col-xs-4 col-xs-offset-2" id="fifthCalendar">
+    </div>
+
     <span class="col-xs-12">You can change config property anytime with similar code:<br>
         <code>myCalendar.config = newConfig;</code><br>
         It will reset data in calendar.
@@ -53,19 +65,8 @@
 
     </div>
     <aside class="col-xs-4 aside-config">
-        <label>Month Changed: <span id="eventCount"></span> </label>
         <input class="year" type="text" placeholder="Some year..">
         <input class="month" type="text" placeholder="Some month..">
-        <label>
-            <select class="firstDayOfWeek">
-                <option>sunday</option>
-                <option>monday</option>
-                <option>tuesday</option>
-                <option>wednesday</option>
-                <option>thursday</option>
-                <option>saturday</option>
-            </select>
-        </label>
         <label>
             <select class="locale">
                 <option>ua</option>
@@ -74,6 +75,21 @@
         </label>
         <button class="btn btn-success">I want you to click me</button>
     </aside>
+
+    <span class="col-xs-12">You can add more than 7 days in one row:<br>
+        <code>config.daysInWeek = 14;</code><br>
+        It will set 14 days in one row.
+    <br></span>
+    <div class="col-xs-4 col-xs-offset-2" id="thirdCalendar">
+        </div>
+
+    <span class="col-xs-12">If days in row is no multiply of 7, days names wont be shown<br>
+        <code>config.daysInWeek = 13;</code><br>
+        It will set 13 days in one row and there wont be days names.
+    <br></span>
+    <div class="col-xs-4 col-xs-offset-2" id="fourthCalendar">
+    </div>
+
 </article>
 </body>
 <script src="javascript/main.js"></script>

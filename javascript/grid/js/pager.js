@@ -1,7 +1,7 @@
 /**
  * Created by MU on 10/23/14.
  */
-function RenderPager(pager, maxDataLength, goTo) {
+function RenderPager(pager, maxDataLength, goTo, maxRows) {
     "use strict";
 
     if ((maxDataLength / maxRows).toFixed(0) == 1) {

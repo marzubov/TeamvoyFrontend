@@ -1,4 +1,4 @@
-(function (window, document) {
+(function (global, document) {
     "use strict";
     /**
      * Creates calendar and inserts it in container
@@ -7,7 +7,7 @@
      * @constructor
      */
 
-    window.Calendar = function (container, properties) {
+    var Calendar = global.Calendar = function (container, properties) {
         var that = this,
             model = {},
             root,
@@ -16,7 +16,8 @@
                 month: (new Date()).getMonth() + 1,
                 firstDayOfWeek: 'SUN',
                 locale: 'en',
-                daysInWeek: 14,
+                style: 'default',
+                daysInWeek: 7,
                 dayEvents: [
                     {
                         28: {
@@ -30,7 +31,8 @@
                             date: new Date()
                         }
                     }
-                ]
+                ],
+                weekends: ['SAT','SUN']
             };
         Calendar.localizationCache = {};
         this.container = container;
@@ -126,7 +128,7 @@
          * @returns {string}
          */
         function renderCaption() {
-            var tableString = '<caption class="caption"><button class="calendar-button desc"></button><span>'
+            var tableString = '<caption><button class="calendar-button desc"></button><span>'
                 + (model.chosenMonth + ' ' + config.year)
                 + '</span><button class="calendar-button asc"></button></caption>';
             root.innerHTML = tableString;
@@ -134,6 +136,7 @@
         }
 
         function renderHeader() {
+            if (config.daysInWeek/7 - Math.floor(config.daysInWeek/7)!=0) return false;
             var weekNumber = 0, tableString = '<thead>';
             for (var i = 0; i < config.daysInWeek; i++) {
                 weekNumber = Math.floor(i / 7);
@@ -187,31 +190,13 @@
         }
 
         /**
-         * Next month days for rendering additional week
-         * @param startDay - start day for new week
-         * @returns {string} - days of new week of next month
-         */
-        function nextMonthDays(startDay) {
-            //adding next month week if calendar doesn't  feet standard length
-            var newRow = '';
-            for (var j = 0; j < config.daysInWeek - model.arrayOfDays.length; j++) {
-                newRow += '<tr>';
-                for (var i = 0 + j * config.daysInWeek; i < (j + 1) * config.daysInWeek; i++) {
-                    newRow += '<td class="non-active-day">' + (i + startDay).toString() + '</td>';
-                }
-                newRow += '</tr>';
-            }
-            return newRow
-        }
-
-        /**
          * Ajax request to get localization
          * @returns {XMLHttpRequest}
          */
         function getLocalization() {
             var xhr = new XMLHttpRequest();
             Calendar.localizationCache[config.locale] = XMLHttpRequest;
-            xhr.open("post", "localization/" + config.locale + ".json", true);
+            xhr.open("GET", "localization/" + config.locale + ".json", true);
             xhr.send(null);
             return xhr;
         }
@@ -252,15 +237,13 @@
             var renderedCaption = renderCaption();
             var renderedHeader = renderHeader();
             var renderedBody = renderBody();
-            that.customizeCalendar(that);
-            if (config.locale == 'en') {
-                that.customizeWeekends(0, 6);
-            } else {
-                that.customizeWeekends(5, 6);
-            }
-            var today = new Date();
-            if ((today.getMonth() + 1 == config.month) && (today.getFullYear() == config.year)) {
-                that.customizeToday(new Date());
+            if (config.style != 'default') {
+                that.customizeCalendar(that);
+                that.customizeWeekends(config.weekends, config.daysInWeek);
+                var today = new Date();
+                if ((today.getMonth() + 1 == config.month) && (today.getFullYear() == config.year)) {
+                    that.customizeToday(new Date());
+                }
             }
             return this;
         }
@@ -300,6 +283,7 @@
                 };
             }
             setEvents();
+            return "blallal";
         }
     };
     Calendar.prototype = new EventMachine();

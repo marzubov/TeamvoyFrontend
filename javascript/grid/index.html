@@ -8,7 +8,6 @@
     <script src="js/event_machine.js" type="text/javascript"></script>
     <script src="js/pager.js" type="text/javascript"></script>
     <script src="js/sortable_grid.js" type="text/javascript"></script>
-    <script src="js/data.js" type="text/javascript"></script>
     <script src="js/draggable.js" type="text/javascript"></script>
     <script src="js/filterable.js" type="text/javascript"></script>
     <link href="css/sortable_grid.css" type="text/css" rel="stylesheet"/>
@@ -23,19 +22,82 @@
 
     <p>Calling new SortableGrid(...).getCreateElement will return <br/>
         new SortableGrid with public methods, like: sort, getCreatedElement.</p>
+
+    <p>For creating this table such code is used:</p>
+    <code>
+        var table = new SortableGrid(container, array, config, maxRows).getCreatedElement();<br>
+        Where:
+        <ul>
+            <li>Container - the HTML tag where this table will be located. For example, document.getElementById("container");</li>
+            <li>Array - this array will be contained into table. If you want to load the data from file, this option = null</li>
+            <li>Config is contained the next options:
+                <ul>
+                    <li>headers - the array of the head of each columns.</li>
+                    <li>maxRows - maximum count of rows on one page.</li>
+                    <li>url - urt to local server</li>
+                    <li>loadByParts (boolean) - whether the file will be load by part or not.</li>
+                    <li>withTemplates (boolean) - whether the columns will have the templates or not.</li>
+                    <li>columnsTemplate - if the table columns will be created with templates, in this option we point the object: index of column and function with template</li>
+                </ul>
+            </li>
+        </ul>
+    </code>
+
     <h3>Draggable table</h3>
+    <code>var draggableTable = new SortableGrid(<br>
+        container,<br>
+        numberArray,<br>
+        configObject,<br>
+    ).getCreatedElement();<br><br>
+    Where<br> container = document.getElementById('draggable');<br>
+    numberArray = Array.apply(null, {length: 100})
+        .map(function () {
+        return Array.apply(null, {length: 5})
+        .map(function () {
+        return Math.floor(Math.random() * 1000);
+        });
+        });<br>
+    configObject = {
+        'headers': ['1', '2', '3', '4', '5'],
+        'maxRows': 5,
+        'withTemplates': false
+        };<br><br>
+
+    </code>
     <div id="draggable" class="table-responsive">
     </div>
+
     <h3>Table with filter</h3>
     <div id="filterable" class="table-responsive">
     </div>
+
     <h3>Table with full data from server</h3>
     <div id="fullServerData" class="table-responsive">
     </div>
 
     <h3>Table with full data from server with templates</h3>
+    <code>
+        var fullDataTable = new SortableGrid(<br>
+        container, <br>
+        null, <br>
+        configObjectFullLoadingWithTemplate, <br>
+        ).getCreatedElement();<br><br>
+        Where: <br>
+        container = document.getElementById('withTemplate');
+        configObjectFullLoadingWithTemplate = {<br>
+        'headers': ['1', '2', '3', '4', '5'],<br>
+        'maxRows': 5,<br>
+        'url': 'http://localhost:8001',<br>
+        'loadByParts': false,<br>
+        'withTemplates': true,<br>
+        'columnTemplates': {<br>
+        1 : Handlebars.compile("<i><b>{{age2}}</b></i>"),<br>
+        4 : Handlebars.compile("<u>{{age5}}</u>")<br>
+        }<br><br>
+    </code>
     <div id="withTemplate" class="table-responsive">
     </div>
+
     <h3>Table with partial data from server with templates</h3>
     <div id="partialServerData" class="table-responsive">
     </div>

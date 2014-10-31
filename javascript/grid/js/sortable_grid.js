@@ -1,6 +1,6 @@
 (function (global, document) {
     "use strict";
-    global.SortableGrid = function SortableGrid(container, dataArray, config, maxRows) {
+    global.SortableGrid = function SortableGrid(container, dataArray, config) {
         var root, pager, maxDataLength, pagesData = [], sortedColumn, pageIndex = 1, that, draggable, filterable, object;
 
         function getData(url, start, end) {
@@ -8,7 +8,6 @@
             if (start || end) {
                 url += '_' + start + '_' + end;
             }
-            //console.log(url);
             var xhr = createCORSRequest('GET', url);
             if (!xhr) {
                 alert('CORS not supported');
@@ -37,35 +36,28 @@
                 data = pagesData[pageIndex - 1];
             }
             if (!fromPagesData) {
-                for (i = (pageIndex - 1) * maxRows; i < pageIndex * maxRows; i++) {
+                for (i = (pageIndex - 1) * config.maxRows; i < pageIndex * config.maxRows; i++) {
                     dataString += "<tr>";
-                    if (config.withTemplates) {
-                            for (var j = 0; j < data[i].length; j++) {
-                                if (config.columnTemplates[j]) {
-                                    dataString += '<td>' + config.columnTemplates[j](object[i]) + '</td>';
-                                } else {
-                                    dataString += '<td>' + data[i][j] + '</td>';
-                                }
+                    for (var j = 0; j < data[i].length; j++) {
+                        if (config.withTemplates) {
+                            if (config.columnTemplates[j]) {
+                                data[i][j] = config.columnTemplates[j](object[i]);
+                            }
                         }
-                    } else {
-                            dataString += '<td>' + data[i].join('</td><td>') + '</td>';
+                        dataString += '<td>' + data[i][j] + '</td>';
                     }
                     dataString += "</tr>";
                 }
             } else {
-                for (i = 0; i < maxRows; i++) {
+                for (i = 0; i < config.maxRows; i++) {
                     dataString += "<tr>";
-                    if (config.withTemplates) {
-                        for (var j = 0; j < data[i].length; j++) {
+                    for (var j = 0; j < data[i].length; j++) {
+                        if (config.withTemplates) {
                             if (config.columnTemplates[j]) {
-                                dataString += '<td>' + config.columnTemplates[j](object[i]) + '</td>';
-                            } else {
-                                dataString += '<td>' + data[i][j] + '</td>';
+                                data[i][j] = config.columnTemplates[j](object[i]);
                             }
-
                         }
-                    } else {
-                        dataString += '<td>' + data[i].join('</td><td>') + '</td>';
+                        dataString += '<td>' + data[i][j] + '</td>';
                     }
                     dataString += "</tr>";
                 }
@@ -91,7 +83,7 @@
             if (!newPageIndex) {
                 return;
             }
-            if ((parseFloat(newPageIndex) < 0) || (parseFloat(newPageIndex) > (maxDataLength / maxRows).toFixed(0))) {
+            if ((parseFloat(newPageIndex) < 0) || (parseFloat(newPageIndex) > (maxDataLength / config.maxRows).toFixed(0))) {
                 return;
             }
             pageIndex = newPageIndex;
@@ -102,7 +94,7 @@
                 if (!pagesData[pageIndex - 1]) {
                     if (dataArray.length != maxDataLength) {
                         console.log("new request");
-                        getData(config.url, (pageIndex - 1) * maxRows, pageIndex * maxRows);
+                        getData(config.url, (pageIndex - 1) * config.maxRows, pageIndex * config.maxRows);
                     } else {
                         changePageData(false);
                     }
@@ -124,27 +116,28 @@
             // Make body
 
             if (config.withTemplates) {
-                tableString += '<tbody id="template" class="data-body templateTable">';
-                for (var i = 0; i < maxRows; i++) {
+                tableString += '<tbody class="data-body">';
+                for (var i = 0; i < config.maxRows; i++) {
                     tableString += "<tr>";
                     for (var j = 0; j < dataArray[i].length; j++) {
                         if (config.columnTemplates[j]) {
-                            tableString += '<td>' + config.columnTemplates[j](object[i]) + '</td>';
-                        } else {
-                            tableString += '<td>' + dataArray[i][j] + '</td>';
+                            dataArray[i][j] = config.columnTemplates[j](object[i]);
+                            console.log(dataArray[i][j].match(/<.+?>/g))
+                            console.log(dataArray[i][j].replace(/<\/?[^>]+(>|$)/g, ""));
                         }
+                        tableString += '<td>' + dataArray[i][j] + '</td>';
                     }
                     tableString += "</tr>";
                 }
             } else {
                 tableString += '<tbody class="data-body">';
-                if (!maxRows) {
-                    maxRows = dataArray.length;
+                if (!config.maxRows) {
+                    config.maxRows = dataArray.length;
                 }
                 if (!maxDataLength) {
                     maxDataLength = dataArray.length;
                 }
-                for (var i = 0; i < maxRows; i++) {
+                for (var i = 0; i < config.maxRows; i++) {
                         tableString += '<tr><td>' + dataArray[i].join('</td><td>') + '</td></tr>';
                 }
             }
@@ -192,7 +185,7 @@
                 }
             }
 
-            new RenderPager(pager, maxDataLength, that.goTo);
+            new RenderPager(pager, maxDataLength, that.goTo, config.maxRows);
             if (dataArray.length == maxDataLength) {
                 //draggable = new Draggable(root, dataArray);
                 //filterable = new Filterable(root, dataArray);
@@ -254,7 +247,7 @@
             if (dataArray === null) {
                 //console.log('dataArray == null');
                 if (config.loadByParts) {
-                    getData(config.url, 0, maxRows);
+                    getData(config.url, 0, config.maxRows);
                 } else {
                     getData(config.url);
                 }
@@ -299,7 +292,7 @@
                 config = newConfig;
             }
             if (newMaxRows) {
-                maxRows = newMaxRows;
+                config.maxRows = newMaxRows;
             }
 
             pager.innerHTML = "";

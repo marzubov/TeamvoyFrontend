@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link type="text/css" rel="stylesheet" href="../assets/css/gh.css"/>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link type="text/css" rel="stylesheet" href="assets/css/prettify.css"/>
+    
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/prettify.js"></script>
+
+  </head>
+<body onload="prettyPrint()">
+
+  <div id="toc">
+    <div id="toc-inner">
+      <ul class="nav nav-list"><li><a href="#showdown">Showdown</a></li><li><a href="#note">Note</a></li><li><a href="#original_attributions">Original Attributions</a></li><li><a href="#quick_example">Quick Example</a></li><li><a href="#what__39_s_it_for_">What&#39;s it for?</a></li><li><a href="#browser_compatibility">Browser Compatibility</a></li><li><a href="#extensions">Extensions</a></li><li><a href="#client_side_extension_usage">Client-side Extension Usage</a></li><li><a href="#server_side_extension_usage">Server-side Extension Usage</a></li><li><a href="#known_differences_in_output">Known Differences in Output</a></li><li><a href="#tests">Tests</a></li><li><a href="#creating_markdown_extensions">Creating Markdown Extensions</a></li><li><a href="#regex_replace">Regex/Replace</a></li><li><a href="#filter">Filter</a></li><li><a href="#implementation_concerns">Implementation Concerns</a></li><li><a href="#testing_extensions">Testing Extensions</a></li><li><a href="#credits">Credits</a></li></ul>
+    </div>
+  </div>
+
+  <div id="wrapper">
+    <div id="header">
+
+    </div>
+
+    <div class="clear"></div>
+    <div id="main">
+      <div id="content" class="post">
+
+
+      <a name="showdown"></a><h1>Showdown<a class="anchorlink" href="#showdown"></a></h1>
+<p>A JavaScript port of Markdown</p>
+<a name="note"></a><h2>Note<a class="anchorlink" href="#note"></a></h2>
+<blockquote>
+<p>Showdown is now maintained by the <a href="https://github.com/showdownjs">showdownjs</a> organization on Github.</p>
+<p>The organization needs members to maintain Showdown.</p>
+<p>Please see <a href="https://github.com/showdownjs/showdown/issues/114">this issue</a> to express interest or comment on this note.</p>
+</blockquote>
+<a name="original_attributions"></a><h2>Original Attributions<a class="anchorlink" href="#original_attributions"></a></h2>
+<p>Showdown Copyright (c) 2007 John Fraser.
+<a href="http://www.attacklab.net/">http://www.attacklab.net/</a></p>
+<p>Original Markdown Copyright (c) 2004-2005 John Gruber
+<a href="http://daringfireball.net/projects/markdown/">http://daringfireball.net/projects/markdown/</a></p>
+<p>Redistributable under a BSD-style open source license.
+See license.txt for more information.</p>
+<a name="quick_example"></a><h2>Quick Example<a class="anchorlink" href="#quick_example"></a></h2>
+<pre class="prettyprint">var Showdown = require(&#39;showdown&#39;);
+var converter = new Showdown.converter();
+
+converter.makeHtml(&#39;#hello markdown!&#39;);
+
+// &lt;h1 id=&quot;hellomarkdown&quot;&gt;hello, markdown&lt;/h1&gt;</pre>
+<a name="what__39_s_it_for_"></a><h2>What&#39;s it for?<a class="anchorlink" href="#what__39_s_it_for_"></a></h2>
+<p>Developers can use Showdown to:</p>
+<ul class="list">
+<li><p>Add in-browser preview to existing Markdown apps</p>
+<p>Showdown&#39;s output is (almost always) identical to
+markdown.pl&#39;s, so the server can reproduce exactly
+the output that the user saw.  (See below for
+exceptions.)</p>
+</li>
+<li><p>Add Markdown input to programs that don&#39;t support it</p>
+<p>Any app that accepts HTML input can now be made to speak
+Markdown by modifying the input pages&#39;s HTML.  If your
+application lets users edit documents again later,
+then they won&#39;t have access to the original Markdown
+text.  But this should be good enough for many
+uses -- and you can do it with just a two-line
+<code>onsubmit</code> function!</p>
+</li>
+<li><p>Add Markdown input to closed-source web apps</p>
+<p>You can write bookmarklets or userscripts to extend
+any standard textarea on the web so that it accepts
+Markdown instead of HTML.  With a little more hacking,
+the same can probably be done with  many rich edit
+controls.</p>
+</li>
+<li><p>Build new web apps from scratch</p>
+<p>A Showdown front-end can send back text in Markdown,
+HTML or both, so you can trade bandwidth for server
+load to reduce your cost of operation.  If your app
+requires JavaScript, you won&#39;t need to do any
+Markdown processing on the server at all.  (For most
+uses, you&#39;ll still need to sanitize the HTML before
+showing it to other users -- but you&#39;d need to do
+that anyway if you&#39;re allowing raw HTML in your
+Markdown.)</p>
+</li>
+</ul>
+<a name="browser_compatibility"></a><h2>Browser Compatibility<a class="anchorlink" href="#browser_compatibility"></a></h2>
+<p>Showdown has been tested successfully with:</p>
+<ul class="list">
+<li>Firefox 1.5 and 2.0</li>
+<li>Internet Explorer 6 and 7</li>
+<li>Safari 2.0.4</li>
+<li>Opera 8.54 and 9.10</li>
+<li>Netscape 8.1.2</li>
+<li>Konqueror 3.5.4</li>
+</ul>
+<p>In theory, Showdown will work in any browser that supports ECMA 262 3rd Edition (JavaScript 1.5).  The converter itself might even work in things that aren&#39;t web browsers, like Acrobat.  No promises.</p>
+<a name="extensions"></a><h2>Extensions<a class="anchorlink" href="#extensions"></a></h2>
+<p>Showdown allows additional functionality to be loaded via extensions.</p>
+<a name="client_side_extension_usage"></a><h3>Client-side Extension Usage<a class="anchorlink" href="#client_side_extension_usage"></a></h3>
+<pre class="prettyprint">&lt;script src=&quot;src/showdown.js&quot; /&gt;
+&lt;script src=&quot;src/extensions/twitter.js&quot; /&gt;
+
+var converter = new Showdown.converter({ extensions: &#39;twitter&#39; });</pre>
+<a name="server_side_extension_usage"></a><h3>Server-side Extension Usage<a class="anchorlink" href="#server_side_extension_usage"></a></h3>
+<pre class="prettyprint">// Using a bundled extension
+var Showdown = require(&#39;showdown&#39;);
+var converter = new Showdown.converter({ extensions: [&#39;twitter&#39;] });
+
+// Using a custom extension
+var mine = require(&#39;./custom-extensions/mine&#39;);
+var converter = new Showdown.converter({ extensions: [&#39;twitter&#39;, mine] });</pre>
+<a name="known_differences_in_output"></a><h2>Known Differences in Output<a class="anchorlink" href="#known_differences_in_output"></a></h2>
+<p>In most cases, Showdown&#39;s output is identical to that of Perl Markdown v1.0.2b7.  What follows is a list of all known deviations.  Please file an issue if you find more.</p>
+<ul class="list">
+<li><p>This release uses the HTML parser from Markdown 1.0.2b2,
+which means it fails <code>Inline HTML (Advanced).text</code> from
+the Markdown test suite:</p>
+<pre class="prettyprint">&lt;div&gt;
+&lt;div&gt;
+unindented == broken
+&lt;/div&gt;
+&lt;/div&gt;</pre>
+</li>
+<li><p>Showdown doesn&#39;t support the markdown=&quot;1&quot; attribute:</p>
+<pre class="prettyprint">&lt;div markdown=&quot;1&quot;&gt;
+     Markdown does *not* work in here.
+&lt;/div&gt;</pre>
+<p>This is half laziness on my part and half stubbornness.
+Markdown is smart enough to process the contents of span-
+level tags without screwing things up; shouldn&#39;t it be
+able to do the same inside block elements?  Let&#39;s find a
+way to make markdown=&quot;1&quot; the default.</p>
+</li>
+</ul>
+<ul class="list">
+<li><p>You can only nest square brackets in link titles to a
+depth of two levels:</p>
+<pre class="prettyprint">[[fine]](http://www.attacklab.net/)
+[[[broken]]](http://www.attacklab.net/)</pre>
+<p>If you need more, you can escape them with backslashes.</p>
+</li>
+</ul>
+<ul class="list">
+<li><p>When sublists have paragraphs, Showdown produces equivalent
+HTML with a slightly different arrangement of newlines:</p>
+<pre class="prettyprint">+ item
+
+     - subitem
+
+       The HTML has a superfluous newline before this
+       paragraph.
+
+     - subitem
+
+       The HTML here is unchanged.
+
+     - subitem
+
+       The HTML is missing a newline after this
+       list subitem.</pre>
+</li>
+</ul>
+<ul class="list">
+<li><p>Markdown.pl creates empty title attributes for
+inline-style images:</p>
+<pre class="prettyprint">Here&#39;s an empty title on an inline-style
+![image](http://w3.org/Icons/valid-xhtml10).</pre>
+<p>I tried to replicate this to clean up my diffs during
+testing, but I went too far: now Showdown also makes
+empty titles for reference-style images:</p>
+<pre class="prettyprint">Showdown  makes an empty title for
+reference-style ![images][] too.
+
+[images]: http://w3.org/Icons/valid-xhtml10</pre>
+</li>
+</ul>
+<ul class="list">
+<li><p>With crazy input, Markdown will mistakenly put
+<code>&lt;strong&gt;</code> or <code>&lt;em&gt;</code> tags in URLs:</p>
+<pre class="prettyprint">&lt;a href=&quot;&lt;*Markdown adds em tags in here*&gt;&quot;&gt;
+   improbable URL
+&lt;/a&gt;</pre>
+<p>Showdown won&#39;t.  But still, don&#39;t do that.</p>
+</li>
+</ul>
+<a name="tests"></a><h2>Tests<a class="anchorlink" href="#tests"></a></h2>
+<p>A suite of tests is available which require node.js.  Once node is installed, run the following command from the project root to install the development dependencies:</p>
+<pre class="prettyprint">npm install --dev</pre>
+<p>Once installed the tests can be run from the project root using:</p>
+<pre class="prettyprint">npm test</pre>
+<p>New test cases can easily be added.  Create a markdown file (ending in <code>.md</code>) which contains the markdown to test.  Create a <code>.html</code> file of the exact same name.  It will automatically be tested when the tests are executed with <code>mocha</code>.</p>
+<a name="creating_markdown_extensions"></a><h2>Creating Markdown Extensions<a class="anchorlink" href="#creating_markdown_extensions"></a></h2>
+<p>A showdown extension is simply a function which returns an array of extensions.  Each single extension can be one of two types:</p>
+<ul class="list">
+<li>Language Extension -- Language extensions are ones that that add new markdown syntax to showdown.  For example, say you wanted <code>^^youtube http://www.youtube.com/watch?v=oHg5SJYRHA0</code> to automatically render as an embedded YouTube video, that would be a language extension.</li>
+<li>Output Modifiers -- After showdown has run, and generated HTML, an output modifier would change that HTML.  For example, say you wanted to change <code>&lt;div class=&quot;header&quot;&gt;</code> to be <code>&lt;header&gt;</code>, that would be an output modifier.</li>
+</ul>
+<p>Each extension can provide two combinations of interfaces for showdown.</p>
+<a name="regex_replace"></a><h3>Regex/Replace<a class="anchorlink" href="#regex_replace"></a></h3>
+<p>Regex/replace style extensions are very similar to javascripts <code>string.replace</code> function.  Two properties are given, <code>regex</code> and <code>replace</code>.  <code>regex</code> is a string and <code>replace</code> can be either a string or a function.  If <code>replace</code> is a string, it can use the <code>$1</code> syntax for group substitution, exactly as if it were making use of <code>string.replace</code> (internally it does this actually);  The value of <code>regex</code> is assumed to be a global replacement.</p>
+<p><strong>Example:</strong></p>
+<pre class="prettyprint">var demo = function(converter) {
+  return [
+    // Replace escaped @ symbols
+    { type: &#39;lang&#39;, regex: &#39;\\@&#39;, replace: &#39;@&#39; }
+  ];
+}</pre>
+<a name="filter"></a><h3>Filter<a class="anchorlink" href="#filter"></a></h3>
+<p>Alternately, if you&#39;d just like to do everything yourself, you can specify a filter which is a callback with a single input parameter, text (the current source text within the showdown engine).</p>
+<p><strong>Example:</strong></p>
+<pre class="prettyprint">var demo = function(converter) {
+  return [
+    // Replace escaped @ symbols
+    { type: &#39;lang&#39;, function(text) {
+      return text.replace(/\\@/g, &#39;@&#39;);
+    }}
+  ];
+}</pre>
+<a name="implementation_concerns"></a><h3>Implementation Concerns<a class="anchorlink" href="#implementation_concerns"></a></h3>
+<p>One bit which should be taken into account is maintaining both client-side and server-side compatibility.  This can be achieved with a few lines of boilerplate code.  First, to prevent polluting the global scope for client-side code, the extension definition should be wrapped in a self-executing function.</p>
+<pre class="prettyprint">(function(){
+  // Your extension here
+}());</pre>
+<p>Second, client-side extensions should add a property onto <code>Showdown.extensions</code> which matches the name of the file.  As an example, a file named <code>demo.js</code> should then add <code>Showdown.extensions.demo</code>.  Server-side extensions can simply export themselves.</p>
+<pre class="prettyprint">(function(){
+  var demo = function(converter) {
+    // ... extension code here ...
+  };
+
+  // Client-side export
+  if (typeof window !== &#39;undefined&#39; &amp;&amp; window.Showdown &amp;&amp; window.Showdown.extensions) { window.Showdown.extensions.demo = demo; }
+  // Server-side export
+  if (typeof module !== &#39;undefined&#39;) module.exports = demo;
+}());</pre>
+<a name="testing_extensions"></a><h3>Testing Extensions<a class="anchorlink" href="#testing_extensions"></a></h3>
+<p>The showdown test runner is setup to automatically test cases for extensions.  To add test cases for an extension, create a new folder under <code>./test/extensions</code> which matches the name of the <code>.js</code> file in <code>./src/extensions</code>.  Place any test cases into the filder using the md/html format and they will automatically be run when tests are run.</p>
+<pre class="prettyprint">{
+    &quot;month&quot; : {
+        &quot;january&quot;   : &quot;Січень&quot;,
+        &quot;february&quot;   : &quot;Лютий&quot;,
+        &quot;march&quot;   : &quot;Березень&quot;,
+        &quot;april&quot;   : &quot;Квітень&quot;,
+        &quot;may&quot;   : &quot;Травень&quot;,
+        &quot;june&quot;   : &quot;Червень&quot;,
+        &quot;july&quot;   : &quot;Липень&quot;,
+        &quot;august&quot;   : &quot;Серпень&quot;,
+        &quot;september&quot;   : &quot;Вересень&quot;,
+        &quot;october&quot;  : &quot;Жовтень&quot;,
+        &quot;november&quot;  : &quot;Листопад&quot;,
+        &quot;december&quot;  : &quot;Грудень&quot;
+    },
+    &quot;daysOfWeek&quot; : {
+        &quot;monday&quot; : &quot;Пн&quot;,
+        &quot;tuesday&quot;: &quot;Вт&quot;,
+        &quot;wednesday&quot;: &quot;Ср&quot;,
+        &quot;thursday&quot;: &quot;Чт&quot;,
+        &quot;friday&quot;: &quot;Пт&quot;,
+        &quot;saturday&quot;: &quot;Сб&quot;,
+        &quot;sunday&quot;: &quot;Нд&quot;
+    }
+}</pre>
+<a name="credits"></a><h2>Credits<a class="anchorlink" href="#credits"></a></h2>
+<ul class="list">
+<li>Origins<ul class="list">
+<li><a href="http://attacklab.net/">John Fraser</a>:<br/>
+Author of Showdown</li>
+<li><a href="http://daringfireball.net/projects/markdown/">John Gruber</a>:<br/>
+Author of Markdown</li>
+</ul>
+</li>
+<li>Maintenance/Contributions (roughly chronologically)<ul class="list">
+<li><a href="http://github.com/coreyti">Corey Innis</a>:<br/>
+GitHub project maintainer</li>
+<li><a href="https://github.com/remy/">Remy Sharp</a>:<br/>
+CommonJS-compatibility and more</li>
+<li><a href="https://github.com/kkaefer/">Konstantin Käfer</a>:<br/>
+CommonJS packaging</li>
+<li><a href="https://github.com/rogerbraun">Roger Braun</a>:<br/>
+Github-style code blocks</li>
+<li><a href="https://github.com/dominictarr">Dominic Tarr</a>:<br/>
+Documentation</li>
+<li><a href="https://github.com/CatChen">Cat Chen</a>:<br/>
+Export fix</li>
+<li><a href="https://github.com/tstone">Titus Stone</a>:<br/>
+Mocha tests, extension mechanism, and bug fixes</li>
+<li><a href="https://github.com/roberocity">Rob Sutherland</a>:<br/>
+The idea that lead to extensions</li>
+<li><a href="https://github.com/langpavel">Pavel Lang</a>:<br/>
+Code cleanup</li>
+<li><a href="https://github.com/unwiredben">Ben Combee</a>:<br/>
+Regex optimization</li>
+<li><a href="https://github.com/abackstrom">Adam Backstrom</a>:<br/>
+WebKit bugfix</li>
+<li><a href="https://github.com/pdeschen">Pascal Deschênes</a>:<br/>
+Grunt support, extension fixes + additions, packaging improvements, documentation</li>
+</ul>
+</li>
+</ul>
+
+
+
+<!-- end content -->
+      </div>
+    </div>
+
+    <div class="clear">
+    </div>
+
+    <div id="footer">
+    </div>
+  </div>
+</body>
+</html>
