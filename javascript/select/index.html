@@ -25,12 +25,26 @@
         <li><b>options</b> - array of object with properties <u>title</u> and <u>value</u>;</li>
         <li><b>defaultOption</b> - default title of selector</li>
     </ul>
-
-
+    <h2>Events</h2>
+    <ul>
+        <li><b>show</b> - occur exactly after options showed;</li>
+        <li><b>hide</b> - occur exactly after options hided;</li>
+        <li><b>change</b> - occur exactly after select value changed (after click or enter).</li>
+    </ul>
+    <h2>Methods</h2>
+    <ul>
+        <li><code>customSelect.show()</code> - show options;</li>
+        <li><code>customSelect.hide()</code> - hide options;</li>
+        <li><code>customSelect.toggle()</code> - show/hide options.</li>
+    </ul><br>
+    <h2>Example</h2>
+    <h3>Default select:</h3>
     <div id="first" class="half-page">
         First select value: <span id="value"></span><br>
     </div>
-    <div class = "half-page">
+    <h3>Events and methods demo:</h3>
+    U can make custom select to repeat actions of native by similar code<br>
+    <div style ="float: right; width: 50%">
         Native select:
       <label><select id="native">
           <option>1</option>
@@ -43,6 +57,17 @@
       <div id="second">
     </div>
     </div>
+    <code>
+        nativeSelect.addEventListener('mousedown',function(){<br>
+        &nbsp;&nbsp;customSelect.toggle();<br>
+        });<br><br>
+        customSelect.on('change', function () {<br>
+        &nbsp;&nbsp;nativeSelect.value = this.value;<br>
+        });<br><br>
+        nativeSelect.addEventListener('change',function(){<br>
+        &nbsp;&nbsp;customSelect.setSelected(nativeSelect.value,nativeSelect.value);<br>
+        });<br>
+    </code>
 </article>
 
 <script src="js/helper.js"></script>

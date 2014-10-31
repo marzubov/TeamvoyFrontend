@@ -4,6 +4,17 @@
 .custom-select .selector{
     width: 100%;
 }
+.custom-select .img:after{
+    position: relative;
+    top: 5px;
+    right: 5px;
+    float: right;
+    height: 0;
+    content: url('img/arrow_down.png');
+}
+.custom-select .selector:after{
+    content: url(img/arrow_down.png);
+}
 .custom-select .alert{
     background-color: rgba(200,20,20,0.3)
 }

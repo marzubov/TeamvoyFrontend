@@ -1,13 +1,13 @@
 @import "reset.css";
 article{
-    margin: 5px;
+    margin: 10px;
 }
 #second{
     float: right;
-
+    width: 50%;
 }
 .half-page{
-    margin-top: 10px;
+    margin-top: 20px;
     margin-left: 30%;
     margin-right: 30%;
 }

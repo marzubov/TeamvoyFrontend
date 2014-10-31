@@ -74,8 +74,11 @@
 
         // Generate root element
         function render() {
-            var mainElement = document.createElement('div');
+            var mainElement = document.createElement('div'),
+                img = document.createElement('div');
             mainElement.classList.add('custom-select');
+            img.classList.add('custom-select','img');
+            mainElement.appendChild(img);
             return mainElement;
         }
 

@@ -28,7 +28,7 @@
             defaultOption: "Wow, so default"
         }
     );
-    var secondSelect = new CustomSelect(containerTwo, {
+    var customSelect = new CustomSelect(containerTwo, {
         optionsData: [
             {
                 "title": 1,
@@ -59,10 +59,13 @@
     });
 
     var nativeSelect = document.querySelector('#native');
-    secondSelect.on('change', function () {
+    nativeSelect.addEventListener('mousedown',function(){
+        customSelect.toggle();
+    });
+    customSelect.on('change', function () {
        nativeSelect.value = this.value;
     });
     nativeSelect.addEventListener('change',function(){
-        secondSelect.setSelected(nativeSelect.value,nativeSelect.value);
+        customSelect.setSelected(nativeSelect.value,nativeSelect.value);
     });
 })(document,window);
