@@ -16,3 +16,11 @@ function findPos(elem) {
     }
     return {top: top, left: left};
 }
+
+Function.prototype.extend = function(Parent) {
+    var F = function () {};
+    F.prototype = Parent.prototype;
+    this.prototype = new F();
+    this.prototype.constructor = this;
+    this.superclass = Parent.prototype;
+};
