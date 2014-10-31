@@ -13,5 +13,4 @@ var table = new SortableGrid(container, array, config, maxRows).getCreatedElemen
 
 Where:
 
-    * Container - the HTML tag where this table will be located. For example,
-       `document.getElementById("container")`;
+    * Container - the HTML tag where this table will be located. For example, document.getElementById("container");
