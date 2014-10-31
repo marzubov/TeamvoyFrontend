@@ -196,7 +196,7 @@
         function getLocalization() {
             var xhr = new XMLHttpRequest();
             Calendar.localizationCache[config.locale] = XMLHttpRequest;
-            xhr.open("post", "localization/" + config.locale + ".json", true);
+            xhr.open("GET", "localization/" + config.locale + ".json", true);
             xhr.send(null);
             return xhr;
         }
