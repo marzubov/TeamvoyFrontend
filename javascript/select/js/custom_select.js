@@ -2,7 +2,7 @@
     var CustomSelect = global.CustomSelect = function (container, config) {
         CustomSelect.superclass.constructor.call(this);
         var that = this,
-            optionsData = config.options,
+            optionsData = config.optionsData,
             hovered = 0;
         this.config = config;
 
@@ -29,7 +29,6 @@
             this.options.classList.contains('hide') ? this.show()  : this.hide();
         };
 
-
         this.setSelected = function (value, title) {
             if(this.value != value){
             this.value = value;
@@ -44,10 +43,10 @@
          * @returns {*} Array of options with title and value
          */
         this.filter = function (searchString) {
-            this.config.options = optionsData.filter(function (option) {
+            this.config.optionsData = optionsData.filter(function (option) {
                 return new RegExp(searchString, 'i').test(option.title);
             });
-            return this.config.options;
+            return renderOptions(this.options);
         };
 
         Object.defineProperty(this,'hovered',{
@@ -80,8 +79,8 @@
         }
 
         // Generate data in select options
-        function renderOptions() {
-            var options = document.createElement('div');
+        function renderOptions(optionsElement) {
+            var options = optionsElement ? optionsElement : document.createElement('div');
             options.classList.add('custom-select', 'options');
             var optionString = '';
             that.config.optionsData.forEach(function (option) {
@@ -112,6 +111,10 @@
             });
             that.selector.addEventListener('click', function () {
                 that.toggle();
+            });
+            that.selector.addEventListener('input', function(){
+                that.filter(that.selector.value);
+                that.hovered = 0;
             });
             that.selector.addEventListener('keydown', function (e) {
                 switch (e.keyCode) {

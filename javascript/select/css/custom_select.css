@@ -5,13 +5,21 @@
     width: 100%;
 }
 .custom-select .options{
-    position: absolute;
+    height: 0;
+}
+.custom-select .options .option{
+    border: 1px solid #dddddd;
+    background-color: #ffffff;
     width: 100%;
     text-align: center;
+    position: relative;
+}
+.custom-select .options .option:nth-of-type(odd){
+    background-color: #f9f9f9;
 }
 .custom-select .options .hide{
     display: none;
 }
-.hover{
-    background-color: beige;
+.custom-select .options .hover{
+    background-color: #f0f0f0 !important;
 }
