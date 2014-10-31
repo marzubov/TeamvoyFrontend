@@ -13,12 +13,12 @@
         "december": "December"
     },
     "daysOfWeek" : {
-        "monday" : "M",
-        "tuesday": "T",
-        "wednesday": "W",
-        "thursday": "T",
-        "friday": "F",
-        "saturday": "S",
-        "sunday": "S"
+        "monday" : "MON",
+        "tuesday": "TUE",
+        "wednesday": "WED",
+        "thursday": "THU",
+        "friday": "FRI",
+        "saturday": "SAT",
+        "sunday": "SUN"
     }
 }

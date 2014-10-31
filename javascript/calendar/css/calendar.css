@@ -63,7 +63,7 @@
 }
 
 .active-day:hover{
-    outline: 3px dashed lightblue;
+    outline: 3px dashed dodgerblue;
     cursor: pointer;
 }
 
