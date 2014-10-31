@@ -240,12 +240,31 @@ reference-style ![images][] too.
 }());</pre>
 <a name="testing_extensions"></a><h3>Testing Extensions<a class="anchorlink" href="#testing_extensions"></a></h3>
 <p>The showdown test runner is setup to automatically test cases for extensions.  To add test cases for an extension, create a new folder under <code>./test/extensions</code> which matches the name of the <code>.js</code> file in <code>./src/extensions</code>.  Place any test cases into the filder using the md/html format and they will automatically be run when tests are run.</p>
-<div id="demo 1"></div>
-
-<script>
-    console.log(1111);
-</script>
-
+<pre class="prettyprint">{
+    &quot;month&quot; : {
+        &quot;january&quot;   : &quot;Січень&quot;,
+        &quot;february&quot;   : &quot;Лютий&quot;,
+        &quot;march&quot;   : &quot;Березень&quot;,
+        &quot;april&quot;   : &quot;Квітень&quot;,
+        &quot;may&quot;   : &quot;Травень&quot;,
+        &quot;june&quot;   : &quot;Червень&quot;,
+        &quot;july&quot;   : &quot;Липень&quot;,
+        &quot;august&quot;   : &quot;Серпень&quot;,
+        &quot;september&quot;   : &quot;Вересень&quot;,
+        &quot;october&quot;  : &quot;Жовтень&quot;,
+        &quot;november&quot;  : &quot;Листопад&quot;,
+        &quot;december&quot;  : &quot;Грудень&quot;
+    },
+    &quot;daysOfWeek&quot; : {
+        &quot;monday&quot; : &quot;Пн&quot;,
+        &quot;tuesday&quot;: &quot;Вт&quot;,
+        &quot;wednesday&quot;: &quot;Ср&quot;,
+        &quot;thursday&quot;: &quot;Чт&quot;,
+        &quot;friday&quot;: &quot;Пт&quot;,
+        &quot;saturday&quot;: &quot;Сб&quot;,
+        &quot;sunday&quot;: &quot;Нд&quot;
+    }
+}</pre>
 <a name="credits"></a><h2>Credits<a class="anchorlink" href="#credits"></a></h2>
 <ul class="list">
 <li>Origins<ul class="list">
