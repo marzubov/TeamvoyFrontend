@@ -7,9 +7,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css"/>
     <script src="../library/event_machine.js"></script>
-    <script src="javascript/calendar.js"></script>
-    <script src="javascript/customize_calendar.js"></script>
     <script src="javascript/helper.js"></script>
+    <script src="javascript/customize_calendar.js"></script>
+    <script src="javascript/calendar.js"></script>
+    <script src="javascript/date_range_picker.js"></script>
+
 </head>
 <body>
 <article class="col-xs-8 col-xs-offset-2" >
@@ -20,23 +22,24 @@
 </body>
 <script>
     var firstContainer = document.getElementById('firstCalendar');
-    var firstCalendar = new Calendar(firstContainer,{});
+    //var firstCalendar = new Calendar(firstContainer,{});
+    var firstDateRangePicker = new DateRangePicker(firstContainer);
 
     //style
-    firstCalendar.getRoot().classList.add('table');
-    firstCalendar.getRoot().classList.add('table-striped');
+    firstDateRangePicker.firstCalendar.getRoot().classList.add('table', 'table-striped');
+    firstDateRangePicker.secondCalendar.getRoot().classList.add('table', 'table-striped');
 
     //firstCalendar.showToday();
 
     //events
-    var monthTestFunction = function(e){
-        console.log('month changed', e, this);
-    };
-    var dayTestFunction = function(e){
-        console.log('day changed', e, this);
-    };
-    firstCalendar.on('onMonthChanged',monthTestFunction);
-    firstCalendar.on('onDayChanged',dayTestFunction);
+//    var monthTestFunction = function(e){
+//        console.log('month changed', e, this);
+//    };
+//    var dayTestFunction = function(e){
+//        console.log('day changed', e, this);
+//    };
+    //firstCalendar.on('onMonthChanged',monthTestFunction);
+    //firstCalendar.on('onDayChanged',dayTestFunction);
 
 </script>
 </html>
