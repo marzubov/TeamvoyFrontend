@@ -46,6 +46,7 @@
             this.config.optionsData = optionsData.filter(function (option) {
                 return new RegExp(searchString, 'i').test(option.title);
             });
+            this.trigger('filter');
             return renderOptions(this.options);
         };
 
@@ -79,8 +80,9 @@
         }
 
         // Generate data in select options
-        function renderOptions(optionsElement) {
+        function renderOptions(optionsElement,searchString) {
             var options = optionsElement ? optionsElement : document.createElement('div');
+            that.config.optionsData.length ? that.selector.classList.remove('alert') : that.selector.classList.add('alert');
             options.classList.add('custom-select', 'options');
             var optionString = '';
             that.config.optionsData.forEach(function (option) {

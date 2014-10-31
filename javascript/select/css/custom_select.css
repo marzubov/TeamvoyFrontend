@@ -4,6 +4,9 @@
 .custom-select .selector{
     width: 100%;
 }
+.custom-select .alert{
+    background-color: rgba(200,20,20,0.3)
+}
 .custom-select .options{
     height: 0;
 }
