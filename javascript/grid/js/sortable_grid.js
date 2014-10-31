@@ -38,27 +38,37 @@
             if (!fromPagesData) {
                 for (i = (pageIndex - 1) * config.maxRows; i < pageIndex * config.maxRows; i++) {
                     dataString += "<tr>";
-                    for (var j = 0; j < data[i].length; j++) {
-                        if (config.withTemplates) {
+                    if (config.withTemplates) {
+                        for (var j = 0; j < data[i].length; j++) {
+
                             if (config.columnTemplates[j]) {
-                                data[i][j] = config.columnTemplates[j](object[i]);
+                                dataString += '<td>' + config.columnTemplates[j](object[i]) + '</td>';
+                                //console.log(dataArray[i][j].match(/<.+?>/g))
+                                //console.log(dataArray[i][j].replace(/<\/?[^>]+(>|$)/g, ""));
+                            } else {
+                                dataString += '<td>' + data[i][j] + '</td>';
                             }
+
                         }
-                        dataString += '<td>' + data[i][j] + '</td>';
-                    }
+                    } else dataString += '<td>' + data[i].join('</td><td>') + '</td>';
                     dataString += "</tr>";
                 }
             } else {
                 for (i = 0; i < config.maxRows; i++) {
                     dataString += "<tr>";
+                    if (config.withTemplates) {
                     for (var j = 0; j < data[i].length; j++) {
-                        if (config.withTemplates) {
+
                             if (config.columnTemplates[j]) {
-                                data[i][j] = config.columnTemplates[j](object[i]);
+                                dataString += '<td>' + config.columnTemplates[j](object[i]) + '</td>';
+                                //console.log(dataArray[i][j].match(/<.+?>/g))
+                                //console.log(dataArray[i][j].replace(/<\/?[^>]+(>|$)/g, ""));
+                            } else {
+                                dataString += '<td>' + data[i][j] + '</td>';
                             }
-                        }
-                        dataString += '<td>' + data[i][j] + '</td>';
+
                     }
+                    } else dataString += '<td>' + data[i].join('</td><td>') + '</td>';
                     dataString += "</tr>";
                 }
             }
@@ -74,6 +84,19 @@
                 return current[cellIndex] > next[cellIndex];
             });
             reverse === 'desc' ? dataArray.reverse() : 0;
+            var keyIndex = 0;
+            object.forEach(function(el) {
+                var key, elementIndex = 0;
+                for (key in el) {
+
+                        el[key] = dataArray[keyIndex][elementIndex];
+                        elementIndex += 1;
+                }
+                keyIndex += 1;
+            });
+            console.log(object);
+            console.log(dataArray);
+
             changePageData(false);
             that.goTo(1);
         }
@@ -121,11 +144,12 @@
                     tableString += "<tr>";
                     for (var j = 0; j < dataArray[i].length; j++) {
                         if (config.columnTemplates[j]) {
-                            dataArray[i][j] = config.columnTemplates[j](object[i]);
-                            console.log(dataArray[i][j].match(/<.+?>/g))
-                            console.log(dataArray[i][j].replace(/<\/?[^>]+(>|$)/g, ""));
+                            tableString += '<td>' + config.columnTemplates[j](object[i]) + '</td>';
+                            //console.log(dataArray[i][j].match(/<.+?>/g))
+                            //console.log(dataArray[i][j].replace(/<\/?[^>]+(>|$)/g, ""));
+                        } else {
+                            tableString += '<td>' + dataArray[i][j] + '</td>';
                         }
-                        tableString += '<td>' + dataArray[i][j] + '</td>';
                     }
                     tableString += "</tr>";
                 }

@@ -13,3 +13,6 @@ input{
     height: 119px;
     background-image: url(img/year.jpg);
 }
+.selected {
+    background: darkgrey !important;
+}
