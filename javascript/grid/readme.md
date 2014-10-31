@@ -12,5 +12,9 @@ var table = new SortableGrid(container, array, config, maxRows).getCreatedElemen
 ```
 
 Where:
+
     1. Container - the HTML tag where this table will be located. For example,
        `document.getElementById("container")`;
+
+    2. Array - this array will be contained into table.
+       If you want to load the data from file, this option = `null`
