@@ -2,7 +2,12 @@
 article{
     margin: 5px;
 }
-#first,#second{
+#second{
+    float: right;
+
+}
+.half-page{
+    margin-top: 10px;
     margin-left: 30%;
     margin-right: 30%;
 }

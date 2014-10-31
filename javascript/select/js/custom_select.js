@@ -33,7 +33,7 @@
             if(this.value != value){
             this.value = value;
             this.selector.value = title;
-            this.trigger('change');
+
             }
         };
 
@@ -47,7 +47,7 @@
                 return new RegExp(searchString, 'i').test(option.title);
             });
             this.trigger('filter');
-            return renderOptions(this.options);
+            return renderOptions(this.options,searchString);
         };
 
         Object.defineProperty(this,'hovered',{
@@ -57,7 +57,7 @@
             set: function (value) {
                hovered && (hovered.classList.remove('hover'));
                 hovered = value;
-                hovered.classList.add('hover');
+                hovered && (hovered.classList.add('hover'));
                 return hovered;
             }
         });
@@ -81,13 +81,19 @@
 
         // Generate data in select options
         function renderOptions(optionsElement,searchString) {
-            var options = optionsElement ? optionsElement : document.createElement('div');
-            that.config.optionsData.length ? that.selector.classList.remove('alert') : that.selector.classList.add('alert');
-            options.classList.add('custom-select', 'options');
-            var optionString = '';
+            var options = optionsElement ? optionsElement : document.createElement('div'),
+                optionString = '';
+            that.config.optionsData.length ? that.selector.classList.remove('alert')
+                : that.selector.classList.add('alert');
+            options.classList.add('options');
+
             that.config.optionsData.forEach(function (option) {
+
                 optionString += '<div data-value="' + option.value
-                    + '" class="custom-select option">' + option.title + '</div>'
+                    + '" data-title="' + option.title
+                    + '" class="custom-select option">'
+                    + option.title.toString().replace(searchString,'<span class="highlighted">'+searchString+'</span>')
+                    + '</div>'
             });
             options.innerHTML = optionString;
             return options;
@@ -103,7 +109,8 @@
         // Create listeners on selector and options
         function listenUserActions() {
             that.options.addEventListener('mousedown', function () {
-                that.setSelected(hovered.dataset['value'], hovered.innerHTML)
+                that.setSelected(hovered.dataset['value'], that.hovered.dataset['title']);
+                that.trigger('change');
             });
             that.options.addEventListener('mouseover', function (e) {
                 that.hovered = e.target;
@@ -121,7 +128,8 @@
             that.selector.addEventListener('keydown', function (e) {
                 switch (e.keyCode) {
                     case 13://enter
-                        that.toggle();
+                        that.hide();
+                        that.trigger('change');
                         break;
                     case 27://esc
                         that.hide();
@@ -130,13 +138,13 @@
                         that.hovered = that.hovered ?
                             that.hovered.nextSibling || that.hovered :
                             that.options.querySelector('.option');
-                        that.setSelected(that.hovered.dataset['value'], that.hovered.innerHTML);
+                        that.setSelected(that.hovered.dataset['value'], that.hovered.dataset['title']);
                         break;
                     case 38://up
                         that.hovered = that.hovered ?
                             that.hovered.previousSibling || that.hovered:
                             that.options.querySelector('.option');
-                        that.setSelected(that.hovered.dataset['value'], that.hovered.innerHTML);
+                        that.setSelected(that.hovered.dataset['value'], that.hovered.dataset['title']);
                         break;
                     default :
                         that.show();

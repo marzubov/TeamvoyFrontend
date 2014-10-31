@@ -10,6 +10,9 @@
 .custom-select .options{
     height: 0;
 }
+.custom-select .highlighted{
+    color: sandybrown;
+}
 .custom-select .options .option{
     border: 1px solid #dddddd;
     background-color: #ffffff;
