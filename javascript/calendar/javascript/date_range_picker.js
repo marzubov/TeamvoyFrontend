@@ -18,16 +18,13 @@
         var range1 = [1,31]
 
         function init(){
-            this.firstCalendar = new Calendar(container);
-            this.secondCalendar = new Calendar(container);
+            that.firstCalendar = new Calendar(container, {style:"customize"});
+            that.secondCalendar = new Calendar(container, {style:"customize"});
             console.log("created date range picker");
-            //var monthTestFunction = function(e){
-            //    console.log('month changed', e, this);
-            //};
+            var monthTestFunction = function(e){
+                console.log('month changed', e, this);
+            };
             var firstHandler = function(params){
-                //console.log('day changed', this, params);
-                //console.log(params.target.getAttribute('day-number'));
-                //console.log(this.getDate(params.target.getAttribute('day-number')));
                 range1[1] = params.target.getAttribute('day-number');
                 console.log(that.firstCalendar);
                 that.firstCalendar.customizeDays('selected', range1);
@@ -35,13 +32,11 @@
             var secondHandler = function(params){
                 console.log('day changed', this, params);
                 console.log(params.target.getAttribute('day-number'));
-                console.log(this.getDate(params.target.getAttribute('day-number')));
             };
-            //firstCalendar.on('onMonthChanged',monthTestFunction);
-            this.firstCalendar.on('onDayChanged', secondHandler);
-            this.secondCalendar.on('onDayChanged', firstHandler);
+            that.firstCalendar.on('onMonthChanged',monthTestFunction);
+            that.firstCalendar.on('onDayChanged', secondHandler);
+            that.secondCalendar.on('onDayChanged', firstHandler);
         }
-
         init.call(this);
     };
 })(window, document);

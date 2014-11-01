@@ -1,11 +1,11 @@
-//(function (global, document){
+(function (global, document){
     var firstContainer = document.getElementById('firstCalendar');
     var secondContainer = document.getElementById('secondCalendar');
     var thirdContainer = document.getElementById('thirdCalendar');
     var fourthContainer = document.getElementById('fourthCalendar');
     var fifthContainer = document.getElementById('fifthCalendar');
 
-    var firstCalendar = new Calendar(firstContainer,{});
+    var firstCalendar  = global.firstCalendar = new Calendar(firstContainer,{});
     var secondCalendar = new Calendar(secondContainer,{year: 2014, month: 5, style:"customize", firstDayOfWeek: "Пн", locale: "ua", weekends:["Сб","Нд"]});
     var thirdCalendar = new Calendar(thirdContainer,{daysInWeek: 14});
     var fourthCalendar = new Calendar(fourthContainer,{daysInWeek: 13});
@@ -29,5 +29,4 @@
         console.log('monthChanged');
     };
     firstCalendar.on('onMonthChanged',eventTestFunction);
-    console.log(firstCalendar);
-//})(window, document);
+})(window, document);
