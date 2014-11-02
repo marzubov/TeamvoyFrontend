@@ -14,18 +14,16 @@
 </head>
 <body>
 <article class="col-xs-8 col-xs-offset-2" >
-<div class="col-xs-4 col-xs-offset-4" id="firstContainer">
+<div class="col-xs-4 col-xs-offset-4 container" id="firstContainer">
 
 </div>
  </article>
 </body>
 <script>
     var firstContainer = document.getElementById('firstContainer');
-    //var firstCalendar = new Calendar(firstContainer,{});
     var firstDateRangePicker = new DateRangePicker(firstContainer);
 
-    //style
-    firstDateRangePicker.firstCalendar.getRoot().classList.add('table', 'table-striped');
-    firstDateRangePicker.secondCalendar.getRoot().classList.add('table', 'table-striped');
+    firstDateRangePicker.firstCalendar.getRoot().classList.add('table', 'table-striped', 'date-range-picker');
+    firstDateRangePicker.secondCalendar.getRoot().classList.add('table', 'table-striped', 'date-range-picker');
 </script>
 </html>

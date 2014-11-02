@@ -113,8 +113,7 @@
         this.customizeDays = function (styles, range) {
             var ifFirstRow = true;
             styles = styles || 'active-day';
-            range = range || [1,31];
-            console.log(range);
+            range = range || [1, 31];
             rowsForEach(calendar.getRoot().rows, function (cell) {
                 if (!ifFirstRow) {
                     // its just day names, so we are skipping this iteration
@@ -123,14 +122,7 @@
                     //here customizing days
                     //checking if day isn't from another month
                     if (!cell.classList.contains('non-active-day')) {
-
-                        if (( parseFloat(cell.getAttribute('day-number')) <= range[1])&&(parseFloat(cell.getAttribute('day-number')) >= range[0])) {
-                            cell.classList.add(styles);
-                        }
-                        else {
-                            cell.classList.remove(styles);
-                            cell.classList.add('active-day');
-                        }
+                        cell.classList.add('active-day');
                     }
                 }
             });
@@ -186,49 +178,25 @@
          */
         this.customizeCalendar = function (newCalendar) {
             calendar = newCalendar || this;
-
         };
 
-        this.selectDays = function(styles,range, startDayStyles, endDayStyles){
-            var ifFirstRow = true;
-            styles = styles || 'active-day';
-            range = range || [1, 31];
-            //startDayStyles = startDayStyles || 'selected-start-day';
-            //endDayStyles = endDayStyles || 'selected-end-day';
-            console.log(range);
+        this.selectDays = function (styles, range) {
+            styles = styles || 'selected';
             rowsForEach(calendar.getRoot().rows, function (cell) {
-                if (cell.classList.contains('non-active-day')) {
-                    return;
-                }
-                if (parseFloat(cell.getAttribute('day-number')) == range[0]) {
-                    cell.classList.add(startDayStyles);
-                    return cell;
-                }
-                if (parseFloat(cell.getAttribute('day-number')) == range[1]) {
-                    cell.classList.add(endDayStyles);
-                    return cell;
-                }
-                if (( parseFloat(cell.getAttribute('day-number')) <= range[1]) && (parseFloat(cell.getAttribute('day-number')) >= range[0])) {
-                    //cell.classList.remove(startDayStyles);
-                    //cell.classList.remove(endDayStyles);
+                var currentDate = new Date(parseFloat(cell.getAttribute('year'))
+                    , parseFloat(cell.getAttribute('month')) - 1, parseFloat(cell.getAttribute('day-number')));
+                if ((range.start.getTime() <= currentDate.getTime()) && (currentDate.getTime() <= range.end.getTime())) {
                     cell.classList.add(styles);
-                }
-                else {
-                    //cell.classList.remove(startDayStyles);
-                    //cell.classList.remove(endDayStyles);
-                    cell.classList.remove(styles);
-                    cell.classList.add('active-day');
                 }
             });
             return this;
         };
 
-        this.addDayStyle = function (dayNumber, style){
-            //dayNumber = dayNumber || 32;
-            style = style || 'active-day';
+        this.addDayStyle = function (date, style) {
             rowsForEach(calendar.getRoot().rows, function (cell) {
-
-                if (parseFloat(cell.getAttribute('day-number')) == dayNumber) {
+                var currentDate = new Date(parseFloat(cell.getAttribute('year'))
+                    , parseFloat(cell.getAttribute('month')) - 1, parseFloat(cell.getAttribute('day-number')));
+                if (currentDate.getTime() == date.getTime()) {
                     cell.classList.add(style);
                     return cell;
                 }
@@ -236,13 +204,11 @@
             return this;
         };
 
-        this.removeDayStyle = function (dayNumber, style){
-            //dayNumber = dayNumber || 32;
-            style = style || 'active-day';
-            console.log(dayNumber, style);
+        this.removeDayStyle = function (date, style) {
             rowsForEach(calendar.getRoot().rows, function (cell) {
-
-                if (parseFloat(cell.getAttribute('day-number')) == dayNumber) {
+                var currentDate = new Date(parseFloat(cell.getAttribute('year'))
+                    , parseFloat(cell.getAttribute('month')) - 1, parseFloat(cell.getAttribute('day-number')));
+                if (currentDate.getTime() == date.getTime()) {
                     cell.classList.remove(style);
                     return cell;
                 }
@@ -265,7 +231,6 @@
                 .forEach(function (cell) {
                     func(cell);
                 });
-
         }
 
         function renderCaption() {
@@ -307,15 +272,26 @@
                 }
                 tableString += '<tr>';
                 for (i = 0; i < config.daysInWeek; i++) {
+                    var year = config.year.valueOf();
+                    var month = config.month.valueOf();
                     if (week[i]) {
-                        tableString += '<td day-number = ' + week[i].toString() + ' class="active-day">' + week[i].toString() + '</td>';
+                        tableString += '<td year = ' + year.toString() + ' month = ' + (month).toString() + ' day-number = ' + week[i].toString() + ' class="active-day">' + week[i].toString() + '</td>';
                     }
                     else {
                         if (weekNumber == 1) {
-                            tableString += '<td class="non-active-day">' + (lastDay - firstDayWeek + 1 - config.daysInWeek + 7).toString() + '</td>';
+
+                            if (config.month == 1) {
+                                year--;
+                                month = 13;
+                            }
+                            tableString += '<td year = ' + year.toString() + ' month = ' + (month - 1).toString() + ' day-number = ' + (lastDay - firstDayWeek + 1 - config.daysInWeek + 7).toString() + ' class="non-active-day">' + (lastDay - firstDayWeek + 1 - config.daysInWeek + 7).toString() + '</td>';
                             firstDayWeek--;
                         } else {
-                            tableString += '<td class="non-active-day">' + (newMonthDay).toString() + '</td>';
+                            if (config.month == 12) {
+                                year++;
+                                month = 0;
+                            }
+                            tableString += '<td year = ' + year.toString() + ' month = ' + (month + 1).toString() + ' day-number = ' + (newMonthDay).toString() + ' class="non-active-day">' + (newMonthDay).toString() + '</td>';
                             newMonthDay++;
                         }
 
@@ -357,8 +333,8 @@
                             config.year--;
                             config.month = 12;
                         }
-                        that.trigger('onMonthChanged', [e]);
                         render();
+                        that.trigger('onMonthChanged', [e]);
                         return true;
                     }
                     else if (e.target != this) {
@@ -388,10 +364,6 @@
                     that.customizeToday(new Date());
                 }
             }
-            if (config.dateRangePicker){
-                that.selectDays('selected', [1,1]);
-            }
-
             return this;
         }
 
@@ -426,6 +398,7 @@
                     .onload = function () {
                     Calendar.localizationCache[config.locale] = JSON.parse(this.responseText);
                     render();
+                    that.trigger('onLoad', [this]);
                     container.appendChild(root);
                 };
             }

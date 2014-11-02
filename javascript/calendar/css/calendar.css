@@ -54,8 +54,12 @@
 }
 
 .non-active-day{
-    opacity: .5;
     padding: 1px;
+    color: lightgray;
+}
+.non-active-day:hover{
+    outline: 3px dashed dodgerblue;
+    cursor: pointer;
 }
 
 .active-day{
@@ -83,11 +87,9 @@
 }
 
 .day-name{
-    /*opacity: .75;*/
 }
 
 .weekend{
-    /*background: lightgreen !important;*/
     color: red;
 }
 
@@ -95,4 +97,16 @@
     border:2px solid dodgerblue !important;
     font-weight: bold;
     color: dodgerblue;
+}
+
+.container{
+    width: auto !important;
+    max-width: none !important;
+    margin-left: auto !important;
+}
+
+.date-range-picker{
+    display: inline-block !important;
+    width: auto !important;
+    padding: 10px;
 }
