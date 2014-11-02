@@ -14,5 +14,11 @@ input{
     background-image: url(img/year.jpg);
 }
 .selected {
-    background: darkgrey !important;
+    background: #ebf4f8 !important;
+}
+.selected-start-day{
+    background: dodgerblue !important;
+}
+.selected-end-day{
+    background: dodgerblue !important;
 }

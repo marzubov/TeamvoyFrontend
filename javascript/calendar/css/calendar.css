@@ -11,7 +11,7 @@
     font-weight: bold;
 }
 .calendar td{
-    background: #ffffff !important;
+    background: #ffffff;
 }
 
 .calendar .calendar-event{
