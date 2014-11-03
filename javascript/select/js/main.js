@@ -2,6 +2,7 @@
     "use strict";
     var containerOne = document.getElementById("first");
     var containerTwo = document.getElementById("second");
+    var containerThree = document.getElementById('third');
     var firstSelect = new CustomSelect(containerOne, {
             optionsData: [
                 {
@@ -96,6 +97,6 @@
                 'http://3.bp.blogspot.com/-f0NsmUHz2kM/T8GUGoydNpI/AAAAAAAAAfg/KnEkgnFPzpc/s1600/smiley.png']
         }
     };
-    var templateSelect = new CustomSelect(containerTwo,templateConfig);
+    var templateSelect = new CustomSelect(containerThree,templateConfig);
 
 })(document,window);

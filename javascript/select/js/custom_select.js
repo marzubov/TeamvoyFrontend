@@ -82,6 +82,13 @@
             return mainElement;
         }
 
+        function generateOptionsData(option,index){ //TODO IF ELSE FOR GENERATING DATA
+                that.config.optionsData.template.HTML.replace('{{image}}'
+                    ,that.config.optionsData.template.image[index]);
+                that.config.optionsData.template.HTML.replace('{{text}}'
+                    ,that.config.optionsData.template.text[index]);
+        }
+
         // Generate data in select options
         function renderOptions(optionsElement,searchString) {
             var options = optionsElement ? optionsElement : document.createElement('div'),
@@ -89,15 +96,14 @@
             that.config.optionsData.length ? that.selector.classList.remove('alert')
                 : that.selector.classList.add('alert');
             options.classList.add('options');
-
             that.config.optionsData.forEach(function (option) {
-
                 optionString += '<div data-value="' + option.value
                     + '" data-title="' + option.title
                     + '" class="custom-select option">'
-                    + option.title.toString().replace(searchString,'<span class="highlighted">'+searchString+'</span>')
+                    + option.title.toString().replace(searchString, '<span class="highlighted">' + searchString + '</span>')
                     + '</div>'
             });
+
             options.innerHTML = optionString;
             return options;
         }
