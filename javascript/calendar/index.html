@@ -12,9 +12,11 @@
 </head>
 <body>
 
-<article class="col-xs-8 col-xs-offset-2" >
+<article class="col-xs-8 col-xs-offset-2">
     <p>
+
     <h1 class="text-center">Calendar Demo</h1>
+
     <h2>Syntax</h2>
     <span>To create calendar you need to call:<br>
         <code>new Calendar(container,config);</code><br>
@@ -24,7 +26,7 @@
     <ul>
         <li><b>year</b> - current year, type: number;</li>
         <li><b>month</b> - current month, type: number;</li>
-        <li><b>firstDayOfWeek</b> - first day of week in calendar, only english  language, type: string;</li>
+        <li><b>firstDayOfWeek</b> - first day of week in calendar, only english language, type: string;</li>
         <li><b>locale</b> - language of calendar, short name, type: string. Example: 'monday'.</li>
     </ul>
     <h3>Methods</h3>
@@ -32,11 +34,6 @@
         <li><code>myCalendar.showToday();</code> - set calendar config to show current day;</li>
         <li><code>myCalendar.on(eventName,callback);</code> - add new function to event listener;</li>
         <li><code>myCalendar.off(eventName,callback);</code> - remove function from event listener;</li>
-        <li><code>myCalendar.trigger(eventName);</code> - call event.</li>
-        <li><code>myCalendar.trigger(eventName);</code> - call event.</li>
-        <li><code>myCalendar.trigger(eventName);</code> - call event.</li>
-        <li><code>myCalendar.trigger(eventName);</code> - call event.</li>
-        <li><code>myCalendar.trigger(eventName);</code> - call event.</li>
 
     </ul>
     <h3>Event List</h3>
@@ -44,14 +41,21 @@
         <li>onMonthChanged - occur when config month data changed</li>
     </ul>
     <h2>Examples:</h2>
-    <span>Default calendar:</span><br>
+    <span>Default calendar:<br>
+        <code>config = {}</code>
+    </span><br>
+
     <div class="col-xs-4 col-xs-offset-4" id="firstCalendar">
 
     </div>
 
     <span class="col-xs-12">You can style calendar with classes for each component: caption, days, weekends etc. <br>
         Classes are adding to the components in <code>customize_calendar.js</code> file
-    <br></span>
+    <br>
+
+        <code>config = {year: 2014, month: 5, style:"customize", firstDayOfWeek: "Пн"
+            , locale: "ua", weekends:["Сб","Нд"]}</code><br></span>
+
     <div class="col-xs-4 col-xs-offset-2" id="fifthCalendar">
     </div>
 
@@ -60,6 +64,7 @@
         It will reset data in calendar.
     Try It!
     <br></span>
+
     <div class="col-xs-4 col-xs-offset-2" id="secondCalendar">
 
     </div>
@@ -77,15 +82,19 @@
 
     <span class="col-xs-12">You can add more than 7 days in one row:<br>
         <code>config.daysInWeek = 14;</code><br>
+        <code>myCalendar.config = {daysInWeek: 14};</code><br>
         It will set 14 days in one row.
     <br></span>
-    <div class="col-xs-4 col-xs-offset-2" id="thirdCalendar">
-        </div>
 
-    <span class="col-xs-12">If days in row is no multiply of 7, days names wont be shown<br>
+    <div class="col-xs-4 col-xs-offset-2" id="thirdCalendar">
+    </div>
+
+    <span class="col-xs-12">If days in row is not multiply of 7, days names wont be shown<br>
         <code>config.daysInWeek = 13;</code><br>
+        <code>myCalendar.config = {daysInWeek: 13};</code><br>
         It will set 13 days in one row and there wont be days names.
     <br></span>
+
     <div class="col-xs-4 col-xs-offset-2" id="fourthCalendar">
     </div>
 
