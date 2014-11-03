@@ -31,11 +31,11 @@
          * Show current day in calendar
          */
         this.showToday = function () {
-            var today = new Date();
+            var today = new Date((new Date()).setHours(0, 0, 0, 0));
             config.month = today.getMonth() + 1;
             config.year = today.getFullYear();
             render();
-            that.customizeToday(today);
+            that.addDayStyle(today, 'today');
             that.trigger('onDayChanged');
             return today;
         };
@@ -225,7 +225,7 @@
          * @param style
          * @returns {global.Calendar}
          */
-        function removeDayStyle(date, style) {
+        this.removeDayStyle = function(date, style) {
             rowsForEach(calendar.getRoot().rows, function (cell) {
                 var currentDate = new Date(parseFloat(cell.getAttribute('year'))
                     , parseFloat(cell.getAttribute('month')) - 1, parseFloat(cell.getAttribute('day-number')));
