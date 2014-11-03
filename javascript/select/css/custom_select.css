@@ -16,7 +16,8 @@
     content: url(img/arrow_down.png);
 }
 .custom-select .alert{
-    background-color: rgba(200,20,20,0.3)
+    color: rgb(200,20,20);
+    border: 1px rgb(200,20,20) solid;
 }
 .custom-select .options{
     height: 0;
@@ -25,18 +26,14 @@
     color: sandybrown;
 }
 .custom-select .options .option{
-    border: 1px solid #dddddd;
-    background-color: #ffffff;
     width: 100%;
     text-align: center;
     position: relative;
 }
 .custom-select .options .option:nth-of-type(odd){
-    background-color: #f9f9f9;
 }
 .custom-select .options .hide{
     display: none;
 }
 .custom-select .options .hover{
-    background-color: #f0f0f0 !important;
 }

@@ -15,7 +15,7 @@ The arguments of this class are:
    defaultOption - the first option of select
 Example of using this function -
 
-```javascript
+```js
 new CustomSelect(document.getElementById("one"), [1,2,3,4,5,6], {defaultOption: "data from array", idOfTag: "example1"});
 new CustomSelect(document.getElementById("four"), [{title: "option1", value: 1}, {title: "option2", value: 2}], {defaultOption: "data from array with objects", idOfTag: "example4"});
 new CustomSelect(document.getElementById("two"), "data_for_options/file1.json", {defaultOption: "data from file", idOfTag: "example2"});
