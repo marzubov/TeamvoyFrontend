@@ -111,6 +111,7 @@ Where:
 ###Table with full data from server with templates
 
 For creating this table, we have to enter the url of local server in config, where data are located, enter null to the option 'array'.
+
 Also we have to enter true to option 'withTemplate' and in 'columnTemplates' enter the columns, where we want to use the templates, and the templates that we want to use.
 For example:
 
@@ -138,7 +139,9 @@ Where:
 ###Table with partial data from server with templates
 
 In this table data for every page loads only then we use that page.
+
 For creating this table, we have to to enter the url of local server in config, where data are located, enter null to the option 'array'.
+
 Also we have to enter true to the option 'loadByParts', and enter true to option 'withTemplate' and in 'columnTemplates' enter the columns, where we want to use the templates, and the templates that we want to use.
 For example:
 
