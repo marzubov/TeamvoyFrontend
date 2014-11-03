@@ -56,6 +56,9 @@ Where:
     };
 ```
 
+<div id="draggable" class="table-responsive">
+</div>
+
 ###Table with filter
 
 For creating table with filter, you have to create table with your data with class SortableGrid, and then allow the filterable with the class Filterable.
@@ -86,6 +89,9 @@ Where:
         };
 ```
 
+<div id="filterable" class="table-responsive">
+</div>
+
 ###Table with full data from server
 
 For creating this table, we have to enter the url of local server in config, where data are located. Also enter null tho the option 'array'.
@@ -107,6 +113,9 @@ Where:
             'withTemplates': false
         };
 ```
+
+<div id="fullServerData" class="table-responsive">
+</div>
 
 ###Table with full data from server with templates
 
@@ -136,6 +145,9 @@ Where:
             };
 ```
 
+<div id="withTemplate" class="table-responsive">
+</div>
+
 ###Table with partial data from server with templates
 
 In this table data for every page loads only then we use that page.
@@ -164,3 +176,6 @@ Where:
             }
         };
 ```
+
+<div id="partialServerData" class="table-responsive">
+    </div>
