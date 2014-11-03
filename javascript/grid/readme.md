@@ -41,15 +41,15 @@ Where:
 Where:
 
 ```js
-    container = document.getElementById('draggable');
-    numberArray = Array.apply(null, {length: 100})
+    var container = document.getElementById('draggable');
+    var numberArray = Array.apply(null, {length: 100})
         .map(function () {
             return Array.apply(null, {length: 5})
                 .map(function () {
                     return Math.floor(Math.random() * 1000);
             });
     });
-    configObject = {
+    var configObject = {
         'headers': ['1', '2', '3', '4', '5'],
         'maxRows': 5,
         'withTemplates': false
@@ -57,3 +57,107 @@ Where:
 ```
 
 ###Table with filter
+
+For creating table with filter, you have to create table with your data with class SortableGrid, and then allow the filterable with the class Filterable.
+This class have one argument: the table, where we wand to use filterable.
+If we want to show the input box, write filterable.enable(1);
+
+```js
+    var filteredTable = new SortableGrid(container, stringArray, configObject).getCreatedElement();
+    var filterable = new Filterable(filteredTable.getRoot());
+    filterable.enable(1);
+```
+
+Where:
+
+```js
+    var container = document.getElementById('filterable');
+    var stringArray = [
+            ['Evkakiy', 'Ignatovych', 'OOP', '2', 'true'],
+            ['Gnat', 'Kozlovskiy', 'Mathematic', '5', 'false'],
+            ['Ivan', 'Miladze', 'Facepalm', '1', 'true'],
+            ['Afanasiy', 'Bylba', 'Alchoball', '100', 'false'],
+            ['Kerry', 'King', 'Guitar', '666', 'true']
+        ];
+    var configObject = {
+            'headers': ['1', '2', '3', '4', '5'],
+            'maxRows': 5,
+            'withTemplates': false
+        };
+```
+
+###Table with full data from server
+
+For creating this table, we have to enter the url of local server in config, where data are located. Also enter null tho the option 'array'.
+For example,
+
+```js
+    var fullDataTable = new SortableGrid(container, null, configObjectFullLoading).getCreatedElement();
+```
+
+Where:
+
+```js
+    var container = document.getElementById('fullServerData');
+    var configObjectFullLoading = {
+            'headers': ['1', '2', '3', '4', '5'],
+            'maxRows': 5,
+            'url': 'http://localhost:8001',
+            'loadByParts': false,
+            'withTemplates': false
+        };
+```
+
+###Table with full data from server with templates
+
+For creating this table, we have to enter the url of local server in config, where data are located, enter null to the option 'array'.
+Also we have to enter true to option 'withTemplate' and in 'columnTemplates' enter the columns, where we want to use the templates, and the templates that we want to use.
+For example:
+
+```js
+    var fullDataTable = new SortableGrid(container, null, configObjectFullLoadingWithTemplate).getCreatedElement();
+```
+
+Where:
+
+```js
+    var container = document.getElementById('withTemplate');
+    var configObjectFullLoadingWithTemplate = {
+                'headers': ['1', '2', '3', '4', '5'],
+                'maxRows': 5,
+                'url': 'http://localhost:8001',
+                'loadByParts': false,
+                'withTemplates': true,
+                'columnTemplates': {
+                    1: Handlebars.compile("<i><b>{{age2}}</b></i>"),
+                    4: Handlebars.compile("<u>{{age5}}</u>")
+                }
+            };
+```
+
+###Table with partial data from server with templates
+
+In this table data for every page loads only then we use that page.
+For creating this table, we have to to enter the url of local server in config, where data are located, enter null to the option 'array'.
+Also we have to enter true to the option 'loadByParts', and enter true to option 'withTemplate' and in 'columnTemplates' enter the columns, where we want to use the templates, and the templates that we want to use.
+For example:
+
+```js
+    var partDataTable = new SortableGrid(container, null, configObjectPartialLoading).getCreatedElement();
+```
+
+Where:
+
+```js
+    var container = document.getElementById('partialServerData');
+    var configObjectPartialLoading = {
+            'headers': ['1', '2', '3', '4', '5'],
+            'maxRows': 5,
+            'url': 'http://localhost:8001',
+            'loadByParts': true,
+            'withTemplates': true,
+            'columnTemplates': {
+                1: Handlebars.compile("<b>{{age2}}</b>")
+            }
+        };
+```
