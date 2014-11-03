@@ -40,6 +40,10 @@
             return today;
         };
 
+        /**
+         * Generating calendar
+         * @returns {global.Calendar.generateCalendar}
+         */
         function generateCalendar() {
             var i, date = new Date(config.year, config.month - 1), month, monthPrefix,
                 lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
@@ -96,7 +100,7 @@
         };
 
         /**
-         *
+         * Get root element
          * @returns {Element}
          */
         this.getRoot = function () {
@@ -104,16 +108,11 @@
         };
 
         /**
-         *  Renders headings and returns string of rendered element
-         * @returns {string}
+         * Adding day styles
+         * @returns {global.Calendar}
          */
-        /**
-         *  Customizing days styles
-         */
-        this.customizeDays = function (styles, range) {
+        this.customizeDays = function () {
             var ifFirstRow = true;
-            styles = styles || 'active-day';
-            range = range || [1, 31];
             rowsForEach(calendar.getRoot().rows, function (cell) {
                 if (!ifFirstRow) {
                     // its just day names, so we are skipping this iteration
@@ -130,7 +129,9 @@
         };
 
         /**
-         *  Customizing days names style
+         * Adding styles to the day names
+         * @param header
+         * @returns {global.Calendar}
          */
         this.customizeDayNames = function (header) {
             header = header || calendar.getRoot().rows[0];
@@ -140,6 +141,12 @@
             return this;
         };
 
+        /**
+         * Adding day styles to the weekends
+         * @param weekends
+         * @param daysInWeek
+         * @returns {global.Calendar}
+         */
         this.customizeWeekends = function (weekends, daysInWeek) {
             var weekNumber = 0;
             var dayNumber = 0;
@@ -159,27 +166,29 @@
             return this;
         };
 
-        this.customizeToday = function (today) {
-            rowsForEach(calendar.getRoot().rows, function (cell) {
-                if (today.getDate() == cell.getAttribute('day-name')) {
-                    cell.classList.add('today');
-                }
-            });
-            return this;
-        };
-
+        /**
+         * Adding styles to the date caption
+         * @param caption
+         */
         this.customizeCaption = function (caption) {
             caption = caption || calendar.getRoot().caption;
             caption.classList.add('caption');
         };
 
         /**
-         *  Initializing
+         * Customize calendar constructor
+         * @param newCalendar
          */
         this.customizeCalendar = function (newCalendar) {
             calendar = newCalendar || this;
         };
 
+        /**
+         * Adding selecting styles to the dates in range
+         * @param styles
+         * @param range
+         * @returns {global.Calendar}
+         */
         this.selectDays = function (styles, range) {
             styles = styles || 'selected';
             rowsForEach(calendar.getRoot().rows, function (cell) {
@@ -192,6 +201,12 @@
             return this;
         };
 
+        /**
+         * Adding day styles from parametr
+         * @param date
+         * @param style
+         * @returns {global.Calendar}
+         */
         this.addDayStyle = function (date, style) {
             rowsForEach(calendar.getRoot().rows, function (cell) {
                 var currentDate = new Date(parseFloat(cell.getAttribute('year'))
@@ -204,7 +219,13 @@
             return this;
         };
 
-        this.removeDayStyle = function (date, style) {
+        /**
+         * Removing day styles from parameter
+         * @param date
+         * @param style
+         * @returns {global.Calendar}
+         */
+        function removeDayStyle(date, style) {
             rowsForEach(calendar.getRoot().rows, function (cell) {
                 var currentDate = new Date(parseFloat(cell.getAttribute('year'))
                     , parseFloat(cell.getAttribute('month')) - 1, parseFloat(cell.getAttribute('day-number')));
@@ -216,24 +237,11 @@
             return this;
         };
 
-        function rowsForEach(rows, func) {
-            Array.prototype.slice.call(rows)
-                .forEach(function (row) {
-                    Array.prototype.slice.call(row.cells)
-                        .forEach(function (cell) {
-                            func(cell);
-                        });
-                });
-        }
-
-        function rowForEach(row, func) {
-            Array.prototype.slice.call(row)
-                .forEach(function (cell) {
-                    func(cell);
-                });
-        }
-
-        function renderCaption() {
+        /**
+         * Rendering caption
+         * @returns {string}
+         */
+        this.renderCaption = function () {
             var tableString = '<caption><button class="calendar-button desc"></button><span>'
                 + (model.chosenMonth + ' ' + config.year)
                 + '</span><button class="calendar-button asc"></button></caption>';
@@ -241,7 +249,11 @@
             return tableString;
         }
 
-        function renderHeader() {
+        /**
+         * Rendering header
+         * @returns {*}
+         */
+        this.renderHeader = function () {
             if (config.daysInWeek / 7 - Math.floor(config.daysInWeek / 7) != 0) return false;
             var weekNumber = 0, tableString = '<thead>';
             for (var i = 0; i < config.daysInWeek; i++) {
@@ -254,9 +266,10 @@
         }
 
         /**
-         * rendering table
+         * Rendering body
+         * @returns {global.Calendar.renderBody}
          */
-        function renderBody() {
+        this.renderBody = function () {
             root.classList.add('calendar');
             var tableString = '', i = 0, newMonthDay = 1,
                 date = new Date(config.year, config.month - 2),
@@ -318,7 +331,7 @@
         }
 
         /**
-         * setting events on table
+         * Setting events on table
          */
         function setEvents() {
             root
@@ -343,16 +356,38 @@
                     }
                     return false;
                 });
+
+            root.addEventListener('mousedown', function (e) {
+                if ((e.target.classList.contains('non-active-day'))
+                    || (e.target.classList.contains('active-day'))) {
+                    that.trigger('onMouseDown', [e]);
+                }
+            });
+
+            root.addEventListener('mousemove', function (e) {
+                if ((e.target.classList.contains('non-active-day'))
+                    || (e.target.classList.contains('active-day'))) {
+                    that.trigger('onMouseMove', [e]);
+                    e.preventDefault();
+                }
+            });
+
+            root.addEventListener('mouseup', function (e) {
+                if ((e.target.classList.contains('non-active-day'))
+                    || (e.target.classList.contains('active-day'))) {
+                    that.trigger('onMouseUp', [e]);
+                }
+            });
         }
 
         /**
-         * rendering
+         * Rendering
          */
-        function render() {
-            var generatedCalendar = generateCalendar();
-            var renderedCaption = renderCaption();
-            var renderedHeader = renderHeader();
-            var renderedBody = renderBody();
+        var render = this.render = function () {
+            generateCalendar();
+            that.renderCaption();
+            that.renderHeader();
+            that.renderBody();
             that.customizeCalendar(that);
             if (config.style != 'default') {
                 that.customizeCaption();
@@ -361,14 +396,14 @@
                 that.customizeWeekends(config.weekends, config.daysInWeek);
                 var today = new Date();
                 if ((today.getMonth() + 1 == config.month) && (today.getFullYear() == config.year)) {
-                    that.customizeToday(new Date());
+                    that.addDayStyle(new Date((new Date()).setHours(0, 0, 0, 0)), 'today');
                 }
             }
             return this;
         }
 
         /**
-         * initialize
+         * Initialize
          */
         function init() {
             root = document.createElement('table');

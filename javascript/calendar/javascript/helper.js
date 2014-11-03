@@ -24,3 +24,20 @@ Function.prototype.extend = function(Parent) {
     this.prototype.constructor = this;
     this.superclass = Parent.prototype;
 };
+
+function rowsForEach(rows, func) {
+    Array.prototype.slice.call(rows)
+        .forEach(function (row) {
+            Array.prototype.slice.call(row.cells)
+                .forEach(function (cell) {
+                    func(cell);
+                });
+        });
+}
+
+function rowForEach(row, func) {
+    Array.prototype.slice.call(row)
+        .forEach(function (cell) {
+            func(cell);
+        });
+}
