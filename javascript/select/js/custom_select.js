@@ -1,4 +1,10 @@
 (function (global, document) {
+    /**
+     * Creates custom select and inserts it to container
+     * @param container {Element} - the place where select will be inserted
+     * @param config {Object} - the object which configure created element
+     * @return {Object}
+     */
     var CustomSelect = global.CustomSelect = function (container, config) {
         CustomSelect.superclass.constructor.call(this);
         var that = this,
@@ -29,12 +35,24 @@
             this.options.classList.contains('hide') ? this.show()  : this.hide();
         };
 
+        /**
+         * Set new value
+         * @param value {String}
+         * @param title {String}
+         */
         this.setSelected = function (value, title) {
             if(this.value != value){
             this.value = value;
             this.selector.value = title;
-
             }
+        };
+        /**
+         *
+         * @param newData - object with properties title and value. Similar to config.optionsData
+         */
+        this.setOptionsData = function(newData){
+            optionsData = newData;
+            return this.filter('');
         };
 
         /**
@@ -46,7 +64,7 @@
             this.config.optionsData = optionsData.filter(function (option) {
                 return new RegExp(searchString, 'i').test(option.title);
             });
-            this.trigger('filter');
+            this.trigger('filtered');
             return renderOptions(this.options,searchString);
         };
 

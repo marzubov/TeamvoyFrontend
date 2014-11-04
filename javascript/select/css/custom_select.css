@@ -29,10 +29,11 @@
     width: 100%;
     text-align: center;
     position: relative;
+    left: 4px;
 }
 .custom-select .options .option:nth-of-type(odd){
 }
-.custom-select .options .hide{
+.custom-select .hide{
     display: none;
 }
 .custom-select .options .hover{

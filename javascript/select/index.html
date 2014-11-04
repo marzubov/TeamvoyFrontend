@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Custom select</title>
+  <script src="js/helper.js"></script>
+  <script src="../library/event_machine.js"></script>
+  <script src="js/custom_select.js"></script>
+  <link rel="stylesheet" href="css/custom_select.css" type="text/css">
+  <link rel="stylesheet" href="css/style.css" type="text/css">
+  <link rel="stylesheet" href="css/bootstrap.css" type="text/css">
+  <link rel="stylesheet" href="css/template.css" type="text/css">
+</head>
+
+<body>
+
+<h1 align="center">Custom select</h1>
+<article>
+  <h2>Syntax</h2>
+
+  <p>To create custom select u need to call <code>new CustomSelect(container,config);</code>
+    U can work with custom select just like with native<br>
+    <b>container</b> - place where select will be inserted;<br>
+    <b>config</b> - object, with properties:
+  <ul>
+    <li><b>options</b> - array of object with properties <u>title</u> and <u>value</u>;</li>
+    <li><b>defaultOption</b> - default title of selector</li>
+  </ul>
+  <h2>Events</h2>
+  <ul>
+    <li><b>show</b> - occur exactly after options showed;</li>
+    <li><b>hide</b> - occur exactly after options hided;</li>
+    <li><b>change</b> - occur exactly after select value changed (after click or enter).</li>
+  </ul>
+  <h2>Methods</h2>
+  <ul>
+    <li><code>customSelect.show()</code> - show options;</li>
+    <li><code>customSelect.hide()</code> - hide options;</li>
+    <li><code>customSelect.toggle()</code> - show/hide options.</li>
+  </ul>
+  <br>
+
+  <h2>Example</h2>
+
+  <h3>Default select:</h3>
+
+  <div id="first" class="half-page">
+    First select value: <span id="value"></span><br>
+  </div>
+  <h3>Events and methods demo:</h3>
+  U can make custom select to repeat actions of native by similar code<br>
+
+  <div style="float: right; width: 50%">
+    Native select:
+    <label><select id="native">
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+    </select></label>
+
+    <div id="second">
+    </div>
+  </div>
+  <code>
+    nativeSelect.addEventListener('mousedown',function(){<br>
+    &nbsp;&nbsp;customSelect.toggle();<br>
+    });<br><br>
+    customSelect.on('change', function () {<br>
+    &nbsp;&nbsp;nativeSelect.value = this.value;<br>
+    });<br><br>
+    nativeSelect.addEventListener('change',function(){<br>
+    &nbsp;&nbsp;customSelect.setSelected(nativeSelect.value,nativeSelect.value);<br>
+    });<br>
+  </code>
+
+  <div id="third"></div>
+</article>
+
+<script src="js/main.js"></script>
+</body>
+
+</html>
