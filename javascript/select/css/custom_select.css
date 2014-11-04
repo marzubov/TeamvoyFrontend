@@ -1,11 +1,12 @@
 .custom-select{
+  cursor: pointer;
 }
 .custom-select .selector{
   font-family:inherit;
   color: inherit;
   font-size: inherit;
   width: 100%;
-  cursor: pointer;
+  cursor: inherit;
 }
 .custom-select .img:after{
   position: relative;
@@ -26,6 +27,7 @@
   border-bottom: 1px #c0392b solid!important;
 }
 .custom-select .options{
+  cursor: inherit;
   height: 0;
   position: relative;
   left: 4px;
