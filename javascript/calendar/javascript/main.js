@@ -1,21 +1,21 @@
 (function (global, document){
-    var firstContainer = document.getElementById('firstCalendar');
-    var secondContainer = document.getElementById('secondCalendar');
-    var thirdContainer = document.getElementById('thirdCalendar');
-    var fourthContainer = document.getElementById('fourthCalendar');
-    var fifthContainer = document.getElementById('fifthCalendar');
+    var firstContainer = document.getElementById('firstContainer');
+    var secondContainer = document.getElementById('secondContainer');
+    var thirdContainer = document.getElementById('thirdContainer');
+    var fourthContainer = document.getElementById('fourthContainer');
+    var fifthContainer = document.getElementById('fifthContainer');
+    var sixthContainer = document.getElementById('sixthContainer');
+    var seventhContainer = document.getElementById('seventhContainer');
+    var eightsContainer = document.getElementById('eightsContainer');
 
-    var firstCalendar  = global.firstCalendar = new Calendar(firstContainer,{});
+    var firstCalendar  = new Calendar(firstContainer,{});
     var secondCalendar = new Calendar(secondContainer,{year: 2014, month: 5, style:"customize", firstDayOfWeek: "Пн", locale: "ua", weekends:["Сб","Нд"]});
     var thirdCalendar = new Calendar(thirdContainer,{daysInWeek: 14});
     var fourthCalendar = new Calendar(fourthContainer,{daysInWeek: 13});
     var fifthCalendar = new Calendar(fifthContainer,{style:"customize"});
-    firstCalendar.getRoot().classList.add('table', 'table-striped');
-    secondCalendar.getRoot().classList.add('table', 'table-striped');
-    thirdCalendar.getRoot().classList.add('table', 'table-striped');
-    fourthCalendar.getRoot().classList.add('table', 'table-striped');
-    fifthCalendar.getRoot().classList.add('table', 'table-striped');
-
+    var sixthCalendar = new Calendar(sixthContainer,{style:"customize"});
+    var seventhCalendar = new Calendar(seventhContainer,{style:"customize"});
+    var eightsCalendar = new Calendar(eightsContainer,{style:"customize"});
     document.querySelector('.btn').onclick = function () {
         var newConfig = {};
         newConfig.year=document.querySelector('.year').value;
@@ -24,9 +24,4 @@
         newConfig.weekends = ['SAT','SUN'];
         secondCalendar.config = newConfig;
     };
-
-    var eventTestFunction = function(e){
-        console.log('monthChanged');
-    };
-    firstCalendar.on('onMonthChanged',eventTestFunction);
 })(window, document);
