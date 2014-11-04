@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Custom select</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link type="text/css" rel="stylesheet" href="assets/css/prettify.css"/>
+    <link rel="stylesheet" href="../css/custom_select.css" type="text/css">
+    <link rel="stylesheet" href="../css/template.css" type="text/css">
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/prettify.js"></script>
+    <script src="../js/helper.js"></script>
+    <script src="../../library/event_machine.js"></script>
+    <script src="../js/custom_select.js"></script>
+
+
+  </head>
+<body onload="prettyPrint()">
+
+  <div id="toc">
+    <div id="toc-inner">
+      <ul class="nav nav-list"><li><a href="#custom_select">Custom Select</a></li><li><a href="#syntax">Syntax</a></li><li><a href="#methods">Methods</a></li><li><a href="#events">Events</a></li><li><a href="#example">Example</a></li></ul>
+    </div>
+  </div>
+
+  <div id="wrapper">
+    <div id="header">
+
+    </div>
+
+    <div class="clear"></div>
+    <div id="main">
+      <div id="content" class="post">
+
+
+      <a name="custom_select"></a><h1>Custom Select<a class="anchorlink" href="#custom_select"></a></h1>
+<p>Marvelous custom select with flexible configuration</p>
+        <p><div id="first"></div>
+<div class="default"></div>
+
+<a name="syntax"></a><h2>Syntax<a class="anchorlink" href="#syntax"></a></h2>
+<p>To create custom select you need to call class CustomSelect.</p>
+<pre class="prettyprint">    /**
+     * Creates custom select and inserts it to container
+     * @param container {Element} - the place where select will be inserted
+     * @param config {Object} - the object which configure created element
+     * @return {Object}
+     */
+    var CustomSelect = function (container, config)</pre>
+<p>The arguments of this class are:</p>
+<ul class="list">
+<li><p><strong>container</strong> - DOM element, custom select becomes child of the container. </p>
+<blockquote>
+<p>Note: CustomSelect is block element (he takes 100% content).</p>
+</blockquote>
+</li>
+<li><p><strong>config</strong> - object witch contains properties <em>optionsData</em> and <em>template</em></p>
+<blockquote>
+<p>optionsData - TODO!</p>
+<p>template - TODO!</p>
+</blockquote>
+</li>
+</ul>
+<a name="methods"></a><h2>Methods<a class="anchorlink" href="#methods"></a></h2>
+<p>The methods of this class are:</p>
+<ol class="list">
+<li><p><strong>show()</strong> - show options of select.</p>
+</li>
+<li><p><strong>hide()</strong> - hide options of select.</p>
+</li>
+<li><p><strong>toggle()</strong> - show/hide options of select.</p>
+</li>
+<li><p><strong>setSelected(title,value)</strong> - set new title and value to select, doesn&#39;t add new option.</p>
+</li>
+<li><p><strong>setOptionsData(newData)</strong> - set new data for options, newData must contain same properties as <a href="#syntax">optionsData</a>.</p>
+</li>
+<li><p><strong>on(eventName,callback)</strong> - set listener of eventName, callback is the function that will be executed. Look to <a href="#events">event list</a></p>
+</li>
+<li><p><strong>off(eventName,callback)</strong> - removes listener of eventName, callback is the function that will be removed.</p>
+<blockquote>
+<p>Note: you can&#39;t delete anonymous functions.</p>
+</blockquote>
+</li>
+<li><p><strong>trigger(eventName)</strong> - call all functions that listens eventName.</p>
+</li>
+</ol>
+<a name="events"></a><h2>Events<a class="anchorlink" href="#events"></a></h2>
+<p>The events called by this class are:</p>
+<ul class="list">
+<li><p><strong>show</strong> - occur after options of selector are showed;</p>
+</li>
+<li><p><strong>hide</strong> - occur after options of selector are hided;</p>
+</li>
+<li><p><strong>filtered</strong> - occur after options of selector are filtered;</p>
+</li>
+<li><p><strong>change</strong> - occur after user choose some option by click or keyboard;</p>
+</li>
+</ul>
+<a name="example"></a><h2>Example<a class="anchorlink" href="#example"></a></h2>
+<p>You can easily bind native and custom select with such code:</p>
+<pre class="prettyprint"> var nativeSelect = document.querySelector(&#39;#native&#39;);
+    nativeSelect.addEventListener(&#39;mousedown&#39;,function(){
+        customSelect.toggle();
+    });
+    customSelect.on(&#39;change&#39;, function () {
+       nativeSelect.value = this.value;
+    });
+    nativeSelect.addEventListener(&#39;change&#39;,function(){
+        customSelect.setSelected(nativeSelect.value,nativeSelect.value);
+    });</pre>
+
+<p><label><select id="native"></p>
+<p><option>1</option></p>
+<p><option>2</option></p>
+<p><option>3</option></p>
+<p><option>4</option></p>
+<p><option>5</option>
+</select></label></p>
+<p><div id="second"></div>
+
+<!-- end content -->
+      </div>
+    </div>
+
+    <div class="clear">
+    </div>
+
+    <div id="footer">
+    </div>
+  </div>
+</body>
+  <script src="../js/main.js"></script>
+</html>
