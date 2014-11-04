@@ -16,14 +16,17 @@
     content: url(img/arrow_down.png);
 }
 .custom-select .alert{
-    color: rgb(200,20,20);
-    border: 1px rgb(200,20,20) solid;
+    color: #c0392b!important;
+    border-left: 1px #c0392b solid!important;
+    border-top: 2px #c0392b solid!important;
+    border-right: 1px #c0392b solid!important;
+    border-bottom: 1px #c0392b solid!important;
 }
 .custom-select .options{
     height: 0;
 }
 .custom-select .highlighted{
-    color: sandybrown;
+    color: #c0392b;
 }
 .custom-select .options .option{
     width: 100%;
