@@ -1,12 +1,10 @@
 Calendar.js
 =============
 
-We use this library on GitHub when rendering your README or any other
-rich text file. The generated HTML is then run through filters in the [html-pipeline](https://github.com/jch/html-pipeline) to perform things like [sanitization](#html-sanitization) and [syntax highlighting](https://github.com/jch/html-pipeline/blob/master/lib/html/pipeline/syntax_highlight_filter.rb).
+CalendarJS is an open source library that provides using custom calendar element.
+It's lightweight, doesn't depend on any other library (like jQuery).
 
 Try it out:
-<div id="firstContainer">
-</div>
 
 ```js
 <div id="firstContainer">
@@ -17,6 +15,8 @@ Try it out:
     firstCalendar.getRoot().classList.add('table', 'table-striped');
 </script>
 ```
+<div id="firstContainer">
+</div>
 
 Installation
 ------------
@@ -113,16 +113,35 @@ calendar.config = newConfig;
 2. month - current month, type: number.
 3. firstDayOfWeek - first day of week in calendar, only english language, type: string.
 4. locale - language of calendar, short name, type: string. Example: 'monday'.
+5. style - default or custom view.
+6. daysInWeek - number days in week.
+7. dayEvents - array of day events.
+8. weekends - array of weekends days.
 
 ###Listen to events
-1. onMonthChanged - occur when config month data changed.
-2. onMonthChanged - occur when config month data changed.
-3. onMonthChanged - occur when config month data changed.
+1. monthChanged - occur when config month data changed.
+2. dayChanged - occur when selecting day changed.
+3. mouseMove - occur on mouse move.
+4. mouseDown - occur on mouse down.
+5. mouseUp - occur on mouse up.
 
 ###Calendar methods
-1. myCalendar.showToday(); - set calendar config to show current day.
-2. myCalendar.on(eventName,callback); - add new function to event listener.
-3. myCalendar.off(eventName,callback); - remove function from event listener.
+1. showToday(); - set calendar config to show current day.
+2. on(eventName,callback); - add new function to event listener.
+3. off(eventName,callback); - remove function from event listener.
+4. customizeCaption(caption) - add styles to the caption.
+5. customizeDayNames(header) - add styles to the header.
+6. customizeDays() - add styles to the days.
+7. customizeWeekends(weekends, daysInWeek) - add styles to the weekends.
+8. getRoot() - getting root element.
+9. addDayStyle(date, style) - adding style to the day.
+10. removeDayStyle(date, style) - removing styles from the day.
+11. render() - generating view.
+12. renderBody() - generating body view.
+13. renderCaption() - generating caption view.
+14. renderHeader() - generating header view.
+15. selectDays(styles, range) - adding styles to the days in range.
+16. trigger(eventName, params) - trigger functions.
 
 ##More examples
 

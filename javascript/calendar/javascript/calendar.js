@@ -20,7 +20,6 @@
                 style: 'default',
                 daysInWeek: 7,
                 dayEvents: [],
-                dateRangePicker: false,
                 weekends: ['SAT', 'SUN']
             };
         Calendar.localizationCache = {};
@@ -325,7 +324,7 @@
         function getLocalization() {
             var xhr = new XMLHttpRequest();
             Calendar.localizationCache[config.locale] = XMLHttpRequest;
-            xhr.open("GET", "../localization/" + config.locale + ".json", true);
+            xhr.open("GET", "localization/" + config.locale + ".json", true);
             xhr.send(null);
             return xhr;
         }
