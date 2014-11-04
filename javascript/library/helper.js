@@ -13,11 +13,13 @@ Object.prototype.merge = function (obj) {
 };
 /**
  * Returns first element that meets the conditions of selector. Begins from itself and check each parent.
- * @param cssSelector - css selector type string
+ * @param cssClass - css class type string
  * @returns {HTMLElement|*|boolean} returns DOM element or false if there is no such element
  */
-Element.prototype.firstContainsSelector = function(cssSelector){
-  return this.querySelector(cssSelector) || this.parent.firstContainsSelector(cssSelector) || false;
+Element.prototype.firstElementContains = function(cssClass){
+  return this.classList.contains(cssClass) ?
+    this : this.parentNode ?
+      this.parentNode.firstElementContains(cssClass) : false;
 };
 
 /**
