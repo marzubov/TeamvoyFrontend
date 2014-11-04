@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Custom select</title>
+    <title>example</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link type="text/css" rel="stylesheet" href="../assets/css/gh.css"/>
     <link rel="stylesheet" href="assets/css/style.css">
@@ -112,17 +112,28 @@
 <p><option>5</option>
 </select></label></p>
 <p><div id="second"></div>
-You can use templates to create nice look for you select:</p>
-<pre class="prettyprint">var nativeSelect = document.querySelector(&#39;#native&#39;);
- nativeSelect.addEventListener(&#39;mousedown&#39;,function(){
-     customSelect.toggle();
- });
- customSelect.on(&#39;change&#39;, function () {
-    nativeSelect.value = this.value;
- });
- nativeSelect.addEventListener(&#39;change&#39;,function(){
-     customSelect.setSelected(nativeSelect.value,nativeSelect.value);
- });</pre>
+You can use templates to create nice look for you select:
+  <div id="third">
+  </div></p>
+<pre class="prettyprint">  var containerThree = document.getElementById(&#39;third&#39;);
+  var templateSelector = new CustomSelect(containerThree, [
+    {
+      &quot;title&quot;: 1,
+      &quot;value&quot;: 1
+    },
+    {
+      &quot;title&quot;: 2,
+      &quot;value&quot;: 2
+    },
+    {
+      &quot;title&quot;: 3,
+      &quot;value&quot;: 3
+    },
+    {
+      &quot;title&quot;: 4,
+      &quot;value&quot;: 4
+    }
+  ], templateConfig);</pre>
 <p><link rel="stylesheet" href="../css/custom_select.css" type="text/css"></p>
 <p><link rel="stylesheet" href="../css/template.css" type="text/css"></p>
 <p><link rel="stylesheet" href="../css/nice_aqua_select.css" type="text/css"></p>

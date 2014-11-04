@@ -45,10 +45,10 @@
     };
     /**
      *
-     * @param newData - object with properties title and value. Similar to config.optionsData
+     * @param newData - object with properties title and value. Similar to argument data
      */
     this.setOptionsData = function (newData) {
-      optionsData = newData;
+      data = newData;
       return this.filter('');
     };
 
@@ -58,7 +58,7 @@
      * @returns {*} Array of options with title and value
      */
     this.filter = function (searchString) {
-      this.optionsData = optionsData.filter(function (option) {
+      this.model = data.filter(function (option) {
         return new RegExp(searchString, 'i').test(option.title);
       });
       this.trigger('filtered');
@@ -97,7 +97,7 @@
       return mainElement;
     }
 
-    function generateOptionsData(searchString, option, index) { //take data from template or from array
+    function generateTemplateData(searchString, option, index) { //take data from template or from array
       return  that.config.template ?
         that.config.template.HTML
           .replace('{{image}}', that.config.template.image[index])
@@ -116,7 +116,7 @@
         optionString += '<div data-value="' + option.value
           + '" data-title="' + option.title
           + '" class="option">'
-          + generateOptionsData(searchString, option, i)
+          + generateTemplateData(searchString, option, i)
           + '</div>'
       });
 

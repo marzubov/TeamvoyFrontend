@@ -1,17 +1,19 @@
-.template{
-    overflow: auto;
-    border-right: 5px #000000 solid;
-    border-left: 5px #000000 solid;
+.template {
+  overflow: auto;
 }
-.template .film-logo{
-    float: left;
-    margin-left: 50px;
-    border-right: 4px darkred solid;
-    height: 128px;
-    width: 128px;
+
+.template .film-logo {
+  float: left;
+  margin-left: 50px;
+  border-right: 4px darkred solid;
+  border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
+  height: 128px;
+  width: 128px;
 }
-.template  .text{
-    margin-top: 3%;
-    margin-left: 260px;
-    max-width: 50%;
+
+.template .text {
+  margin-top: 3%;
+  margin-left: 260px;
+  max-width: 50%;
 }
