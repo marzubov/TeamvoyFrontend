@@ -13,9 +13,11 @@
     var thirdCalendar = new Calendar(thirdContainer,{daysInWeek: 14});
     var fourthCalendar = new Calendar(fourthContainer,{daysInWeek: 13});
     var fifthCalendar = new Calendar(fifthContainer,{style:"customize"});
-    var sixthCalendar = new Calendar(sixthContainer,{style:"customize"});
-    var seventhCalendar = new Calendar(seventhContainer,{style:"customize"});
+    var sixthCalendar = new Calendar(sixthContainer,{});
+    var seventhCalendar = new DateRangePicker(seventhContainer);
     var eightsCalendar = new Calendar(eightsContainer,{style:"customize"});
+    seventhCalendar.firstCalendar.getRoot().classList.add('table', 'table-striped', 'date-range-picker');
+    seventhCalendar.secondCalendar.getRoot().classList.add('table', 'table-striped', 'date-range-picker');
     document.querySelector('.btn').onclick = function () {
         var newConfig = {};
         newConfig.year=document.querySelector('.year').value;
