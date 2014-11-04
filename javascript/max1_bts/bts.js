@@ -1,4 +1,3 @@
 function BTS(node, key){
-  if ((!node) || (key = node.key)) return node;
-  return key < node.key ? BTS(node.left, key) : BTS(node.right, key);
+  return (!node) || (key == node.key) ? node : key < node.key ? BTS(node.left, key) : BTS(node.right, key);
 }
