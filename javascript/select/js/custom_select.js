@@ -161,15 +161,11 @@
             that.hide();
             break;
           case 40://down
-            that.hovered = that.hovered ?
-              that.hovered.nextSibling || that.hovered :
-              that.options.querySelector('.option');
+            that.hovered = that.hovered.nextSibling  || that.options.querySelector('.option');
             that.selected(that.hovered.dataset['value'], that.hovered.dataset['title']);
             break;
           case 38://up
-            that.hovered = that.hovered ?
-              that.hovered.previousSibling || that.hovered :
-              that.options.querySelector('.option');
+            that.hovered = that.hovered.previousSibling  || that.options.querySelector(':last-child');
             that.selected(that.hovered.dataset['value'], that.hovered.dataset['title']);
             break;
           default :
