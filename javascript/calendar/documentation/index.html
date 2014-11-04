@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link type="text/css" rel="stylesheet" href="../assets/css/gh.css"/>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link type="text/css" rel="stylesheet" href="assets/css/prettify.css"/>
+    <link rel="stylesheet" href="../css/calendar.css"/>
+    <link rel="stylesheet" href="../css/style.css"/>
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/prettify.js"></script>
+    <script src="../../library/event_machine.js"></script>
+    <script src="../javascript/helper.js"></script>
+    <script src="../javascript/calendar.js"></script>
+    <script src="../javascript/date_range_picker.js"></script>
+
+</head>
+<body onload="prettyPrint()">
+
+<div id="toc">
+    <div id="toc-inner">
+        <ul class="nav nav-list">
+            <li><a href="#calendar_js">Calendar.js</a></li>
+            <li><a href="#installation">Installation</a></li>
+            <li><a href="#usage">Usage</a></li>
+            <li><a href="#configure">Configure</a></li>
+            <li><a href="#config_object___optional_parameter_with_fields_">Config Object - optional parameter with
+                fields</a></li>
+            <li><a href="#listen_to_events">Listen to events</a></li>
+            <li><a href="#calendar_methods">Calendar methods</a></li>
+            <li><a href="#more_examples">More examples</a></li>
+        </ul>
+    </div>
+</div>
+
+<div id="wrapper">
+    <div id="header">
+
+    </div>
+
+    <div class="clear"></div>
+    <div id="main">
+        <div id="content" class="post">
+
+
+            <a name="calendar_js"></a>
+
+            <h1>Calendar.js<a class="anchorlink" href="#calendar_js"></a></h1>
+
+            <p>CalendarJS is an open source library that provides using custom calendar element.
+                It&#39;s lightweight, doesn&#39;t depend on any other library (like jQuery).</p>
+
+            <p>Try it out:</p>
+<pre class="prettyprint">&lt;div id=&quot;firstContainer&quot;&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    var firstContainer = document.getElementById(&#39;firstContainer&#39;);
+    var firstCalendar = new Calendar(firstContainer);
+    firstCalendar.getRoot().classList.add(&#39;table&#39;, &#39;table-striped&#39;);
+&lt;/script&gt;</pre>
+            <div id="firstContainer">
+            </div>
+
+            <a name="installation"></a>
+
+            <h2>Installation<a class="anchorlink" href="#installation"></a></h2>
+
+            <p>Download the Calendar library from here: www.download_link_example.com and include it like this:</p>
+<pre class="prettyprint">&lt;script src=&quot;./path/to/calendar.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;./path/to/event_machine.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;./path/to/helper.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;./path/to/calendar.js&quot;&gt;&lt;/script&gt;</pre>
+            <a name="usage"></a>
+
+            <h2>Usage<a class="anchorlink" href="#usage"></a></h2>
+
+            <p>The typical way of using calendar is by creating a container element and call new
+                Calendar(containerElement):</p>
+<pre class="prettyprint">&lt;div id=&quot;containerElement&quot;&gt;
+&lt;/div&gt;
+&lt;script&gt;
+var containerElement = document.getElementById(&#39;containerElement&#39;);
+new Calendar(yourContainer);
+&lt;/script&gt;</pre>
+            <div id="sixthContainer">
+            </div>
+
+            <p>Also you can create with configureObject:</p>
+<pre class="prettyprint">&lt;div id=&quot;containerElement&quot;&gt;
+&lt;/div&gt;
+&lt;script&gt;
+var containerElement = document.getElementById(&#39;containerElement&#39;);
+new Calendar(containerElement, {year: 2014, month: 5, style:&quot;customize&quot;, firstDayOfWeek: &quot;Mon&quot;, locale: &quot;en&quot;, weekends:[&quot;Sat&quot;,&quot;Sun&quot;]});
+&lt;/script&gt;</pre>
+            <div id="fifthContainer">
+            </div>
+
+            <p>You can use calendar to create date range pickers:</p>
+<pre class="prettyprint">&lt;div id=&quot;containerElement&quot;&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    var firstContainer = document.getElementById(&#39;firstContainer&#39;);
+    var firstDateRangePicker = new DateRangePicker(firstContainer);
+    firstDateRangePicker.firstCalendar.getRoot().classList.add(&#39;table&#39;, &#39;table-striped&#39;, &#39;date-range-picker&#39;);
+    firstDateRangePicker.secondCalendar.getRoot().classList.add(&#39;table&#39;, &#39;table-striped&#39;, &#39;date-range-picker&#39;);
+&lt;/script&gt;</pre>
+            <div id="seventhContainer">
+            </div>
+
+
+            <a name="configure"></a>
+
+            <h2>Configure<a class="anchorlink" href="#configure"></a></h2>
+
+            <p>There are two ways to configure calendar.
+                You can configure your calendar, by passing configureObject when calendar is created.</p>
+<pre class="prettyprint">&lt;div id=&quot;containerElement&quot;&gt;
+&lt;/div&gt;
+&lt;script&gt;
+var containerElement = document.getElementById(&#39;containerElement&#39;);
+new Calendar(containerElement, {year: 2014, month: 5, firstDayOfWeek: &quot;Mon&quot; , locale: &quot;en&quot;});
+&lt;/script&gt;</pre>
+            <div id="eightsContainer">
+            </div>
+
+            <p>But if you have created component you can set him new configure object.</p>
+<pre class="prettyprint">newConfig = {year: 2014, month: 5, style:&quot;customize&quot;, firstDayOfWeek: &quot;Пн&quot; , locale: &quot;ua&quot;, weekends:[&quot;Сб&quot;,&quot;Нд&quot;]}
+calendar.config = newConfig;</pre>
+            <div id="secondContainer">
+                <aside class="col-xs-4 aside-config">
+                    <input class="year" type="text" placeholder="Some year..">
+                    <input class="month" type="text" placeholder="Some month..">
+                    <label>
+                        <select class="locale">
+                            <option>ua</option>
+                            <option>en</option>
+                        </select>
+                    </label>
+                    <button class="btn btn-success">I want you to click me</button>
+                </aside>
+            </div>
+
+            <a name="config_object___optional_parameter_with_fields_"></a>
+
+            <h3>Config Object - optional parameter with fields:<a class="anchorlink"
+                                                                  href="#config_object___optional_parameter_with_fields_"></a>
+            </h3>
+            <ol class="list">
+                <li>year- current year, type: number.</li>
+                <li>month - current month, type: number.</li>
+                <li>firstDayOfWeek - first day of week in calendar, only english language, type: string.</li>
+                <li>locale - language of calendar, short name, type: string. Example: &#39;monday&#39;.</li>
+                <li>style - default or custom view.</li>
+                <li>daysInWeek - number days in week.</li>
+                <li>dayEvents - array of day events.</li>
+                <li>weekends - array of weekends days.</li>
+            </ol>
+            <a name="listen_to_events"></a>
+
+            <h3>Listen to events<a class="anchorlink" href="#listen_to_events"></a></h3>
+            <ol class="list">
+                <li>monthChanged - occur when config month data changed.</li>
+                <li>dayChanged - occur when selecting day changed.</li>
+                <li>mouseMove - occur on mouse move.</li>
+                <li>mouseDown - occur on mouse down.</li>
+                <li>mouseUp - occur on mouse up.</li>
+            </ol>
+            <a name="calendar_methods"></a>
+
+            <h3>Calendar methods<a class="anchorlink" href="#calendar_methods"></a></h3>
+            <ol class="list">
+                <li>showToday(); - set calendar config to show current day.</li>
+                <li>on(eventName,callback); - add new function to event listener.</li>
+                <li>off(eventName,callback); - remove function from event listener.</li>
+                <li>customizeCaption(caption) - add styles to the caption.</li>
+                <li>customizeDayNames(header) - add styles to the header.</li>
+                <li>customizeDays() - add styles to the days.</li>
+                <li>customizeWeekends(weekends, daysInWeek) - add styles to the weekends.</li>
+                <li>getRoot() - getting root element.</li>
+                <li>addDayStyle(date, style) - adding style to the day.</li>
+                <li>removeDayStyle(date, style) - removing styles from the day.</li>
+                <li>render() - generating view.</li>
+                <li>renderBody() - generating body view.</li>
+                <li>renderCaption() - generating caption view.</li>
+                <li>renderHeader() - generating header view.</li>
+                <li>selectDays(styles, range) - adding styles to the days in range.</li>
+                <li>trigger(eventName, params) - trigger functions.</li>
+            </ol>
+            <a name="more_examples"></a>
+
+            <h2>More examples<a class="anchorlink" href="#more_examples"></a></h2>
+
+            <p>You can add more than 7 days in one row:</p>
+            <pre class="prettyprint">myCalendar.config = {daysInWeek: 14}</pre>
+            <div id="thirdContainer">
+            </div>
+
+            <p>If days in row is not multiply of 7, days names wont be shown</p>
+            <pre class="prettyprint">myCalendar.config = {daysInWeek: 13}</pre>
+            <div id="fourthContainer">
+            </div>
+
+
+            <!-- end content -->
+        </div>
+    </div>
+
+    <div class="clear">
+    </div>
+
+    <div id="footer">
+    </div>
+</div>
+</body>
+<script src="../javascript/main.js"></script>
+</html>

@@ -40,7 +40,7 @@ button{
 }
 
 .checkbox{
-    top:-1px;
+    top:2px;
 }
 .user-options {
     /*background: red;*/
@@ -199,4 +199,11 @@ body{
 .letter:hover{
     background: white;
     cursor: pointer;
+}
+
+.checkbox-wrapper {
+  margin: 5px;
+  padding: 7px 10px;
+  background: none repeat scroll 0% 0% #D3D3D3;
+  border-radius: 2px;
 }

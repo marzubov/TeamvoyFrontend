@@ -20,7 +20,6 @@
                 style: 'default',
                 daysInWeek: 7,
                 dayEvents: [],
-                dateRangePicker: false,
                 weekends: ['SAT', 'SUN']
             };
         Calendar.localizationCache = {};
@@ -44,7 +43,7 @@
          * Generating calendar
          * @returns {global.Calendar.generateCalendar}
          */
-        function generateCalendar() {
+        function generateCalendar() {//TODO use moment.js
             var i, date = new Date(config.year, config.month - 1), month, monthPrefix,
                 lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
                 firstDayWeek = new Date(date.getFullYear(), date.getMonth(), 1).getDay(),
@@ -179,7 +178,7 @@
          * Customize calendar constructor
          * @param newCalendar
          */
-        this.customizeCalendar = function (newCalendar) {
+        this.customizeCalendar = function (newCalendar) {//TODO remove unnecessary code
             calendar = newCalendar || this;
         };
 
@@ -202,7 +201,7 @@
         };
 
         /**
-         * Adding day styles from parametr
+         * Adding day styles from parameter
          * @param date
          * @param style
          * @returns {global.Calendar}
@@ -333,7 +332,7 @@
         /**
          * Setting events on table
          */
-        function setEvents() {
+        function setEvents() {//TODO remove unnecessary code
             root
                 .addEventListener('click', function (e) {
                     if (e.target.classList.contains('calendar-button')) {

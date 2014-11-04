@@ -23,12 +23,13 @@
     margin: auto;
 }
 
-.main-header { background: #efefef; border-bottom: 1px solid lightgray;  }
-.main-header .logo, .github-info .logo { width: 45px; height: 45px; padding-top: 3px; }
-.main-header .input-group { padding: 6px; }
-.main-header #mainMenu { padding-top: 3px; }
+.main-header                 { background: #efefef; border-bottom: 1px solid lightgray;  }
+.main-header .logo,
+.github-info .logo           { width: 45px; height: 45px; padding-top: 3px; }
+.main-header .input-group    { padding: 6px; }
+.main-header #mainMenu       { padding-top: 3px; }
 .main-header #mainMenu ul li { font-weight: 700; }
-.main-header .avatar { font-size: 20px; float: left; padding: 12px 5px 0 0; }
+.main-header .avatar         { font-size: 20px; float: left; padding: 12px 5px 0 0; }
 .main-header .avatar + figcaption { font-size: 12px; padding: 15px 15px 0 0; font-weight: bold; letter-spacing: 0.7px; float: left; }
 .main-header #ToolBar ul li { padding: 15px 7px 0 0; }
 
