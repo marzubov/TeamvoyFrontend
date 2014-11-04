@@ -19,8 +19,7 @@
             that.secondCalendar.render();
             that.firstCalendar.selectDays('selected', range);
             that.secondCalendar.selectDays('selected', range);
-            that.firstCalendar.addDayStyle(range.start, 'selected-start-day');
-            that.secondCalendar.addDayStyle(range.end, 'selected-end-day');
+          //TODO add styles to the start day and end day of our range
         };
 
         /**
@@ -70,23 +69,23 @@
             //setting on calendars load events
             that.firstCalendar.on('onLoad', function onFirstLoad() {
                 that.firstCalendar.selectDays('selected', range);
-                that.firstCalendar.addDayStyle(range.start, 'selected-start-day');
+              //TODO add styles to the start day of our range
                 that.secondCalendar.off('onFirstLoad');
             });
             that.secondCalendar.on('onLoad', function onSecondLoad() {
                 that.secondCalendar.selectDays('selected', range);
-                that.secondCalendar.addDayStyle(range.end, 'selected-end-day');
+              //TODO add styles to the end day of our range
                 that.secondCalendar.off('onSecondLoad');
             });
 
             //setting events
             that.firstCalendar.on('onMonthChanged', function (e) {
                 that.firstCalendar.selectDays('selected', range);
-                that.firstCalendar.addDayStyle(range.start, 'selected-start-day');
+              //TODO add styles to the start day of our range
             });
             that.secondCalendar.on('onMonthChanged', function (e) {
                 that.secondCalendar.selectDays('selected', range);
-                that.secondCalendar.addDayStyle(range.end, 'selected-end-day');
+              //TODO add styles to the end day of our range
             });
             that.firstCalendar.on('onMouseDown', function (e) {
                 secondHandler(e);
