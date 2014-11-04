@@ -1,7 +1,6 @@
 #Custom Select
 Marvelous custom select with flexible configuration
 <div id="second"></div>
-
 ##Syntax
 To create custom select you need to call class CustomSelect.
 ```js
@@ -90,4 +89,10 @@ var nativeSelect = document.querySelector('#native');
      customSelect.setSelected(nativeSelect.value,nativeSelect.value);
  });
 ```
+<link rel="stylesheet" href="../css/custom_select.css" type="text/css">
+<link rel="stylesheet" href="../css/template.css" type="text/css">
+<link rel="stylesheet" href="../css/nice_aqua_select.css" type="text/css">
+<script src="../../library/helper.js"></script>
+<script src="../../library/event_machine.js"></script>
+<script src="../js/custom_select.js"></script>
 <script src="../js/main.js"></script>

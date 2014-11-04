@@ -1,43 +1,48 @@
 .custom-select{
-    cursor: pointer;
 }
 .custom-select .selector{
-    width: 100%;
+  font-family:inherit;
+  color: inherit;
+  font-size: inherit;
+  width: 100%;
+  cursor: pointer;
 }
 .custom-select .img:after{
-    position: relative;
-    top: 5px;
-    right: 5px;
-    float: right;
-    height: 0;
-    content: url('img/arrow_down.png');
+  position: relative;
+  top: 5px;
+  right: 5px;
+  float: right;
+  height: 0;
+  content: url('img/arrow_down.png');
 }
 .custom-select .selector:after{
-    content: url(img/arrow_down.png);
+  content: url(img/arrow_down.png);
 }
 .custom-select .alert{
-    color: #c0392b!important;
-    border-left: 1px #c0392b solid!important;
-    border-top: 2px #c0392b solid!important;
-    border-right: 1px #c0392b solid!important;
-    border-bottom: 1px #c0392b solid!important;
+  color: #c0392b!important;
+  border-left: 1px #c0392b solid!important;
+  border-top: 2px #c0392b solid!important;
+  border-right: 1px #c0392b solid!important;
+  border-bottom: 1px #c0392b solid!important;
 }
 .custom-select .options{
-    height: 0;
+  height: 0;
+  position: relative;
+  left: 4px;
 }
 .custom-select .highlighted{
-    color: #c0392b;
+  color: #c0392b;
 }
 .custom-select .options .option{
-    width: 100%;
-    text-align: center;
-    position: relative;
-    left: 4px;
+  font-family:inherit;
+  color: inherit;
+  font-size: inherit;
+  text-align: center;
 }
-.custom-select .options .option:nth-of-type(odd){
+.custom-select .options .option:nth-child(2n){
 }
 .custom-select .hide{
-    display: none;
+  display: none;
 }
 .custom-select .options .hover{
 }

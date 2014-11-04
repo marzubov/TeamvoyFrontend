@@ -1,0 +1,32 @@
+.custom-select {
+  font-family:Century Gothic,arial,sans-serif ;
+  color: #ecf0f1;
+  font-size: 14px;
+}
+.custom-select .selector{
+  background-color: #5A87A5;
+  border: 2px solid #bdc3c7;
+  height: 20px;
+}
+.custom-select .option {
+  background-color: #5A87A5;
+}
+.custom-select .options .option:nth-child(2n){
+  background-color: #5282A5;
+}
+.custom-select .options{
+  position: relative;
+  outline: 2px solid #bdc3c7;
+  top: 15px;
+}
+.custom-select .selector:focus{
+  background-color: #98B6C5;
+}
+
+.custom-select .options .hover{
+  color: #34495e !important;
+  background-color: #98B6C5 !important;
+}
+#second{
+  padding-bottom: 150px;
+}

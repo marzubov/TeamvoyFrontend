@@ -11,7 +11,10 @@ Object.prototype.merge = function (obj) {
         }
     }
 };
-
+/**
+ * Inherits all properties from parent.
+ * @param Parent - parent class that will be extended
+ */
 Function.prototype.extend = function(Parent) {
     var F = function () {};
     F.prototype = Parent.prototype;

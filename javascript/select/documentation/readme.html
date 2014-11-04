@@ -1,19 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Custom select</title>
+    <title>example</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link type="text/css" rel="stylesheet" href="../assets/css/gh.css"/>
     <link rel="stylesheet" href="assets/css/style.css">
     <link type="text/css" rel="stylesheet" href="assets/css/prettify.css"/>
-    <link rel="stylesheet" href="../css/custom_select.css" type="text/css">
-    <link rel="stylesheet" href="../css/template.css" type="text/css">
+    
 
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="assets/js/prettify.js"></script>
-    <script src="../js/helper.js"></script>
-    <script src="../../library/event_machine.js"></script>
-    <script src="../js/custom_select.js"></script>
-
 
   </head>
 <body onload="prettyPrint()">
@@ -36,9 +32,7 @@
 
       <a name="custom_select"></a><h1>Custom Select<a class="anchorlink" href="#custom_select"></a></h1>
 <p>Marvelous custom select with flexible configuration</p>
-        <p><div id="first"></div>
-<div class="default"></div>
-
+<p><div id="second"></div></p>
 <a name="syntax"></a><h2>Syntax<a class="anchorlink" href="#syntax"></a></h2>
 <p>To create custom select you need to call class CustomSelect.</p>
 <pre class="prettyprint">    /**
@@ -109,7 +103,7 @@
     nativeSelect.addEventListener(&#39;change&#39;,function(){
         customSelect.setSelected(nativeSelect.value,nativeSelect.value);
     });</pre>
-
+<p><div id="first"></div></p>
 <p><label><select id="native"></p>
 <p><option>1</option></p>
 <p><option>2</option></p>
@@ -117,7 +111,26 @@
 <p><option>4</option></p>
 <p><option>5</option>
 </select></label></p>
-<p><div id="second"></div>
+You can use templates to create nice look for you select:</p>
+<pre class="prettyprint">var nativeSelect = document.querySelector(&#39;#native&#39;);
+ nativeSelect.addEventListener(&#39;mousedown&#39;,function(){
+     customSelect.toggle();
+ });
+ customSelect.on(&#39;change&#39;, function () {
+    nativeSelect.value = this.value;
+ });
+ nativeSelect.addEventListener(&#39;change&#39;,function(){
+     customSelect.setSelected(nativeSelect.value,nativeSelect.value);
+ });</pre>
+<p><link rel="stylesheet" href="../css/custom_select.css" type="text/css"></p>
+<p><link rel="stylesheet" href="../css/template.css" type="text/css"></p>
+<p><link rel="stylesheet" href="../css/nice_aqua_select.css" type="text/css"></p>
+<script src="../../library/helper.js"></script>
+<script src="../../library/event_machine.js"></script>
+<script src="../js/custom_select.js"></script>
+<script src="../js/main.js"></script>
+
+
 
 <!-- end content -->
       </div>
@@ -130,5 +143,4 @@
     </div>
   </div>
 </body>
-  <script src="../js/main.js"></script>
 </html>

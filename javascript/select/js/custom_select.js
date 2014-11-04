@@ -40,11 +40,9 @@
      * @param value {String}
      * @param title {String}
      */
-    this.setSelected = function (value, title) {
-      if (this.value != value) {
+    this.selected = function (value, title) {
         this.value = value;
         this.selector.value = title;
-      }
     };
     /**
      *
@@ -95,7 +93,7 @@
       var mainElement = document.createElement('div'),
         img = document.createElement('div');
       mainElement.classList.add('custom-select');
-      img.classList.add('custom-select', 'img');
+      img.classList.add('img');
       mainElement.appendChild(img);
       return mainElement;
     }
@@ -118,7 +116,7 @@
       that.config.optionsData.forEach(function (option, i) {
         optionString += '<div data-value="' + option.value
           + '" data-title="' + option.title
-          + '" class="custom-select option">'
+          + '" class="option">'
           + generateOptionsData(searchString, option, i)
           + '</div>'
       });
@@ -130,14 +128,14 @@
     // Generate selector input
     function renderSelector() {
       var selector = document.createElement('input');
-      selector.classList.add('custom-select', 'selector');
+      selector.classList.add('selector');
       return selector;
     }
 
     // Create listeners on selector and options
     function listenUserActions() {
       that.options.addEventListener('mousedown', function () {
-        that.setSelected(hovered.dataset['value'], that.hovered.dataset['title']);
+        that.selected(hovered.dataset['value'], that.hovered.dataset['title']);
         that.trigger('change');
       });
       that.options.addEventListener('mouseover', function (e) {
@@ -166,13 +164,13 @@
             that.hovered = that.hovered ?
               that.hovered.nextSibling || that.hovered :
               that.options.querySelector('.option');
-            that.setSelected(that.hovered.dataset['value'], that.hovered.dataset['title']);
+            that.selected(that.hovered.dataset['value'], that.hovered.dataset['title']);
             break;
           case 38://up
             that.hovered = that.hovered ?
               that.hovered.previousSibling || that.hovered :
               that.options.querySelector('.option');
-            that.setSelected(that.hovered.dataset['value'], that.hovered.dataset['title']);
+            that.selected(that.hovered.dataset['value'], that.hovered.dataset['title']);
             break;
           default :
             that.show();

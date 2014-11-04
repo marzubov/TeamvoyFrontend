@@ -2,7 +2,6 @@
   "use strict";
   var containerOne = document.getElementById("first");
   var containerTwo = document.getElementById("second");
-  var containerThree = document.getElementById('third');
   var firstSelect = new CustomSelect(containerOne, {
       optionsData: [
         {
@@ -61,7 +60,7 @@
     nativeSelect.value = this.value;
   });
   nativeSelect.addEventListener('change',function(){
-    customSelect.setSelected(nativeSelect.value,nativeSelect.value);
+    customSelect.selected(nativeSelect.value,nativeSelect.value);
   });
 
   var templateConfig = {
