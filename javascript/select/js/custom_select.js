@@ -5,13 +5,12 @@
    * @param config {Object} - the object which configure created element
    * @return {Object}
    */
-  var CustomSelect = global.CustomSelect = function (container, config) {
+  var CustomSelect = global.CustomSelect = function (container, data, config) {
     CustomSelect.superclass.constructor.call(this);
     var that = this,
-      optionsData = config.optionsData,
       hovered = 0;
-    this.config = config;
-
+    this.config = config || {};
+    this.model = data;
     /**
      * Hide options
      */
@@ -59,7 +58,7 @@
      * @returns {*} Array of options with title and value
      */
     this.filter = function (searchString) {
-      this.config.optionsData = optionsData.filter(function (option) {
+      this.optionsData = optionsData.filter(function (option) {
         return new RegExp(searchString, 'i').test(option.title);
       });
       this.trigger('filtered');
@@ -110,10 +109,10 @@
     function renderOptions(optionsElement, searchString) {
       var options = optionsElement ? optionsElement : document.createElement('div'),
         optionString = '';
-      that.config.optionsData.length ? that.selector.classList.remove('alert')
+      that.model.length ? that.selector.classList.remove('alert')
         : that.selector.classList.add('alert');
       options.classList.add('options');
-      that.config.optionsData.forEach(function (option, i) {
+      that.model.forEach(function (option, i) {
         optionString += '<div data-value="' + option.value
           + '" data-title="' + option.title
           + '" class="option">'
@@ -139,7 +138,7 @@
         that.trigger('change');
       });
       that.options.addEventListener('mouseover', function (e) {
-        that.hovered = e.target;
+         that.hovered = e.target.firstElementContains('option');
       });
       that.selector.addEventListener('blur', function () {
         that.hide();

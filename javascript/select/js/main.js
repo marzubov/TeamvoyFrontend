@@ -2,8 +2,7 @@
   "use strict";
   var containerOne = document.getElementById("first");
   var containerTwo = document.getElementById("second");
-  var firstSelect = new CustomSelect(containerOne, {
-      optionsData: [
+  var firstSelect = new CustomSelect(containerOne, [
         {
           "title": "january",
           "value": 1
@@ -25,10 +24,8 @@
           "value": 5
         }
       ]
-    }
   );
-  var customSelect = new CustomSelect(containerTwo, {
-    optionsData: [
+  var customSelect = new CustomSelect(containerTwo, [
       {
         "title": 1,
         "value": 1
@@ -49,8 +46,7 @@
         "title": 5,
         "value": 5
       }
-    ]
-  });
+    ]);
 
   var nativeSelect = document.querySelector('#native');
   nativeSelect.addEventListener('mousedown',function(){
@@ -91,4 +87,6 @@
         'http://3.bp.blogspot.com/-f0NsmUHz2kM/T8GUGoydNpI/AAAAAAAAAfg/KnEkgnFPzpc/s1600/smiley.png']
     }
   };
+  var containerThree =  document.getElementById('third');
+  var selector = new CustomSelect(containerThree,templateConfig);
 })(document,window);
