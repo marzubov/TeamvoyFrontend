@@ -12,6 +12,15 @@ Object.prototype.merge = function (obj) {
     }
 };
 /**
+ * Returns first element that meets the conditions of selector. Begins from itself and check each parent.
+ * @param cssSelector - css selector type string
+ * @returns {HTMLElement|*|boolean} returns DOM element or false if there is no such element
+ */
+Element.prototype.firstContainsSelector = function(cssSelector){
+  return this.querySelector(cssSelector) || this.parent.firstContainsSelector(cssSelector) || false;
+};
+
+/**
  * Inherits all properties from parent.
  * @param Parent - parent class that will be extended
  */
