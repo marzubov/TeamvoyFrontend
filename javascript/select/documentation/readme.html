@@ -32,7 +32,7 @@
 
       <a name="custom_select"></a><h1>Custom Select<a class="anchorlink" href="#custom_select"></a></h1>
 <p>Marvelous custom select with flexible configuration</p>
-<p><div id="second"></div></p>
+<p><div id="first"></div></p>
 <a name="syntax"></a><h2>Syntax<a class="anchorlink" href="#syntax"></a></h2>
 <p>To create custom select you need to call class CustomSelect.</p>
 <pre class="prettyprint">    /**
@@ -103,7 +103,7 @@
     nativeSelect.addEventListener(&#39;change&#39;,function(){
         customSelect.setSelected(nativeSelect.value,nativeSelect.value);
     });</pre>
-<p><div id="first"></div></p>
+<p><div id="second"></div></p>
 <p><label><select id="native"></p>
 <p><option>1</option></p>
 <p><option>2</option></p>
@@ -111,6 +111,7 @@
 <p><option>4</option></p>
 <p><option>5</option>
 </select></label></p>
+<p><div id="second"></div>
 You can use templates to create nice look for you select:</p>
 <pre class="prettyprint">var nativeSelect = document.querySelector(&#39;#native&#39;);
  nativeSelect.addEventListener(&#39;mousedown&#39;,function(){

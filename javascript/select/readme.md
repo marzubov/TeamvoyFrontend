@@ -1,6 +1,6 @@
 #Custom Select
 Marvelous custom select with flexible configuration
-<div id="second"></div>
+<div id="first"></div>
 ##Syntax
 To create custom select you need to call class CustomSelect.
 ```js
@@ -67,7 +67,7 @@ You can easily bind native and custom select with such code:
         customSelect.setSelected(nativeSelect.value,nativeSelect.value);
     });
 ```
-<div id="first"></div>
+<div id="second"></div>
 <label><select id="native">
 <option>1</option>
 <option>2</option>
