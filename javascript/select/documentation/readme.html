@@ -16,7 +16,7 @@
 
   <div id="toc">
     <div id="toc-inner">
-      <ul class="nav nav-list"><li><a href="#custom_select">Custom Select</a></li><li><a href="#syntax">Syntax</a></li><li><a href="#methods">Methods</a></li><li><a href="#events">Events</a></li><li><a href="#example">Example</a></li></ul>
+      <ul class="nav nav-list"><li><a href="#custom_select">Custom Select</a></li><li><a href="#syntax">Syntax</a></li><li><a href="#methods">Methods</a></li><li><a href="#events">Events</a></li><li><a href="#example">Example</a></li><li><a href="#events_in_action">Events in action</a></li><li><a href="#work_with_templates">Work with templates</a></li></ul>
     </div>
   </div>
 
@@ -35,24 +35,26 @@
 <p><div id="first"></div></p>
 <a name="syntax"></a><h2>Syntax<a class="anchorlink" href="#syntax"></a></h2>
 <p>To create custom select you need to call class CustomSelect.</p>
-<pre class="prettyprint">    /**
-     * Creates custom select and inserts it to container
-     * @param container {Element} - the place where select will be inserted
-     * @param config {Object} - the object which configure created element
-     * @return {Object}
-     */
-    var CustomSelect = function (container, config)</pre>
+<pre class="prettyprint">  /**
+   * Creates custom select and inserts it to container
+   * @param container {Element} - the place where select will be inserted
+   * @param data {Array} - array of objects with data
+   * @param config {Object} - the object which configure created element
+   * @return {Object}
+   */
+    var CustomSelect = function (container, data, config)</pre>
 <p>The arguments of this class are:</p>
 <ul class="list">
-<li><p><strong>container</strong> - DOM element, custom select becomes child of the container. </p>
-<blockquote>
+<li><strong>container</strong> - DOM element, custom select becomes child of the container. <blockquote>
 <p>Note: CustomSelect is block element (he takes 100% content).</p>
 </blockquote>
 </li>
-<li><p><strong>config</strong> - object witch contains properties <em>optionsData</em> and <em>template</em></p>
+<li><p><strong>data</strong>  - array with object of data</p>
+</li>
+<li><p><strong>config</strong> - object witch contains properties title, value  and <em>template</em></p>
 <blockquote>
-<p>optionsData - TODO!</p>
-<p>template - TODO!</p>
+<p>title -
+template - TODO!</p>
 </blockquote>
 </li>
 </ul>
@@ -65,7 +67,7 @@
 </li>
 <li><p><strong>toggle()</strong> - show/hide options of select.</p>
 </li>
-<li><p><strong>setSelected(title,value)</strong> - set new title and value to select, doesn&#39;t add new option.</p>
+<li><p><strong>selected(title,value)</strong> - set new title and value to select, doesn&#39;t add new option.</p>
 </li>
 <li><p><strong>setOptionsData(newData)</strong> - set new data for options, newData must contain same properties as <a href="#syntax">optionsData</a>.</p>
 </li>
@@ -92,6 +94,7 @@
 </li>
 </ul>
 <a name="example"></a><h2>Example<a class="anchorlink" href="#example"></a></h2>
+<a name="events_in_action"></a><h3>Events in action<a class="anchorlink" href="#events_in_action"></a></h3>
 <p>You can easily bind native and custom select with such code:</p>
 <pre class="prettyprint"> var nativeSelect = document.querySelector(&#39;#native&#39;);
     nativeSelect.addEventListener(&#39;mousedown&#39;,function(){
@@ -103,37 +106,37 @@
     nativeSelect.addEventListener(&#39;change&#39;,function(){
         customSelect.setSelected(nativeSelect.value,nativeSelect.value);
     });</pre>
-<p><div id="second"></div></p>
-<p><label><select id="native"></p>
+<p><label><select style="width: 50%" id="native"></p>
 <p><option>1</option></p>
 <p><option>2</option></p>
 <p><option>3</option></p>
 <p><option>4</option></p>
 <p><option>5</option>
 </select></label></p>
-<p><div id="second"></div>
-You can use templates to create nice look for you select:
-  <div id="third">
-  </div></p>
-<pre class="prettyprint">  var containerThree = document.getElementById(&#39;third&#39;);
+<p><div id="second"></div></p>
+<a name="work_with_templates"></a><h3>Work with templates<a class="anchorlink" href="#work_with_templates"></a></h3>
+<p>You can use templates to create nice look for you select:</p>
+<pre class="prettyprint">  var templateConfig = {
+    template: &#39;&lt;div class=&quot;template img-circle&quot;&gt;&lt;img class=&quot;film-logo&quot; src=&quot;{{image}}&quot;&gt;&lt;div class=&quot;text&quot;&gt;{{text}}&lt;/div&gt;&lt;/div&gt;&#39;,
+    title: &#39;text&#39;,
+    value: &#39;text&#39;
+  };
+  var containerThree = document.getElementById(&#39;third&#39;);
   var templateSelector = new CustomSelect(containerThree, [
-    {
-      &quot;title&quot;: 1,
-      &quot;value&quot;: 1
-    },
-    {
-      &quot;title&quot;: 2,
-      &quot;value&quot;: 2
-    },
-    {
-      &quot;title&quot;: 3,
-      &quot;value&quot;: 3
-    },
-    {
-      &quot;title&quot;: 4,
-      &quot;value&quot;: 4
-    }
-  ], templateConfig);</pre>
+{&quot;text&quot;: &#39;The Hobbit&#39;,
+ &quot;image&quot;: &#39;http://www.egmnow.com/wp-content/themes/egmnowv3/images/icons/renobadgeicon/The-Hobbit-An-Unexpected-Journey.png&#39;
+}
+{&quot;text&quot;: &#39;Metallica Movie!&#39;,
+ &quot;image&quot;: &#39;http://pyramida.info/2013/10/01/Metallica%2BThrough%2Bthe%2BNever%2BHD%2B%2BPNG.png&#39;
+}
+{&quot;text&quot;: &#39;Terminator&#39;,
+ &quot;image&quot;: &#39;http://icon.gamerzcraft.com/capas/Terminator_Salvation_%5B530-51-1202609%5D.png&#39;
+}
+{&quot;text&quot;: &#39;Awesome face!!&#39;,
+ &quot;image&quot;: &#39;http://3.bp.blogspot.com/-f0NsmUHz2kM/T8GUGoydNpI/AAAAAAAAAfg/KnEkgnFPzpc/s1600/smiley.png&#39;
+}], templateConfig);</pre>
+<p>  <div id="third">
+  </div></p>
 <p><link rel="stylesheet" href="../css/custom_select.css" type="text/css"></p>
 <p><link rel="stylesheet" href="../css/template.css" type="text/css"></p>
 <p><link rel="stylesheet" href="../css/nice_aqua_select.css" type="text/css"></p>

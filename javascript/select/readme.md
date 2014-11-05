@@ -4,22 +4,23 @@ Marvelous custom select with flexible configuration
 ##Syntax
 To create custom select you need to call class CustomSelect.
 ```js
-    /**
-     * Creates custom select and inserts it to container
-     * @param container {Element} - the place where select will be inserted
-     * @param config {Object} - the object which configure created element
-     * @return {Object}
-     */
-    var CustomSelect = function (container, config)
+  /**
+   * Creates custom select and inserts it to container
+   * @param container {Element} - the place where select will be inserted
+   * @param data {Array} - array of objects with data
+   * @param config {Object} - the object which configure created element
+   * @return {Object}
+   */
+    var CustomSelect = function (container, data, config)
 ```
 The arguments of this class are:
 
 * **container** - DOM element, custom select becomes child of the container. 
 > Note: CustomSelect is block element (he takes 100% content).
+* **data**  - array with object of data
 
-* **config** - object witch contains properties *optionsData* and *template*
-> optionsData - TODO!
->
+* **config** - object witch contains properties title, value  and *template*
+> title -
 > template - TODO!
 
 ##Methods
@@ -31,7 +32,7 @@ The methods of this class are:
 
 3. **toggle()** - show/hide options of select.
 
-4. **setSelected(title,value)** - set new title and value to select, doesn't add new option.
+4. **selected(title,value)** - set new title and value to select, doesn't add new option.
 
 5. **setOptionsData(newData)** - set new data for options, newData must contain same properties as [optionsData](#syntax).
  
@@ -54,6 +55,7 @@ The events called by this class are:
 * **change** - occur after user choose some option by click or keyboard;
 
 ##Example
+### Events in action
 You can easily bind native and custom select with such code:
 ```js
  var nativeSelect = document.querySelector('#native');
@@ -67,8 +69,8 @@ You can easily bind native and custom select with such code:
         customSelect.setSelected(nativeSelect.value,nativeSelect.value);
     });
 ```
-<div id="second"></div>
-<label><select id="native">
+
+<label><select style="width: 50%" id="native">
 <option>1</option>
 <option>2</option>
 <option>3</option>
@@ -76,9 +78,9 @@ You can easily bind native and custom select with such code:
 <option>5</option>
 </select></label>
 <div id="second"></div>
+### Work with templates
 You can use templates to create nice look for you select:
-  <div id="third">
-  </div>
+
 ```js
   var templateConfig = {
     template: '<div class="template img-circle"><img class="film-logo" src="{{image}}"><div class="text">{{text}}</div></div>',
@@ -87,24 +89,21 @@ You can use templates to create nice look for you select:
   };
   var containerThree = document.getElementById('third');
   var templateSelector = new CustomSelect(containerThree, [
-    {
-      "text": 'The Hobbit',
-      "image": 'http://www.egmnow.com/wp-content/themes/egmnowv3/images/icons/renobadgeicon/The-Hobbit-An-Unexpected-Journey.png'
-    },
-    {
-      "text": 'Metallica Movie!',
-      "image": 'http://pyramida.info/2013/10/01/Metallica%2BThrough%2Bthe%2BNever%2BHD%2B%2BPNG.png'
-    },
-    {
-      "text": 'Terminator',
-      "image": 'http://icon.gamerzcraft.com/capas/Terminator_Salvation_%5B530-51-1202609%5D.png'
-    },
-    {
-      "text": 'Awesome face!!',
-      "image": 'http://3.bp.blogspot.com/-f0NsmUHz2kM/T8GUGoydNpI/AAAAAAAAAfg/KnEkgnFPzpc/s1600/smiley.png'
-    }
-  ], templateConfig);
+{"text": 'The Hobbit',
+ "image": 'http://www.egmnow.com/wp-content/themes/egmnowv3/images/icons/renobadgeicon/The-Hobbit-An-Unexpected-Journey.png'
+}
+{"text": 'Metallica Movie!',
+ "image": 'http://pyramida.info/2013/10/01/Metallica%2BThrough%2Bthe%2BNever%2BHD%2B%2BPNG.png'
+}
+{"text": 'Terminator',
+ "image": 'http://icon.gamerzcraft.com/capas/Terminator_Salvation_%5B530-51-1202609%5D.png'
+}
+{"text": 'Awesome face!!',
+ "image": 'http://3.bp.blogspot.com/-f0NsmUHz2kM/T8GUGoydNpI/AAAAAAAAAfg/KnEkgnFPzpc/s1600/smiley.png'
+}], templateConfig);
 ```
+  <div id="third">
+  </div>
 <link rel="stylesheet" href="../css/custom_select.css" type="text/css">
 <link rel="stylesheet" href="../css/template.css" type="text/css">
 <link rel="stylesheet" href="../css/nice_aqua_select.css" type="text/css">

@@ -4,6 +4,7 @@
   /**
    * Creates custom select and inserts it to container
    * @param container {Element} - the place where select will be inserted
+   * @param data {Array} - array of objects with data
    * @param config {Object} - the object which configure created element
    * @return {Object}
    */
