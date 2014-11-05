@@ -50,7 +50,7 @@ Also you can create with configureObject:
 </div>
 <script>
 var containerElement = document.getElementById('containerElement');
-new Calendar(containerElement, {year: 2014, month: 5, style:"customize", firstDayOfWeek: "Mon", locale: "en", weekends:["Sat","Sun"]});
+new Calendar(containerElement, {year: 2014, month: 5,  firstDayOfWeek: "Mon", locale: "en", weekends:["Sat","Sun"]});
 </script>
 ```
 <div id="fifthContainer">
@@ -91,7 +91,7 @@ new Calendar(containerElement, {year: 2014, month: 5, firstDayOfWeek: "Mon" , lo
 But if you have created component you can set him new configure object.
 
 ```js
-newConfig = {year: 2014, month: 5, style:"customize", firstDayOfWeek: "Пн" , locale: "ua", weekends:["Сб","Нд"]}
+newConfig = {year: 2014, month: 5,  firstDayOfWeek: "Пн" , locale: "ua", weekends:["Сб","Нд"]}
 calendar.config = newConfig;
 ```
 <div id="secondContainer">
@@ -113,10 +113,9 @@ calendar.config = newConfig;
 2. month - current month, type: number.
 3. firstDayOfWeek - first day of week in calendar, only english language, type: string.
 4. locale - language of calendar, short name, type: string. Example: 'monday'.
-5. style - default or custom view.
-6. daysInWeek - number days in week.
-7. dayEvents - array of day events.
-8. weekends - array of weekends days.
+5. daysInWeek - number days in week.
+6. dayEvents - array of day events.
+7. weekends - array of weekends days.
 
 ###Listen to events
 1. monthChanged - occur when config month data changed.

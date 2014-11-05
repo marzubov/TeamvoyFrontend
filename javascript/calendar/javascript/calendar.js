@@ -17,7 +17,6 @@
                 month: (new Date()).getMonth() + 1,
                 firstDayOfWeek: 'SUN',
                 locale: 'en',
-                style: 'default',
                 daysInWeek: 7,
                 dayEvents: [],
                 weekends: ['SAT', 'SUN']
@@ -34,7 +33,7 @@
             config.month = today.getMonth() + 1;
             config.year = today.getFullYear();
             render();
-            that.addDayStyle(today, 'today');
+            //TODO add today rendering
             that.trigger('onDayChanged');
             return today;
         };
@@ -107,82 +106,6 @@
         };
 
         /**
-         * Adding day styles
-         * @returns {global.Calendar}
-         */
-        this.customizeDays = function () {
-            var ifFirstRow = true;
-            rowsForEach(calendar.getRoot().rows, function (cell) {
-                if (!ifFirstRow) {
-                    // its just day names, so we are skipping this iteration
-                    ifFirstRow = false;
-                } else {
-                    //here customizing days
-                    //checking if day isn't from another month
-                    if (!cell.classList.contains('non-active-day')) {
-                        cell.classList.add('active-day');
-                    }
-                }
-            });
-            return this;
-        };
-
-        /**
-         * Adding styles to the day names
-         * @param header
-         * @returns {global.Calendar}
-         */
-        this.customizeDayNames = function (header) {
-            header = header || calendar.getRoot().rows[0];
-            rowForEach(header.cells, function (dayName) {
-                dayName.classList.add('day-name');
-            });
-            return this;
-        };
-
-        /**
-         * Adding day styles to the weekends
-         * @param weekends
-         * @param daysInWeek
-         * @returns {global.Calendar}
-         */
-        this.customizeWeekends = function (weekends, daysInWeek) {
-            var weekNumber = 0;
-            var dayNumber = 0;
-            rowsForEach(calendar.getRoot().rows, function (cell) {
-                weekNumber = Math.floor(dayNumber / 7);
-                //calendar.getRoot().rows[0] - header row
-                //.cells[dayNumber] - array of td
-                //.getAttribute('dayName')) - dayName attribute for comparison
-                if (weekends.indexOf(calendar.getRoot().rows[0]
-                        .cells[dayNumber]
-                        .getAttribute('day-name')) != -1) {
-                    cell.classList.add('weekend');
-                }
-                dayNumber++;
-                if (dayNumber == daysInWeek) dayNumber = 0;
-            });
-            return this;
-        };
-
-        /**
-         * Adding styles to the date caption
-         * @param caption
-         */
-        this.customizeCaption = function (caption) {
-            caption = caption || calendar.getRoot().caption;
-            caption.classList.add('caption');
-        };
-
-        /**
-         * Customize calendar constructor
-         * @param newCalendar
-         */
-        this.customizeCalendar = function (newCalendar) {//TODO remove unnecessary code
-            calendar = newCalendar || this;
-        };
-
-        /**
          * Adding selecting styles to the dates in range
          * @param styles
          * @param range
@@ -190,7 +113,7 @@
          */
         this.selectDays = function (styles, range) {
             styles = styles || 'selected';
-            rowsForEach(calendar.getRoot().rows, function (cell) {
+            rowsForEach(that.getRoot().rows, function (cell) {
                 var currentDate = new Date(parseFloat(cell.getAttribute('year'))
                     , parseFloat(cell.getAttribute('month')) - 1, parseFloat(cell.getAttribute('day-number')));
                 if ((range.start.getTime() <= currentDate.getTime()) && (currentDate.getTime() <= range.end.getTime())) {
@@ -206,47 +129,20 @@
          * @param style
          * @returns {global.Calendar}
          */
-        this.addDayStyle = function (date, style) {
-            rowsForEach(calendar.getRoot().rows, function (cell) {
-                var currentDate = new Date(parseFloat(cell.getAttribute('year'))
-                    , parseFloat(cell.getAttribute('month')) - 1, parseFloat(cell.getAttribute('day-number')));
-                if (currentDate.getTime() == date.getTime()) {
-                    cell.classList.add(style);
-                    return cell;
-                }
-            });
-            return this;
-        };
-
-        /**
-         * Removing day styles from parameter
-         * @param date
-         * @param style
-         * @returns {global.Calendar}
-         */
-        this.removeDayStyle = function(date, style) {
-            rowsForEach(calendar.getRoot().rows, function (cell) {
-                var currentDate = new Date(parseFloat(cell.getAttribute('year'))
-                    , parseFloat(cell.getAttribute('month')) - 1, parseFloat(cell.getAttribute('day-number')));
-                if (currentDate.getTime() == date.getTime()) {
-                    cell.classList.remove(style);
-                    return cell;
-                }
-            });
-            return this;
-        };
 
         /**
          * Rendering caption
          * @returns {string}
          */
+
+        //TODO render divs not table
         this.renderCaption = function () {
             var tableString = '<caption><button class="calendar-button desc"></button><span>'
                 + (model.chosenMonth + ' ' + config.year)
                 + '</span><button class="calendar-button asc"></button></caption>';
             root.innerHTML = tableString;
             return tableString;
-        }
+        };
 
         /**
          * Rendering header
@@ -262,7 +158,7 @@
             tableString += '</thead>';
             root.innerHTML += tableString;
             return tableString;
-        }
+        };
 
         /**
          * Rendering body
@@ -387,19 +283,9 @@
             that.renderCaption();
             that.renderHeader();
             that.renderBody();
-            that.customizeCalendar(that);
-            if (config.style != 'default') {
-                that.customizeCaption();
-                that.customizeDays();
-                that.customizeDayNames();
-                that.customizeWeekends(config.weekends, config.daysInWeek);
-                var today = new Date();
-                if ((today.getMonth() + 1 == config.month) && (today.getFullYear() == config.year)) {
-                    that.addDayStyle(new Date((new Date()).setHours(0, 0, 0, 0)), 'today');
-                }
-            }
+
             return this;
-        }
+        };
 
         /**
          * Initialize
