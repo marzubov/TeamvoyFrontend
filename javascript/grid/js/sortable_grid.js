@@ -145,8 +145,7 @@
                     for (var j = 0; j < dataArray[i].length; j++) {
                         if (config.columnTemplates[j]) {
                             tableString += '<td>' + config.columnTemplates[j](object[i]) + '</td>';
-                            //console.log(dataArray[i][j].match(/<.+?>/g))
-                            //console.log(dataArray[i][j].replace(/<\/?[^>]+(>|$)/g, ""));
+
                         } else {
                             tableString += '<td>' + dataArray[i][j] + '</td>';
                         }
