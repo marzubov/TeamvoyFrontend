@@ -93,4 +93,50 @@
       "image": 'http://3.bp.blogspot.com/-f0NsmUHz2kM/T8GUGoydNpI/AAAAAAAAAfg/KnEkgnFPzpc/s1600/smiley.png'
     }
   ], templateConfig);
+
+  //Bonus
+  var containerBonus = document.getElementById('bonus');
+  var bonusConfig = {
+    template: '<div id="{{selector}}">',
+    title: 'selector',
+    value: 'selector'
+  };
+  var bonusSelector = new CustomSelect(containerBonus, [{selector:'optionBonus1'},{selector:'optionBonus2'}],bonusConfig);
+  var optionSelector1 = new CustomSelect(document.getElementById('optionBonus1'), [
+    {
+      "number": 1
+    },
+    {
+      "number": 2
+    },
+    {
+      "number": 3
+    },
+    {
+      "number": 4
+    },
+    {
+      "number": 5
+    }
+  ],secondConfig);
+  var optionSelector2 = new CustomSelect(document.getElementById('optionBonus2'), [
+    {
+      "number": 1
+    },
+    {
+      "number": 2
+    },
+    {
+      "number": 3
+    },
+    {
+      "number": 4
+    },
+    {
+      "number": 5
+    }
+  ],secondConfig);
+  bonusSelector.on('hide', function(){bonusSelector.show()});
+  optionSelector1.on('change', function(){document.querySelector('#bonus .custom-select .options').classList.add('hide')});
+  optionSelector2.on('change', function(){document.querySelector('#bonus .custom-select .options').classList.add('hide')});
 })(document, window);

@@ -105,15 +105,15 @@
     // Generate data from template
     function generateTemplateData(data,textToMark) {
       var prop,result;
-      that.model[config.title] = data[config.title].toString().highLightText(textToMark);
+      data[config.title] = data[config.title].toString().highLightText(textToMark);
       if (that.config.template) {
         result = that.config.template ;
-        for (prop in that.model){
-          if(that.model.hasOwnProperty(prop))
-          result = result.replace('{{' + prop + '}}', that.model[prop])
+        for (prop in data){
+          if(data.hasOwnProperty(prop))
+          result = result.replace('{{' + prop + '}}', data[prop])
         }
       } else {
-        result = that.model[config.title]
+        result = data[config.title]
       }
       return result;
     }
