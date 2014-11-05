@@ -47,7 +47,7 @@ var Filterable = function (table){
     function onChange(e) {
 
         //that.eventMachineFunctions.change[0](e);
-        Array.prototype.slice.call(that.eventMachineFunctions.change)
+        Array.prototype.slice.call(that.funcArray.change)
             .forEach(function (eventHandler) {
                 eventHandler(e);
             });

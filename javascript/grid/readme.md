@@ -1,11 +1,28 @@
-##Tables examples
+##Component TABLE
 
-All styles for tables were taken from bootstrap.css
+Component Table is created without any javascript libraries.
+All styles for tables were used with bootstrap.css.
 
-Calling new SortableGrid(...).getCreateElement will return
-        new SortableGrid with public methods, like: sort, getCreatedElement.
+For creating the table such code is used:
 
-For creating this table such code is used:
+```js
+  <div id="fullServerData"></div>
+  <script type="text/javascript">
+     var container = document.getElementById('fullServerData');
+     new SortableGrid(
+        container,
+        null,
+        {
+          'headers': ['1', '2', '3', '4', '5'],
+          'maxRows': 5,
+          'url': 'http://localhost:8001',
+          'loadByParts': false,
+          'withTemplates': false
+        }
+     ).getCreatedElement();
+  </script>
+```
+
 
 ```js
     var table = new SortableGrid(container, array, config, maxRows).getCreatedElement();
@@ -179,3 +196,4 @@ Where:
 
 <div id="partialServerData" class="table-responsive">
     </div>
+
