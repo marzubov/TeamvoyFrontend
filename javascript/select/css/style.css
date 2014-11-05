@@ -3,6 +3,7 @@ article{
     margin: 10px;
 }
 #second{
+  clear: both;
   width: 50%;
 }
 .half-page{

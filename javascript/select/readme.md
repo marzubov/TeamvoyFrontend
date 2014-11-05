@@ -80,23 +80,28 @@ You can use templates to create nice look for you select:
   <div id="third">
   </div>
 ```js
+  var templateConfig = {
+    template: '<div class="template img-circle"><img class="film-logo" src="{{image}}"><div class="text">{{text}}</div></div>',
+    title: 'text',
+    value: 'text'
+  };
   var containerThree = document.getElementById('third');
   var templateSelector = new CustomSelect(containerThree, [
     {
-      "title": 1,
-      "value": 1
+      "text": 'The Hobbit',
+      "image": 'http://www.egmnow.com/wp-content/themes/egmnowv3/images/icons/renobadgeicon/The-Hobbit-An-Unexpected-Journey.png'
     },
     {
-      "title": 2,
-      "value": 2
+      "text": 'Metallica Movie!',
+      "image": 'http://pyramida.info/2013/10/01/Metallica%2BThrough%2Bthe%2BNever%2BHD%2B%2BPNG.png'
     },
     {
-      "title": 3,
-      "value": 3
+      "text": 'Terminator',
+      "image": 'http://icon.gamerzcraft.com/capas/Terminator_Salvation_%5B530-51-1202609%5D.png'
     },
     {
-      "title": 4,
-      "value": 4
+      "text": 'Awesome face!!',
+      "image": 'http://3.bp.blogspot.com/-f0NsmUHz2kM/T8GUGoydNpI/AAAAAAAAAfg/KnEkgnFPzpc/s1600/smiley.png'
     }
   ], templateConfig);
 ```

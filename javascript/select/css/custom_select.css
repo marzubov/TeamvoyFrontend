@@ -15,7 +15,7 @@
   text-align: right;
 }
 .custom-select .img:after{
-  content: url('img/arrow_down.png');
+  content: url('img/search.png');
 }
 .custom-select .alert{
   color: #c0392b!important;
