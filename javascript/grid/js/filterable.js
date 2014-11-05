@@ -1,32 +1,50 @@
 /**
  * Created by MU on 10/27/14.
  */
-var Filterable = function (table){
+var Filterable = function (container, table){
     var that, generatedModel=[], changeFunctions;
 
     this.init = function(){
 
         //init
         that = this;
+      //generateFormForChooseFilter();
         render();
     };
 
-    function generateElement(){
-        var model = document.createElement('input');
-        model.classList.add('filterable');
-        model.type = 'text';
-        model.addEventListener('keyup', onChange);
+    function generateFormForChooseFilter() {
+      var model = document.createDocumentFragment();
+      var filterChooseField = document.createElement('input');
+
+      filterChooseField.type = 'range';
+      filterChooseField.min = 1;
+      filterChooseField.max = table.rows[0].cells.length;
+      model.appendChild(filterChooseField);
+      var chooseButton = document.createElement('input');
+      chooseButton.type = 'button';
+      chooseButton.value = "Add filter field";
+      //chooseButton.addEventListener("click", func)
+      model.appendChild(chooseButton);
+      container.insertBefore(model, document.querySelector(".filterable-table"));
+    }
+
+    function generateElement(index){
+        var filterField = document.createElement('input');
+        filterField.classList.add('filterable');
+        filterField.type = 'text';
+        filterField.addEventListener('keyup', onChange);
         //stopping click event on heading
-        model.addEventListener('click', function(e){e.stopPropagation();});
-        return model;
+        filterField.addEventListener('click', function(e){e.stopPropagation();});
+        return filterField;
     }
 
     function render(){
-
+        var index = 0;
         //adding your input element to the table headings
+      table.classList.add("filterable-table");
         Array.prototype.slice.call(table.rows[0].cells)
             .forEach(function (header) {
-                generatedModel.push(generateElement());
+                generatedModel.push(generateElement(index++));
                 header.appendChild(generatedModel.slice(-1).pop());
             });
     }
