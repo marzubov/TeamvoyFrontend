@@ -1,33 +1,50 @@
 /**
  * Created by MU on 10/27/14.
  */
-var Filterable = function (table){
+var Filterable = function (container, table){
     var that, generatedModel=[], changeFunctions;
 
     this.init = function(){
 
         //init
         that = this;
+      //generateFormForChooseFilter();
         render();
     };
 
-    function generateElement(){
-        var model = document.createElement('input');
-        model.classList.add('filterable');
-        model.type = 'text';
-        model.addEventListener('keyup', onChange);
+    function generateFormForChooseFilter() {
+      var model = document.createDocumentFragment();
+      var filterChooseField = document.createElement('input');
 
+      filterChooseField.type = 'range';
+      filterChooseField.min = 1;
+      filterChooseField.max = table.rows[0].cells.length;
+      model.appendChild(filterChooseField);
+      var chooseButton = document.createElement('input');
+      chooseButton.type = 'button';
+      chooseButton.value = "Add filter field";
+      //chooseButton.addEventListener("click", func)
+      model.appendChild(chooseButton);
+      container.insertBefore(model, document.querySelector(".filterable-table"));
+    }
+
+    function generateElement(index){
+        var filterField = document.createElement('input');
+        filterField.classList.add('filterable');
+        filterField.type = 'text';
+        filterField.addEventListener('keyup', onChange);
         //stopping click event on heading
-        model.addEventListener('click', function(e){e.stopPropagation();});
-        return model;
+        filterField.addEventListener('click', function(e){e.stopPropagation();});
+        return filterField;
     }
 
     function render(){
-
+        var index = 0;
         //adding your input element to the table headings
+      table.classList.add("filterable-table");
         Array.prototype.slice.call(table.rows[0].cells)
             .forEach(function (header) {
-                generatedModel.push(generateElement());
+                generatedModel.push(generateElement(index++));
                 header.appendChild(generatedModel.slice(-1).pop());
             });
     }
@@ -36,6 +53,7 @@ var Filterable = function (table){
 
         //enabling
         generatedModel[index].classList.add('filterable-active');
+        generatedModel[index].setAttribute("column-index", index);
     };
 
     this.disable = function(index){
@@ -46,22 +64,19 @@ var Filterable = function (table){
 
     function onChange(e) {
 
-        //that.eventMachineFunctions.change[0](e);
-        Array.prototype.slice.call(that.eventMachineFunctions.change)
-            .forEach(function (eventHandler) {
-                eventHandler(e);
-            });
+      var index = 0;
+      Array.prototype.slice.call(table.rows)
+        .forEach(function (row) {
+          if (index == 0) {index++; return false;}
+          filter(row, e.target);
+        });
         return this.value;
     }
 
-    function filter(row) {
-        var text = row.textContent.toLowerCase(), val = input.value.toLowerCase();
+    function filter(row, input) {
+        var text = row.cells[input.getAttribute('column-index')].textContent.toLowerCase(), val = input.value.toLowerCase();
         row.style.display = text.indexOf(val) === -1 ? 'none' : 'table-row';
     }
-
-    // function bindEvents(){
-    // 	//binding events
-    // }
 
     this.init();
 };

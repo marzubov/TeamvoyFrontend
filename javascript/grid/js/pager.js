@@ -22,11 +22,11 @@ function RenderPager(pager, maxDataLength, goTo, maxRows) {
             }
         });
     pager.addEventListener('click', function (e) {
-        pageClick.call(this, e, goTo, maxDataLength);
+        pageClick.call(this, e, goTo, maxDataLength, maxRows);
     });
 }
 
-function pageClick(e, goTo, maxDataLength) {
+function pageClick(e, goTo, maxDataLength, maxRows) {
     "use strict";
         var newIndex;
         if (e.target.getAttribute('data-page') === "previous") {

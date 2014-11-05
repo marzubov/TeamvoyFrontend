@@ -85,17 +85,19 @@
             });
             reverse === 'desc' ? dataArray.reverse() : 0;
             var keyIndex = 0;
-            object.forEach(function(el) {
+            if (config.withTemplates) {
+              object.forEach(function (el) {
                 var key, elementIndex = 0;
                 for (key in el) {
 
-                        el[key] = dataArray[keyIndex][elementIndex];
-                        elementIndex += 1;
+                  el[key] = dataArray[keyIndex][elementIndex];
+                  elementIndex += 1;
                 }
                 keyIndex += 1;
-            });
-            console.log(object);
-            console.log(dataArray);
+              });
+            }
+            //console.log(object);
+            //console.log(dataArray);
 
             changePageData(false);
             that.goTo(1);
@@ -145,8 +147,7 @@
                     for (var j = 0; j < dataArray[i].length; j++) {
                         if (config.columnTemplates[j]) {
                             tableString += '<td>' + config.columnTemplates[j](object[i]) + '</td>';
-                            //console.log(dataArray[i][j].match(/<.+?>/g))
-                            //console.log(dataArray[i][j].replace(/<\/?[^>]+(>|$)/g, ""));
+
                         } else {
                             tableString += '<td>' + dataArray[i][j] + '</td>';
                         }
