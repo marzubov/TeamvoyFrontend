@@ -36,6 +36,7 @@ var Filterable = function (table){
 
         //enabling
         generatedModel[index].classList.add('filterable-active');
+        generatedModel[index].setAttribute("column-index", index);
     };
 
     this.disable = function(index){
@@ -46,23 +47,20 @@ var Filterable = function (table){
 
     function onChange(e) {
 
-        //that.eventMachineFunctions.change[0](e);
-        Array.prototype.slice.call(that.funcArray.change)
-            .forEach(function (eventHandler) {
-                eventHandler(e);
-            });
+      var index = 0;
+      Array.prototype.slice.call(table.rows)
+        .forEach(function (row) {
+          if (index == 0) {index++; return false;}
+          filter(row, e.target);
+        });
         return this.value;
     }
 
-    function filter(row) {
-        var text = row.textContent.toLowerCase(), val = input.value.toLowerCase();
+    function filter(row, input) {
+        var text = row.cells[input.getAttribute('column-index')].textContent.toLowerCase(), val = input.value.toLowerCase();
         row.style.display = text.indexOf(val) === -1 ? 'none' : 'table-row';
     }
-
-    // function bindEvents(){
-    // 	//binding events
-    // }
-
+  
     this.init();
 };
 Filterable.prototype = new EventMachine();
