@@ -8,16 +8,14 @@
   width: 100%;
   cursor: inherit;
 }
-.custom-select .img:after{
+.custom-select .img{
   position: relative;
   top: 5px;
-  right: 5px;
-  float: right;
   height: 0;
-  content: url('img/arrow_down.png');
+  text-align: right;
 }
-.custom-select .selector:after{
-  content: url(img/arrow_down.png);
+.custom-select .img:after{
+  content: url('img/arrow_down.png');
 }
 .custom-select .alert{
   color: #c0392b!important;
@@ -40,8 +38,6 @@
   color: inherit;
   font-size: inherit;
   text-align: center;
-}
-.custom-select .options .option:nth-child(2n){
 }
 .custom-select .hide{
   display: none;

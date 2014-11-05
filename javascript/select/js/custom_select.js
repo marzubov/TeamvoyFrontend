@@ -1,5 +1,6 @@
 (function (global, document) {
   "use strict";
+
   /**
    * Creates custom select and inserts it to container
    * @param container {Element} - the place where select will be inserted
@@ -12,6 +13,7 @@
       hovered = 0;
     this.config = config;
     this.model = data;
+
     /**
      * Hide options
      */
@@ -44,6 +46,7 @@
       this.value = value;
       this.selector.value = title;
     };
+
     /**
      *
      * @param newData - object with properties title and value. Similar to argument data
@@ -66,6 +69,7 @@
       return renderOptions(this.options);
     };
 
+    // Setter need for automatic remove of previous hover
     Object.defineProperty(this, 'hovered', {
       get: function () {
         return hovered;
@@ -98,6 +102,7 @@
       return mainElement;
     }
 
+    // Generate data from template
     function generateTemplateData(data) {
       var prop,result;
       if (that.config.template) {
