@@ -19,7 +19,7 @@
   opacity: 0.7;
 }
 .calendar .calendar-button.asc{
-  right: 0px;
+  right: 0;
 }
 .calendar .calendar-caption .month-name{
   position: relative;
@@ -35,7 +35,7 @@
 }
 
 .calendar .calendar-button.desc{
-  left: 0px;
+  left: 0;
 }
 
 .calendar .calendar-button.desc:after{
@@ -78,9 +78,6 @@
 }
 
 .container{
-  width: auto !important;
-  max-width: none !important;
-  margin-left: auto !important;
 }
 
 .date-range-picker{
