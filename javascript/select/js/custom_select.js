@@ -1,4 +1,5 @@
 (function (global, document) {
+  "use strict";
   /**
    * Creates custom select and inserts it to container
    * @param container {Element} - the place where select will be inserted
@@ -9,7 +10,7 @@
     CustomSelect.superclass.constructor.call(this);
     var that = this,
       hovered = 0;
-    this.config = config || {};
+    this.config = config;
     this.model = data;
     /**
      * Hide options
@@ -40,8 +41,8 @@
      * @param title {String}
      */
     this.selected = function (value, title) {
-        this.value = value;
-        this.selector.value = title;
+      this.value = value;
+      this.selector.value = title;
     };
     /**
      *
@@ -97,27 +98,33 @@
       return mainElement;
     }
 
-    function generateTemplateData(searchString, option, index) { //take data from template or from array
-      return  that.config.template ?
-        that.config.template.HTML
-          .replace('{{image}}', that.config.template.image[index])
-          .replace('{{text}}', that.config.template.text[index]) :
-        option.title.toString().replace(searchString, '<span class="highlighted">' + searchString + '</span>');
+    function generateTemplateData(data) {
+      var prop,
+        result = that.config.template;
+      if (that.config.template) {
+        for (prop in data) {
+          result = result.replace('{{' + prop + '}}', data[prop])
+        }
+      }
+      else {
+        result = data[config.title];
+      }
+      return result;
     }
 
     // Generate data in select options
-    function renderOptions(optionsElement, searchString) {
+    function renderOptions(optionsElement) {
       var options = optionsElement ? optionsElement : document.createElement('div'),
         optionString = '';
       that.model.length ? that.selector.classList.remove('alert')
         : that.selector.classList.add('alert');
       options.classList.add('options');
-      that.model.forEach(function (option, i) {
-        optionString += '<div data-value="' + option.value
-          + '" data-title="' + option.title
-          + '" class="option">'
-          + generateTemplateData(searchString, option, i)
-          + '</div>'
+      that.model.forEach(function (option) {
+        optionString += '<div data-value="' + option[config.value]
+        + '" data-title="' + option[config.title]
+        + '" class="option">'
+        + generateTemplateData(option)
+        + '</div>'
       });
 
       options.innerHTML = optionString;
@@ -138,7 +145,7 @@
         that.trigger('change');
       });
       that.options.addEventListener('mouseover', function (e) {
-         that.hovered = e.target.firstElementContains('option');
+        that.hovered = e.target.firstElementContains('option');
       });
       that.selector.addEventListener('blur', function () {
         that.hide();
@@ -160,11 +167,11 @@
             that.hide();
             break;
           case 40://down
-            that.hovered = that.hovered.nextSibling  || that.options.querySelector('.option');
+            that.hovered = that.hovered.nextSibling || that.options.querySelector('.option');
             that.selected(that.hovered.dataset['value'], that.hovered.dataset['title']);
             break;
           case 38://up
-            that.hovered = that.hovered.previousSibling  || that.options.querySelector(':last-child');
+            that.hovered = that.hovered.previousSibling || that.options.querySelector(':last-child');
             that.selected(that.hovered.dataset['value'], that.hovered.dataset['title']);
             break;
           default :

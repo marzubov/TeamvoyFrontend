@@ -1,53 +1,62 @@
 (function (document, window) {
   "use strict";
-  var containerOne = document.getElementById("first");
-  var containerTwo = document.getElementById("second");
-  var firstSelect = new CustomSelect(containerOne, [
-      {
-        "title": "january",
-        "value": 1
-      },
-      {
-        "title": "february",
-        "value": 2
-      },
-      {
-        "title": "march",
-        "value": 3
-      },
-      {
-        "title": "april",
-        "value": 4
-      },
-      {
-        "title": "may",
-        "value": 5
-      }
-    ]
-  );
-  var customSelect = new CustomSelect(containerTwo, [
-    {
-      "title": 1,
-      "value": 1
-    },
-    {
-      "title": 2,
-      "value": 2
-    },
-    {
-      "title": 3,
-      "value": 3
-    },
-    {
-      "title": 4,
-      "value": 4
-    },
-    {
-      "title": 5,
-      "value": 5
-    }
-  ]);
 
+  // First example
+  var containerOne = document.getElementById("first"),
+    firstConfig = {
+      title:'title',
+      value: 'value'
+    },
+    firstSelect = new CustomSelect(containerOne, [
+        {
+          "title": "january",
+          "value": 1
+        },
+        {
+          "title": "february",
+          "value": 2
+        },
+        {
+          "title": "march",
+          "value": 3
+        },
+        {
+          "title": "april",
+          "value": 4
+        },
+        {
+          "title": "may",
+          "value": 5
+        }
+      ]
+      ,firstConfig
+    );
+
+  // Second example
+  var containerTwo = document.getElementById("second"),
+    secondConfig = {
+      title:'number',
+      value: 'number'
+    },
+    customSelect = new CustomSelect(containerTwo, [
+      {
+        "number": 1
+      },
+      {
+        "number": 2
+      },
+      {
+        "number": 3
+      },
+      {
+        "number": 4
+      },
+      {
+        "number": 5
+      }
+    ],secondConfig);
+
+  // Event example
   var nativeSelect = document.querySelector('#native');
   nativeSelect.addEventListener('mousedown', function () {
     customSelect.toggle();
@@ -59,33 +68,29 @@
     customSelect.selected(nativeSelect.value, nativeSelect.value);
   });
 
+  // Third example
   var templateConfig = {
-    template: {
-      HTML: '<div class="template img-circle"><img class="film-logo" src="{{image}}"><div class="text">{{text}}</div></div>',
-      text: ['The Hobbit', 'Metallica Movie!', 'Terminator', 'Awesome face!!'],
-      image: ['http://www.egmnow.com/wp-content/themes/egmnowv3/images/icons/renobadgeicon/The-Hobbit-An-Unexpected-Journey.png',
-        'http://pyramida.info/2013/10/01/Metallica%2BThrough%2Bthe%2BNever%2BHD%2B%2BPNG.png',
-        'http://icon.gamerzcraft.com/capas/Terminator_Salvation_%5B530-51-1202609%5D.png',
-        'http://3.bp.blogspot.com/-f0NsmUHz2kM/T8GUGoydNpI/AAAAAAAAAfg/KnEkgnFPzpc/s1600/smiley.png']
-    }
+    template: '<div class="template img-circle"><img class="film-logo" src="{{image}}"><div class="text">{{text}}</div></div>',
+    title: 'text',
+    value: 'text'
   };
   var containerThree = document.getElementById('third');
   var templateSelector = new CustomSelect(containerThree, [
     {
-      "title": 1,
-      "value": 1
+      "text": 'The Hobbit',
+      "image": 'http://www.egmnow.com/wp-content/themes/egmnowv3/images/icons/renobadgeicon/The-Hobbit-An-Unexpected-Journey.png'
     },
     {
-      "title": 2,
-      "value": 2
+      "text": 'Metallica Movie!',
+      "image": 'http://pyramida.info/2013/10/01/Metallica%2BThrough%2Bthe%2BNever%2BHD%2B%2BPNG.png'
     },
     {
-      "title": 3,
-      "value": 3
+      "text": 'Terminator',
+      "image": 'http://icon.gamerzcraft.com/capas/Terminator_Salvation_%5B530-51-1202609%5D.png'
     },
     {
-      "title": 4,
-      "value": 4
+      "text": 'Awesome face!!',
+      "image": 'http://3.bp.blogspot.com/-f0NsmUHz2kM/T8GUGoydNpI/AAAAAAAAAfg/KnEkgnFPzpc/s1600/smiley.png'
     }
   ], templateConfig);
 })(document, window);
