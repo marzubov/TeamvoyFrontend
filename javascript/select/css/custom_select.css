@@ -10,13 +10,12 @@
 }
 .custom-select .img{
   position: relative;
-  top: 5px;
+  top: 10px;
+  right: 0;
   height: 0;
   text-align: right;
 }
-.custom-select .img:after{
-  content: url('img/search.png');
-}
+
 .custom-select .alert{
   color: #c0392b!important;
   border-left: 1px #c0392b solid!important;
@@ -29,6 +28,7 @@
   height: 0;
   position: relative;
   left: 4px;
+  z-index: 999;
 }
 .custom-select .highlighted{
   color: #c0392b;

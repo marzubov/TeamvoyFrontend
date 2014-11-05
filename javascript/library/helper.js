@@ -21,6 +21,14 @@ Element.prototype.firstElementContains = function(cssClass){
     this : this.parentNode ?
       this.parentNode.firstElementContains(cssClass) : false;
 };
+/**
+ * Wraps text with span with class 'highlighted'
+ * @param stringToMark - text that needs to be highlighted
+ * @returns {string}
+ */
+String.prototype.highLightText = function(stringToMark) {
+  return this.replace(stringToMark,'<span class="highlighted">'+ stringToMark + '</span>')
+};
 
 /**
  * Inherits all properties from parent.

@@ -58,15 +58,15 @@
 
     /**
      * Filter all options by title
-     * @param searchString
+     * @param filterString
      * @returns {*} Array of options with title and value
      */
-    this.filter = function (searchString) {
+    this.filter = function (filterString) {
       this.model = data.filter(function (option) {
-        return new RegExp(searchString, 'i').test(option[config.title]);
+        return new RegExp(filterString, 'i').test(option[config.title]);
       });
       this.trigger('filtered');
-      return renderOptions(this.options);
+      return renderOptions(this.options,filterString);
     };
 
     // Setter need for automatic remove of previous hover
@@ -74,9 +74,9 @@
       get: function () {
         return hovered;
       },
-      set: function (value) {
+      set: function (element) {
         hovered && (hovered.classList.remove('hover'));
-        hovered = value;
+        hovered = element;
         hovered && (hovered.classList.add('hover'));
         return hovered;
       }
@@ -107,7 +107,8 @@
       var prop,result;
       if (that.config.template) {
         result = that.config.template ;
-        for (prop in data) {
+        for (prop in data){
+          if(data.hasOwnProperty(prop))
           result = result.replace('{{' + prop + '}}', data[prop])
         }
       }
@@ -118,7 +119,7 @@
     }
 
     // Generate data in select options
-    function renderOptions(optionsElement) {
+    function renderOptions(optionsElement,searchString) {
       var options = optionsElement ? optionsElement : document.createElement('div'),
         optionString = '';
       that.model.length ? that.selector.classList.remove('alert')
@@ -128,10 +129,9 @@
         optionString += '<div data-value="' + option[config.value]
         + '" data-title="' + option[config.title]
         + '" class="option">'
-        + generateTemplateData(option)
+        + generateTemplateData(option).highLightText(searchString)
         + '</div>'
       });
-
       options.innerHTML = optionString;
       return options;
     }
