@@ -11,7 +11,11 @@
     Calendar.superclass.constructor.call(this);
     var calendar, root,
       that = this,
-      model = {},
+      model = {
+        daysNames: [],
+        days: [],
+        currentMonth: ''
+      },
       config = {
         year: (new Date()).getFullYear(),
         month: (new Date()).getMonth() + 1,
@@ -21,9 +25,7 @@
         dayEvents: [],
         weekends: ['SAT', 'SUN']
       };
-    Calendar.localizationCache = {};
     this.container = container;
-    init();
 
     /**
      * Show current day in calendar
@@ -39,46 +41,52 @@
     };
 
     /**
-     * Generating calendar
-     * @returns {global.Calendar.generateCalendar}
+     * generating calendar model
+     * @returns {{daysNames: Array, days: Array}}
      */
     function generateCalendar() {//TODO use moment.js
-      var i, date = new Date(config.year, config.month - 1), month, monthPrefix,
-        lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
-        firstDayWeek = new Date(date.getFullYear(), date.getMonth(), 1).getDay(),
-        indexOfStartDay, days = [],
-        maxDaysNumber = (1 + parseFloat(Math.ceil(30 / config.daysInWeek))) * config.daysInWeek,
-        myMonth = Object.keys(Calendar.localizationCache[config.locale].month).map(function (key, index) {
-          return Calendar.localizationCache[config.locale].month[key];
-        }),
-        myDays = Object.keys(Calendar.localizationCache[config.locale].daysOfWeek).map(function (key, index) {
-          return Calendar.localizationCache[config.locale].daysOfWeek[key];
-        });
+      var i,
+        date = moment([config.year, config.month - 1, 1]),
+        maxDaysNumber = (1 + parseFloat(Math.ceil(30 / config.daysInWeek))) * config.daysInWeek;
 
-      indexOfStartDay = myDays.indexOf(config.firstDayOfWeek);
-      model.chosenMonth = myMonth[config.month - 1];
-
-      myDays.forEach(function (el, i) {
-        days[i] = el;
-      });
-
-      model.arrayOfDays = [];
-      days = days.slice(indexOfStartDay, config.daysInWeek).concat(days.slice(0, indexOfStartDay));
-      model.arrayOfDays.push(days);
-
-      month = Array.apply(null, {length: lastDay}).map(function (el, i) {
-        return i + 1;
-      });
-
-      firstDayWeek = (config.daysInWeek - (indexOfStartDay + 1 - firstDayWeek)) % config.daysInWeek;
-      monthPrefix = new Array(firstDayWeek);
-      month = monthPrefix.concat(month);
-      month = month.concat(new Array(maxDaysNumber - month.length));
-
-      for (i = 0; i < month.length; i += config.daysInWeek) {
-        model.arrayOfDays.push(month.slice(i, i + config.daysInWeek));
+      model = {
+        daysNames: [],
+        days: [],
+        currentMonth: ''
+      };
+      date.locale(config.locale).format('LLL');
+      model.currentMonth = date.format('MMMM');
+      while (date.format('ddd').toLowerCase() != config.firstDayOfWeek.toLowerCase()) {
+        date.subtract(1, 'days');
       }
-      return this;
+      i = 0;
+
+      while (i < maxDaysNumber) {
+        var isWeekend = false;
+        config.weekends.map(function (day, i) {
+          if (date.format('ddd').toLowerCase() == (day.toLowerCase())) {
+            isWeekend = true;
+          }
+        });
+        model.days.push({
+          isInMonth: date.get('month') == (config.month - 1),
+          isWeekend: isWeekend,
+          date: date.clone()
+        });
+        date.add(1, 'days');
+        i++;
+      }
+
+      i = 0;
+
+      while (i < config.daysInWeek) {
+        model.daysNames.push({
+          name: model.days[i].date.format('ddd'),
+          isWeekend: model.days[i].isWeekend.valueOf()
+        });
+        i++;
+      }
+      return model;
     }
 
     this.dayTemplate = function (day) {
@@ -126,7 +134,7 @@
         }
       });
       return this;
-    }
+    };
 
     /**
      *
@@ -137,7 +145,7 @@
     this.renderCaption = function () {
       var captionElement = document.createElement('div');
       var tableString = '<button class="calendar-button desc"></button>'
-        + '<span class="month-name">' + model.chosenMonth + '</span>'
+        + '<span class="month-name">' + model.currentMonth.toString() + '</span>'
         + '<span class="year-name">' + config.year + '</span><button class="calendar-button asc"></button>';
       captionElement.innerHTML = tableString;
       captionElement.classList.add('calendar-caption');
@@ -150,14 +158,17 @@
      */
     this.renderHeader = function () {
       if (config.daysInWeek / 7 - Math.floor(config.daysInWeek / 7) != 0) return false;
-      var headerElement = document.createElement('div'),
-        weekNumber = 0,
-        tableString = '';
-      for (var i = 0; i < config.daysInWeek; i++) {
-        weekNumber = Math.floor(i / 7);
-        tableString += '<div day-name = ' + model.arrayOfDays[0][i - weekNumber * 7].toString() + ' class="day-name">' + model.arrayOfDays[0][i - weekNumber * 7].toString() + '</div>';
-      }
-      headerElement.innerHTML += tableString;
+      var headerElement = document.createElement('div');
+      model.daysNames.map(function (dayName) {
+        var dayNameElement = document.createElement('div');
+        dayNameElement.dayName = dayName.name;
+        dayNameElement.classList.add('day-name');
+        if (dayName.isWeekend) {
+          dayNameElement.classList.add('weekend');
+        }
+        dayNameElement.innerHTML = that.dayTemplate(dayName.name);
+        headerElement.appendChild(dayNameElement);
+      });
       headerElement.classList.add('calendar-header');
       return headerElement;
     };
@@ -167,81 +178,24 @@
      * @returns {HTMLElement}
      */
     this.renderBody = function () {
-      var tableString = '',
-        i = 0, newMonthDay = 1,
-        date = new Date(config.year, config.month - 2),
-        lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
-        firstDayWeek = new Date(date.getFullYear(), date.getMonth() + 1, 1).getDay(),
-        bodyElement = document.createElement('div');
-      var weekNumber = 0;
-      model.arrayOfDays.map(function (week) {
-
-        if (weekNumber == 0) {
-          weekNumber++;
-          return false;
+      var bodyElement = document.createElement('div');
+      model.days.map(function (day) {
+        var dayElement = document.createElement('div');
+        dayElement.data = day.date;
+        day.isInMonth ? dayElement.classList.add('day', 'in-month') : dayElement.classList.add('day', 'out-month');
+        //if (day.isInMonth){
+        //  dayElement.classList.add('day', 'in-month');
+        //}else{
+        //  dayElement.classList.add('day', 'out-month');
+        //}
+        if (day.isWeekend) {
+          dayElement.classList.add('weekend');
         }
-        for (i = 0; i < config.daysInWeek; i++) {
-          var year = config.year.valueOf();
-          var month = config.month.valueOf();
-          var dayElement = document.createElement('div');
-          dayElement.classList.add('day');
-          if (week[i]) {
-            dayElement.setAttributes({
-              'year': year.toString(),
-              'month': month.toString(),
-              'day-number': week[i].toString(),
-              'html': that.dayTemplate(week[i])
-            });
-            dayElement.classList.add('in-month');
-          }
-          else {
-            if (weekNumber == 1) {
-
-              if (config.month == 1) {
-                year--;
-                month = 13;
-              }
-              dayElement.setAttributes({
-                'year': year.toString(),
-                'month': (month - 1).toString(),
-                'day-number': (lastDay - firstDayWeek + 1 - config.daysInWeek + 7).toString(),
-                'html': that.dayTemplate(lastDay - firstDayWeek + 1 - config.daysInWeek + 7)
-              });
-              dayElement.classList.add('out-month');
-              firstDayWeek--;
-            } else {
-              if (config.month == 12) {
-                year++;
-                month = 0;
-              }
-              dayElement.setAttributes({
-                'year': year.toString(),
-                'month': (month + 1).toString(),
-                'day-number': (newMonthDay).toString(),
-                'html': that.dayTemplate(newMonthDay)
-              });
-              dayElement.classList.add('out-month');
-              newMonthDay++;
-            }
-          }
-          bodyElement.appendChild(dayElement);
-        }
-        weekNumber++;
+        dayElement.innerHTML = that.dayTemplate(day.date.get('date'));
+        bodyElement.appendChild(dayElement);
       });
       bodyElement.classList.add('calendar-body');
       return bodyElement;
-    };
-
-    /**
-     * Ajax request to get localization
-     * @returns {XMLHttpRequest}
-     */
-    function getLocalization() {
-      var xhr = new XMLHttpRequest();
-      Calendar.localizationCache[config.locale] = XMLHttpRequest;
-      xhr.open("GET", "localization/" + config.locale + ".json", true);
-      xhr.send(null);
-      return xhr;
     }
 
     /**
@@ -325,11 +279,13 @@
       caption.classList.add('calendar-caption');
       header.classList.add('calendar-header');
       body.classList.add('calendar-body');
-      console.log(caption);
 
       root.appendChild(caption);
       root.appendChild(header);
       root.appendChild(body);
+      render();
+      that.trigger('onLoad', [this]);
+      container.appendChild(root);
       Object.defineProperty(that, "config", {
         get: function () {
           return config;
@@ -350,18 +306,12 @@
       });
 
       config.merge(properties);
-      if (!Calendar.localizationCache[config.locale]) {
-        getLocalization()
-          .onload = function () {
-          Calendar.localizationCache[config.locale] = JSON.parse(this.responseText);
-          render();
-          that.trigger('onLoad', [this]);
-          container.appendChild(root);
-        };
-      }
+
       setEvents();
       return this;
     }
+
+    init();
   };
   Calendar.extend(EventMachine);
 })(window, document);
