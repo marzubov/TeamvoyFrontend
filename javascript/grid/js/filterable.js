@@ -16,7 +16,6 @@ var Filterable = function (table){
         model.classList.add('filterable');
         model.type = 'text';
         model.addEventListener('keyup', onChange);
-
         //stopping click event on heading
         model.addEventListener('click', function(e){e.stopPropagation();});
         return model;
@@ -60,7 +59,7 @@ var Filterable = function (table){
         var text = row.cells[input.getAttribute('column-index')].textContent.toLowerCase(), val = input.value.toLowerCase();
         row.style.display = text.indexOf(val) === -1 ? 'none' : 'table-row';
     }
-  
+
     this.init();
 };
 Filterable.prototype = new EventMachine();
