@@ -9,7 +9,7 @@ Super flexible vanillajs calendar component.
 
 ## Custom select 
  You can watch how select works in this [demo](http://neformal13.github.io/TeamvoyFrontend/javascript/select/).
- Or read [documentation](http://neformal13.github.io/TeamvoyFrontend/javascript/select/documentation)
+ Or read [documentation](http://neformal13.github.io/TeamvoyFrontend/javascript/select/documentation/readme.html)
 
 ## Sortable grid
 
