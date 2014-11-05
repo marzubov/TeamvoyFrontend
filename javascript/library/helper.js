@@ -27,7 +27,9 @@ Element.prototype.firstElementContains = function(cssClass){
  * @returns {string}
  */
 String.prototype.highLightText = function(stringToMark) {
-  return this.replace(stringToMark,'<span class="highlighted">'+ stringToMark + '</span>')
+  return stringToMark ?
+    this.replace(new RegExp(stringToMark,'i'),'<span class="highlighted">'+ stringToMark + '</span>')
+    : this;
 };
 
 /**

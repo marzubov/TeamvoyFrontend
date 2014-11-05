@@ -103,17 +103,17 @@
     }
 
     // Generate data from template
-    function generateTemplateData(data) {
+    function generateTemplateData(data,textToMark) {
       var prop,result;
+      that.model[config.title] = data[config.title].toString().highLightText(textToMark);
       if (that.config.template) {
         result = that.config.template ;
-        for (prop in data){
-          if(data.hasOwnProperty(prop))
-          result = result.replace('{{' + prop + '}}', data[prop])
+        for (prop in that.model){
+          if(that.model.hasOwnProperty(prop))
+          result = result.replace('{{' + prop + '}}', that.model[prop])
         }
-      }
-      else {
-        result = data[config.title];
+      } else {
+        result = that.model[config.title]
       }
       return result;
     }
@@ -129,7 +129,7 @@
         optionString += '<div data-value="' + option[config.value]
         + '" data-title="' + option[config.title]
         + '" class="option">'
-        + generateTemplateData(option).highLightText(searchString)
+        + generateTemplateData(option,searchString)
         + '</div>'
       });
       options.innerHTML = optionString;
