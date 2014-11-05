@@ -64,3 +64,19 @@ function rowForEach(row, func) {
       func(cell);
     });
 }
+
+/**
+ * setting multiple attributes
+ * @param attrs
+ */
+Element.prototype.setAttributes = function (attrs) {
+  for (var idx in attrs) {
+    if ((idx == 'styles' || idx == 'style') && typeof attrs[idx] == 'object') {
+      for (var prop in attrs[idx]){this.style[prop] = attrs[idx][prop]}
+    } else if (idx == 'html') {
+      this.innerHTML = attrs[idx]
+    } else {
+      this.setAttribute(idx, attrs[idx]);
+    }
+  }
+};
