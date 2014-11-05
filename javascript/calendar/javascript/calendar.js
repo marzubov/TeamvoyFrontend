@@ -136,9 +136,9 @@
       //TODO render divs not table
     this.renderCaption = function () {
       var captionElement = document.createElement('div');
-      var tableString = '<caption><button class="calendar-button desc"></button>'
+      var tableString = '<button class="calendar-button desc"></button>'
         + '<span class="month-name">' + model.chosenMonth + '</span>'
-        + '<span class="year-name">' + config.year + '</span><button class="calendar-button asc"></button></caption>';
+        + '<span class="year-name">' + config.year + '</span><button class="calendar-button asc"></button>';
       captionElement.innerHTML = tableString;
       captionElement.classList.add('calendar-caption');
       return captionElement;
@@ -299,13 +299,16 @@
      */
     var render = this.render = function () {
       generateCalendar();
-      var caption = that.renderCaption();
-      root.appendChild(caption);
-      var header = that.renderHeader();
-      console.log(header);
-      root.appendChild(header);
-      var body = that.renderBody();
-      root.appendChild(body);
+
+      //render elements of calendar and replace already existing containers
+      root.querySelector('.calendar-caption').parentNode
+        .replaceChild(that.renderCaption(), root.querySelector('.calendar-caption'));
+
+      root.querySelector('.calendar-header').parentNode
+        .replaceChild(that.renderHeader(), root.querySelector('.calendar-header'));
+
+      root.querySelector('.calendar-body').parentNode
+        .replaceChild(that.renderBody(), root.querySelector('.calendar-body'));
       root.classList.add('calendar');
 
       return this;
@@ -316,7 +319,17 @@
      */
     function init() {
       root = document.createElement('div');
+      var caption = document.createElement('div'),
+        header = document.createElement('div'),
+        body = document.createElement('div');
+      caption.classList.add('calendar-caption');
+      header.classList.add('calendar-header');
+      body.classList.add('calendar-body');
+      console.log(caption);
 
+      root.appendChild(caption);
+      root.appendChild(header);
+      root.appendChild(body);
       Object.defineProperty(that, "config", {
         get: function () {
           return config;
