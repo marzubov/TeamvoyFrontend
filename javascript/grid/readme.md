@@ -1,4 +1,4 @@
-##Component TABLE
+##SortableGrid.js
 
 Component Table is created without any javascript libraries.
 All styles for tables were used with bootstrap.css.
@@ -6,194 +6,217 @@ All styles for tables were used with bootstrap.css.
 For creating the table such code is used:
 
 ```js
-  <div id="fullServerData"></div>
-  <script type="text/javascript">
-     var container = document.getElementById('fullServerData');
-     new SortableGrid(
-        container,
-        null,
-        {
-          'headers': ['1', '2', '3', '4', '5'],
-          'maxRows': 5,
-          'url': 'http://localhost:8001',
-          'loadByParts': false,
-          'withTemplates': false
-        }
-     ).getCreatedElement();
-  </script>
+<div id="fullServerData"></div>
+<script type="text/javascript">
+  var container = document.getElementById('fullServerData');
+  var grid = new SortableGrid(
+     container,
+     null,
+     {
+        'headers': ['1', '2', '3', '4', '5'],
+        'maxRows': 5,
+        'url': 'http://localhost:8001',
+        'loadByParts': false,
+        'withTemplates': false
+     }
+  );
+</script>
 ```
 
+##Installation
+
+You can download the component table from the [github](https://github.com/neformal13/TeamvoyFrontend). For including
+this component in your program, use this code:
 
 ```js
-    var table = new SortableGrid(container, array, config, maxRows).getCreatedElement();
+<script src="js/handlebars-v2.0.0.js" type="text/javascript"></script>
+<script src="js/helper.js" type="text/javascript"></script>
+<script src="js/event_machine.js" type="text/javascript"></script>
+<script src="js/pager.js" type="text/javascript"></script>
+<script src="js/sortable_grid.js" type="text/javascript"></script>
 ```
 
-Where:
+##Configure
 
-    1. Container - the HTML tag where this table will be located. For example,
-       document.getElementById("container");
+Configure object consists of the next fields:
 
-    2. Array - this array will be contained into table.
-       If you want to load the data from file, this option = null
+```js
+<div id="fullDataWithTemplate"></div>
+<script type="text/javascript">
+var container = document.getElementById('fullDataWithTemplate');
+var configObjectFullLoadingWithTemplate = {
+  // {array} is used for columns header
+  'headers': ['1', '2', '3', '4', '5'],
+  // {number} count of rows on one page
+  'maxRows': 5,
+  // {string} the url to the local server
+  'url': 'http://localhost:8001',
+   // {boolean} whether the file will be load partial by pages or not
+  'loadByParts': false,
+  // {boolean} whether we use template in columns or not
+  'withTemplates': true,
+  // {object} if the table columns will be created with templates,
+  //in this option use: index of column and function with template
+  'columnTemplates': {
+     1: Handlebars.compile("<i><b>{{age2}}</b></i>"),
+     4: Handlebars.compile("<u>{{age5}}</u>")
+   }
+};
+var fullDataTable = new SortableGrid(
+  container,
+  null,
+  configObjectFullLoadingWithTemplate
+);
+</script>
+```
 
-    3. Config is contained the next options:
-        *  headers - the array of the head of each columns.
-        *  maxRows - maximum count of rows on one page.
-        *  url - urt to local server
-        *  loadByParts (boolean) - whether the file will be load by part or not.
-        *  withTemplates (boolean) - whether the columns will have the templates or not.
-        *  columnsTemplate - if the table columns will be created with templates, in this option we
-           point the object: index of column and function with template
+###SortableGrid methods:
+
+1. getCreatedElement() - Get all model of sortable grid
+2. getRoot() - Get the table from sortable grid
+3. getData() - Get data, that table consists
+4. sort() - sort data in table
+5. refresh() - put new data, container, configure object and change the table
+6. renderTable() - generate table view
+7. goTo() - go to the new page
+
+##Usage
+
+You can create the table with your array, such as:
+
+```js
+<div id="gridWithArray"></div>
+<script type="text/javascript">
+  var dataForTable = [
+     ['Evkakiy', 'Ignatovych', 'OOP', '2', 'true'],
+     ['Gnat', 'Kozlovskiy', 'Mathematic', '5', 'false'],
+     ['Ivan', 'Miladze', 'Facepalm', '1', 'true'],
+     ['Afanasiy', 'Bylba', 'Alchoball', '100', 'false'],
+     ['Kerry', 'King', 'Guitar', '666', 'true']
+  ];
+  var container = document.getElementById("gridForTable");
+  var configObject = {
+     'headers': ['1', '2', '3', '4', '5'],
+     'maxRows': 5,
+     'withTemplates': false
+  };
+  var tableWithArray = new SortableGrid(
+    container,
+    dataForTable,
+    configObject
+  );
+</script>
+```
+
+Also you can create the table with data from file:
+
+```js
+<div id="gridFromFile"></div>
+<script type="text/javascript">
+  var container = document.getElementById("gridFromFile");
+  var configObject = {
+     'headers': ['1', '2', '3', '4', '5'],
+     'maxRows': 5,
+     'url': 'http://localhost:8001',
+     'loadByParts': false,
+     'withTemplates': false
+  };
+  var tableWithFile = new SortableGrid(
+    container,
+    null,
+    configObject
+  );
+</script>
+```
+
+##Additions
 
 ###Draggable table
 
+For using this addition you have to include the next js file:
+
 ```js
-    var draggableTable = new SortableGrid(
-            container,
-            numberArray,
-            configObject,
-        ).getCreatedElement();
+<script src="js/draggable.js" type="text/javascript"></script>
 ```
 
-Where:
+For creating this table, you can use class Draggable, that have two arguments: table and data from this table.
+
+You can create the draggable table with such code:
 
 ```js
-    var container = document.getElementById('draggable');
-    var numberArray = Array.apply(null, {length: 100})
-        .map(function () {
-            return Array.apply(null, {length: 5})
-                .map(function () {
-                    return Math.floor(Math.random() * 1000);
-            });
-    });
-    var configObject = {
+<div id="fullServerData"></div>
+<script type="text/javascript">
+  var container = document.getElementById('fullServerData');
+  var grid = new SortableGrid(
+     container,
+     null,
+     {
         'headers': ['1', '2', '3', '4', '5'],
         'maxRows': 5,
+        'url': 'http://localhost:8001',
+        'loadByParts': false,
         'withTemplates': false
-    };
+     }
+  ).getCreatedElement();
+  var draggable = new Draggable(
+    grid.getRoot(),
+    grid.getData()
+  );
+</script>
 ```
 
-<div id="draggable" class="table-responsive">
-</div>
+###Filterable table
+
+For using this addition you have to include the next js file:
+
+```js
+<script src="js/filterable.js" type="text/javascript"></script>
+```
+
+You can you this additions with class Filterable, that have one argument: table, where we want to use it.
+You can turn on filterable with method enable() and turn out with disable() method.
+
+You can create table with filter with such code:
+
+```js
+<div id="fullServerData"></div>
+<script type="text/javascript">
+  var container = document.getElementById('fullServerData');
+  var grid = new SortableGrid(
+     container,
+     null,
+     {
+        'headers': ['1', '2', '3', '4', '5'],
+        'maxRows': 5,
+        'url': 'http://localhost:8001',
+        'loadByParts': false,
+        'withTemplates': false
+     }
+  ).getCreatedElement();
+  var filterable = new Filterable(grid.getRoot());
+  filterable.enable(1);
+</script>
+```
+
+##Examples
+
+###Draggable table
+
+<div id="draggable" class="table-responsive"></div>
 
 ###Table with filter
 
-For creating table with filter, you have to create table with your data with class SortableGrid, and then allow the filterable with the class Filterable.
-This class have one argument: the table, where we wand to use filterable.
-If we want to show the input box, write filterable.enable(1);
-
-```js
-    var filteredTable = new SortableGrid(container, stringArray, configObject).getCreatedElement();
-    var filterable = new Filterable(filteredTable.getRoot());
-    filterable.enable(1);
-```
-
-Where:
-
-```js
-    var container = document.getElementById('filterable');
-    var stringArray = [
-            ['Evkakiy', 'Ignatovych', 'OOP', '2', 'true'],
-            ['Gnat', 'Kozlovskiy', 'Mathematic', '5', 'false'],
-            ['Ivan', 'Miladze', 'Facepalm', '1', 'true'],
-            ['Afanasiy', 'Bylba', 'Alchoball', '100', 'false'],
-            ['Kerry', 'King', 'Guitar', '666', 'true']
-        ];
-    var configObject = {
-            'headers': ['1', '2', '3', '4', '5'],
-            'maxRows': 5,
-            'withTemplates': false
-        };
-```
-
-<div id="filterable" class="table-responsive">
-</div>
+<div id="filterable" class="table-responsive"></div>
 
 ###Table with full data from server
 
-For creating this table, we have to enter the url of local server in config, where data are located. Also enter null tho the option 'array'.
-For example,
-
-```js
-    var fullDataTable = new SortableGrid(container, null, configObjectFullLoading).getCreatedElement();
-```
-
-Where:
-
-```js
-    var container = document.getElementById('fullServerData');
-    var configObjectFullLoading = {
-            'headers': ['1', '2', '3', '4', '5'],
-            'maxRows': 5,
-            'url': 'http://localhost:8001',
-            'loadByParts': false,
-            'withTemplates': false
-        };
-```
-
-<div id="fullServerData" class="table-responsive">
-</div>
+<div id="fullServerData" class="table-responsive"></div>
 
 ###Table with full data from server with templates
 
-For creating this table, we have to enter the url of local server in config, where data are located, enter null to the option 'array'.
-
-Also we have to enter true to option 'withTemplate' and in 'columnTemplates' enter the columns, where we want to use the templates, and the templates that we want to use.
-For example:
-
-```js
-    var fullDataTable = new SortableGrid(container, null, configObjectFullLoadingWithTemplate).getCreatedElement();
-```
-
-Where:
-
-```js
-    var container = document.getElementById('withTemplate');
-    var configObjectFullLoadingWithTemplate = {
-                'headers': ['1', '2', '3', '4', '5'],
-                'maxRows': 5,
-                'url': 'http://localhost:8001',
-                'loadByParts': false,
-                'withTemplates': true,
-                'columnTemplates': {
-                    1: Handlebars.compile("<i><b>{{age2}}</b></i>"),
-                    4: Handlebars.compile("<u>{{age5}}</u>")
-                }
-            };
-```
-
-<div id="withTemplate" class="table-responsive">
-</div>
+<div id="withTemplate" class="table-responsive"></div>
 
 ###Table with partial data from server with templates
 
-In this table data for every page loads only then we use that page.
-
-For creating this table, we have to to enter the url of local server in config, where data are located, enter null to the option 'array'.
-
-Also we have to enter true to the option 'loadByParts', and enter true to option 'withTemplate' and in 'columnTemplates' enter the columns, where we want to use the templates, and the templates that we want to use.
-For example:
-
-```js
-    var partDataTable = new SortableGrid(container, null, configObjectPartialLoading).getCreatedElement();
-```
-
-Where:
-
-```js
-    var container = document.getElementById('partialServerData');
-    var configObjectPartialLoading = {
-            'headers': ['1', '2', '3', '4', '5'],
-            'maxRows': 5,
-            'url': 'http://localhost:8001',
-            'loadByParts': true,
-            'withTemplates': true,
-            'columnTemplates': {
-                1: Handlebars.compile("<b>{{age2}}</b>")
-            }
-        };
-```
-
-<div id="partialServerData" class="table-responsive">
-    </div>
+<div id="partialServerData" class="table-responsive"></div>
 
