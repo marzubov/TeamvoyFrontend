@@ -192,7 +192,7 @@
               'day-number': week[i].toString(),
               'html': that.dayTemplate(week[i])
             });
-            dayElement.classList.add('active-day');
+            dayElement.classList.add('in-month');
           }
           else {
             if (weekNumber == 1) {
@@ -207,7 +207,7 @@
                 'day-number': (lastDay - firstDayWeek + 1 - config.daysInWeek + 7).toString(),
                 'html': that.dayTemplate(lastDay - firstDayWeek + 1 - config.daysInWeek + 7)
               });
-              dayElement.classList.add('non-active-day');
+              dayElement.classList.add('out-month');
               firstDayWeek--;
             } else {
               if (config.month == 12) {
@@ -220,7 +220,7 @@
                 'day-number': (newMonthDay).toString(),
                 'html': that.dayTemplate(newMonthDay)
               });
-              dayElement.classList.add('non-active-day');
+              dayElement.classList.add('out-month');
               newMonthDay++;
             }
           }
@@ -272,23 +272,23 @@
         });
 
       root.addEventListener('mousedown', function (e) {
-        if ((e.target.classList.contains('non-active-day'))
-          || (e.target.classList.contains('active-day'))) {
+        if ((e.target.classList.contains('out-month'))
+          || (e.target.classList.contains('in-month'))) {
           that.trigger('onMouseDown', [e]);
         }
       });
 
       root.addEventListener('mousemove', function (e) {
-        if ((e.target.classList.contains('non-active-day'))
-          || (e.target.classList.contains('active-day'))) {
+        if ((e.target.classList.contains('out-month'))
+          || (e.target.classList.contains('in-month'))) {
           that.trigger('onMouseMove', [e]);
           e.preventDefault();
         }
       });
 
       root.addEventListener('mouseup', function (e) {
-        if ((e.target.classList.contains('non-active-day'))
-          || (e.target.classList.contains('active-day'))) {
+        if ((e.target.classList.contains('out-month'))
+          || (e.target.classList.contains('in-month'))) {
           that.trigger('onMouseUp', [e]);
         }
       });
