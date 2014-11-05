@@ -60,10 +60,10 @@
      */
     this.filter = function (searchString) {
       this.model = data.filter(function (option) {
-        return new RegExp(searchString, 'i').test(option.title);
+        return new RegExp(searchString, 'i').test(option[config.title]);
       });
       this.trigger('filtered');
-      return renderOptions(this.options, searchString);
+      return renderOptions(this.options);
     };
 
     Object.defineProperty(this, 'hovered', {
@@ -99,9 +99,9 @@
     }
 
     function generateTemplateData(data) {
-      var prop,
-        result = that.config.template;
+      var prop,result;
       if (that.config.template) {
+        result = that.config.template ;
         for (prop in data) {
           result = result.replace('{{' + prop + '}}', data[prop])
         }
