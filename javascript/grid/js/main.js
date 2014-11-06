@@ -22,13 +22,21 @@
         var configObject = {
             'headers': ['1', '2', '3', '4', '5'],
             'maxRows': 5,
+            'arrayOrURL' : numberArray,
             'withTemplates': false
+        };
+
+        var configObject2 = {
+          'headers': ['1', '2', '3', '4', '5'],
+          'maxRows': 5,
+          'arrayOrURL' : stringArray,
+          'withTemplates': false
         };
 
         var configObjectPartialLoading = {
             'headers': ['1', '2', '3', '4', '5'],
             'maxRows': 5,
-            'url': 'http://localhost:8001',
+            'arrayOrURL': 'http://localhost:8001',
             'loadByParts': true,
             'withTemplates': true,
             'columnTemplates': {
@@ -39,7 +47,7 @@
         var configObjectFullLoading = {
             'headers': ['1', '2', '3', '4', '5'],
             'maxRows': 5,
-            'url': 'http://localhost:8001',
+            'arrayOrURL': 'http://localhost:8001',
             'loadByParts': false,
             'withTemplates': false
         };
@@ -47,7 +55,7 @@
         var configObjectFullLoadingWithTemplate = {
             'headers': ['1', '2', '3', '4', '5'],
             'maxRows': 5,
-            'url': 'http://localhost:8001',
+            'arrayOrURL': 'http://localhost:8001',
             'loadByParts': false,
             'withTemplates': true,
             'columnTemplates': {
@@ -56,21 +64,21 @@
             }
         };
 
-        draggableTable = new SortableGrid(container, numberArray, configObject).getCreatedElement();
+        draggableTable = new SortableGrid(container, configObject).getCreatedElement();
         var draggable = new Draggable(draggableTable.getRoot(), draggableTable.getData());
 
         container = document.getElementById('filterable');
-        filteredTable = new SortableGrid(container, stringArray, configObject).getCreatedElement();
+        filteredTable = new SortableGrid(container, configObject2).getCreatedElement();
         var filterable = new Filterable(container, filteredTable.getRoot());
         filterable.enable(2);
 
         container = document.getElementById('fullServerData');
-        fullDataTable = new SortableGrid(container, null, configObjectFullLoading).getCreatedElement();
+        fullDataTable = new SortableGrid(container, configObjectFullLoading).getCreatedElement();
 
         container = document.getElementById('withTemplate');
-        fullDataTable = new SortableGrid(container, null, configObjectFullLoadingWithTemplate).getCreatedElement();
+        fullDataTable = new SortableGrid(container, configObjectFullLoadingWithTemplate).getCreatedElement();
 
         container = document.getElementById('partialServerData');
-        partDataTable = new SortableGrid(container, null, configObjectPartialLoading).getCreatedElement();
+        partDataTable = new SortableGrid(container, configObjectPartialLoading).getCreatedElement();
     }, 10);
 })();

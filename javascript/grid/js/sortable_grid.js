@@ -1,7 +1,7 @@
 (function (global, document) {
     "use strict";
-    global.SortableGrid = function SortableGrid(container, dataArray, config) {
-        var root, pager, maxDataLength, pagesData = [], sortedColumn, pageIndex = 1, that, draggable, filterable, object;
+    global.SortableGrid = function SortableGrid(container, config) {
+        var root, pager, maxDataLength, pagesData = [], sortedColumn, pageIndex = 1, that, draggable, filterable, object, dataArray=[];
 
         function getData(url, start, end) {
             url += '/getdata';
@@ -119,7 +119,7 @@
                 if (!pagesData[pageIndex - 1]) {
                     if (dataArray.length != maxDataLength) {
                         console.log("new request");
-                        getData(config.url, (pageIndex - 1) * config.maxRows, pageIndex * config.maxRows);
+                        getData(config.arrayOrURL, (pageIndex - 1) * config.maxRows, pageIndex * config.maxRows);
                     } else {
                         changePageData(false);
                     }
@@ -258,6 +258,9 @@
             else {
                 changePageData(true);
             }
+            //var filterable = new Filterable(container, root);
+            //console.log(dataArray);
+            //filterable.enable(2);
             //alert('Response from CORS request to' + url + ': ' + xhr.responseText);
             return(xhr.responseText);
         }
@@ -268,15 +271,16 @@
             container.appendChild(root);
             container.appendChild(pager);
             that = this;
-
-            if (dataArray === null) {
+            console.log(typeof config.arrayOrURL);
+            if (typeof config.arrayOrURL == 'string') {
                 //console.log('dataArray == null');
                 if (config.loadByParts) {
-                    getData(config.url, 0, config.maxRows);
+                    getData(config.arrayOrURL, 0, config.maxRows);
                 } else {
-                    getData(config.url);
+                    getData(config.arrayOrURL);
                 }
             } else {
+                dataArray = config.arrayOrURL;
                 renderTable.call(this);
             }
         }
