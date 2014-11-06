@@ -27,9 +27,6 @@
       };
     this.container = container;
 
-    /**
-     * Show current day in calendar
-     */
     this.showToday = function () {
       var today = new Date((new Date()).setHours(0, 0, 0, 0));
       config.month = today.getMonth() + 1;
@@ -127,10 +124,6 @@
       return this;
     };
 
-    /**
-     *
-     * @returns {HTMLElement}
-     */
     this.renderCaption = function () {
       var captionElement = document.createElement('div');
       var tableString = '<button class="calendar-button desc"></button>'
@@ -141,10 +134,6 @@
       return captionElement;
     };
 
-    /**
-     *
-     * @returns {HTMLElement}
-     */
     this.renderHeader = function () {
       if (config.daysInWeek / 7 - Math.floor(config.daysInWeek / 7) != 0) return false;
       var headerElement = document.createElement('div');
@@ -162,10 +151,6 @@
       return headerElement;
     };
 
-    /**
-     *
-     * @returns {HTMLElement}
-     */
     this.renderBody = function () {
       var bodyElement = document.createElement('div');
       model.days.map(function (day) {
@@ -182,9 +167,6 @@
       return bodyElement;
     };
 
-    /**
-     * Setting events on table
-     */
     function setEvents() {//TODO remove unnecessary code
       root
         .addEventListener('click', function (e) {
@@ -199,11 +181,11 @@
               config.month = 12;
             }
             render();
-            that.trigger('onMonthChanged', [e]);
+            that.trigger('monthChanged', [config.month]);
             return true;
           }
           else if (e.target != this) {
-            that.trigger('onDayChanged', [e]);
+            that.trigger('daySelected', [e]);
             return true;
           }
           return false;
@@ -225,7 +207,6 @@
 
       root.querySelector('.calendar-body').parentNode
         .replaceChild(that.renderBody(), root.querySelector('.calendar-body'));
-      root.classList.add('calendar');
 
       return this;
     };
@@ -246,6 +227,7 @@
       root.appendChild(caption);
       root.appendChild(header);
       root.appendChild(body);
+      root.classList.add('calendar');
       container.appendChild(root);
 
       render();

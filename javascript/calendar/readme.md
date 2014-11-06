@@ -1,3 +1,12 @@
+<link rel="stylesheet" href="../css/calendar.css"/>
+<link rel="stylesheet" href="../css/style.css"/>
+<script src="../../library/vendor/moment/moment.js"></script>
+<script src="../../library/vendor/moment/min/locales.js"></script>
+<script src="../../library/event_machine.js"></script>
+<script src="../../library/helper.js"></script>
+<script src="../javascript/calendar.js"></script>
+<script src="../javascript/date_range_picker.js"></script>
+
 Calendar.js
 =============
 
@@ -15,7 +24,7 @@ Try it out:
     firstCalendar.getRoot().classList.add('table', 'table-striped');
 </script>
 ```
-<div id="firstContainer">
+<div class="container" id="firstContainer">
 </div>
 
 Installation
@@ -38,10 +47,10 @@ The typical way of using calendar is by creating a container element and call ne
 </div>
 <script>
 var containerElement = document.getElementById('containerElement');
-new Calendar(yourContainer);
+new Calendar(containerElement);
 </script>
 ```
-<div id="sixthContainer">
+<div class="container" id="sixthContainer">
 </div>
 
 Also you can create with configureObject:
@@ -50,26 +59,12 @@ Also you can create with configureObject:
 </div>
 <script>
 var containerElement = document.getElementById('containerElement');
-new Calendar(containerElement, {year: 2014, month: 5,  firstDayOfWeek: "Mon", locale: "en", weekends:["Sat","Sun"]});
+new Calendar(containerElement, {year: 2014, month: 5,
+ firstDayOfWeek: "Mon", locale: "en", weekends:["Sat","Sun"]});
 </script>
 ```
-<div id="fifthContainer">
+<div class="container" id="fifthContainer">
 </div>
-
-You can use calendar to create date range pickers:
-```js
-<div id="containerElement">
-</div>
-<script>
-    var firstContainer = document.getElementById('firstContainer');
-    var firstDateRangePicker = new DateRangePicker(firstContainer);
-    firstDateRangePicker.firstCalendar.getRoot().classList.add('table', 'table-striped', 'date-range-picker');
-    firstDateRangePicker.secondCalendar.getRoot().classList.add('table', 'table-striped', 'date-range-picker');
-</script>
-```
-<div id="seventhContainer">
-</div>
-
 
 Configure
 -----
@@ -82,78 +77,90 @@ You can configure your calendar, by passing configureObject when calendar is cre
 </div>
 <script>
 var containerElement = document.getElementById('containerElement');
-new Calendar(containerElement, {year: 2014, month: 5, firstDayOfWeek: "Mon" , locale: "en"});
+new Calendar(containerElement, {year: 2014, month: 5,
+firstDayOfWeek: "Mon" , locale: "en"});
 </script>
 ```
-<div id="eightsContainer">
+<div class="container" id="eightsContainer">
 </div>
 
 But if you have created component you can set him new configure object.
 
 ```js
-newConfig = {year: 2014, month: 5,  firstDayOfWeek: "Пн" , locale: "ua", weekends:["Сб","Нд"]}
+newConfig = {year: 2014, month: 5,  firstDayOfWeek: "Пн" ,
+locale: "uk", weekends:["Сб","Нд"]}
 calendar.config = newConfig;
 ```
-<div id="secondContainer">
 <aside class="col-xs-4 aside-config">
 <input class="year" type="text" placeholder="Some year..">
 <input class="month" type="text" placeholder="Some month..">
-<label>
-<select class="locale">
-<option>ua</option>
-<option>en</option>
-</select>
-</label>
-<button class="btn btn-success">I want you to click me</button>
+<button class="btn btn-success">Change date</button>
 </aside>
+<div class="container" id="secondContainer">
+
 </div>
 
 ###Config Object - optional parameter with fields:
-1. year- current year, type: number.
-2. month - current month, type: number.
-3. firstDayOfWeek - first day of week in calendar, only english language, type: string.
-4. locale - language of calendar, short name, type: string. Example: 'monday'.
-5. daysInWeek - number days in week.
-6. dayEvents - array of day events.
-7. weekends - array of weekends days.
+
+```js
+config = {
+year: 2014,           // current year, type: number.
+month: 5,             // month - current month, type: number.
+firstDayOfWeek: "Пн" ,// firstDayOfWeek - first day of week in calendar,
+                      // only english language, type: string.
+locale: "uk",         // locale - language of calendar, short name,
+                      // type: string. Example: 'monday'.
+weekends:["Сб","Нд"]  //array of weekends days.
+}
+var calendar = new Calendar(containerElement, config);
+```
 
 ###Listen to events
 1. monthChanged - occur when config month data changed.
-2. dayChanged - occur when selecting day changed.
-3. mouseMove - occur on mouse move.
-4. mouseDown - occur on mouse down.
-5. mouseUp - occur on mouse up.
+```js
+function monthHandler(month){
+console.log(month); //it will log new month
+}
+//listening to the monthChanged event
+Calendar.on('monthChanged', monthHandler);
+```
+2. daySelected - occur when selecting day changed.
+```js
+function daySelectedHandler(day){
+console.log(day); //it will log selected day
+}
+//listening to the daySelected event
+Calendar.on('daySelected', daySelectedHandler);
+```
 
 ###Calendar methods
 1. showToday(); - set calendar config to show current day.
 2. on(eventName,callback); - add new function to event listener.
 3. off(eventName,callback); - remove function from event listener.
-4. customizeCaption(caption) - add styles to the caption.
-5. customizeDayNames(header) - add styles to the header.
-6. customizeDays() - add styles to the days.
-7. customizeWeekends(weekends, daysInWeek) - add styles to the weekends.
-8. getRoot() - getting root element.
-9. addDayStyle(date, style) - adding style to the day.
-10. removeDayStyle(date, style) - removing styles from the day.
-11. render() - generating view.
-12. renderBody() - generating body view.
-13. renderCaption() - generating caption view.
-14. renderHeader() - generating header view.
-15. selectDays(styles, range) - adding styles to the days in range.
-16. trigger(eventName, params) - trigger functions.
+4. getRoot() - getting root element.
+5. render() - generating view.
+6. renderBody() - generating body view.
+7. renderCaption() - generating caption view.
+8. renderHeader() - generating header view.
+8. selectDays(styles, range) - adding styles to the days in range.
+10. trigger(eventName, params) - trigger functions.
 
 ##More examples
 
-You can add more than 7 days in one row:
+You can use calendar to create date range pickers:
 ```js
-myCalendar.config = {daysInWeek: 14}
+<div id="containerElement">
+</div>
+<script>
+    var firstContainer = document.getElementById('firstContainer');
+    var firstDateRangePicker = new DateRangePicker(firstContainer);
+    firstDateRangePicker.firstCalendar.getRoot().classList.add('table',
+    'table-striped', 'date-range-picker');
+    firstDateRangePicker.secondCalendar.getRoot().classList.add('table',
+     'table-striped', 'date-range-picker');
+</script>
 ```
-<div id="thirdContainer">
+<div class="container" id="seventhContainer">
 </div>
 
-If days in row is not multiply of 7, days names wont be shown
-```js
-myCalendar.config = {daysInWeek: 13}
-```
-<div id="fourthContainer">
-</div>
+<script src="../javascript/main.js"></script>
