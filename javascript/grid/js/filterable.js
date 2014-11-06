@@ -5,7 +5,6 @@ var Filterable = function (container, table){
     var that, generatedModel=[], changeFunctions;
 
     this.init = function(){
-
         //init
         that = this;
         generateFormForChooseFilter();
@@ -37,7 +36,13 @@ var Filterable = function (container, table){
         if (generatedModel[columnIndex].classList.contains('filterable-active')) {
           that.disableSearchField(columnIndex);
         } else {
-          that.enableSearchField(columnIndex);
+          generatedModel.forEach(function (el, i) {
+            if (i == columnIndex) { that.enableSearchField(columnIndex);
+            } else {
+              that.disableSearchField(i);
+            }
+          });
+
         }
     }
 
