@@ -199,6 +199,7 @@ button {
 }
 
 .mails .mails-list {
+  position: relative;
   background: transparent;
   border-top: 1px solid lightgray;
   overflow: hidden;
@@ -265,7 +266,7 @@ button {
 .div-letter .letter-from{
   display: inline-block;
   position: relative;
-  width: 75px;
+  width: 150px;
   height: 30px;
   max-height: 30px;
 }
@@ -274,7 +275,7 @@ button {
   position: relative;
   height: 30px;
   max-height: 30px;
-  width: 80%;
+  width: 50%;
 }
 .div-letter .letter-date{
   display: inline-block;
@@ -289,4 +290,8 @@ button {
   background: none;
   position: relative;
   margin-left: -5px;
+}
+
+.controls .checkbox-wrapper{
+  padding: 6px 25px !important;
 }
