@@ -38,7 +38,7 @@
             if (!fromPagesData) {
                 for (i = (pageIndex - 1) * config.maxRows; i < pageIndex * config.maxRows; i++) {
                     dataString += "<tr>";
-                    if (config.withTemplates) {
+                    if (config.columnTemplates) {
                         for (var j = 0; j < data[i].length; j++) {
 
                             if (config.columnTemplates[j]) {
@@ -56,7 +56,7 @@
             } else {
                 for (i = 0; i < config.maxRows; i++) {
                     dataString += "<tr>";
-                    if (config.withTemplates) {
+                    if (config.columnTemplates) {
                     for (var j = 0; j < data[i].length; j++) {
 
                             if (config.columnTemplates[j]) {
@@ -85,7 +85,7 @@
             });
             reverse === 'desc' ? dataArray.reverse() : 0;
             var keyIndex = 0;
-            if (config.withTemplates) {
+            if (config.columnTemplates) {
               object.forEach(function (el) {
                 var key, elementIndex = 0;
                 for (key in el) {
@@ -140,7 +140,7 @@
             var tableString = '<thead><tr><td>' + config.headers.join('</td><td>') + '</td></thead>';
             // Make body
 
-            if (config.withTemplates) {
+            if (config.columnTemplates) {
                 tableString += '<tbody class="data-body">';
                 for (var i = 0; i < config.maxRows; i++) {
                     tableString += "<tr>";

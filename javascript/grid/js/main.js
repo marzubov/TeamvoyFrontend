@@ -23,14 +23,14 @@
             'headers': ['1', '2', '3', '4', '5'],
             'maxRows': 5,
             'arrayOrURL' : numberArray,
-            'withTemplates': false
+            'columnTemplates': false
         };
 
         var configObject2 = {
           'headers': ['1', '2', '3', '4', '5'],
           'maxRows': 5,
           'arrayOrURL' : stringArray,
-          'withTemplates': false
+          'columnTemplates': false
         };
 
         var configObjectPartialLoading = {
@@ -38,7 +38,6 @@
             'maxRows': 5,
             'arrayOrURL': 'http://localhost:8001',
             'loadByParts': true,
-            'withTemplates': true,
             'columnTemplates': {
                 1: Handlebars.compile("<b>{{age2}}</b>")
             }
@@ -49,7 +48,7 @@
             'maxRows': 5,
             'arrayOrURL': 'http://localhost:8001',
             'loadByParts': false,
-            'withTemplates': false
+            'columnTemplates': false
         };
 
         var configObjectFullLoadingWithTemplate = {
@@ -57,7 +56,6 @@
             'maxRows': 5,
             'arrayOrURL': 'http://localhost:8001',
             'loadByParts': false,
-            'withTemplates': true,
             'columnTemplates': {
                 1: Handlebars.compile("<i><b>{{age2}}</b></i>"),
                 4: Handlebars.compile("<u>{{age5}}</u>")
