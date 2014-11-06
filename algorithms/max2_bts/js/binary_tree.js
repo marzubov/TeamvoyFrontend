@@ -15,6 +15,7 @@
     };
 
     this.search = function (value) {
+      console.log('search counter');
       return value == this.value ?
         this : value > this.value ?
         this.right ? this.right.search(value) : null :
@@ -29,6 +30,7 @@
           this.right ?
             this.add.call(this.right,value) : this.right = new BinaryTree(value,this) :
         this.value = value;
+      return this;
     };
 
     this.toArray = function(){
