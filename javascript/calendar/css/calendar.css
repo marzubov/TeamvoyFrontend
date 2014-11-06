@@ -97,8 +97,7 @@ body{
 
 .container{
   position: relative;
-  width: 220px;
-  height: 370px;
+  width: 50%;
 }
 
 .date-range-picker{
