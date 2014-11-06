@@ -1,11 +1,7 @@
-*,
-html,
-body{
-  margin: 0;
-  padding: 0;
-}
-ul,ol{
-  list-style: none;
+@import "../../reset.css";
+
+a{
+  text-decoration: none;
 }
 .pull-left{
   float: left !important;
@@ -16,10 +12,34 @@ ul,ol{
 .mg_b15{
   margin-bottom: 15px;
 }
+.show_skeleton .header_wrapper{
+  background: #4c67a1;
+}
+body.show_skeleton{
+  background: #e9eaed;
+}
+.show_skeleton .side_bar{
+  background: #4c67a1;
+}
+.show_skeleton .sidebar_right{
+  background: #c0cbe2;
+}
+.show_skeleton .global_nav li{
+  background: #e9eaed;
+}
+.show_skeleton .menu{
+  background: #c0cbe2;
+}
+.show_skeleton .menu a{
+  background: #e9eaed;
+}
+.show_skeleton .content{
+  background: #c0cbe2;
+}
+
 
 /*header*/
 .header_wrapper{
-  background: #4c67a1;
   position: fixed;
   width: 100%;
   z-index: 2;
@@ -45,19 +65,15 @@ ul,ol{
 }
 .global_nav li{
   display: inline-block;
-  background: #e9eaed;
   padding: 5px;
-  width: 50px;
 }
 
 
 /*content*/
-body{
-  background: #e9eaed;
-}
 .content_wrapper{
   position: relative;
   z-index: 1;
+  padding-bottom: 50px;
 }
 .time_line{
   background: #fff;
@@ -70,7 +86,6 @@ body{
 .menu{ /*content menu*/
   height: 44px;
   position: relative;
-  background: #c0cbe2;
   border-top: 1px #c0cbe2 solid;
 }
 .menu .profile_picture{
@@ -82,10 +97,8 @@ body{
   background: #4c67a1;
 }
 .menu a{
-  padding: 5px;
-  width: 70px;
-  height: 33px;
-  background: #e9eaed;
+  line-height: 44px;
+  padding: 0px 24px;
   float: left;
   margin-right: 1px;
 }
@@ -98,11 +111,9 @@ body{
 .side_bar nav{
   background: #fff;
   padding: 10px;
-  height: 20px;
 }
 .content article{
   background: #fff;
-  height: 50px;
   padding: 10px;
 }
 
@@ -110,7 +121,7 @@ body{
 /*side bur right*/
 .sidebar_right{
   position: fixed;
-  background: #c0cbe2;
+  overflow: auto;
   top: 43px;
   right: -10px;
   height: 100%;
