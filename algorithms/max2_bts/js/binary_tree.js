@@ -5,6 +5,10 @@
     this.left = left;
     this.right = right;
 
+    /**
+     * Add array to the tree
+     * @param dataArray
+     */
     this.addArray = function(dataArray){
       console.log('add',dataArray);
       var that=this;
@@ -14,6 +18,11 @@
       console.log('tree',this)
     };
 
+    /**
+     * Finds element of the tree with value
+     * @param value - value that needs to be find
+     * @returns {window.BinaryTree} - subtree with value
+     */
     this.search = function (value) {
       console.log('search counter');
       return value == this.value ?
@@ -22,6 +31,11 @@
         this.left ? this.left.search(value) : null;
     };
 
+    /**
+     * Add one subtree with value to the tree
+     * @param value - value thats need to be added
+     * @returns {window.BinaryTree} - returns added element
+     */
     this.add = function(value){
        this.value ?
         this.value > value ?
@@ -33,6 +47,10 @@
       return this;
     };
 
+    /**
+     * Sort values in tree and put it to the array
+     * @returns {Array} - array with data
+     */
     this.toArray = function(){
       var result=[];
       inorder(this);
@@ -44,14 +62,26 @@
       return result;
     };
 
+    /**
+     * Finds min value in the tree
+     * @returns {*} - element with value
+     */
     this.min = function(){
       return this.left ? this.min.call(this.left) : this;
     };
 
+    /**
+     * Finds max value in the tree
+     * @returns {*} - returns element with value
+     */
     this.max = function(){
       return this.right ? this.max.call(this.right) : this;
     };
 
+    /**
+     * Removes element with value
+     * @param value - value needs to be removed
+     */
     this.remove = function(value){
       var tree = this.search(value);
       if(!(tree.left && tree.right))
@@ -68,6 +98,11 @@
         tree.value = successor.value;
         }
       };
+
+    /**
+     * Finds element that must be inserted if current tree would be removed ( min element from right tree )
+     * @returns {*} - element with such value
+     */
     this.successor = function(){
       if(this.right)
       return this.right.min();
