@@ -186,7 +186,7 @@
       return bodyElement;
     };
 
-    function setEvents() {//TODO remove unnecessary code
+    function setEvents() {
       root
         .addEventListener('click', function (e) {
           if (e.target.classList.contains('calendar-button')) {
@@ -203,7 +203,7 @@
             that.trigger('monthChanged', [config.month]);
             return true;
           }
-          else if (e.target != this) {
+          else if (e.target.date) {
             that.trigger('daySelected', [e]);
             return true;
           }
@@ -251,6 +251,8 @@
       root.classList.add('calendar');
       container.appendChild(root);
 
+      config.merge(properties);
+
       render();
 
       //get set config
@@ -272,8 +274,6 @@
           render();
         }
       });
-
-      config.merge(properties);
 
       setEvents();
       that.trigger('load', [this]);
