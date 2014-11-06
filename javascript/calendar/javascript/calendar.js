@@ -27,12 +27,13 @@
       };
     this.container = container;
 
+
+    //TODO add today rendering
     this.showToday = function () {
       var today = new Date((new Date()).setHours(0, 0, 0, 0));
       config.month = today.getMonth() + 1;
       config.year = today.getFullYear();
       render();
-      //TODO add today rendering
       that.trigger('onDayChanged');
       return today;
     };
@@ -41,12 +42,12 @@
      * generating calendar model
      * @returns {{daysNames: Array, days: Array}}
      */
-    function generateCalendar() {//TODO use moment.js
+    function generateCalendar() {
       var i,
         date = moment([config.year, config.month - 1, 1]),
         maxDaysNumber = (1 + parseFloat(Math.ceil(30 / config.daysInWeek))) * config.daysInWeek;
 
-      //reseting model
+      //resetting model
       model = {
         daysNames: [],
         days: [],
@@ -95,6 +96,7 @@
       //here goes day template logic
       return day.toString();
     };
+
     /**
      * Getting day event
      * @param day
@@ -119,11 +121,28 @@
      * @returns {global.Calendar}
      */
       //TODO update selecting days
-    this.selectDays = function (styles, range) {
-      styles = styles || 'selected';
+    this.selectDays = function (range) {
+      var calendarBody = root.querySelector('.calendar-body');
+      Array.prototype.slice.call(calendarBody.childNodes)
+        .forEach(function (day) {
+          //styling selected days
+          if (day.date.isAfter(range.start) && day.date.isBefore(range.end)) {
+            day.classList.add('selected');
+          }
+
+          //styling start and end
+          if (day.date.calendar() == range.start.calendar()) {
+            day.classList.add('selected-start');
+          }
+
+          if (day.date.calendar() == range.end.calendar()) {
+            day.classList.add('selected-end');
+          }
+        });
       return this;
     };
 
+    //TODO set needed width while rendering
     this.renderCaption = function () {
       var captionElement = document.createElement('div');
       var tableString = '<button class="calendar-button desc"></button>'
@@ -155,7 +174,7 @@
       var bodyElement = document.createElement('div');
       model.days.map(function (day) {
         var dayElement = document.createElement('div');
-        dayElement.data = day.date;
+        dayElement.date = day.date;
         day.isInMonth ? dayElement.classList.add('day', 'in-month') : dayElement.classList.add('day', 'out-month');
         if (day.isWeekend) {
           dayElement.classList.add('weekend');
@@ -211,6 +230,7 @@
       return this;
     };
 
+    //TODO initialize config object
     /**
      * Initialize
      */
@@ -255,7 +275,7 @@
       config.merge(properties);
 
       setEvents();
-      that.trigger('onLoad', [this]);
+      that.trigger('load', [this]);
       return this;
     }
 

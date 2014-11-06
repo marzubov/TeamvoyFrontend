@@ -1,117 +1,118 @@
 (function (global, document) {
-    "use strict";
-    var DateRangePicker = global.DateRangePicker = function (container) {
-        DateRangePicker.superclass.constructor.call(this);
-        var that = this;
-        this.firstCalendar = {};
-        this.secondCalendar = {};
-        var range = this.range = {
-            start: new Date(2014, 10, 2),
-            end: new Date(2014, 10, 5)
-        };
-
-        this.getRange = function () {
-            return range;
-        };
-
-        this.render = function () {
-            that.firstCalendar.render();
-            that.secondCalendar.render();
-            that.firstCalendar.selectDays('selected', range);
-            that.secondCalendar.selectDays('selected', range);
-          //TODO add styles to the start day and end day of our range
-        };
-
-        /**
-         * Event handler on first date range picker calendar
-         * @param params
-         */
-        var firstHandler = function (params) {
-            var newDate = new Date(parseFloat(params.target.getAttribute('year')), parseFloat(params.target.getAttribute('month')) - 1
-                , parseFloat(params.target.getAttribute('day-number')));
-            if (newDate.getTime() == range.end.getTime()) {
-                return false;
-            }
-            if (range.start.getTime() > newDate.getTime()) {
-                var dateDifference = range.end.getTime() - range.start.getTime();
-                range.start = new Date(newDate.getTime() - dateDifference);
-            }
-            range.end = newDate;
-            that.render();
-        };
-
-        /**
-         * Event handler on second date range picker calendar
-         * @param params
-         */
-        var secondHandler = function (params) {
-            var newDate = new Date(parseFloat(params.target.getAttribute('year')), parseFloat(params.target.getAttribute('month')) - 1
-                , parseFloat(params.target.getAttribute('day-number')));
-            if (newDate.getTime() == range.start.getTime()) {
-                return false;
-            }
-            if (range.end.getTime() < newDate.getTime()) {
-                var dateDifference = range.end.getTime() - range.start.getTime();
-                range.end = new Date(newDate.getTime() + dateDifference);
-            }
-            range.start = newDate;
-
-            that.render();
-        };
-
-        /**
-         * Initializing
-         */
-        function init() {
-            that.firstCalendar = new Calendar(container, {style: "default", dateRangePicker: true});
-            that.secondCalendar = new Calendar(container, {style: "default", dateRangePicker: true});
-
-            //setting on calendars load events
-            that.firstCalendar.on('onLoad', function onFirstLoad() {
-                that.firstCalendar.selectDays('selected', range);
-              //TODO add styles to the start day of our range
-                that.secondCalendar.off('onFirstLoad');
-            });
-            that.secondCalendar.on('onLoad', function onSecondLoad() {
-                that.secondCalendar.selectDays('selected', range);
-              //TODO add styles to the end day of our range
-                that.secondCalendar.off('onSecondLoad');
-            });
-
-            //setting events
-            that.firstCalendar.on('onMonthChanged', function (e) {
-                that.firstCalendar.selectDays('selected', range);
-              //TODO add styles to the start day of our range
-            });
-            that.secondCalendar.on('onMonthChanged', function (e) {
-                that.secondCalendar.selectDays('selected', range);
-              //TODO add styles to the end day of our range
-            });
-            that.firstCalendar.on('onMouseDown', function (e) {
-                secondHandler(e);
-                that.firstCalendar.on('onMouseMove', secondHandler);
-            });
-            that.secondCalendar.on('onMouseDown', function (e) {
-                firstHandler(e);
-                that.secondCalendar.on('onMouseMove', firstHandler);
-            });
-            that.firstCalendar.on('onMouseUp', function (e) {
-                that.firstCalendar.off('onMouseMove', secondHandler);
-                that.firstCalendar.config = {year: range.start.getFullYear(), month: range.start.getMonth() + 1};
-                that.secondCalendar.config = {year: range.end.getFullYear(), month: range.end.getMonth() + 1};
-                that.render();
-                that.trigger('rangeChanged', [range]);
-            });
-            that.secondCalendar.on('onMouseUp', function (e) {
-                that.secondCalendar.off('onMouseMove', firstHandler);
-                that.firstCalendar.config = {year: range.start.getFullYear(), month: range.start.getMonth() + 1};
-                that.secondCalendar.config = {year: range.end.getFullYear(), month: range.end.getMonth() + 1};
-                that.render();
-                that.trigger('rangeChanged', [range]);
-            });
-        }
-
-        init.call(this);
+  "use strict";
+  var DateRangePicker = global.DateRangePicker = function (container) {
+    DateRangePicker.superclass.constructor.call(this);
+    var that = this;
+    this.firstCalendar = {};
+    this.secondCalendar = {};
+    var range = this.range = {
+      start: moment([2014, 10, 1]),
+      end: moment([2014, 10, 10])
     };
-    DateRangePicker.extend(EventMachine);
+
+    this.getRange = function () {
+      return range;
+    };
+
+    this.render = function () {
+      that.firstCalendar.render();
+      that.secondCalendar.render();
+      that.firstCalendar.selectDays(range);
+      that.secondCalendar.selectDays(range);
+    };
+
+    /**
+     * Event handler on first date range picker calendar
+     * @param e
+     */
+    var firstHandler = function (e) {
+      e.preventDefault();
+
+      if (!e.target.date) return false;
+      if (e.target.date.calendar() == range.end.calendar()) return false;
+      if (e.target.date.isBefore(range.start)) {
+        var difference = range.end.diff(range.start);
+        range.end = e.target.date.clone();
+        range.start = range.end.clone().subtract(difference,'milliseconds');
+      }
+      range.end = e.target.date.clone();
+      that.render();
+    };
+
+    /**
+     * Event handler on second date range picker calendar
+     * @param e
+     */
+    var secondHandler = function (e) {
+      e.preventDefault();
+
+      if (!e.target.date) return false;
+      if (e.target.date.calendar() == range.start.calendar()) return false;
+      if (e.target.date.isAfter(range.end)) {
+        var difference = range.end.diff(range.start);
+        range.start = e.target.date.clone();
+        range.end = range.start.clone().add(difference,'milliseconds');
+      }
+      range.start = e.target.date.clone();
+      that.render();
+    };
+
+    /**
+     * Initializing
+     */
+    function init() {
+      range.start.locale('en').format('LLL');
+      range.end.locale('en').format('LLL')
+
+      that.firstCalendar = new Calendar(container, {});
+      that.secondCalendar = new Calendar(container, {});
+
+      //setting on calendars load events
+
+      that.firstCalendar.selectDays(range);
+      that.secondCalendar.selectDays(range);
+
+      //adding mousedown listener
+      that.firstCalendar.getRoot().addEventListener('mousedown', function(e){
+        if (!e.target.date) return false;
+        secondHandler(e);
+        that.firstCalendar.getRoot().addEventListener('mousemove', secondHandler);
+      });
+      that.secondCalendar.getRoot().addEventListener('mousedown', function(e){
+        if (!e.target.date) return false;
+        firstHandler(e);
+        that.secondCalendar.getRoot().addEventListener('mousemove', firstHandler);
+      });
+
+      //adding mouseup listener
+      that.firstCalendar.getRoot().addEventListener('mouseup', function(e){
+        if (!e.target.date) return false;
+        that.firstCalendar.config = {month: range.start.get('month')+1};
+        that.secondCalendar.config = {month: range.end.get('month')+1};
+        secondHandler(e);
+        that.firstCalendar.getRoot().removeEventListener('mousemove', secondHandler);
+        that.render();
+      });
+      that.secondCalendar.getRoot().addEventListener('mouseup', function(e){
+        if (!e.target.date) return false;
+        that.firstCalendar.config = {month: range.start.get('month')+1};
+        that.secondCalendar.config = {month: range.end.get('month')+1};
+        firstHandler(e);
+        that.secondCalendar.getRoot().removeEventListener('mousemove', firstHandler);
+        that.render();
+      });
+
+      //adding monthChanged listener
+      that.firstCalendar.on('monthChanged', function(month){
+        that.render();
+      });
+      that.secondCalendar.on('monthChanged', function(month){
+        that.render();
+      });
+
+    }
+
+    init.call(this);
+  };
+  DateRangePicker.extend(EventMachine);
 })(window, document);
