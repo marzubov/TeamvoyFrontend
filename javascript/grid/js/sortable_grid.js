@@ -29,7 +29,7 @@
         }
 
         function changePageData(fromPagesData) {
-            var data, i, dataBody = root.querySelector('.data-body'), dataString = '', k = 0;
+            var data, i, dataBody = container.querySelector('.data-body'), dataString = '', k = 0;
             if (!fromPagesData) {
                 data = dataArray;
             } else {
@@ -130,91 +130,107 @@
 
         };
 
+        function renderHeader() {
+          root.classList.add("table");
+          root.classList.add("table-striped");
+          root.classList.add("table-bordered");
+
+          return '<thead><tr><td>' + config.headers.join('</td><td>') + '</td></thead>';
+
+        }
+
+        function renderBody(data){
+          var bodyString="";
+          if (config.columnTemplates) {
+            bodyString += '<tbody class="data-body">';
+            for (var i = 0; i < config.maxRows; i++) {
+              bodyString += "<tr>";
+              for (var j = 0; j < data[i].length; j++) {
+                if (config.columnTemplates[j]) {
+                  bodyString += '<td>' + config.columnTemplates[j](object[i]) + '</td>';
+
+                } else {
+                  bodyString += '<td>' + data[i][j] + '</td>';
+                }
+              }
+              bodyString += "</tr>";
+            }
+          } else {
+            bodyString += '<tbody class="data-body">';
+            if (!config.maxRows || config.maxRows > data.length) {
+              config.maxRows = data.length;
+            }
+            if (!maxDataLength) {
+              maxDataLength = data.length;
+            }
+            for (var i = 0; i < config.maxRows; i++) {
+              bodyString += '<tr><td>' + data[i].join('</td><td>') + '</td></tr>';
+            }
+          }
+          bodyString += '</tbody>';
+          //PagerObject = new Pager(pager, maxDataLength, that.goTo, config.maxRows);
+          return bodyString;
+        }
+
         function renderTable(sortable) {
+            if (config.changeData) {
+              var bodyTable = container.querySelector(".data-body");
+              bodyTable.innerHTML = renderBody(dataArray);
 
-            // Make headers
-            root.classList.add("table");
-            root.classList.add("table-striped");
-            root.classList.add("table-bordered");
 
-            var tableString = '<thead><tr><td>' + config.headers.join('</td><td>') + '</td></thead>';
-            // Make body
-
-            if (config.columnTemplates) {
-                tableString += '<tbody class="data-body">';
-                for (var i = 0; i < config.maxRows; i++) {
-                    tableString += "<tr>";
-                    for (var j = 0; j < dataArray[i].length; j++) {
-                        if (config.columnTemplates[j]) {
-                            tableString += '<td>' + config.columnTemplates[j](object[i]) + '</td>';
-
-                        } else {
-                            tableString += '<td>' + dataArray[i][j] + '</td>';
-                        }
-                    }
-                    tableString += "</tr>";
-                }
             } else {
-                tableString += '<tbody class="data-body">';
-                if (!config.maxRows) {
-                    config.maxRows = dataArray.length;
-                }
-                if (!maxDataLength) {
-                    maxDataLength = dataArray.length;
-                }
-                for (var i = 0; i < config.maxRows; i++) {
-                        tableString += '<tr><td>' + dataArray[i].join('</td><td>') + '</td></tr>';
-                }
+              // Make headers
+              var tableString = renderHeader();
+              tableString += renderBody(dataArray);
+              // Make body
+              root.innerHTML = tableString;
             }
-            tableString += '</tbody>';
-            root.innerHTML = tableString;
-
-            var headCells = root.querySelector('thead').querySelector('tr').querySelectorAll('td');
-            headCells = Array.prototype.slice.call(headCells);
-            headCells.forEach(function (el) {
-                el.classList.add('table-header');
-                if (!sortable) {
-                    el.addEventListener('click', headClicked);
-                }
-            });
-
-            // Places arrow in  head cell
-            function headClicked() {
-                var reverse;
-                if (this.classList.contains('asc')) {
-                    this.classList.add('desc');
-                    this.classList.remove('asc');
-                    reverse = 'desc';
-                }
-                else if (this.classList.contains('desc')) {
-                    this.classList.add('asc');
-                    this.classList.remove('desc');
-                    reverse = 'asc';
-                }
-                // Sort new column
-                else {
-                    reverse = 'asc';
-                    deleteArrows();
-                    this.classList.add('asc');
-                }
-                sortedColumn = this.cellIndex;
-                sortTable(sortedColumn, reverse);
+          var headCells = container.querySelector('thead').querySelector('tr').querySelectorAll('td');
+          headCells = Array.prototype.slice.call(headCells);
+          headCells.forEach(function (el) {
+            el.classList.add('table-header');
+            if (!sortable) {
+              el.addEventListener('click', headClicked);
             }
+          });
 
-            // When another cell clicked
-            function deleteArrows() {
-                // CAN BE ZERO THEN TRUE
-                if (sortedColumn !== undefined) {
-                    headCells[sortedColumn].classList.remove('desc');
-                    headCells[sortedColumn].classList.remove('asc');
-                }
+          // Places arrow in  head cell
+          function headClicked() {
+            var reverse;
+            if (this.classList.contains('asc')) {
+              this.classList.add('desc');
+              this.classList.remove('asc');
+              reverse = 'desc';
             }
+            else if (this.classList.contains('desc')) {
+              this.classList.add('asc');
+              this.classList.remove('desc');
+              reverse = 'asc';
+            }
+            // Sort new column
+            else {
+              reverse = 'asc';
+              deleteArrows();
+              this.classList.add('asc');
+            }
+            sortedColumn = this.cellIndex;
+            sortTable(sortedColumn, reverse);
+          }
 
-            PagerObject = new Pager(pager, maxDataLength, that.goTo, config.maxRows);
-            if (dataArray.length == maxDataLength) {
-                //draggable = new Draggable(root, dataArray);
-                //filterable = new Filterable(root, dataArray);
+          // When another cell clicked
+          function deleteArrows() {
+            // CAN BE ZERO THEN TRUE
+            if (sortedColumn !== undefined) {
+              headCells[sortedColumn].classList.remove('desc');
+              headCells[sortedColumn].classList.remove('asc');
             }
+          }
+
+          PagerObject = new Pager(pager, maxDataLength, that.goTo, config.maxRows);
+          if (dataArray.length == maxDataLength) {
+            //draggable = new Draggable(root, dataArray);
+            //filterable = new Filterable(root, dataArray);
+          }
         }
 
         this.filter = function (e) {
@@ -258,6 +274,7 @@
             else {
                 changePageData(true);
             }
+          var filterable = new Filterable(config, dataArray, container, root);
             //var filterable = new Filterable(container, root);
             //console.log(dataArray);
             //filterable.enable(2);
@@ -266,10 +283,17 @@
         }
 
         function init() {
+
+          if (config.changeData) {
+            pager = container.querySelector(".pages");
+          } else {
             root = document.createElement('table');
-            pager = document.createElement('nav');
+          pager = document.createElement('nav');
+          pager.classList.add("pages");
             container.appendChild(root);
             container.appendChild(pager);
+        }
+
             that = this;
             if (typeof config.arrayOrURL == 'string') {
                 //console.log('dataArray == null');
@@ -279,8 +303,8 @@
                     getData(config.arrayOrURL);
                 }
             } else {
-                dataArray = config.arrayOrURL;
-                renderTable.call(this);
+              dataArray = config.arrayOrURL;
+              renderTable.call(this);
             }
         }
 
@@ -312,22 +336,18 @@
             sortTable();
         };
 
-        this.refresh = function (newDataArray, newConfig, newMaxRows) {
+        this.refresh = function (newDataArray, newConfig) {
             if (newDataArray) {
                 dataArray = newDataArray;
             }
             if (newConfig) {
                 config = newConfig;
             }
-            if (newMaxRows) {
-                config.maxRows = newMaxRows;
-            }
-
             pager.innerHTML = "";
             pager.className = "";
             root.innerHTML = "";
             pager.innerHTML = "";
-            if (dataArray.length == maxDataLength) renderTable(false);
+            if (dataArray.length == newConfig.maxRows) renderTable(false);
             else renderTable(true);
             that.goTo(1);
         };

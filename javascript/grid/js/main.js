@@ -23,6 +23,7 @@
             'headers': ['1', '2', '3', '4', '5'],
             'maxRows': 5,
             'arrayOrURL' : numberArray,
+            'changeData': false,
             'columnTemplates': false
         };
 
@@ -30,6 +31,7 @@
           'headers': ['1', '2', '3', '4', '5'],
           'maxRows': 5,
           'arrayOrURL' : stringArray,
+          'changeData': false,
           'columnTemplates': false
         };
 
@@ -37,6 +39,7 @@
             'headers': ['1', '2', '3', '4', '5'],
             'maxRows': 5,
             'arrayOrURL': 'http://localhost:8001',
+            'changeData': false,
             'loadByParts': true,
             'columnTemplates': {
                 1: Handlebars.compile("<b>{{age2}}</b>")
@@ -47,6 +50,7 @@
             'headers': ['1', '2', '3', '4', '5'],
             'maxRows': 5,
             'arrayOrURL': 'http://localhost:8001',
+          'changeData': false,
             'loadByParts': false,
             'columnTemplates': false
         };
@@ -55,6 +59,7 @@
             'headers': ['1', '2', '3', '4', '5'],
             'maxRows': 5,
             'arrayOrURL': 'http://localhost:8001',
+          'changeData': false,
             'loadByParts': false,
             'columnTemplates': {
                 1: Handlebars.compile("<i><b>{{age2}}</b></i>"),
@@ -67,7 +72,6 @@
 
         container = document.getElementById('filterable');
         filteredTable = new SortableGrid(container, configObject2).getCreatedElement();
-        var filterable = new Filterable(container, filteredTable.getRoot());
 
 
         container = document.getElementById('fullServerData');
