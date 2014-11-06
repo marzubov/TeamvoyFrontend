@@ -1,7 +1,7 @@
 (function (global, document) {
     "use strict";
     global.SortableGrid = function SortableGrid(container, config) {
-        var root, pager, maxDataLength, pagesData = [], sortedColumn, pageIndex = 1, that, draggable, filterable, object, dataArray=[];
+        var root, pager, maxDataLength, pagesData = [], sortedColumn, pageIndex = 1, that, PagerObject, filterable, object, dataArray=[];
 
         function getData(url, start, end) {
             url += '/getdata';
@@ -112,7 +112,7 @@
                 return;
             }
             pageIndex = newPageIndex;
-            if (pager.childNodes.length) changePagerSelection(pager, pageIndex);
+            if (pager.childNodes.length) PagerObject.changePagerSelection(pager, pageIndex);
             if (dataArray.length === maxDataLength) {
                 changePageData(false);
             } else {
@@ -210,7 +210,7 @@
                 }
             }
 
-            new RenderPager(pager, maxDataLength, that.goTo, config.maxRows);
+            PagerObject = new Pager(pager, maxDataLength, that.goTo, config.maxRows);
             if (dataArray.length == maxDataLength) {
                 //draggable = new Draggable(root, dataArray);
                 //filterable = new Filterable(root, dataArray);

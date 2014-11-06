@@ -1,7 +1,6 @@
 ##SortableGrid.js
 
 Component Table is created without any javascript libraries.
-All styles for tables were used with bootstrap.css.
 
 For creating the table such code is used:
 
