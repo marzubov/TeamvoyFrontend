@@ -232,17 +232,6 @@
           }
         }
 
-        this.filter = function (e) {
-            var index = 0;
-            Array.prototype.slice.call(root.rows)
-                .forEach(function (row) {
-                    if (index == 0){index = 1; return;}
-                    var text = row.cells[1].textContent.toLowerCase(), val = e.target.value.toLowerCase();
-                    row.hidden = text.indexOf(val) == -1;
-                });
-            console.log('filtered');
-        };
-
         function xhrOnLoad(xhr) {
             var receivedText = xhr.responseText.split("__obj__"),
                 receivedObject = JSON.parse(receivedText[0]),
@@ -320,39 +309,10 @@
             return dataArray;
         };
 
-        this.deleteAllArrows = function () {
-            var headCells = Array.prototype.slice.call(root.rows[0].cells);
-            headCells.forEach(function (el) {
-                el.classList.remove('desc');
-                el.classList.remove('asc');
-            });
-        };
-
         this.sort = function () {
             sortTable();
         };
 
-        this.refresh = function (newDataArray, newConfig) {
-            if (newDataArray) {
-                dataArray = newDataArray;
-            }
-            if (newConfig) {
-                config = newConfig;
-            }
-            pager.innerHTML = "";
-            pager.className = "";
-            root.innerHTML = "";
-            pager.innerHTML = "";
-            if (dataArray.length == newConfig.maxRows) renderTable(false);
-            else renderTable(true);
-            that.goTo(1);
-        };
-
         init.call(this);
     };
-    SortableGrid.prototype = new EventMachine();
-    SortableGrid.functions = {change: "",
-    click: "sadasdsa"
-    };
-
 })(window, document);
