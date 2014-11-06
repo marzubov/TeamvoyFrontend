@@ -1,7 +1,10 @@
 (function (global, document) {
     "use strict";
     global.SortableGrid = function SortableGrid(container, config) {
-        var root, pager, maxDataLength, pagesData = [], sortedColumn, pageIndex = 1, that, PagerObject, filterable, object, dataArray=[];
+        var pagesData = [],
+            pageIndex = 1,
+            dataArray=[],
+            root, pager, maxDataLength, sortedColumn, that, PagerObject, object;
 
         function getData(url, start, end) {
             url += '/getdata';
@@ -295,10 +298,6 @@
 
         this.getCreatedElement = function () {
             return this;
-        };
-
-        this.renderTable = function () {
-            return renderTable();
         };
 
         this.getRoot = function () {
