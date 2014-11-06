@@ -1,9 +1,2 @@
-﻿var tree = new BinaryTree(10);
-tree.add(8);
-tree.add(2);
-tree.add(15);
-tree.add(30);
-tree.add(3);
-tree.add(4);
-tree.add(17);
-tree.add(21);
+﻿var tree = new BinaryTree();
+tree.addArray([8,5,2,10,39,20,1,3,99,98]);
