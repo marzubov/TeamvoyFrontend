@@ -30,13 +30,13 @@ button {
 .main-header {
     height: 60px;
     overflow: hidden;
+  min-width: 760px;
 }
 .calendar-options {
     overflow: hidden;
 }
 .gplus-menu{
-  position: absolute;
-  right: 0;
+  float: right;
 }
 .logo {
     height: 35px;
@@ -45,11 +45,12 @@ button {
     left: 0;
 }
 .search{
+  float : right;
   height: 30px;
-  width: 580px;
+  max-width: 590px;
 }
 .search-box{
-
+  margin-left: 204px;
   max-width: 650px;
 }
 .search-button{
@@ -80,7 +81,3 @@ button {
     overflow: auto;
   padding: 10px;
 }
-
-.main-header .search-box {
-  padding: 10px;}
-nav {padding: 10px;}
