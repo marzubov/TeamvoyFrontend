@@ -1,7 +1,6 @@
 ##SortableGrid.js
 
 Component Table is created without any javascript libraries.
-All styles for tables were used with bootstrap.css.
 
 For creating the table such code is used:
 
@@ -11,13 +10,12 @@ For creating the table such code is used:
   var container = document.getElementById('fullServerData');
   var grid = new SortableGrid(
      container,
-     null,
      {
         'headers': ['1', '2', '3', '4', '5'],
         'maxRows': 5,
-        'url': 'http://localhost:8001',
+        'arrayOrURL': 'http://localhost:8001',
         'loadByParts': false,
-        'withTemplates': false
+        'columnTemplates': false
      }
   );
 </script>
@@ -49,14 +47,14 @@ var configObjectFullLoadingWithTemplate = {
   'headers': ['1', '2', '3', '4', '5'],
   // {number} count of rows on one page
   'maxRows': 5,
-  // {string} the url to the local server
-  'url': 'http://localhost:8001',
+  // {string or array} the url to the local server
+  //or the array with data for table
+  'arrayOrURL': 'http://localhost:8001',
    // {boolean} whether the file will be load partial by pages or not
   'loadByParts': false,
-  // {boolean} whether we use template in columns or not
-  'withTemplates': true,
-  // {object} if the table columns will be created with templates,
-  //in this option use: index of column and function with template
+  // {object or boolean} if we don't use templates use {false}
+  // if the table columns will be created with templates,
+  // in this option use: index of column and function with template
   'columnTemplates': {
      1: Handlebars.compile("<i><b>{{age2}}</b></i>"),
      4: Handlebars.compile("<u>{{age5}}</u>")
@@ -64,7 +62,6 @@ var configObjectFullLoadingWithTemplate = {
 };
 var fullDataTable = new SortableGrid(
   container,
-  null,
   configObjectFullLoadingWithTemplate
 );
 </script>
@@ -97,12 +94,12 @@ You can create the table with your array, such as:
   var container = document.getElementById("gridForTable");
   var configObject = {
      'headers': ['1', '2', '3', '4', '5'],
+     'arrayOrURL' : dataForTable,
      'maxRows': 5,
-     'withTemplates': false
+     'columnTemplates': false
   };
   var tableWithArray = new SortableGrid(
     container,
-    dataForTable,
     configObject
   );
 </script>
@@ -117,13 +114,12 @@ Also you can create the table with data from file:
   var configObject = {
      'headers': ['1', '2', '3', '4', '5'],
      'maxRows': 5,
-     'url': 'http://localhost:8001',
+     'arrayOrURL': 'http://localhost:8001',
      'loadByParts': false,
-     'withTemplates': false
+     'columnTemplates': false
   };
   var tableWithFile = new SortableGrid(
     container,
-    null,
     configObject
   );
 </script>
@@ -149,13 +145,12 @@ You can create the draggable table with such code:
   var container = document.getElementById('fullServerData');
   var grid = new SortableGrid(
      container,
-     null,
      {
         'headers': ['1', '2', '3', '4', '5'],
         'maxRows': 5,
-        'url': 'http://localhost:8001',
+        'arrayOrURL': 'http://localhost:8001',
         'loadByParts': false,
-        'withTemplates': false
+        'columnTemplates': false
      }
   ).getCreatedElement();
   var draggable = new Draggable(
@@ -184,13 +179,12 @@ You can create table with filter with such code:
   var container = document.getElementById('fullServerData');
   var grid = new SortableGrid(
      container,
-     null,
      {
         'headers': ['1', '2', '3', '4', '5'],
         'maxRows': 5,
-        'url': 'http://localhost:8001',
+        'arrayOrURL': 'http://localhost:8001',
         'loadByParts': false,
-        'withTemplates': false
+        'columnTemplates': false
      }
   ).getCreatedElement();
   var filterable = new Filterable(grid.getRoot());

@@ -27,9 +27,6 @@
       };
     this.container = container;
 
-    /**
-     * Show current day in calendar
-     */
     this.showToday = function () {
       var today = new Date((new Date()).setHours(0, 0, 0, 0));
       config.month = today.getMonth() + 1;
@@ -49,18 +46,23 @@
         date = moment([config.year, config.month - 1, 1]),
         maxDaysNumber = (1 + parseFloat(Math.ceil(30 / config.daysInWeek))) * config.daysInWeek;
 
+      //reseting model
       model = {
         daysNames: [],
         days: [],
         currentMonth: ''
       };
-      date.locale(config.locale).format('LLL');
-      model.currentMonth = date.format('MMMM');
+
+      date.locale(config.locale).format('LLL');//change locale
+      model.currentMonth = date.format('MMMM');//get current month
+
+      //set calendar start date
       while (date.format('ddd').toLowerCase() != config.firstDayOfWeek.toLowerCase()) {
         date.subtract(1, 'days');
       }
       i = 0;
 
+      //generating days array
       while (i < maxDaysNumber) {
         var isWeekend = false;
         config.weekends.map(function (day, i) {
@@ -78,7 +80,7 @@
       }
 
       i = 0;
-
+      //generating days names array
       while (i < config.daysInWeek) {
         model.daysNames.push({
           name: model.days[i].date.format('ddd'),
@@ -99,14 +101,7 @@
      * @returns {*}
      */
     this.getDayEvent = function (day) {
-      var _dayEvents = {};
-      Array.prototype.slice.call(config.dayEvents)
-        .forEach(function (dayEvent) {
-          if (dayEvent[day]) {
-            _dayEvents = dayEvent[day];
-          }
-        });
-      return _dayEvents;
+      return day;
     };
 
     /**
@@ -126,22 +121,9 @@
       //TODO update selecting days
     this.selectDays = function (styles, range) {
       styles = styles || 'selected';
-      rowsForEach(that.getRoot().rows, function (cell) {
-        var currentDate = new Date(parseFloat(cell.getAttribute('year'))
-          , parseFloat(cell.getAttribute('month')) - 1, parseFloat(cell.getAttribute('day-number')));
-        if ((range.start.getTime() <= currentDate.getTime()) && (currentDate.getTime() <= range.end.getTime())) {
-          cell.classList.add(styles);
-        }
-      });
       return this;
     };
 
-    /**
-     *
-     * @returns {HTMLElement}
-     */
-
-      //TODO render divs not table
     this.renderCaption = function () {
       var captionElement = document.createElement('div');
       var tableString = '<button class="calendar-button desc"></button>'
@@ -152,10 +134,6 @@
       return captionElement;
     };
 
-    /**
-     *
-     * @returns {HTMLElement}
-     */
     this.renderHeader = function () {
       if (config.daysInWeek / 7 - Math.floor(config.daysInWeek / 7) != 0) return false;
       var headerElement = document.createElement('div');
@@ -173,21 +151,12 @@
       return headerElement;
     };
 
-    /**
-     *
-     * @returns {HTMLElement}
-     */
     this.renderBody = function () {
       var bodyElement = document.createElement('div');
       model.days.map(function (day) {
         var dayElement = document.createElement('div');
         dayElement.data = day.date;
         day.isInMonth ? dayElement.classList.add('day', 'in-month') : dayElement.classList.add('day', 'out-month');
-        //if (day.isInMonth){
-        //  dayElement.classList.add('day', 'in-month');
-        //}else{
-        //  dayElement.classList.add('day', 'out-month');
-        //}
         if (day.isWeekend) {
           dayElement.classList.add('weekend');
         }
@@ -196,11 +165,8 @@
       });
       bodyElement.classList.add('calendar-body');
       return bodyElement;
-    }
+    };
 
-    /**
-     * Setting events on table
-     */
     function setEvents() {//TODO remove unnecessary code
       root
         .addEventListener('click', function (e) {
@@ -215,37 +181,15 @@
               config.month = 12;
             }
             render();
-            that.trigger('onMonthChanged', [e]);
+            that.trigger('monthChanged', [config.month]);
             return true;
           }
           else if (e.target != this) {
-            that.trigger('onDayChanged', [e]);
+            that.trigger('daySelected', [e]);
             return true;
           }
           return false;
         });
-
-      root.addEventListener('mousedown', function (e) {
-        if ((e.target.classList.contains('out-month'))
-          || (e.target.classList.contains('in-month'))) {
-          that.trigger('onMouseDown', [e]);
-        }
-      });
-
-      root.addEventListener('mousemove', function (e) {
-        if ((e.target.classList.contains('out-month'))
-          || (e.target.classList.contains('in-month'))) {
-          that.trigger('onMouseMove', [e]);
-          e.preventDefault();
-        }
-      });
-
-      root.addEventListener('mouseup', function (e) {
-        if ((e.target.classList.contains('out-month'))
-          || (e.target.classList.contains('in-month'))) {
-          that.trigger('onMouseUp', [e]);
-        }
-      });
     }
 
     /**
@@ -263,7 +207,6 @@
 
       root.querySelector('.calendar-body').parentNode
         .replaceChild(that.renderBody(), root.querySelector('.calendar-body'));
-      root.classList.add('calendar');
 
       return this;
     };
@@ -272,6 +215,8 @@
      * Initialize
      */
     function init() {
+
+      //initializing elements
       root = document.createElement('div');
       var caption = document.createElement('div'),
         header = document.createElement('div'),
@@ -279,13 +224,15 @@
       caption.classList.add('calendar-caption');
       header.classList.add('calendar-header');
       body.classList.add('calendar-body');
-
       root.appendChild(caption);
       root.appendChild(header);
       root.appendChild(body);
-      render();
-      that.trigger('onLoad', [this]);
+      root.classList.add('calendar');
       container.appendChild(root);
+
+      render();
+
+      //get set config
       Object.defineProperty(that, "config", {
         get: function () {
           return config;
@@ -308,6 +255,7 @@
       config.merge(properties);
 
       setEvents();
+      that.trigger('onLoad', [this]);
       return this;
     }
 

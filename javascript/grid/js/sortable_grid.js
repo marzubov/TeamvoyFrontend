@@ -1,7 +1,7 @@
 (function (global, document) {
     "use strict";
-    global.SortableGrid = function SortableGrid(container, dataArray, config) {
-        var root, pager, maxDataLength, pagesData = [], sortedColumn, pageIndex = 1, that, draggable, filterable, object;
+    global.SortableGrid = function SortableGrid(container, config) {
+        var root, pager, maxDataLength, pagesData = [], sortedColumn, pageIndex = 1, that, PagerObject, filterable, object, dataArray=[];
 
         function getData(url, start, end) {
             url += '/getdata';
@@ -38,7 +38,7 @@
             if (!fromPagesData) {
                 for (i = (pageIndex - 1) * config.maxRows; i < pageIndex * config.maxRows; i++) {
                     dataString += "<tr>";
-                    if (config.withTemplates) {
+                    if (config.columnTemplates) {
                         for (var j = 0; j < data[i].length; j++) {
 
                             if (config.columnTemplates[j]) {
@@ -56,7 +56,7 @@
             } else {
                 for (i = 0; i < config.maxRows; i++) {
                     dataString += "<tr>";
-                    if (config.withTemplates) {
+                    if (config.columnTemplates) {
                     for (var j = 0; j < data[i].length; j++) {
 
                             if (config.columnTemplates[j]) {
@@ -85,7 +85,7 @@
             });
             reverse === 'desc' ? dataArray.reverse() : 0;
             var keyIndex = 0;
-            if (config.withTemplates) {
+            if (config.columnTemplates) {
               object.forEach(function (el) {
                 var key, elementIndex = 0;
                 for (key in el) {
@@ -112,14 +112,14 @@
                 return;
             }
             pageIndex = newPageIndex;
-            if (pager.childNodes.length) changePagerSelection(pager, pageIndex);
+            if (pager.childNodes.length) PagerObject.changePagerSelection(pager, pageIndex);
             if (dataArray.length === maxDataLength) {
                 changePageData(false);
             } else {
                 if (!pagesData[pageIndex - 1]) {
                     if (dataArray.length != maxDataLength) {
                         console.log("new request");
-                        getData(config.url, (pageIndex - 1) * config.maxRows, pageIndex * config.maxRows);
+                        getData(config.arrayOrURL, (pageIndex - 1) * config.maxRows, pageIndex * config.maxRows);
                     } else {
                         changePageData(false);
                     }
@@ -140,7 +140,7 @@
             var tableString = '<thead><tr><td>' + config.headers.join('</td><td>') + '</td></thead>';
             // Make body
 
-            if (config.withTemplates) {
+            if (config.columnTemplates) {
                 tableString += '<tbody class="data-body">';
                 for (var i = 0; i < config.maxRows; i++) {
                     tableString += "<tr>";
@@ -210,7 +210,7 @@
                 }
             }
 
-            new RenderPager(pager, maxDataLength, that.goTo, config.maxRows);
+            PagerObject = new Pager(pager, maxDataLength, that.goTo, config.maxRows);
             if (dataArray.length == maxDataLength) {
                 //draggable = new Draggable(root, dataArray);
                 //filterable = new Filterable(root, dataArray);
@@ -258,6 +258,9 @@
             else {
                 changePageData(true);
             }
+            //var filterable = new Filterable(container, root);
+            //console.log(dataArray);
+            //filterable.enable(2);
             //alert('Response from CORS request to' + url + ': ' + xhr.responseText);
             return(xhr.responseText);
         }
@@ -268,15 +271,15 @@
             container.appendChild(root);
             container.appendChild(pager);
             that = this;
-
-            if (dataArray === null) {
+            if (typeof config.arrayOrURL == 'string') {
                 //console.log('dataArray == null');
                 if (config.loadByParts) {
-                    getData(config.url, 0, config.maxRows);
+                    getData(config.arrayOrURL, 0, config.maxRows);
                 } else {
-                    getData(config.url);
+                    getData(config.arrayOrURL);
                 }
             } else {
+                dataArray = config.arrayOrURL;
                 renderTable.call(this);
             }
         }
