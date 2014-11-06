@@ -198,15 +198,7 @@ You can create table with filter with such code:
 
 <div id="draggable" class="table-responsive"></div>
 
-###Table with filter
-
-<div id="filterable" class="table-responsive"></div>
-
-###Table with full data from server
-
-<div id="fullServerData" class="table-responsive"></div>
-
-###Table with full data from server with templates
+###Table with full data from server with templates with filter
 
 <div id="withTemplate" class="table-responsive"></div>
 

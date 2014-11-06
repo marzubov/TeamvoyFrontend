@@ -168,7 +168,6 @@
             }
           }
           bodyString += '</tbody>';
-          //PagerObject = new Pager(pager, maxDataLength, that.goTo, config.maxRows);
           return bodyString;
         }
 
@@ -274,11 +273,7 @@
             else {
                 changePageData(true);
             }
-          var filterable = new Filterable(config, dataArray, container, root);
-            //var filterable = new Filterable(container, root);
-            //console.log(dataArray);
-            //filterable.enable(2);
-            //alert('Response from CORS request to' + url + ': ' + xhr.responseText);
+            if (config.withFilter) new Filterable(config, dataArray, container, root);
             return(xhr.responseText);
         }
 
@@ -305,6 +300,7 @@
             } else {
               dataArray = config.arrayOrURL;
               renderTable.call(this);
+              if (config.withFilter) new Filterable(config, dataArray, container, root);
             }
         }
 

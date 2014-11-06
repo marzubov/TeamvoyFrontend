@@ -30,7 +30,7 @@ var Filterable = function (config, data, container, root){
     }
 
     function toggleSearchField() {
-        var selectField = document.querySelector('.field-choosing-column');
+        var selectField = container.querySelector('.field-choosing-column');
         var columnIndex = selectField.selectedIndex;
         if (generatedModel[columnIndex].classList.contains('filterable-active')) {
           that.disableSearchField(columnIndex);
