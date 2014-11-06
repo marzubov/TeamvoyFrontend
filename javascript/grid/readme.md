@@ -16,7 +16,7 @@ For creating the table such code is used:
         'maxRows': 5,
         'arrayOrURL': 'http://localhost:8001',
         'loadByParts': false,
-        'withTemplates': false
+        'columnTemplates': false
      }
   );
 </script>
@@ -53,10 +53,9 @@ var configObjectFullLoadingWithTemplate = {
   'arrayOrURL': 'http://localhost:8001',
    // {boolean} whether the file will be load partial by pages or not
   'loadByParts': false,
-  // {boolean} whether we use template in columns or not
-  'withTemplates': true,
-  // {object} if the table columns will be created with templates,
-  //in this option use: index of column and function with template
+  // {object or boolean} if we don't use templates use {false}
+  // if the table columns will be created with templates,
+  // in this option use: index of column and function with template
   'columnTemplates': {
      1: Handlebars.compile("<i><b>{{age2}}</b></i>"),
      4: Handlebars.compile("<u>{{age5}}</u>")
@@ -98,7 +97,7 @@ You can create the table with your array, such as:
      'headers': ['1', '2', '3', '4', '5'],
      'arrayOrURL' : dataForTable,
      'maxRows': 5,
-     'withTemplates': false
+     'columnTemplates': false
   };
   var tableWithArray = new SortableGrid(
     container,
@@ -118,7 +117,7 @@ Also you can create the table with data from file:
      'maxRows': 5,
      'arrayOrURL': 'http://localhost:8001',
      'loadByParts': false,
-     'withTemplates': false
+     'columnTemplates': false
   };
   var tableWithFile = new SortableGrid(
     container,
@@ -152,7 +151,7 @@ You can create the draggable table with such code:
         'maxRows': 5,
         'arrayOrURL': 'http://localhost:8001',
         'loadByParts': false,
-        'withTemplates': false
+        'columnTemplates': false
      }
   ).getCreatedElement();
   var draggable = new Draggable(
@@ -186,7 +185,7 @@ You can create table with filter with such code:
         'maxRows': 5,
         'arrayOrURL': 'http://localhost:8001',
         'loadByParts': false,
-        'withTemplates': false
+        'columnTemplates': false
      }
   ).getCreatedElement();
   var filterable = new Filterable(grid.getRoot());

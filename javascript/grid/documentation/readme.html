@@ -3,9 +3,9 @@
   <head>
     <title>example</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link type="text/css" rel="stylesheet" href="../assets/css/gh.css"/>
     <link rel="stylesheet" href="assets/css/style.css">
     <link type="text/css" rel="stylesheet" href="assets/css/prettify.css"/>
-
     <script type="text/javascript" src="../../library/event_machine.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
     <script src="../js/handlebars-v2.0.0.js" type="text/javascript"></script>
@@ -17,6 +17,7 @@
     <script src="../js/filterable.js" type="text/javascript"></script>
     <link href="../css/sortable_grid.css" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="assets/js/prettify.js"></script>
 
@@ -53,7 +54,7 @@ All styles for tables were used with bootstrap.css.</p>
         &#39;maxRows&#39;: 5,
         &#39;arrayOrURL&#39;: &#39;http://localhost:8001&#39;,
         &#39;loadByParts&#39;: false,
-        &#39;withTemplates&#39;: false
+        &#39;columnTemplates&#39;: false
      }
   );
 &lt;/script&gt;</pre>
@@ -80,10 +81,9 @@ var configObjectFullLoadingWithTemplate = {
   &#39;arrayOrURL&#39;: &#39;http://localhost:8001&#39;,
    // {boolean} whether the file will be load partial by pages or not
   &#39;loadByParts&#39;: false,
-  // {boolean} whether we use template in columns or not
-  &#39;withTemplates&#39;: true,
-  // {object} if the table columns will be created with templates,
-  //in this option use: index of column and function with template
+  // {object or boolean} if we don&#39;t use templates use {false}
+  // if the table columns will be created with templates,
+  // in this option use: index of column and function with template
   &#39;columnTemplates&#39;: {
      1: Handlebars.compile(&quot;&lt;i&gt;&lt;b&gt;{{age2}}&lt;/b&gt;&lt;/i&gt;&quot;),
      4: Handlebars.compile(&quot;&lt;u&gt;{{age5}}&lt;/u&gt;&quot;)
@@ -120,7 +120,7 @@ var fullDataTable = new SortableGrid(
      &#39;headers&#39;: [&#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;],
      &#39;arrayOrURL&#39; : dataForTable,
      &#39;maxRows&#39;: 5,
-     &#39;withTemplates&#39;: false
+     &#39;columnTemplates&#39;: false
   };
   var tableWithArray = new SortableGrid(
     container,
@@ -136,7 +136,7 @@ var fullDataTable = new SortableGrid(
      &#39;maxRows&#39;: 5,
      &#39;arrayOrURL&#39;: &#39;http://localhost:8001&#39;,
      &#39;loadByParts&#39;: false,
-     &#39;withTemplates&#39;: false
+     &#39;columnTemplates&#39;: false
   };
   var tableWithFile = new SortableGrid(
     container,
@@ -159,7 +159,7 @@ var fullDataTable = new SortableGrid(
         &#39;maxRows&#39;: 5,
         &#39;arrayOrURL&#39;: &#39;http://localhost:8001&#39;,
         &#39;loadByParts&#39;: false,
-        &#39;withTemplates&#39;: false
+        &#39;columnTemplates&#39;: false
      }
   ).getCreatedElement();
   var draggable = new Draggable(
@@ -183,7 +183,7 @@ You can turn on filterable with method enable() and turn out with disable() meth
         &#39;maxRows&#39;: 5,
         &#39;arrayOrURL&#39;: &#39;http://localhost:8001&#39;,
         &#39;loadByParts&#39;: false,
-        &#39;withTemplates&#39;: false
+        &#39;columnTemplates&#39;: false
      }
   ).getCreatedElement();
   var filterable = new Filterable(grid.getRoot());

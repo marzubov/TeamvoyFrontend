@@ -271,7 +271,6 @@
             container.appendChild(root);
             container.appendChild(pager);
             that = this;
-            console.log(typeof config.arrayOrURL);
             if (typeof config.arrayOrURL == 'string') {
                 //console.log('dataArray == null');
                 if (config.loadByParts) {
