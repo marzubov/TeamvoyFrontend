@@ -1,4 +1,4 @@
-﻿var tree = new BalancedBinaryTree(10);
+﻿var tree = new BinaryTree(10);
 tree.add(8);
 tree.add(2);
 tree.add(15);

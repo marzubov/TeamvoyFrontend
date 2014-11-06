@@ -1,5 +1,5 @@
 ﻿(function (document, window) {
-  window.BalancedBinaryTree = function (data, left, right) {
+  window.BinaryTree = function (data, left, right) {
     this.value = data;
     this.left = left;
     this.right = right;
@@ -12,7 +12,7 @@
     };
 
     this.add = function(value){
-      var tree = new BalancedBinaryTree(value);
+      var tree = new BinaryTree(value);
       this.value ?
         this.value > tree.value ?
           this.left ?
