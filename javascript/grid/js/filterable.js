@@ -8,24 +8,37 @@ var Filterable = function (container, table){
 
         //init
         that = this;
-      //generateFormForChooseFilter();
+        generateFormForChooseFilter();
         render();
     };
 
     function generateFormForChooseFilter() {
       var model = document.createDocumentFragment();
-      var filterChooseField = document.createElement('input');
-
-      filterChooseField.type = 'range';
-      filterChooseField.min = 1;
-      filterChooseField.max = table.rows[0].cells.length;
+      var filterChooseField = document.createElement('select');
+      filterChooseField.classList.add('field-choosing-column');
+      for (var i = 0; i < table.rows[0].cells.length; i++) {
+        var option = document.createElement('option');
+        option.innerHTML = i;
+        filterChooseField.appendChild(option);
+      }
       model.appendChild(filterChooseField);
       var chooseButton = document.createElement('input');
+      chooseButton.classList.add("filter-button");
       chooseButton.type = 'button';
       chooseButton.value = "Add filter field";
-      //chooseButton.addEventListener("click", func)
+      chooseButton.addEventListener("click", toggleSearchField);
       model.appendChild(chooseButton);
-      container.insertBefore(model, document.querySelector(".filterable-table"));
+      container.insertBefore(model, container.firstChild);
+    }
+
+    function toggleSearchField() {
+        var selectField = document.querySelector('.field-choosing-column');
+        var columnIndex = selectField.selectedIndex;
+        if (generatedModel[columnIndex].classList.contains('filterable-active')) {
+          that.disableSearchField(columnIndex);
+        } else {
+          that.enableSearchField(columnIndex);
+        }
     }
 
     function generateElement(index){
@@ -49,33 +62,35 @@ var Filterable = function (container, table){
             });
     }
 
-    this.enable = function(index){
+    this.enableSearchField = function(index){
 
         //enabling
         generatedModel[index].classList.add('filterable-active');
         generatedModel[index].setAttribute("column-index", index);
     };
 
-    this.disable = function(index){
+    this.disableSearchField = function(index){
 
         //disabling
         generatedModel[index].classList.remove('filterable-active');
     };
 
     function onChange(e) {
-
-      var index = 0;
+      var searchField = e.target,
+          informationFromSearch = searchField.value.toLowerCase(),
+          index = 0;
       Array.prototype.slice.call(table.rows)
         .forEach(function (row) {
           if (index == 0) {index++; return false;}
-          filter(row, e.target);
+
+          filter(row, searchField.getAttribute('column-index'), informationFromSearch);
         });
         return this.value;
     }
 
-    function filter(row, input) {
-        var text = row.cells[input.getAttribute('column-index')].textContent.toLowerCase(), val = input.value.toLowerCase();
-        row.style.display = text.indexOf(val) === -1 ? 'none' : 'table-row';
+    function filter(row, cellIndex, information) {
+        var text = row.cells[cellIndex].textContent.toLowerCase();
+        row.style.display = text.indexOf(information) === -1 ? 'none' : 'table-row';
     }
 
     this.init();

@@ -68,7 +68,7 @@
         container = document.getElementById('filterable');
         filteredTable = new SortableGrid(container, configObject2).getCreatedElement();
         var filterable = new Filterable(container, filteredTable.getRoot());
-        filterable.enable(2);
+        filterable.enableSearchField(2);
 
         container = document.getElementById('fullServerData');
         fullDataTable = new SortableGrid(container, configObjectFullLoading).getCreatedElement();
