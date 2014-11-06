@@ -30,10 +30,19 @@
 
     //TODO add today rendering
     this.showToday = function () {
-      var today = new Date((new Date()).setHours(0, 0, 0, 0));
-      config.month = today.getMonth() + 1;
-      config.year = today.getFullYear();
+      var today = moment();
+      today.locale('en');
+      config.month = today.get('month') + 1;
+      config.year = today.get('year');
       render();
+      var calendarBody = root.querySelector('.calendar-body');
+      Array.prototype.slice.call(calendarBody.childNodes)
+        .forEach(function (day) {
+          console.log(moment().diff(day.date, 'days'));
+          if (moment().diff(day.date, 'days') === 0) {
+            day.classList.add('today');
+          }
+        });
       that.trigger('onDayChanged');
       return today;
     };
@@ -120,7 +129,6 @@
      * @param range
      * @returns {global.Calendar}
      */
-      //TODO update selecting days
     this.selectDays = function (range) {
       var calendarBody = root.querySelector('.calendar-body');
       Array.prototype.slice.call(calendarBody.childNodes)
@@ -231,7 +239,6 @@
       return this;
     };
 
-    //TODO initialize config object
     /**
      * Initialize
      */
