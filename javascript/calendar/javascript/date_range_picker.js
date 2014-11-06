@@ -104,14 +104,12 @@
         that.secondCalendar.getRoot().removeEventListener('mousemove', firstHandler);
       });
 
-      //adding monthChanged listener
-      that.firstCalendar.on('render', function(month){
-
+      //adding render listener
+      that.firstCalendar.on('render', function(){
         that.firstCalendar.selectDays(range);
         that.secondCalendar.selectDays(range);
       });
-      that.secondCalendar.on('render', function(month){
-
+      that.secondCalendar.on('render', function(){
         that.firstCalendar.selectDays(range);
         that.secondCalendar.selectDays(range);
       });
