@@ -1,7 +1,9 @@
-﻿var thirdLeftRow = new BalancedBinaryTree(8);
-var thirdRightRow = new BalancedBinaryTree(12);
-
-var secondLeftRow = new BalancedBinaryTree(10, thirdLeftRow, thirdRightRow);
-var secondRightRow = new BalancedBinaryTree(20);
-
-var tree = new BalancedBinaryTree(15, secondLeftRow, secondRightRow);
+﻿var tree = new BalancedBinaryTree(10);
+tree.add(8);
+tree.add(2);
+tree.add(15);
+tree.add(30);
+tree.add(3);
+tree.add(4);
+tree.add(17);
+tree.add(21);
