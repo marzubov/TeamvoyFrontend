@@ -28,7 +28,8 @@ button {
 }
 
 .main-header {
-    height: 60px;
+  padding-top: 15px;
+    height: 45px;
     overflow: hidden;
   min-width: 760px;
 }
@@ -39,17 +40,18 @@ button {
   float: right;
 }
 .logo {
-    height: 35px;
-    width: 90px;
-    position: absolute;
-    left: 0;
+  height: 35px;
+  width: 90px;
+  float: left;
 }
 .search{
+  width: 100%;
   float : right;
   height: 30px;
   max-width: 590px;
 }
 .search-box{
+  height: 30px;
   margin-left: 204px;
   max-width: 650px;
 }
