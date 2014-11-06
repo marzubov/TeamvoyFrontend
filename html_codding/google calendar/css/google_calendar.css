@@ -1,5 +1,16 @@
 ﻿@import "../../reset.css";
-
+.show-grid .main-header{
+  background-color: #16a085;
+}
+.show-grid .calendar-options{
+  background-color: #3498db;
+}
+.show-grid .calendar{
+  background-color: #e74c3c;
+}
+.show-grid .calendar-menu{
+  background-color: #e67e22;
+}
 body {
   font-family: 'PT Sans', sans-serif;
   margin: 0;
@@ -13,22 +24,19 @@ button {
   border: none;
   padding: 5px 10px;
   border-radius: 3px;
-  margin: 5px;
   outline: none;
 }
 
 .main-header {
-    background-color: #16a085;
-    height: 45px;
+    height: 60px;
     overflow: hidden;
 }
 .calendar-options {
-    background-color: #3498db;
     overflow: hidden;
 }
 .gplus-menu{
-    position: absolute;
-    right: 0;
+  position: absolute;
+  right: 0;
 }
 .logo {
     height: 35px;
@@ -37,16 +45,24 @@ button {
     left: 0;
 }
 .search{
-    width: 200px;
+  height: 30px;
+  width: 580px;
 }
 .search-box{
-    position: absolute;
-    left: 15%;
-    right: 25%;
+
+  max-width: 650px;
+}
+.search-button{
+  float: right;
+  width: 60px;
+  height: 30px;
+  background-color: #4387FD;
+}
+.search-button::after{
+  content: url('img/rsz_ico_search.png');
 }
 .calendar {
   padding: 10px;
-    background-color: #e74c3c;
     position: absolute;
     top: 100px;
     bottom: 0;
@@ -56,7 +72,6 @@ button {
     empty-cells: show;
 }
 .calendar-menu{
-    background-color: #e67e22;
     position: absolute;
     width: 150px;
     top: 100px;
