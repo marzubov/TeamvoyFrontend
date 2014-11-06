@@ -5,26 +5,25 @@ var Filterable = function (container, table){
     var that, generatedModel=[], changeFunctions;
 
     this.init = function(){
-        //init
         that = this;
-        generateFormForChooseFilter();
+        renderFormForFilter();
         render();
     };
 
-    function generateFormForChooseFilter() {
+    function renderFormForFilter() {
       var model = document.createDocumentFragment();
       var filterChooseField = document.createElement('select');
       filterChooseField.classList.add('field-choosing-column');
       for (var i = 0; i < table.rows[0].cells.length; i++) {
         var option = document.createElement('option');
-        option.innerHTML = i;
+        option.innerHTML = i+1;
         filterChooseField.appendChild(option);
       }
       model.appendChild(filterChooseField);
       var chooseButton = document.createElement('input');
       chooseButton.classList.add("filter-button");
       chooseButton.type = 'button';
-      chooseButton.value = "Add filter field";
+      chooseButton.value = "Add/Remove filter field";
       chooseButton.addEventListener("click", toggleSearchField);
       model.appendChild(chooseButton);
       container.insertBefore(model, container.firstChild);
@@ -46,11 +45,11 @@ var Filterable = function (container, table){
         }
     }
 
-    function generateElement(index){
+    function renderSearchField(index){
         var filterField = document.createElement('input');
         filterField.classList.add('filterable');
         filterField.type = 'text';
-        filterField.addEventListener('keyup', onChange);
+        filterField.addEventListener('keyup', changeSearchField);
         //stopping click event on heading
         filterField.addEventListener('click', function(e){e.stopPropagation();});
         return filterField;
@@ -62,7 +61,7 @@ var Filterable = function (container, table){
       table.classList.add("filterable-table");
         Array.prototype.slice.call(table.rows[0].cells)
             .forEach(function (header) {
-                generatedModel.push(generateElement(index++));
+                generatedModel.push(renderSearchField(index++));
                 header.appendChild(generatedModel.slice(-1).pop());
             });
     }
@@ -80,7 +79,7 @@ var Filterable = function (container, table){
         generatedModel[index].classList.remove('filterable-active');
     };
 
-    function onChange(e) {
+    function changeSearchField(e) {
       var searchField = e.target,
           informationFromSearch = searchField.value.toLowerCase(),
           index = 0;
@@ -100,4 +99,4 @@ var Filterable = function (container, table){
 
     this.init();
 };
-Filterable.prototype = new EventMachine();
+
