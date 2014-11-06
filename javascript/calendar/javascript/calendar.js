@@ -227,6 +227,7 @@
       root.querySelector('.calendar-body').parentNode
         .replaceChild(that.renderBody(), root.querySelector('.calendar-body'));
 
+      that.trigger('render');
       return this;
     };
 

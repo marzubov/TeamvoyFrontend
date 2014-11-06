@@ -89,25 +89,31 @@
         if (!e.target.date) return false;
         that.firstCalendar.config = {month: range.start.get('month')+1};
         that.secondCalendar.config = {month: range.end.get('month')+1};
+        that.firstCalendar.config = {year: range.start.get('year')};
+        that.secondCalendar.config = {year: range.end.get('year')};
         secondHandler(e);
         that.firstCalendar.getRoot().removeEventListener('mousemove', secondHandler);
-        that.render();
       });
       that.secondCalendar.getRoot().addEventListener('mouseup', function(e){
         if (!e.target.date) return false;
         that.firstCalendar.config = {month: range.start.get('month')+1};
         that.secondCalendar.config = {month: range.end.get('month')+1};
+        that.firstCalendar.config = {year: range.start.get('year')};
+        that.secondCalendar.config = {year: range.end.get('year')};
         firstHandler(e);
         that.secondCalendar.getRoot().removeEventListener('mousemove', firstHandler);
-        that.render();
       });
 
       //adding monthChanged listener
-      that.firstCalendar.on('monthChanged', function(month){
-        that.render();
+      that.firstCalendar.on('render', function(month){
+
+        that.firstCalendar.selectDays(range);
+        that.secondCalendar.selectDays(range);
       });
-      that.secondCalendar.on('monthChanged', function(month){
-        that.render();
+      that.secondCalendar.on('render', function(month){
+
+        that.firstCalendar.selectDays(range);
+        that.secondCalendar.selectDays(range);
       });
 
     }
