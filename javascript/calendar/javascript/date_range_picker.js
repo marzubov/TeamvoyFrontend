@@ -93,11 +93,11 @@
 
       //adding mouseup listener
       document.addEventListener('mouseup', function (e) {
-        that.configMonthAndYear();
+        if (e.target.date) that.configMonthAndYear();
         document.removeEventListener('mousemove', secondHandler);
       });
       document.addEventListener('mouseup', function (e) {
-        that.configMonthAndYear();
+        if (e.target.date) that.configMonthAndYear();
         document.removeEventListener('mousemove', firstHandler);
       });
 
