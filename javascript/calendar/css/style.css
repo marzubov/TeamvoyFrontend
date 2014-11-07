@@ -4,20 +4,15 @@ input{
 .aside-config{
     float:right;
 }
-.what-year {
-    width: 140px;
-    height: 119px;
-    background-image: url(img/year.jpg);
-}
 .selected {
-    background: #ebf4f8 !important;
+    background: #ECF0F1 !important;
 }
 .selected-start{
-    background: dodgerblue !important;
+    background: #BDC3C7 !important;
 
-  border-radius: 5px ;
+  /*border-radius: 5px ;*/
 }
 .selected-end{
-    background: dodgerblue !important;
-  border-radius: 5px ;
+    background: #BDC3C7 !important;
+  /*border-radius: 5px ;*/
 }

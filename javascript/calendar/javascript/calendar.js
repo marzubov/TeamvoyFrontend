@@ -228,10 +228,12 @@
         },
         set: function (value) {
           for (var propName in value)
-            value[propName] = value[propName] ? value[propName] : config[propName];
-          if (value['month'] != config['month']) that.trigger('monthChanged');
-          config.merge(value);
-          render();
+            if (that.config.hasOwnProperty(propName)) {
+              value[propName] = value[propName] ? value[propName] : config[propName];
+              if (value['month'] != config['month']) that.trigger('monthChanged');
+              config.merge(value);
+              render();
+            }
         }
       });
 
