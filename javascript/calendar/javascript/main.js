@@ -17,8 +17,7 @@
       locale: "en", weekends:["Sat","Sun"]});
     var sixthCalendar = new Calendar(sixthContainer,{});
     var seventhCalendar = new DateRangePicker(seventhContainer);
-    var eightsCalendar = new Calendar(eightsContainer,{year: 2014, month: 5,firstDayOfWeek: "Mon",
-    locale: "en"});
+    var eightsCalendar = new Calendar(eightsContainer,{year: 2014, month: 5, locale: "fr"});
     seventhCalendar.firstCalendar.getRoot().classList.add('date-range-picker');
     seventhCalendar.secondCalendar.getRoot().classList.add('date-range-picker');
     document.querySelector('.btn').onclick = function () {
