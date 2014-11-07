@@ -57,9 +57,14 @@
 
       //set calendar start date
       while (date.format('ddd').toLowerCase() != config.firstDayOfWeek.toLowerCase()) {
+        i++;
         date.subtract(1, 'days');
+        if (i ==7) {
+          config.firstDayOfWeek = date.format('ddd');
+        }
       }
 
+      i=0;
       //generating days array
       while (i < maxDaysNumber) {
         var isWeekend = false;
