@@ -72,8 +72,10 @@
               that.dataObject.forEach(function (el) {
                 var key, elementIndex = 0;
                 for (key in el) {
-                  el[key] = that.dataArray[keyIndex][elementIndex];
-                  elementIndex += 1;
+                  if (el.hasOwnProperty(key)) {
+                    el[key] = that.dataArray[keyIndex][elementIndex];
+                    elementIndex += 1;
+                  }
                 }
                 keyIndex += 1;
               });
