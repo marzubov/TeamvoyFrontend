@@ -76,9 +76,9 @@
         return hovered;
       },
       set: function (element) {
-        hovered && (hovered.classList.remove('hover'));
+        hovered && hovered.classList && (hovered.classList.remove('hover'));
         hovered = element;
-        hovered && (hovered.classList.add('hover'));
+        hovered && hovered.classList && (hovered.classList.add('hover'));
         return hovered;
       }
     });
@@ -174,11 +174,11 @@
             that.hide();
             break;
           case 40://down
-            that.hovered = that.hovered.nextSibling || that.options.querySelector('.option');
+            that.hovered = that.hovered.nextSibling || that.options.firstChild;
             that.selected(that.hovered.dataset['value'], that.hovered.dataset['title']);
             break;
           case 38://up
-            that.hovered = that.hovered.previousSibling || that.options.querySelector(':last-child');
+            that.hovered = that.hovered.previousSibling || that.options.lastChild;
             that.selected(that.hovered.dataset['value'], that.hovered.dataset['title']);
             break;
           default :
