@@ -46,13 +46,13 @@
         };
 
         var container = document.getElementById('draggable');
-        draggableTable = new SortableGrid(container, configObject).getCreatedElement();
-        var draggable = new Draggable(draggableTable.getRoot(), draggableTable.getData());
+        draggableTable = new SortableGrid(container, configObject);
+        var draggable = new Draggable(draggableTable.root, draggableTable.dataArray);
 
         container = document.getElementById('withTemplate');
-        fullDataTable = new SortableGrid(container, configObjectFullLoadingWithTemplate).getCreatedElement();
+        fullDataTable = new SortableGrid(container, configObjectFullLoadingWithTemplate);
 
         container = document.getElementById('partialServerData');
-        partDataTable = new SortableGrid(container, configObjectPartialLoading).getCreatedElement();
+        partDataTable = new SortableGrid(container, configObjectPartialLoading);
     }, 10);
 })();

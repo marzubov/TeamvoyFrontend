@@ -1,11 +1,10 @@
-/**
- * Created by MU on 10/27/14.
- */
-var Filterable = function (config, data, container, root){
-    var that, generatedModel=[], changeFunctions, newData = [];
+var Filterable = function (grid){
+    var that, generatedModel=[], dataFromGrid, newData = [], configObj={};
 
     this.init = function(){
         that = this;
+        if (grid.dataObject) dataFromGrid = grid.dataObject;
+        else dataFromGrid = grid.dataArray;
         renderFormForFilter();
         render();
     };
@@ -14,7 +13,7 @@ var Filterable = function (config, data, container, root){
       var model = document.createDocumentFragment();
       var filterChooseField = document.createElement('select');
       filterChooseField.classList.add('field-choosing-column');
-      for (var i = 0; i < config.headers.length; i++) {
+      for (var i = 0; i < grid.config.headers.length; i++) {
         var option = document.createElement('option');
         option.innerHTML = i+1;
         filterChooseField.appendChild(option);
@@ -26,11 +25,11 @@ var Filterable = function (config, data, container, root){
       chooseButton.value = "Add/Remove filter field";
       chooseButton.addEventListener("click", toggleSearchField);
       model.appendChild(chooseButton);
-      container.insertBefore(model, container.firstChild);
+      grid.container.insertBefore(model, grid.container.firstChild);
     }
 
     function toggleSearchField() {
-        var selectField = container.querySelector('.field-choosing-column');
+        var selectField = grid.container.querySelector('.field-choosing-column');
         var columnIndex = selectField.selectedIndex;
         if (generatedModel[columnIndex].classList.contains('filterable-active')) {
           that.disableSearchField(columnIndex);
@@ -41,7 +40,6 @@ var Filterable = function (config, data, container, root){
               that.disableSearchField(i);
             }
           });
-
         }
     }
 
@@ -57,7 +55,7 @@ var Filterable = function (config, data, container, root){
 
     function render(){
         //adding your input element to the table headings
-        Array.prototype.slice.call(root.rows[0].cells)
+        Array.prototype.slice.call(grid.root.rows[0].cells)
             .forEach(function (header) {
                 generatedModel.push(renderSearchField());
                 header.appendChild(generatedModel.slice(-1).pop());
@@ -66,9 +64,8 @@ var Filterable = function (config, data, container, root){
 
     this.enableSearchField = function(index){
         var mykey, element, i = 0;
-        //enabling
         generatedModel[index].classList.add('filterable-active');
-        for (mykey in data[0]) {
+        for (mykey in dataFromGrid[0]) {
           if (i == index) element = mykey;
           i++;
         }
@@ -77,8 +74,6 @@ var Filterable = function (config, data, container, root){
     };
 
     this.disableSearchField = function(index){
-
-        //disabling
         generatedModel[index].classList.remove('filterable-active');
     };
 
@@ -86,31 +81,23 @@ var Filterable = function (config, data, container, root){
       var searchField = e.target,
           informationFromSearch = searchField.value.toLowerCase(), key;
         newData = [];
-        data.forEach(function (row, i) {
+        dataFromGrid.forEach(function (row, i) {
           if (filter(i, searchField.getAttribute('column-index'), informationFromSearch)) {
-            newData.push(data[i])
+            newData.push(dataFromGrid[i])
           }
         });
-
-        var configObj = {
-          'headers': config.headers,
-          'maxRows': config.maxRows,
-          'arrayOrURL': newData,
-          'withFilter': true,
-          'changeData': true,
-          'loadByParts': false,
-          'columnTemplates': config.columnTemplates
-        };
-        var a = new SortableGrid(container, configObj);
+        configObj.merge(grid.config);
+        configObj.arrayOrURL = newData;
+        configObj.changeData = true;
+        var a = new SortableGrid(grid.container, configObj);
         return newData;
     }
 
     function filter(row, cellIndex, information) {
-        var text = (data[row][cellIndex]).toString().toLowerCase();
+        var text = (dataFromGrid[row][cellIndex]).toString().toLowerCase();
         var check = (text.indexOf(information) === -1) ? false : true;
         return check;
     }
 
     this.init();
 };
-
