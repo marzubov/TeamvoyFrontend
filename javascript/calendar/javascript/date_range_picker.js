@@ -33,7 +33,7 @@
       if (e.target.date.isBefore(range.start)) {
         var difference = range.end.diff(range.start);
         range.end = e.target.date.clone();
-        range.start = range.end.clone().subtract(difference,'milliseconds');
+        range.start = range.end.clone().subtract(difference, 'milliseconds');
       }
       range.end = e.target.date.clone();
       that.render();
@@ -51,15 +51,15 @@
       if (e.target.date.isAfter(range.end)) {
         var difference = range.end.diff(range.start);
         range.start = e.target.date.clone();
-        range.end = range.start.clone().add(difference,'milliseconds');
+        range.end = range.start.clone().add(difference, 'milliseconds');
       }
       range.start = e.target.date.clone();
       that.render();
     };
 
-    this.configMonthAndYear = function (){
-      that.firstCalendar.config = {month: range.start.get('month')+1};
-      that.secondCalendar.config = {month: range.end.get('month')+1};
+    this.configMonthAndYear = function () {
+      that.firstCalendar.config = {month: range.start.get('month') + 1};
+      that.secondCalendar.config = {month: range.end.get('month') + 1};
       that.firstCalendar.config = {year: range.start.get('year')};
       that.secondCalendar.config = {year: range.end.get('year')};
     };
@@ -80,33 +80,33 @@
       that.secondCalendar.selectDays(range);
 
       //adding mousedown listener
-      that.firstCalendar.getRoot().addEventListener('mousedown', function(e){
+      that.firstCalendar.getRoot().addEventListener('mousedown', function (e) {
         if (!e.target.date) return false;
         secondHandler(e);
         document.addEventListener('mousemove', secondHandler);
       });
-      that.secondCalendar.getRoot().addEventListener('mousedown', function(e){
+      that.secondCalendar.getRoot().addEventListener('mousedown', function (e) {
         if (!e.target.date) return false;
         firstHandler(e);
         document.addEventListener('mousemove', firstHandler);
       });
 
       //adding mouseup listener
-      document.addEventListener('mouseup', function(e){
+      document.addEventListener('mouseup', function (e) {
         that.configMonthAndYear();
         document.removeEventListener('mousemove', secondHandler);
       });
-      document.addEventListener('mouseup', function(e){
+      document.addEventListener('mouseup', function (e) {
         that.configMonthAndYear();
         document.removeEventListener('mousemove', firstHandler);
       });
 
       //adding render listener
-      that.firstCalendar.on('render', function(){
+      that.firstCalendar.on('render', function () {
         that.firstCalendar.selectDays(range);
         that.secondCalendar.selectDays(range);
       });
-      that.secondCalendar.on('render', function(){
+      that.secondCalendar.on('render', function () {
         that.firstCalendar.selectDays(range);
         that.secondCalendar.selectDays(range);
       });

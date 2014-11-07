@@ -91,9 +91,8 @@ body{
 }
 
 .today{
-  border:1px solid #f5f5f5 !important;
-  font-weight: bold;
-  color: #f5f5f5;
+  background: #f5f5f5;
+  color: #4595AE;
 }
 
 .container{

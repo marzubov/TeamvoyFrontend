@@ -30,8 +30,8 @@
       config.year = today.get('year');
       render();
       Array.prototype.slice.call(root.querySelector('.calendar-body').childNodes)
-        .forEach(function (day) {
-          if (moment().diff(day.date, 'days') === 0) day.classList.add('today');
+        .some(function (day) {
+          if (moment().diff(day.date, 'days') === 0) return !day.classList.add('today');
         });
       return today;
     };
@@ -104,7 +104,7 @@
 
     /**
      * Get root element
-     * @returns {Element}
+     * @returns {element}
      */
     this.getRoot = function () {
       return root;
