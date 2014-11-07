@@ -181,8 +181,8 @@
               config.year--;
               config.month = 12;
             }
-            render();
             that.trigger('monthChanged', [config.month]);
+            render();
           }
           else if (e.target.date) that.trigger('daySelected', [e]);
         });
