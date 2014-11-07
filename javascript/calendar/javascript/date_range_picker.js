@@ -57,6 +57,13 @@
       that.render();
     };
 
+    this.configMonthAndYear = function (){
+      that.firstCalendar.config = {month: range.start.get('month')+1};
+      that.secondCalendar.config = {month: range.end.get('month')+1};
+      that.firstCalendar.config = {year: range.start.get('year')};
+      that.secondCalendar.config = {year: range.end.get('year')};
+    };
+
     /**
      * Initializing
      */
@@ -76,32 +83,22 @@
       that.firstCalendar.getRoot().addEventListener('mousedown', function(e){
         if (!e.target.date) return false;
         secondHandler(e);
-        that.firstCalendar.getRoot().addEventListener('mousemove', secondHandler);
+        document.addEventListener('mousemove', secondHandler);
       });
       that.secondCalendar.getRoot().addEventListener('mousedown', function(e){
         if (!e.target.date) return false;
         firstHandler(e);
-        that.secondCalendar.getRoot().addEventListener('mousemove', firstHandler);
+        document.addEventListener('mousemove', firstHandler);
       });
 
       //adding mouseup listener
-      that.firstCalendar.getRoot().addEventListener('mouseup', function(e){
-        if (!e.target.date) return false;
-        that.firstCalendar.config = {month: range.start.get('month')+1};
-        that.secondCalendar.config = {month: range.end.get('month')+1};
-        that.firstCalendar.config = {year: range.start.get('year')};
-        that.secondCalendar.config = {year: range.end.get('year')};
-        secondHandler(e);
-        that.firstCalendar.getRoot().removeEventListener('mousemove', secondHandler);
+      document.addEventListener('mouseup', function(e){
+        that.configMonthAndYear();
+        document.removeEventListener('mousemove', secondHandler);
       });
-      that.secondCalendar.getRoot().addEventListener('mouseup', function(e){
-        if (!e.target.date) return false;
-        that.firstCalendar.config = {month: range.start.get('month')+1};
-        that.secondCalendar.config = {month: range.end.get('month')+1};
-        that.firstCalendar.config = {year: range.start.get('year')};
-        that.secondCalendar.config = {year: range.end.get('year')};
-        firstHandler(e);
-        that.secondCalendar.getRoot().removeEventListener('mousemove', firstHandler);
+      document.addEventListener('mouseup', function(e){
+        that.configMonthAndYear();
+        document.removeEventListener('mousemove', firstHandler);
       });
 
       //adding render listener
