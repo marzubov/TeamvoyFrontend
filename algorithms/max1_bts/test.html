@@ -3,196 +3,20 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <title></title>
-  <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+  <script type="text/javascript" src="../../javascript/library/vendor/sigma.min.js"></script>
   <script type="text/javascript" src="bts.js"></script>
   <style type="text/css">
+    body {
+      margin: 0;
+    }
+    #container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
   </style>
 </head>
 <body>
-<script type="text/javascript">
-  function binaryTree() {
-    // Generate tree
-    ///////////////////////////////////
-    function generateBinaryTree(_size) {
-      var matrix = d3.range(_size).map(function (pD, pI) {
-        return d3.range(_size).map(function (d, i) {
-          return (pI < i && (i == pI * 2 + 1 || i == pI * 2 + 2)) ? 1 : 0;
-        });
-      });
-
-      var adjacencyList = {};
-      matrix.forEach(function (d, i) {
-        return d.forEach(function (d2, i2) {
-          if (!adjacencyList[i]) adjacencyList[i] = [];
-          if (!!d2) adjacencyList[i].push(i2);
-        });
-      });
-
-      console.log(matrix);
-
-      var objectList = {}
-      var level = 0;
-
-      function depthFirst(_rootNode) {
-        if (objectList[level] === undefined) objectList[level] = [];
-        objectList[level].push({
-          idx: _rootNode,
-          nodeName: 'node' + _rootNode,
-          linkName: 'link' + _rootNode,
-          children: adjacencyList[_rootNode],
-          level: level,
-          levelIdx: objectList[level].length
-        });
-        adjacencyList[_rootNode].forEach(function (d, i) {
-          level++;
-          depthFirst(d);
-        });
-        level--;
-      }
-
-      depthFirst(0);
-      console.log(d3.values(objectList));
-      return d3.values(objectList);
-    }
-
-    var randomBinaryTree = generateBinaryTree(20);
-
-    // SVG root
-    ///////////////////////////////////
-    var w = 900,
-      h = 500;
-
-    var svg = d3.select('body')
-      .append('svg')
-      .attr({width: w, height: h, xmlns: 'http://www.w3.org/2000/svg'});
-    var rootGroup = svg.append('g')
-      .classed('root', true)
-      .attr({transform: 'translate(0,0)'});
-
-    // Marker
-    ///////////////////////////////////
-    var markerW = 6;
-    var marker = svg.append('defs')
-      .append('marker')
-      .attr({
-        id: 'Triangle',
-        refX: markerW * 2,
-        refY: markerW,
-        markerUnits: 'userSpaceOnUse',
-        markerWidth: markerW + markerW,
-        markerHeight: markerW * 2 + markerW,
-        orient: '90deg'
-      })
-      .append('path')
-      .attr({d: 'M 0 0 ' + markerW * 2 + ' ' + markerW + ' 0 ' + markerW * 2 + ' ' + markerW / 2 + ' ' + markerW});
-
-    // Edges
-    ///////////////////////////////////
-    var linkGenerator = d3.svg.line()
-      .x(function (d, i) {
-        return d[0];
-      })
-      .y(function (d, i) {
-        return d[1];
-      })
-      .interpolate('bundle')
-      .tension(1);
-
-    var flatDataset = d3.merge(randomBinaryTree);
-    var linkPath = function (d, i, pI) {
-      var currentNode = flatDataset[pI];
-      var childNode = flatDataset[d];
-      var anchor1X = currentNode.levelIdx * (labelW + spacingHorizontal) + labelW / 2;
-      var anchor2X = childNode.levelIdx * (labelW + spacingHorizontal) + labelW / 2;
-      var anchor1Y = currentNode.level * (labelH + spacingVertical) + labelH;
-      var anchor2Y = childNode.level * (labelH + spacingVertical);
-      var deltaY = anchor2Y - anchor1Y;
-      var path = linkGenerator([
-        [anchor1X, anchor1Y],
-        [anchor1X, anchor1Y + deltaY / 4],
-        [anchor2X, anchor2Y - deltaY / 2],
-        [anchor2X, anchor2Y]
-      ]);
-      return path;
-    };
-
-    var labelW = 60;
-    var labelH = 20;
-    var spacingHorizontal = 20;
-    var spacingVertical = 60;
-
-    var levels = rootGroup.selectAll('g.level')
-      .data(randomBinaryTree)
-      .enter().append('g')
-      .classed('level', true);
-
-    var arrowGroup = levels.selectAll('g.arrow-group')
-      .data(function (d, i) {
-        return d;
-      })
-      .enter().append('g')
-      .classed('arrow-group', true);
-    arrowGroup.selectAll('path.arrow')
-      .data(function (d, i) {
-        return d.children;
-      })
-      .enter().append('path')
-      .classed('arrow', true)
-      .attr({
-        d: linkPath,
-        'marker-end': 'url(#Triangle)'
-      })
-      .style({fill: 'none', stroke: 'grey', opacity: 1, 'stroke-width': 2});
-
-    // Labels
-    ///////////////////////////////////
-    var labels = levels.selectAll('g.labels')
-      .data(function (d, i) {
-        return d;
-      })
-      .enter().append('g')
-      .classed('labels', true)
-      .attr({
-        transform: function (d, i, pI) {
-          return 'translate(' + (i * (labelW + spacingHorizontal)) + ',' + pI * (labelH + spacingVertical) + ')';
-        }
-      });
-    labels.append('rect')
-      .classed('label-frame', true)
-      .attr({
-        x: 0,
-        y: 0,
-        width: labelW,
-        height: labelH
-      })
-      .style({
-        fill: function (d, i) {
-          return (d.children.length == 0) ? 'yellowgreen' : '#336699';
-        }, stroke: 'grey'
-      });
-    labels.append('text')
-      .classed('label-text', true)
-      .attr({
-        x: 4,
-        y: 0,
-        dy: '1em'
-      })
-      .style({fill: 'white', 'font-family': 'Arial, sans-serif', 'font-size': '14px'})
-      .text(function (d, i) {
-        return d.nodeName;
-      });
-    labels.append('text')
-      .classed('link-label', true)
-      .attr({
-        x: 4,
-        y: 0,
-        dx: '2em',
-        dy: '-0.5em'
-      })
-      .text(function (d, i) {
-        return d.linkName;
-      });
-  }
-</script>
+<div id="container"></div>
 </body>
 </html>

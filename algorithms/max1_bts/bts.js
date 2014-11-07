@@ -1,12 +1,15 @@
 (function (global, document) {
   var BST = global.BST = function () {
-    var that = this;
-    var Node = function (key, leftChild, rightChild, parent, value) {
+    var ss,
+      that = this;
+    var Node = function (key, leftChild, rightChild, parent, value, x, y) {
       this.key = key;
       this.leftChild = leftChild;
       this.rightChild = rightChild;
       this.value = value;
       this.parent = parent;
+      this.x = x || 0;
+      this.y = y || 0;
       return this;
     };
 
@@ -15,16 +18,26 @@
         ? this.search(node.leftChild, key) : this.search(node.rightChild, key);
     };
 
-    this.insert = function (node, key, parent) {
+    this.insert = function (node, key, parent, deep) {
       if (!node.key) {
         node.key = key;
         node.leftChild = new Node();
         node.rightChild = new Node();
         node.parent = parent;
-        return true;
+        if (key<parent.key) {
+          node.x = parent.x- 1 - deep;
+
+          node.y = parent.y + 3;
+        }
+        else if(key > parent.key) {
+          node.x = parent.x+ 1 + deep;
+
+          node.y = parent.y + 3;
+        }
+        return {node: node, parent: parent };
       }
-      else if (key < node.key) that.insert(node.leftChild, key, node);
-      else if (key > node.key) that.insert(node.rightChild, key, node);
+      else if (key < node.key) return that.insert(node.leftChild, key, node, deep--);
+      else if (key > node.key) return that.insert(node.rightChild, key, node, deep--);
     };
 
     this.findMin = function (node) {
@@ -93,7 +106,7 @@
       return parent.key;
     };
 
-    this.sort = function(node){
+    this.sort = function (node) {
       node = node || that.root;
       var result = [];
       that.traverse(node, function (element) {
@@ -102,7 +115,7 @@
       return result;
     };
 
-    this.generateFromArray = function(data) {
+    this.generateFromArray = function (data) {
       this.root = new Node();
       for (var i = 0; i < data.length; i++) {
         that.insert(that.root, data[i]);
@@ -110,12 +123,66 @@
       return that;
     };
 
-    this.generateRandom = function(count) {
+    this.generateRandom = function (count) {
+      var s = new sigma('container');
       this.root = new Node();
       for (var i = 0; i < count; i++) {
-        that.insert(that.root, Math.floor(Math.random() * 1000));
+        var newNode = that.insert(that.root, Math.floor(Math.random() * 1000), that.root, count - i);
+
+        s.graph.addNode({
+          id:newNode.node.key.toString(),
+          label:newNode.node.key.toString(),
+          x:newNode.node.x+i,
+          y:newNode.node.y,
+          size: 1,
+          color: '#00f'
+        });
+        if (newNode.node != newNode.parent){
+          s.graph.addEdge({
+            id: newNode.node.key.toString()+" to "+newNode.parent.key.toString(),
+            // Reference extremities:
+            source: newNode.parent.key.toString(),
+            target: newNode.node.key.toString()
+          });
+        }
       }
+      console.log(s.graph.edges());
+      s.refresh();
       return that;
+    };
+
+    this.displayTree = function () {
+      // Let's first initialize sigma:
+      var s = new sigma('container');
+
+      // Then, let's add some data to display:
+      s.graph.addNode({
+        // Main attributes:
+        id: 'n0',
+        label: 'Hello',
+        // Display attributes:
+        x: 0,
+        y: 0,
+        size: 1,
+        color: '#f00'
+      }).addNode({
+        // Main attributes:
+        id: 'n1',
+        label: 'World !',
+        // Display attributes:
+        x: 1,
+        y: 1,
+        size: 1,
+        color: '#00f'
+      }).addEdge({
+        id: 'e0',
+        // Reference extremities:
+        source: 'n0',
+        target: 'n1'
+      });
+
+      // Finally, let's ask our sigma instance to refresh:
+      s.refresh();
     };
 
     return this;
