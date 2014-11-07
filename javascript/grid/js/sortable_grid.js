@@ -144,6 +144,12 @@
 
         function renderBody(data){
           var bodyString="";
+          if (!config.maxRows || config.maxRows > data.length) {
+            config.maxRows = data.length;
+          }
+          if (!maxDataLength) {
+            maxDataLength = data.length;
+          }
           if (config.columnTemplates) {
             bodyString += '<tbody class="data-body">';
             for (var i = 0; i < config.maxRows; i++) {
@@ -160,12 +166,6 @@
             }
           } else {
             bodyString += '<tbody class="data-body">';
-            if (!config.maxRows || config.maxRows > data.length) {
-              config.maxRows = data.length;
-            }
-            if (!maxDataLength) {
-              maxDataLength = data.length;
-            }
             for (var i = 0; i < config.maxRows; i++) {
               bodyString += '<tr><td>' + data[i].join('</td><td>') + '</td></tr>';
             }
@@ -235,25 +235,30 @@
           }
         }
 
+        function objToArray(object){
+          var tempData = [];
+          Array.prototype.slice.call(object)
+            .forEach(function (el) {
+              var tempArray = [];
+              Object.keys(el).forEach(function (key, index) {
+                tempArray.push(el[key]);
+              });
+              tempData.push(tempArray);
+            });
+          return tempData;
+        }
+
         function xhrOnLoad(xhr) {
             var receivedText = xhr.responseText.split("__obj__"),
-                receivedObject = JSON.parse(receivedText[0]),
-                tempData = [];
+                receivedObject = JSON.parse(receivedText[0]);
             maxDataLength = receivedText[1];
             object = receivedObject;
 
 
             //tempData and tempArray for temporary storing data
-            Array.prototype.slice.call(receivedObject)
-                .forEach(function (el) {
-                    var tempArray = [];
-                    Object.keys(el).forEach(function (key, index) {
-                        tempArray.push(el[key]);
-                    });
-                    tempData.push(tempArray);
-                });
-            dataArray = tempData;
-            if (dataArray.length != maxDataLength) pagesData[pageIndex - 1] = tempData;
+
+            dataArray = objToArray(receivedObject);
+            if (dataArray.length != maxDataLength) pagesData[pageIndex - 1] = dataArray;
             if (!root.innerHTML) {
                 if (maxDataLength == dataArray.length) {
                     renderTable(false);
@@ -265,7 +270,7 @@
             else {
                 changePageData(true);
             }
-            if (config.withFilter) new Filterable(config, dataArray, container, root);
+            if (config.withFilter) new Filterable(config, object, container, root);
             return(xhr.responseText);
         }
 
@@ -290,9 +295,15 @@
                     getData(config.arrayOrURL);
                 }
             } else {
-              dataArray = config.arrayOrURL;
+              if (config instanceof Array) {
+                dataArray = config.arrayOrURL;
+              } else {
+                dataArray = objToArray(config.arrayOrURL);
+                object = config.arrayOrURL;
+                maxDataLength = dataArray.length;
+              }
               renderTable.call(this);
-              if (config.withFilter) new Filterable(config, dataArray, container, root);
+              if (!config.changeData && config.withFilter) new Filterable(config, dataArray, container, root);
             }
         }
 

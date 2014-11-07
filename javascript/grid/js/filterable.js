@@ -14,7 +14,7 @@ var Filterable = function (config, data, container, root){
       var model = document.createDocumentFragment();
       var filterChooseField = document.createElement('select');
       filterChooseField.classList.add('field-choosing-column');
-      for (var i = 0; i < data[0].length; i++) {
+      for (var i = 0; i < config.headers.length; i++) {
         var option = document.createElement('option');
         option.innerHTML = i+1;
         filterChooseField.appendChild(option);
@@ -65,10 +65,15 @@ var Filterable = function (config, data, container, root){
     }
 
     this.enableSearchField = function(index){
-
+        var mykey, element, i = 0;
         //enabling
         generatedModel[index].classList.add('filterable-active');
-        generatedModel[index].setAttribute("column-index", index);
+        for (mykey in data[0]) {
+          if (i == index) element = mykey;
+          i++;
+        }
+      console.log(element);
+        generatedModel[index].setAttribute("column-index", element);
     };
 
     this.disableSearchField = function(index){
@@ -79,19 +84,22 @@ var Filterable = function (config, data, container, root){
 
     function changeSearchField(e) {
       var searchField = e.target,
-          informationFromSearch = searchField.value.toLowerCase();
+          informationFromSearch = searchField.value.toLowerCase(), key;
         newData = [];
         data.forEach(function (row, i) {
           if (filter(i, searchField.getAttribute('column-index'), informationFromSearch)) {
             newData.push(data[i])
           }
         });
+
         var configObj = {
           'headers': config.headers,
           'maxRows': config.maxRows,
           'arrayOrURL': newData,
+          'withFilter': true,
           'changeData': true,
-          'columnTemplates': false
+          'loadByParts': false,
+          'columnTemplates': config.columnTemplates
         };
         var a = new SortableGrid(container, configObj);
         return newData;
