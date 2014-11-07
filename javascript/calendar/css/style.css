@@ -12,9 +12,12 @@ input{
 .selected {
     background: #ebf4f8 !important;
 }
-.selected-start-day{
+.selected-start{
     background: dodgerblue !important;
+
+  border-radius: 5px ;
 }
-.selected-end-day{
+.selected-end{
     background: dodgerblue !important;
+  border-radius: 5px ;
 }

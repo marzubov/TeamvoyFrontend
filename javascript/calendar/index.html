@@ -27,5 +27,9 @@
 <script>
     var firstContainer = document.getElementById('firstContainer');
     var firstCalendar = new Calendar(firstContainer);
+  firstCalendar.on('daySelected', function(e){
+    document.querySelector('.circle h3').innerHTML = e.target.date.format('dddd');
+    document.querySelector('.circle h1').innerHTML = e.target.date.get('date');
+  })
 </script>
 </html>

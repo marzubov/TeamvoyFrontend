@@ -8,14 +8,10 @@
    */
 
   var Calendar = global.Calendar = function (container, properties) {
-    Calendar.superclass.constructor.call(this);
-    var calendar, root,
+    EventMachine.call(this);
+    var root,
       that = this,
-      model = {
-        daysNames: [],
-        days: [],
-        currentMonth: ''
-      },
+      model = {},
       config = {
         year: (new Date()).getFullYear(),
         month: (new Date()).getMonth() + 1,
@@ -28,12 +24,15 @@
     this.container = container;
 
     this.showToday = function () {
-      var today = new Date((new Date()).setHours(0, 0, 0, 0));
-      config.month = today.getMonth() + 1;
-      config.year = today.getFullYear();
+      var today = moment();
+      today.locale(config.locale);
+      config.month = today.get('month') + 1;
+      config.year = today.get('year');
       render();
-      //TODO add today rendering
-      that.trigger('onDayChanged');
+      Array.prototype.slice.call(root.querySelector('.calendar-body').childNodes)
+        .some(function (day) {
+          if (moment().diff(day.date, 'days') === 0) return !day.classList.add('today');
+        });
       return today;
     };
 
@@ -41,12 +40,12 @@
      * generating calendar model
      * @returns {{daysNames: Array, days: Array}}
      */
-    function generateCalendar() {//TODO use moment.js
-      var i,
+    function generateCalendar() {
+      var i = 0,
         date = moment([config.year, config.month - 1, 1]),
         maxDaysNumber = (1 + parseFloat(Math.ceil(30 / config.daysInWeek))) * config.daysInWeek;
 
-      //reseting model
+      //resetting model
       model = {
         daysNames: [],
         days: [],
@@ -60,15 +59,12 @@
       while (date.format('ddd').toLowerCase() != config.firstDayOfWeek.toLowerCase()) {
         date.subtract(1, 'days');
       }
-      i = 0;
 
       //generating days array
       while (i < maxDaysNumber) {
         var isWeekend = false;
         config.weekends.map(function (day, i) {
-          if (date.format('ddd').toLowerCase() == (day.toLowerCase())) {
-            isWeekend = true;
-          }
+          if (date.format('ddd').toLowerCase() == (day.toLowerCase())) isWeekend = true;
         });
         model.days.push({
           isInMonth: date.get('month') == (config.month - 1),
@@ -95,6 +91,8 @@
       //here goes day template logic
       return day.toString();
     };
+
+    //TODO day events
     /**
      * Getting day event
      * @param day
@@ -106,7 +104,7 @@
 
     /**
      * Get root element
-     * @returns {Element}
+     * @returns {element}
      */
     this.getRoot = function () {
       return root;
@@ -114,22 +112,30 @@
 
     /**
      * Adding selecting styles to the dates in range
-     * @param styles
      * @param range
      * @returns {global.Calendar}
      */
-      //TODO update selecting days
-    this.selectDays = function (styles, range) {
-      styles = styles || 'selected';
+    this.selectDays = function (range) {
+      var calendarBody = root.querySelector('.calendar-body');
+      Array.prototype.slice.call(calendarBody.childNodes)
+        .forEach(function (day) {
+
+          //styling selected days
+          if (day.date.isAfter(range.start) && day.date.isBefore(range.end)) day.classList.add('selected');
+
+          //styling start and end
+          if (day.date.calendar() == range.start.calendar()) day.classList.add('selected-start');
+          if (day.date.calendar() == range.end.calendar()) day.classList.add('selected-end');
+        });
       return this;
     };
 
+    //TODO set needed width while rendering
     this.renderCaption = function () {
       var captionElement = document.createElement('div');
-      var tableString = '<button class="calendar-button desc"></button>'
-        + '<span class="month-name">' + model.currentMonth.toString() + '</span>'
-        + '<span class="year-name">' + config.year + '</span><button class="calendar-button asc"></button>';
-      captionElement.innerHTML = tableString;
+      captionElement.innerHTML = '<button class="calendar-button desc"></button>'
+      + '<span class="month-name">' + model.currentMonth.toString() + '</span>'
+      + '<span class="year-name">' + config.year + '</span><button class="calendar-button asc"></button>';
       captionElement.classList.add('calendar-caption');
       return captionElement;
     };
@@ -141,9 +147,7 @@
         var dayNameElement = document.createElement('div');
         dayNameElement.dayName = dayName.name;
         dayNameElement.classList.add('day-name');
-        if (dayName.isWeekend) {
-          dayNameElement.classList.add('weekend');
-        }
+        if (dayName.isWeekend) dayNameElement.classList.add('weekend');
         dayNameElement.innerHTML = that.dayTemplate(dayName.name);
         headerElement.appendChild(dayNameElement);
       });
@@ -155,11 +159,9 @@
       var bodyElement = document.createElement('div');
       model.days.map(function (day) {
         var dayElement = document.createElement('div');
-        dayElement.data = day.date;
+        dayElement.date = day.date;
         day.isInMonth ? dayElement.classList.add('day', 'in-month') : dayElement.classList.add('day', 'out-month');
-        if (day.isWeekend) {
-          dayElement.classList.add('weekend');
-        }
+        if (day.isWeekend) dayElement.classList.add('weekend');
         dayElement.innerHTML = that.dayTemplate(day.date.get('date'));
         bodyElement.appendChild(dayElement);
       });
@@ -167,7 +169,7 @@
       return bodyElement;
     };
 
-    function setEvents() {//TODO remove unnecessary code
+    function setEvents() {
       root
         .addEventListener('click', function (e) {
           if (e.target.classList.contains('calendar-button')) {
@@ -175,26 +177,17 @@
             if (config.month > 12) {
               config.year++;
               config.month = 1;
-            }
-            else if (config.month < 1) {
+            } else if (config.month < 1) {
               config.year--;
               config.month = 12;
             }
             render();
             that.trigger('monthChanged', [config.month]);
-            return true;
           }
-          else if (e.target != this) {
-            that.trigger('daySelected', [e]);
-            return true;
-          }
-          return false;
+          else if (e.target.date) that.trigger('daySelected', [e]);
         });
     }
 
-    /**
-     * Rendering
-     */
     var render = this.render = function () {
       generateCalendar();
 
@@ -208,15 +201,11 @@
       root.querySelector('.calendar-body').parentNode
         .replaceChild(that.renderBody(), root.querySelector('.calendar-body'));
 
+      that.trigger('render');
       return this;
     };
 
-    /**
-     * Initialize
-     */
     function init() {
-
-      //initializing elements
       root = document.createElement('div');
       var caption = document.createElement('div'),
         header = document.createElement('div'),
@@ -229,7 +218,7 @@
       root.appendChild(body);
       root.classList.add('calendar');
       container.appendChild(root);
-
+      config.merge(properties);
       render();
 
       //get set config
@@ -238,28 +227,19 @@
           return config;
         },
         set: function (value) {
-          var propName;
-          for (propName in value) {
-            value[propName] = value[propName] ?
-              value[propName] :
-              config[propName];
-          }
-          if (value['month'] != config['month']) {
-            that.trigger('onMonthChanged');
-          }
+          for (var propName in value)
+            value[propName] = value[propName] ? value[propName] : config[propName];
+          if (value['month'] != config['month']) that.trigger('monthChanged');
           config.merge(value);
           render();
         }
       });
 
-      config.merge(properties);
-
       setEvents();
-      that.trigger('onLoad', [this]);
-      return this;
+      that.trigger('load', [that]);
+      return that;
     }
 
     init();
   };
-  Calendar.extend(EventMachine);
 })(window, document);
