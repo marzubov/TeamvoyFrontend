@@ -9,13 +9,16 @@
     var eightsContainer = document.getElementById('eightsContainer');
 
     var firstCalendar  = new Calendar(firstContainer,{});
-    var secondCalendar = new Calendar(secondContainer,{year: 2014, month: 5});
+    var secondCalendar = new Calendar(secondContainer,{year: 2014, month: 5,firstDayOfWeek: "Пн" ,
+      locale: "uk", weekends:["Сб","Нд"]});
     //var thirdCalendar = new Calendar(thirdContainer,{daysInWeek: 14});
    // var fourthCalendar = new Calendar(fourthContainer,{daysInWeek: 13});
-    var fifthCalendar = new Calendar(fifthContainer,{});
+    var fifthCalendar = new Calendar(fifthContainer,{year: 2014, month: 5,firstDayOfWeek: "Mon",
+      locale: "en", weekends:["Sat","Sun"]});
     var sixthCalendar = new Calendar(sixthContainer,{});
     var seventhCalendar = new DateRangePicker(seventhContainer);
-    var eightsCalendar = new Calendar(eightsContainer,{});
+    var eightsCalendar = new Calendar(eightsContainer,{year: 2014, month: 5,firstDayOfWeek: "Mon",
+    locale: "en"});
     seventhCalendar.firstCalendar.getRoot().classList.add('date-range-picker');
     seventhCalendar.secondCalendar.getRoot().classList.add('date-range-picker');
     document.querySelector('.btn').onclick = function () {

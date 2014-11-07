@@ -1,8 +1,8 @@
 /**
  * Created by MU on 10/27/14.
  */
-var Filterable = function (container, table){
-    var that, generatedModel=[], changeFunctions;
+var Filterable = function (config, data, container, root){
+    var that, generatedModel=[], changeFunctions, newData = [];
 
     this.init = function(){
         that = this;
@@ -14,7 +14,7 @@ var Filterable = function (container, table){
       var model = document.createDocumentFragment();
       var filterChooseField = document.createElement('select');
       filterChooseField.classList.add('field-choosing-column');
-      for (var i = 0; i < table.rows[0].cells.length; i++) {
+      for (var i = 0; i < data[0].length; i++) {
         var option = document.createElement('option');
         option.innerHTML = i+1;
         filterChooseField.appendChild(option);
@@ -30,7 +30,7 @@ var Filterable = function (container, table){
     }
 
     function toggleSearchField() {
-        var selectField = document.querySelector('.field-choosing-column');
+        var selectField = container.querySelector('.field-choosing-column');
         var columnIndex = selectField.selectedIndex;
         if (generatedModel[columnIndex].classList.contains('filterable-active')) {
           that.disableSearchField(columnIndex);
@@ -45,7 +45,7 @@ var Filterable = function (container, table){
         }
     }
 
-    function renderSearchField(index){
+    function renderSearchField(){
         var filterField = document.createElement('input');
         filterField.classList.add('filterable');
         filterField.type = 'text';
@@ -56,12 +56,10 @@ var Filterable = function (container, table){
     }
 
     function render(){
-        var index = 0;
         //adding your input element to the table headings
-      table.classList.add("filterable-table");
-        Array.prototype.slice.call(table.rows[0].cells)
+        Array.prototype.slice.call(root.rows[0].cells)
             .forEach(function (header) {
-                generatedModel.push(renderSearchField(index++));
+                generatedModel.push(renderSearchField());
                 header.appendChild(generatedModel.slice(-1).pop());
             });
     }
@@ -81,20 +79,28 @@ var Filterable = function (container, table){
 
     function changeSearchField(e) {
       var searchField = e.target,
-          informationFromSearch = searchField.value.toLowerCase(),
-          index = 0;
-      Array.prototype.slice.call(table.rows)
-        .forEach(function (row) {
-          if (index == 0) {index++; return false;}
-
-          filter(row, searchField.getAttribute('column-index'), informationFromSearch);
+          informationFromSearch = searchField.value.toLowerCase();
+        newData = [];
+        data.forEach(function (row, i) {
+          if (filter(i, searchField.getAttribute('column-index'), informationFromSearch)) {
+            newData.push(data[i])
+          }
         });
-        return this.value;
+        var configObj = {
+          'headers': config.headers,
+          'maxRows': config.maxRows,
+          'arrayOrURL': newData,
+          'changeData': true,
+          'columnTemplates': false
+        };
+        var a = new SortableGrid(container, configObj);
+        return newData;
     }
 
     function filter(row, cellIndex, information) {
-        var text = row.cells[cellIndex].textContent.toLowerCase();
-        row.style.display = text.indexOf(information) === -1 ? 'none' : 'table-row';
+        var text = (data[row][cellIndex]).toString().toLowerCase();
+        var check = (text.indexOf(information) === -1) ? false : true;
+        return check;
     }
 
     this.init();

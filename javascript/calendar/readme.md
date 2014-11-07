@@ -154,10 +154,6 @@ You can use calendar to create date range pickers:
 <script>
     var firstContainer = document.getElementById('firstContainer');
     var firstDateRangePicker = new DateRangePicker(firstContainer);
-    firstDateRangePicker.firstCalendar.getRoot().classList.add('table',
-    'table-striped', 'date-range-picker');
-    firstDateRangePicker.secondCalendar.getRoot().classList.add('table',
-     'table-striped', 'date-range-picker');
 </script>
 ```
 <div class="container" id="seventhContainer">

@@ -7,14 +7,15 @@
 
     function renderPages(pager, maxDataLength, goTo, maxRows) {
       if ((maxDataLength / maxRows).toFixed(0) == 1) {
-        pager.parentNode.removeChild(pager);
+        //pager.parentNode.removeChild(pager);
+        pager.innerHTML = '';
         return;
       }
       var pagesString = '<ul class="pagination"><li><a data-page = "previous">&laquo;</a></li>';
       for (var i = 1; i <= (maxDataLength / maxRows).toFixed(0); i++) {
         pagesString += '<li><a data-page ="' + i.toString() + '">' + i + '</a></li>';
       }
-      pager.innerHTML += pagesString + '<li><a data-page = "next">&raquo;</a></li></ul>';
+      pager.innerHTML = pagesString + '<li><a data-page = "next">&raquo;</a></li></ul>';
       Array.prototype.slice.call(pager.querySelectorAll('a'))
         .forEach(function (el) {
           if (el.getAttribute('data-page') === '1') {
