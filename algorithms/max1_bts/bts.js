@@ -1,5 +1,5 @@
 (function (global, document) {
-  var BST = global.BST = function (count, data) {
+  var BST = global.BST = function () {
     var that = this;
     var Node = function (key, leftChild, rightChild, parent, value) {
       this.key = key;
@@ -16,7 +16,6 @@
     };
 
     this.insert = function (node, key, parent) {
-      console.log(node);
       if (!node.key) {
         node.key = key;
         node.leftChild = new Node();
@@ -29,11 +28,13 @@
     };
 
     this.findMin = function (node) {
+      node = node || that.root;
       if ((node.leftChild) && (node.leftChild.key)) return that.findMin(node.leftChild);
       else return node;
     };
 
     this.findMax = function (node) {
+      node = node || that.root;
       if ((node.rightChild) && (node.rightChild.key)) return that.findMax(node.rightChild);
       else return node;
     };
@@ -59,6 +60,7 @@
     };
 
     this.traverse = function (node, callback) {
+      node = node || that.root;
       if (node.key) {
         that.traverse(node.leftChild, callback);
         callback(node.key);
@@ -68,6 +70,7 @@
     };
 
     this.successor = function (node) {
+      node = node || that.root;
       if (node.rightChild.key) return that.findMin(node.rightChild);
 
       var parent = node.parent;
@@ -79,6 +82,7 @@
     };
 
     this.predecessor = function (node) {
+      node = node || that.root;
       if (node.leftChild.key) return that.findMax(node.leftChild);
 
       var parent = node.parent;
@@ -90,15 +94,30 @@
     };
 
     this.sort = function(node){
+      node = node || that.root;
       var result = [];
       that.traverse(node, function (element) {
         result.push(element);
       });
       return result;
     };
-    this.root = new Node();
-    for (var i = 0; i < count; i++) {
-      that.insert(that.root, Math.floor(Math.random() * 1000));
-    }
+
+    this.generateFromArray = function(data) {
+      this.root = new Node();
+      for (var i = 0; i < data.length; i++) {
+        that.insert(that.root, data[i]);
+      }
+      return that;
+    };
+
+    this.generateRandom = function(count) {
+      this.root = new Node();
+      for (var i = 0; i < count; i++) {
+        that.insert(that.root, Math.floor(Math.random() * 1000));
+      }
+      return that;
+    };
+
+    return this;
   }
 })(window, document);
