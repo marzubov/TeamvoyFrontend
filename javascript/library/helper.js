@@ -3,13 +3,14 @@
  * @param {object} obj - The object that we must merge
  */
 Object.prototype.merge = function (obj) {
-    "use strict";
-    var key;
-    for (key in obj) {
-        if (this.hasOwnProperty(key)) {
-            this[key] = obj[key];
-        }
+  "use strict";
+  var key;
+  for (key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      if (!this[key]) this[key] = [];
+      this[key] = obj[key];
     }
+  }
 };
 /**
  * Returns first element that meets the conditions of selector. Begins from itself and check each parent.
@@ -97,3 +98,20 @@ Element.prototype.setAttributes = function (attrs) {
     }
   }
 };
+
+function createCORSRequest(method, url) {
+  "use strict";
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+    // XHR for Chrome/Firefox/Opera/Safari.
+    xhr.open(method, url, true);
+  } else if (typeof XDomainRequest !== "undefined") {
+    // XDomainRequest for IE.
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+  } else {
+    // CORS not supported.
+    xhr = null;
+  }
+  return xhr;
+}

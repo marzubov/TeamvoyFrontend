@@ -67,6 +67,3 @@
     renderPages.call(this, pager, maxDataLength, goTo, maxRows);
   };
 })(window, document);
-
-
-
