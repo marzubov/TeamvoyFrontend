@@ -30,7 +30,7 @@ Try it out:
 Installation
 ------------
 
-Download the Calendar library from here: www.download_link_example.com and include it like this:
+Download the Calendar library from here: https://github.com/neformal13/TeamvoyFrontend/tree/master/javascript/calendar and include it like this:
 ```js
 <script src="./path/to/calendar.js"></script>
 <script src="./path/to/event_machine.js"></script>
@@ -77,8 +77,7 @@ You can configure your calendar, by passing configureObject when calendar is cre
 </div>
 <script>
 var containerElement = document.getElementById('containerElement');
-new Calendar(containerElement, {year: 2014, month: 5,
-firstDayOfWeek: "Mon" , locale: "en"});
+new Calendar(containerElement, {year: 2014, month: 5, locale: "fr"});
 </script>
 ```
 <div class="container" id="eightsContainer">
@@ -106,11 +105,11 @@ calendar.config = newConfig;
 config = {
 year: 2014,           // current year, type: number.
 month: 5,             // month - current month, type: number.
-firstDayOfWeek: "Пн" ,// firstDayOfWeek - first day of week in calendar,
+firstDayOfWeek: "SUN" ,// firstDayOfWeek - first day of week in calendar,
                       // only english language, type: string.
-locale: "uk",         // locale - language of calendar, short name,
+locale: "en",         // locale - language of calendar, short name,
                       // type: string. Example: 'monday'.
-weekends:["Сб","Нд"]  //array of weekends days.
+weekends:["SAT","SUN"]  //array of weekends days.
 }
 var calendar = new Calendar(containerElement, config);
 ```
@@ -144,6 +143,7 @@ Calendar.on('daySelected', daySelectedHandler);
 8. renderHeader() - generating header view.
 8. selectDays(styles, range) - adding styles to the days in range.
 10. trigger(eventName, params) - trigger functions.
+11. getDayEvents(date) - getting concrete date events.
 
 ##More examples
 

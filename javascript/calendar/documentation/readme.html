@@ -54,7 +54,7 @@ It&#39;s lightweight, doesn&#39;t depend on any other library (like jQuery).</p>
 </div>
 
 <a name="installation"></a><h2>Installation<a class="anchorlink" href="#installation"></a></h2>
-<p>Download the Calendar library from here: www.download_link_example.com and include it like this:</p>
+<p>Download the Calendar library from here: <a href="https://github.com/neformal13/TeamvoyFrontend/tree/master/javascript/calendar">https://github.com/neformal13/TeamvoyFrontend/tree/master/javascript/calendar</a> and include it like this:</p>
 <pre class="prettyprint">&lt;script src=&quot;./path/to/calendar.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;./path/to/event_machine.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;./path/to/helper.js&quot;&gt;&lt;/script&gt;
@@ -88,8 +88,7 @@ You can configure your calendar, by passing configureObject when calendar is cre
 &lt;/div&gt;
 &lt;script&gt;
 var containerElement = document.getElementById(&#39;containerElement&#39;);
-new Calendar(containerElement, {year: 2014, month: 5,
-firstDayOfWeek: &quot;Mon&quot; , locale: &quot;en&quot;});
+new Calendar(containerElement, {year: 2014, month: 5, locale: &quot;fr&quot;});
 &lt;/script&gt;</pre>
 <div class="container" id="eightsContainer">
 </div>
@@ -111,11 +110,11 @@ calendar.config = newConfig;</pre>
 <pre class="prettyprint">config = {
 year: 2014,           // current year, type: number.
 month: 5,             // month - current month, type: number.
-firstDayOfWeek: &quot;Пн&quot; ,// firstDayOfWeek - first day of week in calendar,
+firstDayOfWeek: &quot;SUN&quot; ,// firstDayOfWeek - first day of week in calendar,
                       // only english language, type: string.
-locale: &quot;uk&quot;,         // locale - language of calendar, short name,
+locale: &quot;en&quot;,         // locale - language of calendar, short name,
                       // type: string. Example: &#39;monday&#39;.
-weekends:[&quot;Сб&quot;,&quot;Нд&quot;]  //array of weekends days.
+weekends:[&quot;SAT&quot;,&quot;SUN&quot;]  //array of weekends days.
 }
 var calendar = new Calendar(containerElement, config);</pre>
 <a name="listen_to_events"></a><h3>Listen to events<a class="anchorlink" href="#listen_to_events"></a></h3>
@@ -145,6 +144,7 @@ Calendar.on(&#39;daySelected&#39;, daySelectedHandler);</pre>
 <li>renderHeader() - generating header view.</li>
 <li>selectDays(styles, range) - adding styles to the days in range.</li>
 <li>trigger(eventName, params) - trigger functions.</li>
+<li>getDayEvents(date) - getting concrete date events.</li>
 </ol>
 <a name="more_examples"></a><h2>More examples<a class="anchorlink" href="#more_examples"></a></h2>
 <p>You can use calendar to create date range pickers:</p>

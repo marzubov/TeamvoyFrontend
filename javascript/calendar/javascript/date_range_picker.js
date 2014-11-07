@@ -1,7 +1,7 @@
 (function (global, document) {
   "use strict";
   var DateRangePicker = global.DateRangePicker = function (container) {
-    DateRangePicker.superclass.constructor.call(this);
+    EventMachine.call(this);
     var that = this;
     this.firstCalendar = {};
     this.secondCalendar = {};
@@ -37,6 +37,7 @@
       }
       range.end = e.target.date.clone();
       that.render();
+      that.trigger('rangeChanged', [range]);
     };
 
     /**
@@ -55,6 +56,7 @@
       }
       range.start = e.target.date.clone();
       that.render();
+      that.trigger('rangeChanged', [range]);
     };
 
     this.configMonthAndYear = function () {
@@ -93,11 +95,11 @@
 
       //adding mouseup listener
       document.addEventListener('mouseup', function (e) {
-        if (e.target.date) that.configMonthAndYear();
+        if (!e.target.classList.contains('calendar-button')) that.configMonthAndYear();
         document.removeEventListener('mousemove', secondHandler);
       });
       document.addEventListener('mouseup', function (e) {
-        if (e.target.date) that.configMonthAndYear();
+        if (!e.target.classList.contains('calendar-button')) that.configMonthAndYear();
         document.removeEventListener('mousemove', firstHandler);
       });
 
@@ -115,5 +117,4 @@
 
     init.call(this);
   };
-  DateRangePicker.extend(EventMachine);
 })(window, document);
