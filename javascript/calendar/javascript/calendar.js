@@ -18,7 +18,7 @@
         firstDayOfWeek: 'SUN',
         locale: 'en',
         daysInWeek: 7,
-        dayEvents: [{date: moment([2014,10,10])}],
+        dayEvents: [],
         weekends: ['SAT', 'SUN']
       };
     this.container = container;
@@ -92,17 +92,14 @@
       return day.toString();
     };
 
+    //TODO day events
     /**
-     * Getting event of date
-     * @param date
-     * @returns {Array}
+     * Getting day event
+     * @param day
+     * @returns {*}
      */
-    this.getDayEvent = function (date) {
-      return config.dayEvents.map(function (dayEvent){
-        if (dayEvent.date.calendar() == date.calendar()){
-          return dayEvent;
-        }
-      });
+    this.getDayEvent = function (day) {
+      return day;
     };
 
     /**
@@ -133,6 +130,7 @@
       return this;
     };
 
+    //TODO set needed width while rendering
     this.renderCaption = function () {
       var captionElement = document.createElement('div');
       captionElement.innerHTML = '<button class="calendar-button desc"></button>'
