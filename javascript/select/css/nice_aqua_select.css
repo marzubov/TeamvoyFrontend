@@ -1,21 +1,25 @@
 .custom-select {
   color: #ecf0f1;
-  font-size: 18px;
+  font-size: 14px;
+  font-weight: lighter;
 }
 .custom-select .selector{
   padding: 5px;
   background-color: #74ADC0;
   border: 3px solid #ffffff;
-  height: 20px;
 }
 .custom-select .option {
+  padding: 5px;
   background-color: #74ADC0;
 }
 .custom-select .options .option:nth-child(2n){
   background-color: #74A1C1;
 }
+.custom-select .img{
+  top: 8px;
+  right: 10px;
+}
 .custom-select .img:after{
-
   content: url('img/rsz_ico_search.png');
 }
 .custom-select .options{
@@ -27,7 +31,7 @@
 }
 
 .custom-select .options .hover{
-  color: #34495e !important;
+  color: #106879 !important;
   background-color: #98B6C5 !important;
 }
 .custom-select .options .option .highlighted {

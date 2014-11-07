@@ -2,26 +2,22 @@
   cursor: pointer;
 }
 .custom-select .selector{
+  font-weight: inherit;
   font-family:inherit;
   color: inherit;
   font-size: inherit;
-  width: 100%;
   cursor: inherit;
+  width: 100%;
+  box-sizing: border-box;
 }
 .custom-select .img{
   position: relative;
-  top: 10px;
-  right: 0;
   height: 0;
   text-align: right;
 }
 
 .custom-select .alert{
   color: #c0392b!important;
-  border-left: 1px #c0392b solid!important;
-  border-top: 2px #c0392b solid!important;
-  border-right: 1px #c0392b solid!important;
-  border-bottom: 1px #c0392b solid!important;
 }
 .custom-select .options{
   cursor: inherit;
@@ -37,7 +33,6 @@
   font-family:inherit;
   color: inherit;
   font-size: inherit;
-  text-align: center;
 }
 .custom-select .hide{
   display: none;

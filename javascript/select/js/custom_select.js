@@ -15,25 +15,16 @@
     this.config = config;
     this.model = data;
 
-    /**
-     * Hide options
-     */
     this.hide = function () {
       this.options.classList.add('hide');
       that.trigger('hide')
     };
 
-    /**
-     * Show options
-     */
     this.show = function () {
       this.options.classList.remove('hide');
       that.trigger('show');
     };
 
-    /**
-     * Toggle options
-     */
     this.toggle = function () {
       this.options.classList.contains('hide') ? this.show() : this.hide();
     };
@@ -188,6 +179,5 @@
       });
     }
   };
-
   CustomSelect.extend(EventMachine);
 })(window, document);

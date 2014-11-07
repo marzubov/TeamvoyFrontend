@@ -45,10 +45,9 @@ button {
   float: left;
 }
 .search{
-  width: 100%;
-  float : right;
   height: 30px;
   max-width: 590px;
+  box-sizing: border-box;
 }
 .search-box{
   height: 30px;
