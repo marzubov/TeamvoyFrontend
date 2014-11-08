@@ -17,6 +17,27 @@
   </style>
 </head>
 <body>
+<button id="findMin">Find Min</button>
+<button id="findMax">Find Max</button>
+<button id="sort">Sort</button>
+<input id="result" type="text"/>
 <div id="container"></div>
+
 </body>
+<script>
+  var a = new BST();
+  a.generateRandom(10);
+  function findMin(){
+    document.getElementById('result').value = a.findMin().key;
+  }
+  function findMax(){
+    document.getElementById('result').value = a.findMax().key;
+  }
+  function sort(){
+    document.getElementById('result').value = a.sort();
+  }
+  document.getElementById('findMin').addEventListener('click', findMin);
+  document.getElementById('findMax').addEventListener('click', findMax);
+  document.getElementById('sort').addEventListener('click', sort);
+</script>
 </html>

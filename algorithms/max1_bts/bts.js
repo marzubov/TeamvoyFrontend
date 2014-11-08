@@ -1,6 +1,6 @@
 (function (global, document) {
   var BST = global.BST = function () {
-    var ss,
+    var s,
       that = this;
     var Node = function (key, leftChild, rightChild, parent, value, x, y) {
       this.key = key;
@@ -25,19 +25,20 @@
         node.rightChild = new Node();
         node.parent = parent;
         if (key<parent.key) {
-          node.x = parent.x- 1 - deep;
+          node.x = parent.x.valueOf() - 1 - deep;
 
-          node.y = parent.y + 3;
+          node.y = parent.y.valueOf() + 1;
         }
         else if(key > parent.key) {
-          node.x = parent.x+ 1 + deep;
+          node.x = parent.x.valueOf() + 1 + deep;
 
-          node.y = parent.y + 3;
+          node.y = parent.y.valueOf() + 1;
         }
         return {node: node, parent: parent };
       }
-      else if (key < node.key) return that.insert(node.leftChild, key, node, deep--);
-      else if (key > node.key) return that.insert(node.rightChild, key, node, deep--);
+      else if (key < node.key) return that.insert(node.leftChild, key, node, deep/2);
+      else if (key > node.key) return that.insert(node.rightChild, key, node, deep/2);
+      else console.log('same node');
     };
 
     this.findMin = function (node) {
@@ -124,18 +125,19 @@
     };
 
     this.generateRandom = function (count) {
-      var s = new sigma('container');
+      s = new sigma('container');
       this.root = new Node();
       for (var i = 0; i < count; i++) {
-        var newNode = that.insert(that.root, Math.floor(Math.random() * 1000), that.root, count - i);
-
+        var deep = count.valueOf();
+        var newNode = that.insert(that.root, Math.floor(Math.random() * count*10), that.root, deep/2);
+        if (!newNode) continue;
         s.graph.addNode({
           id:newNode.node.key.toString(),
           label:newNode.node.key.toString(),
-          x:newNode.node.x+i,
+          x:newNode.node.x,
           y:newNode.node.y,
           size: 1,
-          color: '#00f'
+          color: '#f00'
         });
         if (newNode.node != newNode.parent){
           s.graph.addEdge({
@@ -146,7 +148,6 @@
           });
         }
       }
-      console.log(s.graph.edges());
       s.refresh();
       return that;
     };
