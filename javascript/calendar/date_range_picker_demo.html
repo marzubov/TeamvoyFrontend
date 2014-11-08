@@ -1,27 +1,32 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Calendar</title>
-    <link rel="stylesheet" href="css/calendar.css"/>
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
-    <link rel="stylesheet" href="css/style.css"/>
+  <meta charset="UTF-8">
+  <title>Calendar</title>
+  <link rel="stylesheet" href="css/calendar.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
   <script src="../library/vendor/moment/moment.js"></script>
   <script src="../library/vendor/moment/min/locales.js"></script>
-    <script src="../library/event_machine.js"></script>
-    <script src="../library/helper.js"></script>
-    <script src="javascript/calendar.js"></script>
-    <script src="javascript/date_range_picker.js"></script>
+  <script src="../library/event_machine.js"></script>
+  <script src="../library/helper.js"></script>
+  <script src="javascript/calendar.js"></script>
+  <script src="javascript/date_range_picker.js"></script>
 
 </head>
 <body>
 <article>
-    <div class="container" id="firstContainer">
-    </div>
+  <div class="container" id="container">
+  </div>
+  <input id="rangeStart" type="text" placeholder="Range start day"/>
+  <input id="rangeEnd" type="text" placeholder="Range end day"/>
 </article>
 </body>
 <script>
-    var firstContainer = document.getElementById('firstContainer');
-    var firstDateRangePicker = new DateRangePicker(firstContainer);
+  var container = document.getElementById('container');
+  var dateRangePicker = new DateRangePicker(container);
+  dateRangePicker.on('rangeChanged', function (range) {
+    document.getElementById('rangeStart').value = range.start.calendar();
+    document.getElementById('rangeEnd').value = range.end.calendar();
+  })
 </script>
 </html>
