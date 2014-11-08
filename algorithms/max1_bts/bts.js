@@ -117,19 +117,11 @@
     };
 
     this.generateFromArray = function (data) {
-      this.root = new Node();
-      for (var i = 0; i < data.length; i++) {
-        that.insert(that.root, data[i]);
-      }
-      return that;
-    };
-
-    this.generateRandom = function (count) {
       s = new sigma('container');
       this.root = new Node();
-      for (var i = 0; i < count; i++) {
-        var deep = count.valueOf();
-        var newNode = that.insert(that.root, Math.floor(Math.random() * count*10), that.root, deep/2);
+      for (var i = 0; i < data.length; i++) {
+        var deep = data.length.valueOf();
+        var newNode = that.insert(that.root, data[i], that.root, deep/2);
         if (!newNode) continue;
         s.graph.addNode({
           id:newNode.node.key.toString(),
@@ -137,7 +129,7 @@
           x:newNode.node.x,
           y:newNode.node.y,
           size: 1,
-          color: '#f00'
+          color: '#ec5148'
         });
         if (newNode.node != newNode.parent){
           s.graph.addEdge({
@@ -152,38 +144,11 @@
       return that;
     };
 
-    this.displayTree = function () {
-      // Let's first initialize sigma:
-      var s = new sigma('container');
-
-      // Then, let's add some data to display:
-      s.graph.addNode({
-        // Main attributes:
-        id: 'n0',
-        label: 'Hello',
-        // Display attributes:
-        x: 0,
-        y: 0,
-        size: 1,
-        color: '#f00'
-      }).addNode({
-        // Main attributes:
-        id: 'n1',
-        label: 'World !',
-        // Display attributes:
-        x: 1,
-        y: 1,
-        size: 1,
-        color: '#00f'
-      }).addEdge({
-        id: 'e0',
-        // Reference extremities:
-        source: 'n0',
-        target: 'n1'
-      });
-
-      // Finally, let's ask our sigma instance to refresh:
-      s.refresh();
+    this.generateRandom = function (count) {
+      return that.generateFromArray(Array.apply(null, {length: count})
+        .map(function () {
+                return Math.floor(Math.random() * 100);
+        }));
     };
 
     return this;

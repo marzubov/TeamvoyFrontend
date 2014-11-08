@@ -6,21 +6,52 @@
   <script type="text/javascript" src="../../javascript/library/vendor/sigma.min.js"></script>
   <script type="text/javascript" src="bts.js"></script>
   <style type="text/css">
+    h1{
+      position: absolute;
+      left: 50px;
+      top: 0;
+    }
     body {
       margin: 0;
     }
     #container {
       position: absolute;
-      width: 100%;
+      left: 203px;
+      top: 0;
+      bottom: 0;
+      right: 0;
+
       height: 100%;
+      background: #f9f7ed;
     }
+    #options{
+      position: absolute;
+      width: 200px;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      border-right: 3px solid lightgrey;
+      padding-top: 40%;
+    }
+    #options *{
+      display: block;
+      margin-top: 10px;
+      margin-left: 10px;
+      width: 80%;
+      padding: 5px;
+    }
+
   </style>
 </head>
 <body>
-<button id="findMin">Find Min</button>
-<button id="findMax">Find Max</button>
-<button id="sort">Sort</button>
-<input id="result" type="text"/>
+<h1>BST</h1>
+<div id="options">
+  <button id="findMin">Find Min</button>
+  <button id="findMax">Find Max</button>
+  <button id="sort">Sort</button>
+  <input id="result" type="text"/>
+</div>
+
 <div id="container"></div>
 
 </body>
