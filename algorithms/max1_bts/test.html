@@ -13,6 +13,7 @@
     }
     body {
       margin: 0;
+      background: #f9f7ed;
     }
     #container {
       position: absolute;
@@ -20,9 +21,8 @@
       top: 0;
       bottom: 0;
       right: 0;
-
       height: 100%;
-      background: #f9f7ed;
+      background: #ffffff;
     }
     #options{
       position: absolute;
@@ -31,7 +31,7 @@
       bottom: 0;
       left: 0;
       border-right: 3px solid lightgrey;
-      padding-top: 40%;
+      padding-top: 20%;
     }
     #options *{
       display: block;
@@ -39,6 +39,22 @@
       margin-left: 10px;
       width: 80%;
       padding: 5px;
+      border: none;
+    }
+    #insert{
+      display: inline-block;
+      width: 45%;
+      margin-left: -5px;
+    }
+    #btn-insert{
+      display: inline-block;
+      width: 40%;
+    }
+    input{
+      border: 1px solid #3498db!important;
+    }
+    button{
+      background: #2ecc71;
     }
 
   </style>
@@ -46,10 +62,18 @@
 <body>
 <h1>BST</h1>
 <div id="options">
+
+  <p>Result textbox:</p>
+  <input id="result" type="text" placeholder="result"/>
   <button id="findMin">Find Min</button>
   <button id="findMax">Find Max</button>
   <button id="sort">Sort</button>
-  <input id="result" type="text"/>
+  <button id="successor">Root Successor</button>
+  <button id="predecessor">Root Predecessor</button>
+  <div>
+    <input id="insert" type="text" placeholder="insert key"/>
+    <button id="btn-insert">Insert</button>
+  </div>
 </div>
 
 <div id="container"></div>
@@ -57,7 +81,7 @@
 </body>
 <script>
   var a = new BST();
-  a.generateRandom(10);
+  a.generateRandom(20);
   function findMin(){
     document.getElementById('result').value = a.findMin().key;
   }
@@ -67,8 +91,22 @@
   function sort(){
     document.getElementById('result').value = a.sort();
   }
+  function insert(){
+    var key = parseFloat(document.getElementById('insert').value);
+    if (key) a.insertAndShow(a.root, parseFloat(key), a.root, 10);
+  }
+  function successor(){
+    document.getElementById('result').value = a.successor().key;
+  }
+  function predecessor(){
+    document.getElementById('result').value = a.predecessor().key;
+  }
+
   document.getElementById('findMin').addEventListener('click', findMin);
   document.getElementById('findMax').addEventListener('click', findMax);
   document.getElementById('sort').addEventListener('click', sort);
+  document.getElementById('successor').addEventListener('click', successor);
+  document.getElementById('predecessor').addEventListener('click', predecessor);
+  document.getElementById('btn-insert').addEventListener('click', insert);
 </script>
 </html>
