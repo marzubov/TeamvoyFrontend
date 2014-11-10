@@ -81,7 +81,7 @@
 
 </body>
 <script>
-  var s = new sigma(document.getElementById('container')),
+  var s = new sigma('container'),
     a = new BST();
   a.generateRandom(20);
   function findMin(){
@@ -96,8 +96,7 @@
   function insert(){
     var key = parseFloat(document.getElementById('insert').value);
     if (key) {
-      a.insert(a.root, key.toString(), a.root, 10);
-      s.refresh();
+      displayNode(a.insert(a.root, key.toString(), a.root, 10));
     }
   }
   function successor(){
@@ -145,6 +144,7 @@
     }
     if (node.leftChild.key) displayNode(node.leftChild);
     if (node.rightChild.key) displayNode(node.rightChild);
+    s.refresh();
   }
   s.graph.addNode({
     id: a.root.key.toString(),
@@ -155,6 +155,5 @@
     color: '#ec5148'
   });
   displayNode(a.root);
-  s.refresh();
 </script>
 </html>
