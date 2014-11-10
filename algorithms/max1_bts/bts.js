@@ -1,17 +1,30 @@
 (function (global, document) {
+  var Coordinates = function (x,y){
+    this.x = x || 0;
+    this.y = y || 0;
+    return this;
+  };
+  var Node = function (key, leftChild, rightChild, parent, value, x, y) {
+    EventMachine.call(this);
+    for(var prop in Coordinates) {
+      if (Coordinates.hasOwnProperty(prop)) {
+        this[prop] = Coordinates[prop];
+      }
+    }
+    this.key = key;
+    this.leftChild = leftChild;
+    this.rightChild = rightChild;
+    this.value = value;
+    this.parent = parent;
+    this.x = x || 0;
+    this.y = y || 0;
+
+    return this;
+  };
   var BST = global.BST = function () {
     var s = new sigma('container'),
       that = this;
-    var Node = function (key, leftChild, rightChild, parent, value, x, y) {
-      this.key = key;
-      this.leftChild = leftChild;
-      this.rightChild = rightChild;
-      this.value = value;
-      this.parent = parent;
-      this.x = x || 0;
-      this.y = y || 0;
-      return this;
-    };
+
 
     this.search = function (node, key) {
       return (!node) || (key == node.key) ? node : key < node.key
@@ -152,7 +165,7 @@
       s.refresh();
       return true;
     };
-
     return this;
-  }
+  };
+  BST.prototype = new Node();
 })(window, document);
