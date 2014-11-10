@@ -28,5 +28,5 @@
     })
   }
   window.search = new CustomSelect(document.querySelector('.search'),dataUsers,{title: 'text', value:'text'});
-
+  window.search.selector.placeholder = 'SEARCH';
 })(document,window);
