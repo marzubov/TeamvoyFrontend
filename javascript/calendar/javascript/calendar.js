@@ -28,27 +28,29 @@
     this.container = container;
 
     this.showToday = function () {
-      var today = moment();
-      today.locale(config.locale);
-      config.month = today.get('month') + 1;
-      config.year = today.get('year');
+      var dayDate,
+        today = moment().locale(config.locale);
       render();
       Array.prototype.slice.call(root.querySelector('.calendar-body').childNodes)
         .some(function (day) {
-          if (moment().diff(day.date, 'days') === 0) return !day.classList.add('today');
+          dayDate = moment(day.date).locale(config.locale);
+          if (today.diff(dayDate, 'days') === 0) {
+            return !day.classList.add('today');
+          }
         });
       return today;
     };
 
     /**
-     * generating calendar model
-     * @returns {{daysNames: Array, days: Array}}
+     * Generating calendar model
+     * @type {Function}
      */
     var generateCalendar = this.generateCalendar = function () {
       var date = moment([config.year, config.month - 1, 1]),
         maxDaysNumber = (1 + parseFloat(Math.ceil(30 / config.daysInWeek))) * config.daysInWeek;
 
-      date.locale(config.locale).day(config.firstDayOfWeek);//change to config locale
+      date.locale('en').day(config.firstDayOfWeek); //setting day
+      date.locale(config.locale);//change to config locale
 
       //moment js validation
       if (!date.isValid()){
@@ -68,12 +70,13 @@
       });
 
       model.currentMonth = date.format('MMMM');//get current month
-      date.subtract(config.daysInWeek, 'days');//setting date to month start position
+      date.subtract(config.daysInWeek, 'days');//setting date back to month start date
 
       model.days = Array.apply(null, {length: maxDaysNumber}).map(function (el, i) {
+        var currentDayName = date.clone().locale('en').format('ddd');
         var day = {
           isInMonth: date.get('month') == (config.month - 1),
-          isWeekend: (config.weekends.indexOf(date.clone().locale('en').format('ddd')) != -1),
+          isWeekend: (config.weekends.indexOf(currentDayName) != -1),
           date: date.clone()._d //getting Date() from moment object
         };
         date.add(1,'days');//setting date to next day
