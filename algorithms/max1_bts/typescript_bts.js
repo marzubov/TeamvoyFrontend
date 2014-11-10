@@ -47,7 +47,7 @@ var BST = (function () {
                 node.x = parent.x + 1 + deep;
                 node.y = parent.y + 1;
             }
-            return { node: node, parent: parent };
+            return node;
         }
         else if (parseFloat(key) < parseFloat(node.key))
             return this.insert(node.leftChild, key, node, deep / 2);
