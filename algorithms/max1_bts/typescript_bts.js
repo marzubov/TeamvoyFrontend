@@ -36,22 +36,22 @@ var BST = (function () {
     BST.prototype.insert = function (node, key, parent, deep) {
         if (!node.key) {
             node.key = key;
-            node.leftChild = new TreeNode(null, null, null, null, null, null, null);
-            node.rightChild = new TreeNode(null, null, null, null, null, null, null);
+            node.leftChild = new TreeNode(null, null, null, null, null, 0, 0);
+            node.rightChild = new TreeNode(null, null, null, null, null, 0, 0);
             node.parent = parent;
-            if (key < parent.key) {
+            if (parseFloat(key) < parseFloat(parent.key)) {
                 node.x = parent.x - 1 - deep;
                 node.y = parent.y + 1;
             }
-            else if (key > parent.key) {
+            else if (parseFloat(key) > parseFloat(parent.key)) {
                 node.x = parent.x + 1 + deep;
                 node.y = parent.y + 1;
             }
             return { node: node, parent: parent };
         }
-        else if (key < node.key)
+        else if (parseFloat(key) < parseFloat(node.key))
             return this.insert(node.leftChild, key, node, deep / 2);
-        else if (key > node.key)
+        else if (parseFloat(key) > parseFloat(node.key))
             return this.insert(node.rightChild, key, node, deep / 2);
         else
             console.log('same node');
@@ -70,7 +70,7 @@ var BST = (function () {
         else
             return node;
     };
-    BST.prototype.replaceNodeInParent = function (node, newNode) {
+    BST.replaceNodeInParent = function (node, newNode) {
         if (node.parent) {
             if (node.parent.leftChild == node)
                 node.parent.leftChild = newNode;
@@ -91,11 +91,11 @@ var BST = (function () {
             this.remove(successor, successor.key);
         }
         else if (node.leftChild.key)
-            this.replaceNodeInParent(node, node.leftChild);
+            BST.replaceNodeInParent(node, node.leftChild);
         else if (node.rightChild.key)
-            this.replaceNodeInParent(node, node.rightChild);
+            BST.replaceNodeInParent(node, node.rightChild);
         else
-            this.replaceNodeInParent(node, null);
+            BST.replaceNodeInParent(node, null);
     };
     BST.prototype.traverse = function (node, callback) {
         node = node || this.root;
@@ -137,7 +137,7 @@ var BST = (function () {
         return result;
     };
     BST.prototype.generateFromArray = function (data) {
-        this.root = new TreeNode(null, null, null, null, null, null, null);
+        this.root = new TreeNode(null, null, null, null, null, 0, 0);
         for (var i = 0; i < data.length; i++) {
             var edgeLength = data.length;
             this.insert(this.root, data[i].toString(), this.root, edgeLength / 2);
