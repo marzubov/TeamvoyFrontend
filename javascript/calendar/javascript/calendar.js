@@ -111,16 +111,17 @@
      * @returns {global.Calendar}
      */
     this.selectDays = function (range) {
-      var calendarBody = root.querySelector('.calendar-body');
+      var momentDate,
+        calendarBody = root.querySelector('.calendar-body');
       Array.prototype.slice.call(calendarBody.childNodes)
         .forEach(function (day) {
-
+          momentDate = moment(day.date).locale('en');
           //styling selected days
-          if (day.date.isAfter(range.start) && day.date.isBefore(range.end)) day.classList.add('selected');
+          if (momentDate.isAfter(range.start) && momentDate.isBefore(range.end)) day.classList.add('selected');
 
           //styling start and end
-          if (day.date.calendar() == range.start.calendar()) day.classList.add('selected-start');
-          if (day.date.calendar() == range.end.calendar()) day.classList.add('selected-end');
+          if (momentDate.calendar() == range.start.calendar()) day.classList.add('selected-start');
+          if (momentDate.calendar() == range.end.calendar()) day.classList.add('selected-end');
         });
       return this;
     };
@@ -205,12 +206,12 @@
             } else{
               that.previousMonth();
             }
-            that.trigger('monthChanged', [config.month]);
+            that.trigger('monthChanged', [e, config.month]);
             generateCalendar();
             render();
           }
           else if (e.target.date) {
-            that.trigger('daySelected', [e.target.date])
+            that.trigger('daySelected', [e, e.target.date])
           };
         });
     }
