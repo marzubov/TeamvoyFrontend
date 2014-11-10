@@ -1,17 +1,16 @@
 .template {
   overflow: auto;
+  display: flex;
+  justify-content: space-around;
 }
 
-.template .film-logo {
-  float: left;
-  margin-left: 50px;
-  border-right: 4px darkred solid;
-  height: 64px;
-  width: 64px;
+.template .photo {
+  margin: 10px 0 10px 10px;
+  border-radius: 15px;
+  max-height: 48px;
+  max-width: 48px;
 }
 
 .template .text {
-  margin-top: 3%;
-  margin-left: 260px;
-  max-width: 50%;
+  margin: auto;
 }

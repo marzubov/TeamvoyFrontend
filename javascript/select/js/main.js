@@ -132,74 +132,18 @@
 
   // Third example
   var templateConfig = {
-    template: '<div class="template img-circle"><img class="film-logo" src="{{image}}"><div class="text">{{text}}</div></div>',
+    template: '<div class="template"><img class="photo" src="{{image}}"><div class="text">{{text}}</div></div>',
     title: 'text',
     value: 'text'
   };
-  var containerThree = document.getElementById('third');
-  var templateSelector = new CustomSelect(containerThree, [
-    {
-      "text": 'The Hobbit',
-      "image": 'http://www.egmnow.com/wp-content/themes/egmnowv3/images/icons/renobadgeicon/The-Hobbit-An-Unexpected-Journey.png'
-    },
-    {
-      "text": 'Metallica Movie!',
-      "image": 'http://pyramida.info/2013/10/01/Metallica%2BThrough%2Bthe%2BNever%2BHD%2B%2BPNG.png'
-    },
-    {
-      "text": 'Terminator',
-      "image": 'http://icon.gamerzcraft.com/capas/Terminator_Salvation_%5B530-51-1202609%5D.png'
-    },
-    {
-      "text": 'Awesome face!!',
-      "image": 'http://3.bp.blogspot.com/-f0NsmUHz2kM/T8GUGoydNpI/AAAAAAAAAfg/KnEkgnFPzpc/s1600/smiley.png'
+  var containerThree = document.getElementById('third'),
+    dataUsers = [];
+    for(var i=0;i<10;i++){
+      dataUsers.push({
+        "text": faker.name.findName(),
+        "image": faker.image.avatar()
+      })
     }
-  ], templateConfig);
+     var templateSelector = new CustomSelect(containerThree,dataUsers, templateConfig);
 
-
-  //Bonus
-  var containerBonus = document.getElementById('bonus');
-  var bonusConfig = {
-    template: '<div id="{{selector}}">',
-    title: 'selector',
-    value: 'selector'
-  };
-  var bonusSelector = new CustomSelect(containerBonus, [{selector:'optionBonus1'},{selector:'optionBonus2'}],bonusConfig);
-  var optionSelector1 = new CustomSelect(document.getElementById('optionBonus1'), [
-    {
-      "number": 1
-    },
-    {
-      "number": 2
-    },
-    {
-      "number": 3
-    },
-    {
-      "number": 4
-    },
-    {
-      "number": 5
-    }
-  ],secondConfig);
-  var optionSelector2 = new CustomSelect(document.getElementById('optionBonus2'), [
-    {
-      "number": 1
-    },
-    {
-      "number": 2
-    },
-    {
-      "number": 3
-    },
-    {
-      "number": 4
-    },
-    {
-      "number": 5
-    }
-  ],secondConfig);
-  bonusSelector.on('hide', function(){bonusSelector.show()});
-  optionSelector1.on('change', function(){document.querySelector('#bonus .custom-select .options').classList.add('hide')});
-  optionSelector2.on('change', function(){document.querySelector('#bonus .custom-select .options').classList.add('hide')});
 })(document, window);
