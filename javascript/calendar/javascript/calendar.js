@@ -53,11 +53,13 @@
 
       date.locale(config.locale).day(config.firstDayOfWeek);//change to config locale
 
+      //moment js validation
       if (!date.isValid()){
         console.log(date.invalidAt());
         that.trigger('dateValidation', [date.invalidAt()]);
         return date.invalidAt();
       }
+
       //generate day names
       model.daysNames = Array.apply(null, {length: config.daysInWeek}).map(function (el, i) {
         var dayName = {
@@ -69,19 +71,19 @@
       });
 
       model.currentMonth = date.format('MMMM');//get current month
-      date.subtract(config.daysInWeek, 'days');
+      date.subtract(config.daysInWeek, 'days');//setting date to month start position
 
       model.days = Array.apply(null, {length: maxDaysNumber}).map(function (el, i) {
         var day = {
           isInMonth: date.get('month') == (config.month - 1),
           isWeekend: (config.weekends.indexOf(date.clone().locale('en').format('ddd')) != -1),
-          date: date.clone()._d
+          date: date.clone()._d //getting Date() from moment object
         };
-        date.add(1,'days');
+        date.add(1,'days');//setting date to next day
         return day;
       });
 
-      return date.invalidAt();
+      return date.invalidAt(); //returns -1 if success
     };
 
     this.dayTemplate = function (day) {
@@ -108,27 +110,6 @@
      */
     this.getRoot = function () {
       return root;
-    };
-
-    /**
-     * Adding selecting styles to the dates in range
-     * @param range
-     * @returns {global.Calendar}
-     */
-    this.selectDays = function (range) {
-      var momentDate,
-        calendarBody = root.querySelector('.calendar-body');
-      Array.prototype.slice.call(calendarBody.childNodes)
-        .forEach(function (day) {
-          momentDate = moment(day.date).locale('en');
-          //styling selected days
-          if (momentDate.isAfter(range.start) && momentDate.isBefore(range.end)) day.classList.add('selected');
-
-          //styling start and end
-          if (momentDate.calendar() == range.start.calendar()) day.classList.add('selected-start');
-          if (momentDate.calendar() == range.end.calendar()) day.classList.add('selected-end');
-        });
-      return this;
     };
 
     this.renderCaption = function () {
@@ -223,7 +204,7 @@
             render();
           }
           else if (e.target.date) {
-            that.trigger('daySelected', [e, e.target.date])
+            that.trigger('daySelected', [e, e.target.date]);
           }
         });
     }
