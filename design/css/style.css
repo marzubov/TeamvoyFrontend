@@ -1,15 +1,37 @@
+@import "reset.css";
 @font-face {
   font-family: Neris;
   src: url('../white_stripes_ui_kit/Neris/neris-thin.ttf') format('truetype');
+}
+h1{
+  font-size: 32px;
+  margin: 10px auto 10px;
+  min-width: 100%;
+  font-weight: lighter;
+}
+h3{
+  font-size: 14px;
+  margin: 0 auto 10px;
+  min-width: 100%;
+  font-weight: lighter;
 }
 body{
   font-family: Neris;
   font-size: 10px;
   color: #ffffff;
   background-color: #4595AE;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
-.menu {
-  width: 30%
+.menu-button{
+  max-width: 18px;
+  max-height: 18px;
+  border: 2px solid #ffffff;
+  margin: 0;
+}
+.search{
+
 }
 .menu .custom-select .selector{
   display: none;
