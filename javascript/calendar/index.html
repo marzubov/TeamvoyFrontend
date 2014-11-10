@@ -27,9 +27,9 @@
 <script>
     var firstContainer = document.getElementById('firstContainer');
     var firstCalendar = new Calendar(firstContainer);
-  firstCalendar.on('daySelected', function(e){
-    document.querySelector('.circle h3').innerHTML = e.target.date.format('dddd');
-    document.querySelector('.circle h1').innerHTML = e.target.date.get('date');
+  firstCalendar.on('daySelected', function(e, date){
+    document.querySelector('.circle h3').innerHTML = moment().locale('en').day(date.getDay()).format('dddd');
+    document.querySelector('.circle h1').innerHTML = date.getDate().toString();
   })
 </script>
 </html>

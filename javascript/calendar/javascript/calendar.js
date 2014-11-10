@@ -19,7 +19,7 @@
         locale: 'en',
         daysInWeek: 7,
         dayEvents: [{date: moment([2014,10,10])}],
-        weekends: ['SAT', 'SUN']
+        weekends: ['Sat', 'Sun']
       };
     this.container = container;
 
@@ -40,9 +40,8 @@
      * generating calendar model
      * @returns {{daysNames: Array, days: Array}}
      */
-    function generateCalendar() {
-      var i = 0,
-        date = moment([config.year, config.month - 1, 1]),
+    var generateCalendar = this.generateCalendar = function () {
+      var date = moment([config.year, config.month - 1, 1]),
         maxDaysNumber = (1 + parseFloat(Math.ceil(30 / config.daysInWeek))) * config.daysInWeek;
 
       //resetting model
@@ -52,45 +51,40 @@
         currentMonth: ''
       };
 
-      date.locale(config.locale).format('LLL');//change locale
+      date.locale(config.locale).day(config.firstDayOfWeek);//change to config locale
+
+      //moment js validation
+      if (!date.isValid()){
+        console.log(date.invalidAt());
+        that.trigger('dateValidation', [date.invalidAt()]);
+        return date.invalidAt();
+      }
+
+      //generate day names
+      model.daysNames = Array.apply(null, {length: config.daysInWeek}).map(function (el, i) {
+        var dayName = {
+          name: date.format('ddd'),
+          isWeekend: (config.weekends.indexOf(date.clone().locale('en').format('ddd')) != -1)
+        };
+        date.add(1,'days');
+        return dayName;
+      });
+
       model.currentMonth = date.format('MMMM');//get current month
+      date.subtract(config.daysInWeek, 'days');//setting date to month start position
 
-      //set calendar start date
-      while (date.format('ddd').toLowerCase() != config.firstDayOfWeek.toLowerCase()) {
-        i++;
-        date.subtract(1, 'days');
-        if (i ==7) {
-          config.firstDayOfWeek = date.format('ddd');
-        }
-      }
-
-      i=0;
-      //generating days array
-      while (i < maxDaysNumber) {
-        var isWeekend = false;
-        config.weekends.map(function (day, i) {
-          if (date.format('ddd').toLowerCase() == (day.toLowerCase())) isWeekend = true;
-        });
-        model.days.push({
+      model.days = Array.apply(null, {length: maxDaysNumber}).map(function (el, i) {
+        var day = {
           isInMonth: date.get('month') == (config.month - 1),
-          isWeekend: isWeekend,
-          date: date.clone()
-        });
-        date.add(1, 'days');
-        i++;
-      }
+          isWeekend: (config.weekends.indexOf(date.clone().locale('en').format('ddd')) != -1),
+          date: date.clone()._d //getting Date() from moment object
+        };
+        date.add(1,'days');//setting date to next day
+        return day;
+      });
 
-      i = 0;
-      //generating days names array
-      while (i < config.daysInWeek) {
-        model.daysNames.push({
-          name: model.days[i].date.format('ddd'),
-          isWeekend: model.days[i].isWeekend.valueOf()
-        });
-        i++;
-      }
-      return model;
-    }
+      return date.invalidAt(); //returns -1 if success
+    };
 
     this.dayTemplate = function (day) {
       //here goes day template logic
@@ -118,26 +112,6 @@
       return root;
     };
 
-    /**
-     * Adding selecting styles to the dates in range
-     * @param range
-     * @returns {global.Calendar}
-     */
-    this.selectDays = function (range) {
-      var calendarBody = root.querySelector('.calendar-body');
-      Array.prototype.slice.call(calendarBody.childNodes)
-        .forEach(function (day) {
-
-          //styling selected days
-          if (day.date.isAfter(range.start) && day.date.isBefore(range.end)) day.classList.add('selected');
-
-          //styling start and end
-          if (day.date.calendar() == range.start.calendar()) day.classList.add('selected-start');
-          if (day.date.calendar() == range.end.calendar()) day.classList.add('selected-end');
-        });
-      return this;
-    };
-
     this.renderCaption = function () {
       var captionElement = document.createElement('div');
       captionElement.innerHTML = '<button class="calendar-button desc"></button>'
@@ -148,13 +122,21 @@
     };
 
     this.renderHeader = function () {
-      if (config.daysInWeek / 7 - Math.floor(config.daysInWeek / 7) != 0) return false;
+      if (config.daysInWeek / 7 - Math.floor(config.daysInWeek / 7) != 0) {
+        return false;
+      }
+
       var headerElement = document.createElement('div');
       model.daysNames.map(function (dayName) {
+
         var dayNameElement = document.createElement('div');
         dayNameElement.dayName = dayName.name;
         dayNameElement.classList.add('day-name');
-        if (dayName.isWeekend) dayNameElement.classList.add('weekend');
+
+        if (dayName.isWeekend){
+          dayNameElement.classList.add('weekend');
+        }
+
         dayNameElement.innerHTML = that.dayTemplate(dayName.name);
         headerElement.appendChild(dayNameElement);
       });
@@ -164,39 +146,70 @@
 
     this.renderBody = function () {
       var bodyElement = document.createElement('div');
+      bodyElement.classList.add('calendar-body');
       model.days.map(function (day) {
         var dayElement = document.createElement('div');
         dayElement.date = day.date;
-        day.isInMonth ? dayElement.classList.add('day', 'in-month') : dayElement.classList.add('day', 'out-month');
-        if (day.isWeekend) dayElement.classList.add('weekend');
-        dayElement.innerHTML = that.dayTemplate(day.date.get('date'));
+
+        if (day.isInMonth){
+          dayElement.classList.add('day', 'in-month');
+        } else {
+          dayElement.classList.add('day', 'out-month');
+        }
+
+        if (day.isWeekend) {
+          dayElement.classList.add('weekend');
+        }
+
+        dayElement.innerHTML = that.dayTemplate(day.date.getDate());
         bodyElement.appendChild(dayElement);
       });
-      bodyElement.classList.add('calendar-body');
       return bodyElement;
+    };
+
+    this.previousMonth = function(){
+      config.month--;
+      if (config.month < 1){
+        config.month = 12;
+        config.year --;
+      }
+    };
+
+    this.nextMonth = function(){
+      config.month++;
+      if (config.month > 12){
+        config.month = 1;
+        config.year ++;
+      }
     };
 
     function setEvents() {
       root
         .addEventListener('click', function (e) {
           if (e.target.classList.contains('calendar-button')) {
-            e.target.classList.contains('asc') ? config.month++ : config.month--;
-            if (config.month > 12) {
-              config.year++;
-              config.month = 1;
-            } else if (config.month < 1) {
-              config.year--;
-              config.month = 12;
+            var currentMonth = config.month.valueOf(),
+              currentYear = config.year.valueOf();
+            if (e.target.classList.contains('asc')){
+              that.nextMonth();
+            } else{
+              that.previousMonth();
             }
-            that.trigger('monthChanged', [config.month]);
+            that.trigger('monthChanged', [e, config.month]);
+            if (generateCalendar() == -1){
+              config.month = currentMonth;
+              config.year = currentYear;
+              return false;
+            }
+
             render();
           }
-          else if (e.target.date) that.trigger('daySelected', [e]);
+          else if (e.target.date) {
+            that.trigger('daySelected', [e, e.target.date]);
+          }
         });
     }
 
     var render = this.render = function () {
-      generateCalendar();
 
       //render elements of calendar and replace already existing containers
       root.querySelector('.calendar-caption').parentNode
@@ -224,9 +237,14 @@
       root.appendChild(header);
       root.appendChild(body);
       root.classList.add('calendar');
+
       container.appendChild(root);
+
       config.merge(properties);
-      render();
+
+      if (generateCalendar() == -1){
+       render();
+      }
 
       //get set config
       Object.defineProperty(that, "config", {
@@ -239,7 +257,9 @@
               value[propName] = value[propName] ? value[propName] : config[propName];
               if (value['month'] != config['month']) that.trigger('monthChanged');
               config.merge(value);
-              render();
+              if (generateCalendar() == -1){
+                render();
+              }
             }
         }
       });

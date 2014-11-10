@@ -1,5 +1,5 @@
 (function () {
-    var treeExample = new BinaryTree();
+    var treeExample = new BinaryTree([6,1,7]);
     console.log("add 5", treeExample.add(5));
     console.log("add 8", treeExample.add(8));
     console.log("add 7", treeExample.add(7));
