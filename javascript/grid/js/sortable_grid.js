@@ -5,7 +5,7 @@
         this.dataArray = [];
         this.dataObject;
         this.root = '';
-        var pagesData = [], pageIndex = 1, countOfPages, pager, maxDataLength, sortedColumn, that, PagerObject, prevent=1;
+        var pagesData = [], pagesDataObject = [], pageIndex = 1, countOfPages, pager, maxDataLength, sortedColumn, that, PagerObject;
 
         function getData(url, start, end) {
             url += '/getdata';
@@ -29,14 +29,14 @@
             xhr.send();
         }
 
-        function renderRowsOfTable(from, to, data){
+        function renderRowsOfTable(from, to, data, dataObject){
           var dataString = '';
           for (var i = from; i < to; i++) {
             dataString += "<tr>";
             if (that.config.columnTemplates) {
               for (var j = 0; j < data[i].length; j++) {
                 if (that.config.columnTemplates[j]) {
-                  dataString += '<td>' + that.config.columnTemplates[j](that.dataObject[i]) + '</td>';
+                  dataString += '<td>' + that.config.columnTemplates[j](dataObject[i]) + '</td>';
                 } else {
                   dataString += '<td>' + data[i][j] + '</td>';
                 }
@@ -48,15 +48,15 @@
         }
 
         function changePageData(fromPagesData) {
-            var data, dataBody = that.container.querySelector('.data-body'), dataString = '';
+            var data, dataObject, dataBody = that.container.querySelector('.data-body'), dataString = '';
             if (!fromPagesData) { data = that.dataArray; }
-            else { data = pagesData[pageIndex - 1]; }
+            else { data = pagesData[pageIndex - 1]; dataObject = pagesDataObject[pageIndex - 1]; }
             if (!fromPagesData) {
                 var rowLength = (pageIndex == countOfPages) ? data.length : pageIndex * that.config.maxRows;
-                dataString = renderRowsOfTable((pageIndex - 1) * that.config.maxRows, rowLength, data);
+                dataString = renderRowsOfTable((pageIndex - 1) * that.config.maxRows, rowLength, data, that.dataObject);
             } else {
                 var rowLength = (pageIndex == countOfPages) ? data.length : that.config.maxRows;
-                dataString = renderRowsOfTable(0, rowLength, data);
+                dataString = renderRowsOfTable(0, rowLength, data, dataObject);
             }
             dataBody.innerHTML = dataString;
         }
@@ -82,7 +82,6 @@
                 keyIndex += 1;
               });
             }
-          prevent += 1;
             changePageData(false);
             that.goTo(1);
         }
@@ -122,14 +121,13 @@
           }
           if (!maxDataLength) { maxDataLength = data.length; }
           bodyString += '<tbody class="data-body">';
-          bodyString += renderRowsOfTable(0, that.config.maxRows, that.dataArray);
+          bodyString += renderRowsOfTable(0, that.config.maxRows, that.dataArray, that.dataObject);
           bodyString += '</tbody>';
           return bodyString;
         }
 
         function headClicked(e) {
           var reverse;
-          if (prevent == 2) { prevent = 1; return; }
           if (this.classList.contains('asc')) {
             this.classList.add('desc');
             this.classList.remove('asc');
@@ -148,10 +146,6 @@
           }
           sortedColumn = this.cellIndex;
           sortTable(sortedColumn, reverse);
-          prevent += 1;
-          e.stopPropagation();
-          e.preventDefault();
-          return false;
         }
 
         function deleteArrows() {
@@ -205,7 +199,10 @@
             maxDataLength = receivedText[1];
             that.dataObject = receivedObject;
             that.dataArray = objToArray(receivedObject);
-            if (that.dataArray.length != maxDataLength) pagesData[pageIndex - 1] = that.dataArray;
+            if (that.dataArray.length != maxDataLength) {
+              pagesDataObject[pageIndex - 1] = that.dataObject;
+              pagesData[pageIndex - 1] = that.dataArray;
+            }
             if (!that.root.innerHTML) {
                 renderTable(false,false);
             } else {
