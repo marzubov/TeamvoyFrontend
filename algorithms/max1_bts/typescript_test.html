@@ -95,7 +95,10 @@
   }
   function insert(){
     var key = parseFloat(document.getElementById('insert').value);
-    if (key) a.insert(a.root, key.toString(), a.root, 10);
+    if (key) {
+      a.insert(a.root, key.toString(), a.root, 10);
+      s.refresh();
+    }
   }
   function successor(){
     document.getElementById('result').value = a.successor().key;
