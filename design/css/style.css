@@ -1,0 +1,31 @@
+@font-face {
+  font-family: Neris;
+  src: url('../white_stripes_ui_kit/Neris/neris-thin.ttf') format('truetype');
+}
+body{
+  font-family: Neris;
+  font-size: 10px;
+  color: #ffffff;
+  background-color: #4595AE;
+}
+.menu {
+  width: 30%
+}
+.menu .custom-select .selector{
+  display: none;
+}
+.menu .custom-select .options{
+  display: inline-flex;
+  border: 2px solid #ffffff;
+  justify-content: space-between;
+  height: auto;
+}
+.menu .custom-select .options .option{
+  display: flex;
+  padding: 5px 15px;
+  margin: 0;
+}
+.menu .custom-select .options .hover{
+  background-color: #98B6C5;
+  color: #106879;
+}

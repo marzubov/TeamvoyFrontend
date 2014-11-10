@@ -140,7 +140,7 @@
     dataUsers = [];
     for(var i=0;i<10;i++){
       dataUsers.push({
-        "text": faker.name.findName(),
+        "text": faker.name.findName().toUpperCase(),
         "image": faker.image.avatar()
       })
     }

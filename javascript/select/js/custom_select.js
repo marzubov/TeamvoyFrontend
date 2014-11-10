@@ -58,7 +58,7 @@
      */
     this.filter = function (filterString) {
       this.model = data.filter(function (option) {
-        return new RegExp(filterString, 'i').test(option[config.title]);
+        return new RegExp(filterString).test(option[config.title]);
       });
       this.trigger('filtered');
       return renderOptions(this.options,filterString);
