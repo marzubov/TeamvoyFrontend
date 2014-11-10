@@ -49,12 +49,12 @@
 <p>Note: CustomSelect is block element (he takes 100% content).</p>
 </blockquote>
 </li>
-<li><p><strong>data</strong>  - array with object of data</p>
+<li><p><strong>data</strong>  - array with objects of data, with any properties.</p>
 </li>
 <li><p><strong>config</strong> - object witch contains properties title, value  and <em>template</em></p>
 <blockquote>
-<p>title -
-template - TODO!</p>
+<p>title - contains property name, that will be showed and filtered in selector
+template - HTML code with templates, that matches properties name in data array.</p>
 </blockquote>
 </li>
 </ul>
@@ -69,7 +69,7 @@ template - TODO!</p>
 </li>
 <li><p><strong>selected(title,value)</strong> - set new title and value to select, doesn&#39;t add new option.</p>
 </li>
-<li><p><strong>setOptionsData(newData)</strong> - set new data for options, newData must contain same properties as <a href="#syntax">optionsData</a>.</p>
+<li><p><strong>setData(newData)</strong> - set new data for options, newData must contain same properties as <a href="#syntax">data</a>.</p>
 </li>
 <li><p><strong>on(eventName,callback)</strong> - set listener of eventName, callback is the function that will be executed. Look to <a href="#events">event list</a></p>
 </li>
@@ -94,9 +94,98 @@ template - TODO!</p>
 </li>
 </ul>
 <a name="example"></a><h2>Example<a class="anchorlink" href="#example"></a></h2>
+<p>Example of simple select with different title and value:</p>
+<pre class="prettyprint">  var container = document.getElementById(&quot;newData&quot;),
+      config = {
+        title:&#39;title&#39;,
+        value: &#39;value&#39;
+      },
+    monthArray = [
+      {
+        &quot;title&quot;: &quot;january&quot;,
+        &quot;value&quot;: 1
+      },
+      {
+        &quot;title&quot;: &quot;february&quot;,
+        &quot;value&quot;: 2
+      },
+      {
+        &quot;title&quot;: &quot;march&quot;,
+        &quot;value&quot;: 3
+      },
+      {
+        &quot;title&quot;: &quot;april&quot;,
+        &quot;value&quot;: 4
+      },
+      {
+        &quot;title&quot;: &quot;may&quot;,
+        &quot;value&quot;: 5
+      }
+    ],
+    numberArray = [
+      {
+        &quot;title&quot;: &quot;first&quot;,
+        &quot;value&quot;: 1
+      },
+      {
+        &quot;title&quot;: &quot;second&quot;,
+        &quot;value&quot;: 2
+      },
+      {
+        &quot;title&quot;: &quot;third&quot;,
+        &quot;value&quot;: 3
+      },
+      {
+        &quot;title&quot;: &quot;fourth&quot;,
+        &quot;value&quot;: 4
+      },
+      {
+        &quot;title&quot;: &quot;fifth&quot;,
+        &quot;value&quot;: 5
+      },
+      {
+        &quot;title&quot;: &quot;fifth&quot;,
+        &quot;value&quot;: 6
+      }
+    ],
+  select = new CustomSelect(container, monthArray
+    ,config
+  );
+  newDataSelect.on(&#39;change&#39;, function(){
+    document.querySelector(&quot;#output&quot;).innerHTML = &#39;Value: &#39;+select.value;
+  });
+  document.querySelector(&quot;button&quot;).onclick = function(){
+    select.model.length == monthArray.length ?
+    select.setData(numberArray):
+      select.setData(monthArray);
+  };</pre>
+<p><div class="half-page" id="newData"> <div id="output">Value: </div><button>Change data!</button></div></p>
 <a name="events_in_action"></a><h3>Events in action<a class="anchorlink" href="#events_in_action"></a></h3>
 <p>You can easily bind native and custom select with such code:</p>
-<pre class="prettyprint"> var nativeSelect = document.querySelector(&#39;#native&#39;);
+<pre class="prettyprint">var containerTwo = document.getElementById(&quot;second&quot;),
+    secondConfig = {
+      title:&#39;title&#39;,
+      value: &#39;value&#39;
+    },
+    eventsSelect = new CustomSelect(containerTwo, [
+      {
+        &quot;number&quot;: 1
+      },
+      {
+        &quot;number&quot;: 2
+      },
+      {
+        &quot;number&quot;: 3
+      },
+      {
+        &quot;number&quot;: 4
+      },
+      {
+        &quot;number&quot;: 5
+      }
+    ],secondConfig);
+&lt;div id=&quot;first&quot;&gt;&lt;/div&gt;
+ var nativeSelect = document.querySelector(&#39;#native&#39;);
     nativeSelect.addEventListener(&#39;mousedown&#39;,function(){
         customSelect.toggle();
     });
@@ -117,7 +206,8 @@ template - TODO!</p>
 <a name="work_with_templates"></a><h3>Work with templates<a class="anchorlink" href="#work_with_templates"></a></h3>
 <p>You can use templates to create nice look for you select:</p>
 <pre class="prettyprint">  var templateConfig = {
-    template: &#39;&lt;div class=&quot;template img-circle&quot;&gt;&lt;img class=&quot;film-logo&quot; src=&quot;{{image}}&quot;&gt;&lt;div class=&quot;text&quot;&gt;{{text}}&lt;/div&gt;&lt;/div&gt;&#39;,
+    template: &#39;&lt;div class=&quot;template img-circle&quot;&gt;+
+    &lt;img class=&quot;film-logo&quot; src=&quot;{{image}}&quot;&gt;&lt;div class=&quot;text&quot;&gt;{{text}}&lt;/div&gt;&lt;/div&gt;&#39;,
     title: &#39;text&#39;,
     value: &#39;text&#39;
   };

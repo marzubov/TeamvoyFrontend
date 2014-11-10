@@ -17,11 +17,11 @@ The arguments of this class are:
 
 * **container** - DOM element, custom select becomes child of the container. 
 > Note: CustomSelect is block element (he takes 100% content).
-* **data**  - array with object of data
+* **data**  - array with objects of data, with any properties.
 
 * **config** - object witch contains properties title, value  and *template*
-> title -
-> template - TODO!
+> title - contains property name, that will be showed and filtered in selector
+> template - HTML code with templates, that matches properties name in data array.
 
 ##Methods
 The methods of this class are:
@@ -34,7 +34,7 @@ The methods of this class are:
 
 4. **selected(title,value)** - set new title and value to select, doesn't add new option.
 
-5. **setOptionsData(newData)** - set new data for options, newData must contain same properties as [optionsData](#syntax).
+5. **setData(newData)** - set new data for options, newData must contain same properties as [data](#syntax).
  
 6. **on(eventName,callback)** - set listener of eventName, callback is the function that will be executed. Look to [event list](#events)
 
@@ -55,9 +55,100 @@ The events called by this class are:
 * **change** - occur after user choose some option by click or keyboard;
 
 ##Example
+Example of simple select with different title and value:
+```js
+  var container = document.getElementById("newData"),
+      config = {
+        title:'title',
+        value: 'value'
+      },
+    monthArray = [
+      {
+        "title": "january",
+        "value": 1
+      },
+      {
+        "title": "february",
+        "value": 2
+      },
+      {
+        "title": "march",
+        "value": 3
+      },
+      {
+        "title": "april",
+        "value": 4
+      },
+      {
+        "title": "may",
+        "value": 5
+      }
+    ],
+    numberArray = [
+      {
+        "title": "first",
+        "value": 1
+      },
+      {
+        "title": "second",
+        "value": 2
+      },
+      {
+        "title": "third",
+        "value": 3
+      },
+      {
+        "title": "fourth",
+        "value": 4
+      },
+      {
+        "title": "fifth",
+        "value": 5
+      },
+      {
+        "title": "fifth",
+        "value": 6
+      }
+    ],
+  select = new CustomSelect(container, monthArray
+    ,config
+  );
+  newDataSelect.on('change', function(){
+    document.querySelector("#output").innerHTML = 'Value: '+select.value;
+  });
+  document.querySelector("button").onclick = function(){
+    select.model.length == monthArray.length ?
+    select.setData(numberArray):
+      select.setData(monthArray);
+  };
+```
+<div class="half-page" id="newData"> <div id="output">Value: </div><button>Change data!</button></div>
 ### Events in action
 You can easily bind native and custom select with such code:
 ```js
+var containerTwo = document.getElementById("second"),
+    secondConfig = {
+      title:'title',
+      value: 'value'
+    },
+    eventsSelect = new CustomSelect(containerTwo, [
+      {
+        "number": 1
+      },
+      {
+        "number": 2
+      },
+      {
+        "number": 3
+      },
+      {
+        "number": 4
+      },
+      {
+        "number": 5
+      }
+    ],secondConfig);
+<div id="first"></div>
  var nativeSelect = document.querySelector('#native');
     nativeSelect.addEventListener('mousedown',function(){
         customSelect.toggle();
@@ -83,7 +174,8 @@ You can use templates to create nice look for you select:
 
 ```js
   var templateConfig = {
-    template: '<div class="template img-circle"><img class="film-logo" src="{{image}}"><div class="text">{{text}}</div></div>',
+    template: '<div class="template img-circle">+
+    <img class="film-logo" src="{{image}}"><div class="text">{{text}}</div></div>',
     title: 'text',
     value: 'text'
   };

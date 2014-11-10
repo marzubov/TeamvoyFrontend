@@ -15,6 +15,10 @@
 .custom-select .options .option:nth-child(2n){
   background-color: #74A1C1;
 }
+.custom-select .alert{
+  color: #e74c3c;
+  border-color: #c0392b;
+}
 .custom-select .img{
   top: 8px;
   right: 10px;

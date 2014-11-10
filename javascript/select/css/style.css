@@ -17,3 +17,10 @@ h2 { color: #ffffff; font-family: 'Lato', sans-serif; font-size: 36px; font-weig
 #bonus{
   padding-bottom: 200px;
 }
+#newData{
+  display: flex;
+  justify-content: space-between;
+}
+#output{
+  margin: auto 50px auto 100px;
+}

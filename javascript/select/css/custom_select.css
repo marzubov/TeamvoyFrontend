@@ -15,15 +15,10 @@
   height: 0;
   text-align: right;
 }
-
-.custom-select .alert{
-  color: #c0392b!important;
-}
 .custom-select .options{
   cursor: inherit;
   height: 0;
   position: relative;
-  left: 4px;
   z-index: 999;
 }
 .custom-select .highlighted{

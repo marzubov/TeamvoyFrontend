@@ -31,6 +31,67 @@
       ]
       ,firstConfig
     );
+  //New data example
+  var newDataContainer = document.getElementById("newData"),
+    monthArray = [
+      {
+        "title": "january",
+        "value": 1
+      },
+      {
+        "title": "february",
+        "value": 2
+      },
+      {
+        "title": "march",
+        "value": 3
+      },
+      {
+        "title": "april",
+        "value": 4
+      },
+      {
+        "title": "may",
+        "value": 5
+      }
+    ],
+    numberArray = [
+      {
+        "title": "first",
+        "value": 1
+      },
+      {
+        "title": "second",
+        "value": 2
+      },
+      {
+        "title": "third",
+        "value": 3
+      },
+      {
+        "title": "fourth",
+        "value": 4
+      },
+      {
+        "title": "fifth",
+        "value": 5
+      },
+      {
+        "title": "fifth",
+        "value": 6
+      }
+    ],
+  newDataSelect = new CustomSelect(newDataContainer, monthArray
+    ,firstConfig
+  );
+  newDataSelect.on('change', function(){
+    document.querySelector("#output").innerHTML = 'Value: '+newDataSelect.value;
+  });
+  document.querySelector("button").onclick = function(){
+    newDataSelect.model.length == monthArray.length ?
+    newDataSelect.setData(numberArray):
+      newDataSelect.setData(monthArray);
+  };
 
   // Second example
   var containerTwo = document.getElementById("second"),
@@ -38,7 +99,7 @@
       title:'number',
       value: 'number'
     },
-    customSelect = new CustomSelect(containerTwo, [
+    eventsSelect = new CustomSelect(containerTwo, [
       {
         "number": 1
       },
@@ -59,14 +120,15 @@
   // Event example
   var nativeSelect = document.querySelector('#native');
   nativeSelect.addEventListener('mousedown', function () {
-    customSelect.toggle();
+    eventsSelect.toggle();
   });
-  customSelect.on('change', function () {
+  eventsSelect.on('change', function () {
     nativeSelect.value = this.value;
   });
   nativeSelect.addEventListener('change', function () {
-    customSelect.selected(nativeSelect.value, nativeSelect.value);
+    eventsSelect.selected(nativeSelect.value, nativeSelect.value);
   });
+  //New data example
 
   // Third example
   var templateConfig = {
@@ -93,6 +155,7 @@
       "image": 'http://3.bp.blogspot.com/-f0NsmUHz2kM/T8GUGoydNpI/AAAAAAAAAfg/KnEkgnFPzpc/s1600/smiley.png'
     }
   ], templateConfig);
+
 
   //Bonus
   var containerBonus = document.getElementById('bonus');

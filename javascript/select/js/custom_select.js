@@ -43,9 +43,12 @@
      *
      * @param newData - object with properties title and value. Similar to argument data
      */
-    this.setOptionsData = function (newData) {
+    this.setData = function (newData) {
       data = newData;
-      return this.filter('');
+      this.selected('','');
+      that.trigger('change');
+      this.filter('');
+      return this;
     };
 
     /**
@@ -74,15 +77,6 @@
       }
     });
 
-    init(); // It`s all begins here!
-    function init() {
-      that.rootElement = render();
-      that.rootElement.appendChild(that.selector = renderSelector());
-      that.rootElement.appendChild(that.options = renderOptions());
-      container.appendChild(that.rootElement);
-      listenUserActions(that.rootElement);
-      that.hide();
-    }
 
     // Generate root element
     function render() {
@@ -177,6 +171,16 @@
             break;
         }
       });
+    }
+
+    init(); // It`s all begins here!
+    function init() {
+      that.rootElement = render();
+      that.rootElement.appendChild(that.selector = renderSelector());
+      that.rootElement.appendChild(that.options = renderOptions());
+      container.appendChild(that.rootElement);
+      listenUserActions(that.rootElement);
+      that.hide();
     }
   };
   CustomSelect.extend(EventMachine);
