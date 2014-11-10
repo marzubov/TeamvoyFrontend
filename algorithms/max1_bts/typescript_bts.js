@@ -31,7 +31,7 @@ var BST = (function () {
         return this;
     }
     BST.prototype.search = function (node, key) {
-        return (!node) || (key == node.key) ? node : key < node.key ? this.search(node.leftChild, key) : this.search(node.rightChild, key);
+        return (!node) || (key == node.key) ? node : parseFloat(key) < parseFloat(node.key) ? this.search(node.leftChild, key) : this.search(node.rightChild, key);
     };
     BST.prototype.insert = function (node, key, parent, deep) {
         if (!node.key) {
@@ -81,9 +81,9 @@ var BST = (function () {
             newNode.parent = node.parent;
     };
     BST.prototype.remove = function (node, key) {
-        if (key < node.key)
+        if (parseFloat(key) < parseFloat(node.key))
             this.remove(node.leftChild, key);
-        else if (key > node.key)
+        else if (parseFloat(key) > parseFloat(node.key))
             this.remove(node.rightChild, key);
         else if ((node.leftChild.key) && (node.rightChild.key)) {
             var successor = this.findMin(node.rightChild);

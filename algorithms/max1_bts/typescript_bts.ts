@@ -35,7 +35,7 @@ class BST {
   }
 
   search(node: TreeNode, key: string){
-    return (!node) || (key == node.key) ? node : key < node.key
+    return (!node) || (key == node.key) ? node : parseFloat(key) < parseFloat(node.key)
       ? this.search(node.leftChild, key) : this.search(node.rightChild, key);
   }
 
@@ -82,8 +82,8 @@ class BST {
   }
 
   remove(node: TreeNode, key:string){
-    if (key < node.key)this.remove(node.leftChild, key);
-    else if (key > node.key)this.remove(node.rightChild, key);
+    if (parseFloat(key) < parseFloat(node.key))this.remove(node.leftChild, key);
+    else if (parseFloat(key) > parseFloat(node.key))this.remove(node.rightChild, key);
     else if ((node.leftChild.key) && (node.rightChild.key)) {
       var successor = this.findMin(node.rightChild);
       node.key = successor.key;
