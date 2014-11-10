@@ -1,6 +1,7 @@
 (function(document,window){
-  window.Dog = function(){
-    Animal.call(this,20);
+  window.Dog = function(name){
+    EventMachine.call(this);
+    Animal.call(this,20,name);
     this.on('sound',doWoof);
 
     function doWoof(){
