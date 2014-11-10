@@ -1,9 +1,7 @@
 ﻿(function (document, window) {
-  window.BinaryTree = function (data,parent,left,right) {
+  window.BinaryTree = function (data,parent) {
     this.value = data;
     this.parent = parent;
-    this.left = left;
-    this.right = right;
 
     /**
      * Add array to the tree
