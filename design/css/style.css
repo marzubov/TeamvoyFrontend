@@ -25,10 +25,10 @@ body{
   flex-wrap: wrap;
   justify-content: flex-start;
 }
-input ::-webkit-input-placeholder { color:#98B6C5; }
-input::-moz-placeholder { color:#98B6C5; } /* firefox 19+ */
-input :-ms-input-placeholder { color:#98B6C5; } /* ie */
-input :-moz-placeholder { color:#98B6C5; }
+input ::-webkit-input-placeholder { color:#bdc3c7; }
+input::-moz-placeholder { color:#bdc3c7; } /* firefox 19+ */
+input :-ms-input-placeholder { color:#bdc3c7; } /* ie */
+input :-moz-placeholder { color:#bdc3c7; }
 .search .custom-select .selector{
   background-color: transparent;
   border: 3px solid #ffffff;
