@@ -19,7 +19,7 @@
         locale: 'en',
         daysInWeek: 7,
         dayEvents: [{date: moment([2014,10,10])}],
-        weekends: ['SAT', 'SUN']
+        weekends: ['Sat', 'Sun']
       };
     this.container = container;
 
@@ -62,7 +62,7 @@
       model.daysNames = Array.apply(null, {length: config.daysInWeek}).map(function (el, i) {
         var dayName = {
           name: date.format('ddd'),
-          isWeekend: (config.weekends.indexOf(date.clone().locale('en').format('ddd').toUpperCase()) != -1)
+          isWeekend: (config.weekends.indexOf(date.clone().locale('en').format('ddd')) != -1)
         };
         date.add(1,'days');
         return dayName;
@@ -74,7 +74,7 @@
       model.days = Array.apply(null, {length: maxDaysNumber}).map(function (el, i) {
         var day = {
           isInMonth: date.get('month') == (config.month - 1),
-          isWeekend: (config.weekends.indexOf(date.clone().locale('en').format('ddd').toUpperCase()) != -1),
+          isWeekend: (config.weekends.indexOf(date.clone().locale('en').format('ddd')) != -1),
           date: date.clone()._d
         };
         date.add(1,'days');

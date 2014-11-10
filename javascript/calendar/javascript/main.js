@@ -9,8 +9,8 @@
     var eightsContainer = document.getElementById('eightsContainer');
 
     var firstCalendar  = new Calendar(firstContainer,{});
-    var secondCalendar = new Calendar(secondContainer,{year: 2014, month: 5,firstDayOfWeek: "Пн" ,
-      locale: "uk", weekends:["Сб","Нд"]});
+    var secondCalendar = new Calendar(secondContainer,{year: 2014, month: 5,firstDayOfWeek: "Mon" ,
+      locale: "uk", weekends:["Sat","Sun"]});
     //var thirdCalendar = new Calendar(thirdContainer,{daysInWeek: 14});
    // var fourthCalendar = new Calendar(fourthContainer,{daysInWeek: 13});
     var fifthCalendar = new Calendar(fifthContainer,{year: 2014, month: 5,firstDayOfWeek: "Mon",
