@@ -14,7 +14,6 @@
             'headers': ['1', '2', '3', '4', '5'],
             'maxRows': 5,
             'arrayOrURL' : numberArray,
-            'changeData': false,
             'withFilter': false,
             'columnTemplates': false
         };
@@ -24,7 +23,6 @@
             'headers': ['1', '2', '3', '4', '5'],
             'maxRows': 5,
             'arrayOrURL': 'http://localhost:8001',
-            'changeData': false,
             'withFilter': false,
             'loadByParts': true,
             'columnTemplates': {
@@ -37,7 +35,6 @@
             'maxRows': 5,
             'arrayOrURL': 'http://localhost:8001',
             'withFilter': true,
-            'changeData': false,
             'loadByParts': false,
             'columnTemplates': {
                 1: Handlebars.compile("<i><b>{{age2}}</b></i>"),

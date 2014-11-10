@@ -25,7 +25,7 @@
 
   <div id="toc">
     <div id="toc-inner">
-      <ul class="nav nav-list"><li><a href="#sortablegrid_js">SortableGrid.js</a></li><li><a href="#installation">Installation</a></li><li><a href="#configure">Configure</a></li><li><a href="#sortablegrid_methods_">SortableGrid methods</a></li><li><a href="#usage">Usage</a></li><li><a href="#additions">Additions</a></li><li><a href="#draggable_table">Draggable table</a></li><li><a href="#filterable_table">Filterable table</a></li><li><a href="#examples">Examples</a></li><li><a href="#draggable_table">Draggable table</a></li><li><a href="#table_with_full_data_from_server_with_templates_with_filter">Table with full data from server with templates with filter</a></li><li><a href="#table_with_partial_data_from_server_with_templates">Table with partial data from server with templates</a></li></ul>
+      <ul class="nav nav-list"><li><a href="#sortablegrid_js">SortableGrid.js</a></li><li><a href="#installation">Installation</a></li><li><a href="#configure">Configure</a></li><li><a href="#sortablegrid_public_methods_">SortableGrid public methods</a></li><li><a href="#sortablegrid_public_properties_">SortableGrid public properties</a></li><li><a href="#usage">Usage</a></li><li><a href="#additions">Additions</a></li><li><a href="#draggable_table">Draggable table</a></li><li><a href="#filterable_table">Filterable table</a></li><li><a href="#examples">Examples</a></li><li><a href="#draggable_table">Draggable table</a></li><li><a href="#table_with_full_data_from_server_with_templates_with_filter">Table with full data from server with templates with filter</a></li><li><a href="#table_with_partial_data_from_server_with_templates">Table with partial data from server with templates</a></li></ul>
     </div>
   </div>
 
@@ -40,7 +40,8 @@
 
 
       <a name="sortablegrid_js"></a><h2>SortableGrid.js<a class="anchorlink" href="#sortablegrid_js"></a></h2>
-<p>Component Table is created without any javascript libraries.</p>
+<p>Component Table is created without any javascript libraries.
+This class return the created table.</p>
 <p>For creating the table such code is used:</p>
 <pre class="prettyprint">&lt;div id=&quot;fullServerData&quot;&gt;&lt;/div&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
@@ -51,6 +52,7 @@
         &#39;headers&#39;: [&#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;],
         &#39;maxRows&#39;: 5,
         &#39;arrayOrURL&#39;: &#39;http://localhost:8001&#39;,
+        &#39;withFilter&#39;: false,
         &#39;loadByParts&#39;: false,
         &#39;columnTemplates&#39;: false
      }
@@ -61,7 +63,6 @@
 this component in your program, use this code:</p>
 <pre class="prettyprint">&lt;script src=&quot;js/handlebars-v2.0.0.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;js/helper.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;js/event_machine.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;js/pager.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;js/sortable_grid.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;</pre>
 <a name="configure"></a><h2>Configure<a class="anchorlink" href="#configure"></a></h2>
@@ -77,6 +78,8 @@ var configObjectFullLoadingWithTemplate = {
   // {string or array} the url to the local server
   //or the array with data for table
   &#39;arrayOrURL&#39;: &#39;http://localhost:8001&#39;,
+  //for including filter field to the table
+  &#39;withFilter&#39;: false,
    // {boolean} whether the file will be load partial by pages or not
   &#39;loadByParts&#39;: false,
   // {object or boolean} if we don&#39;t use templates use {false}
@@ -92,15 +95,15 @@ var fullDataTable = new SortableGrid(
   configObjectFullLoadingWithTemplate
 );
 &lt;/script&gt;</pre>
-<a name="sortablegrid_methods_"></a><h3>SortableGrid methods:<a class="anchorlink" href="#sortablegrid_methods_"></a></h3>
+<a name="sortablegrid_public_methods_"></a><h3>SortableGrid public methods:<a class="anchorlink" href="#sortablegrid_public_methods_"></a></h3>
 <ol class="list">
-<li>getCreatedElement() - Get all model of sortable grid</li>
-<li>getRoot() - Get the table from sortable grid</li>
-<li>getData() - Get data, that table consists</li>
-<li>sort() - sort data in table</li>
-<li>refresh() - put new data, container, configure object and change the table</li>
-<li>renderTable() - generate table view</li>
-<li>goTo() - go to the new page</li>
+<li>changeTableData() - argument - newData. Refresh the table with new data.</li>
+<li>goTo() - argument - index of page. Go to the new page</li>
+</ol>
+<a name="sortablegrid_public_properties_"></a><h3>SortableGrid public properties:<a class="anchorlink" href="#sortablegrid_public_properties_"></a></h3>
+<ol class="list">
+<li>root - the created table</li>
+<li>dataArray - the data, that is located in table.</li>
 </ol>
 <a name="usage"></a><h2>Usage<a class="anchorlink" href="#usage"></a></h2>
 <p>You can create the table with your array, such as:</p>
@@ -117,6 +120,7 @@ var fullDataTable = new SortableGrid(
   var configObject = {
      &#39;headers&#39;: [&#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;],
      &#39;arrayOrURL&#39; : dataForTable,
+     &#39;withFilter&#39;: false,
      &#39;maxRows&#39;: 5,
      &#39;columnTemplates&#39;: false
   };
@@ -133,6 +137,7 @@ var fullDataTable = new SortableGrid(
      &#39;headers&#39;: [&#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;],
      &#39;maxRows&#39;: 5,
      &#39;arrayOrURL&#39;: &#39;http://localhost:8001&#39;,
+     &#39;withFilter&#39;: false,
      &#39;loadByParts&#39;: false,
      &#39;columnTemplates&#39;: false
   };
@@ -159,17 +164,16 @@ var fullDataTable = new SortableGrid(
         &#39;loadByParts&#39;: false,
         &#39;columnTemplates&#39;: false
      }
-  ).getCreatedElement();
+  );
   var draggable = new Draggable(
-    grid.getRoot(),
-    grid.getData()
+    grid.root,
+    grid.dataArray
   );
 &lt;/script&gt;</pre>
 <a name="filterable_table"></a><h3>Filterable table<a class="anchorlink" href="#filterable_table"></a></h3>
 <p>For using this addition you have to include the next js file:</p>
 <pre class="prettyprint">&lt;script src=&quot;js/filterable.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;</pre>
-<p>You can you this additions with class Filterable, that have one argument: table, where we want to use it.
-You can turn on filterable with method enable() and turn out with disable() method.</p>
+<p>You can use this additions with configuration element &#39;withFilter&#39;: true.</p>
 <p>You can create table with filter with such code:</p>
 <pre class="prettyprint">&lt;div id=&quot;fullServerData&quot;&gt;&lt;/div&gt;
 &lt;script type=&quot;text/javascript&quot;&gt;
@@ -180,12 +184,11 @@ You can turn on filterable with method enable() and turn out with disable() meth
         &#39;headers&#39;: [&#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;],
         &#39;maxRows&#39;: 5,
         &#39;arrayOrURL&#39;: &#39;http://localhost:8001&#39;,
+        &#39;withFilter&#39;: true,
         &#39;loadByParts&#39;: false,
         &#39;columnTemplates&#39;: false
      }
-  ).getCreatedElement();
-  var filterable = new Filterable(grid.getRoot());
-  filterable.enable(1);
+  );
 &lt;/script&gt;</pre>
 <a name="examples"></a><h2>Examples<a class="anchorlink" href="#examples"></a></h2>
 <a name="draggable_table"></a><h3>Draggable table<a class="anchorlink" href="#draggable_table"></a></h3>

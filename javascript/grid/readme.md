@@ -1,6 +1,7 @@
 ##SortableGrid.js
 
 Component Table is created without any javascript libraries.
+This class return the created table.
 
 For creating the table such code is used:
 
@@ -14,6 +15,7 @@ For creating the table such code is used:
         'headers': ['1', '2', '3', '4', '5'],
         'maxRows': 5,
         'arrayOrURL': 'http://localhost:8001',
+        'withFilter': false,
         'loadByParts': false,
         'columnTemplates': false
      }
@@ -29,7 +31,6 @@ this component in your program, use this code:
 ```js
 <script src="js/handlebars-v2.0.0.js" type="text/javascript"></script>
 <script src="js/helper.js" type="text/javascript"></script>
-<script src="js/event_machine.js" type="text/javascript"></script>
 <script src="js/pager.js" type="text/javascript"></script>
 <script src="js/sortable_grid.js" type="text/javascript"></script>
 ```
@@ -50,6 +51,8 @@ var configObjectFullLoadingWithTemplate = {
   // {string or array} the url to the local server
   //or the array with data for table
   'arrayOrURL': 'http://localhost:8001',
+  //for including filter field to the table
+  'withFilter': false,
    // {boolean} whether the file will be load partial by pages or not
   'loadByParts': false,
   // {object or boolean} if we don't use templates use {false}
@@ -67,15 +70,14 @@ var fullDataTable = new SortableGrid(
 </script>
 ```
 
-###SortableGrid methods:
+###SortableGrid public methods:
 
-1. getCreatedElement() - Get all model of sortable grid
-2. getRoot() - Get the table from sortable grid
-3. getData() - Get data, that table consists
-4. sort() - sort data in table
-5. refresh() - put new data, container, configure object and change the table
-6. renderTable() - generate table view
-7. goTo() - go to the new page
+1. changeTableData() - argument - newData. Refresh the table with new data.
+2. goTo() - argument - index of page. Go to the new page
+
+###SortableGrid public properties:
+1. root - the created table
+2. dataArray - the data, that is located in table.
 
 ##Usage
 
@@ -95,6 +97,7 @@ You can create the table with your array, such as:
   var configObject = {
      'headers': ['1', '2', '3', '4', '5'],
      'arrayOrURL' : dataForTable,
+     'withFilter': false,
      'maxRows': 5,
      'columnTemplates': false
   };
@@ -115,6 +118,7 @@ Also you can create the table with data from file:
      'headers': ['1', '2', '3', '4', '5'],
      'maxRows': 5,
      'arrayOrURL': 'http://localhost:8001',
+     'withFilter': false,
      'loadByParts': false,
      'columnTemplates': false
   };
@@ -152,10 +156,10 @@ You can create the draggable table with such code:
         'loadByParts': false,
         'columnTemplates': false
      }
-  ).getCreatedElement();
+  );
   var draggable = new Draggable(
-    grid.getRoot(),
-    grid.getData()
+    grid.root,
+    grid.dataArray
   );
 </script>
 ```
@@ -168,8 +172,7 @@ For using this addition you have to include the next js file:
 <script src="js/filterable.js" type="text/javascript"></script>
 ```
 
-You can you this additions with class Filterable, that have one argument: table, where we want to use it.
-You can turn on filterable with method enable() and turn out with disable() method.
+You can use this additions with configuration element 'withFilter': true.
 
 You can create table with filter with such code:
 
@@ -183,12 +186,11 @@ You can create table with filter with such code:
         'headers': ['1', '2', '3', '4', '5'],
         'maxRows': 5,
         'arrayOrURL': 'http://localhost:8001',
+        'withFilter': true,
         'loadByParts': false,
         'columnTemplates': false
      }
-  ).getCreatedElement();
-  var filterable = new Filterable(grid.getRoot());
-  filterable.enable(1);
+  );
 </script>
 ```
 
