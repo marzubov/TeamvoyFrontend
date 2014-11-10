@@ -85,7 +85,8 @@ var Filterable = function (grid){
             newData.push(dataFromGrid[i])
           }
         });
-        grid.changeTableData(newData);
+      console.log(grid.config.maxRows);
+        grid.changeTableData(newData, grid.config.maxRows);
         return newData;
     }
 

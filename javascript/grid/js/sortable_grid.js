@@ -5,7 +5,7 @@
         this.dataArray = [];
         this.dataObject;
         this.root = '';
-        var pagesData = [], pagesDataObject = [], pageIndex = 1, countOfPages, pager, maxDataLength, sortedColumn, that, PagerObject;
+        var pagesData = [], pagesDataObject = [], pageIndex = 1, countOfPages, pager, maxDataLength, sortedColumn, that, PagerObject, maxRows;
 
         function getData(url, start, end) {
             url += '/getdata';
@@ -52,10 +52,10 @@
             if (!fromPagesData) { data = that.dataArray; }
             else { data = pagesData[pageIndex - 1]; dataObject = pagesDataObject[pageIndex - 1]; }
             if (!fromPagesData) {
-                var rowLength = (pageIndex == countOfPages) ? data.length : pageIndex * that.config.maxRows;
-                dataString = renderRowsOfTable((pageIndex - 1) * that.config.maxRows, rowLength, data, that.dataObject);
+                var rowLength = (pageIndex == countOfPages) ? data.length : pageIndex * maxRows;
+                dataString = renderRowsOfTable((pageIndex - 1) * maxRows, rowLength, data, that.dataObject);
             } else {
-                var rowLength = (pageIndex == countOfPages) ? data.length : that.config.maxRows;
+                var rowLength = (pageIndex == countOfPages) ? data.length : maxRows;
                 dataString = renderRowsOfTable(0, rowLength, data, dataObject);
             }
             dataBody.innerHTML = dataString;
@@ -88,7 +88,7 @@
 
         this.goTo = function (newPageIndex) {
             if (!newPageIndex) { return; }
-            if ((parseFloat(newPageIndex) < 0) || (parseFloat(newPageIndex) > (maxDataLength / that.config.maxRows + 1).toFixed(0))) { return; }
+            if ((parseFloat(newPageIndex) < 0) || (parseFloat(newPageIndex) > (maxDataLength / maxRows + 1).toFixed(0))) { return; }
             pageIndex = newPageIndex;
             if (pager.childNodes.length) PagerObject.changePagerSelection(pager, pageIndex);
             if (that.dataArray.length === maxDataLength) {
@@ -97,7 +97,7 @@
                 if (!pagesData[pageIndex - 1]) {
                     if (that.dataArray.length != maxDataLength) {
                         console.log("new request");
-                        getData(that.config.arrayOrURL, (pageIndex - 1) * that.config.maxRows, pageIndex * that.config.maxRows);
+                        getData(that.config.arrayOrURL, (pageIndex - 1) * maxRows, pageIndex * maxRows);
                     } else {
                         changePageData(false);
                     }
@@ -116,12 +116,12 @@
 
         function renderBody(data){
           var bodyString="";
-          if (!that.config.maxRows || that.config.maxRows > data.length) {
-            that.config.maxRows = data.length;
+          if (!maxRows || maxRows > data.length) {
+            maxRows = data.length;
           }
           if (!maxDataLength) { maxDataLength = data.length; }
           bodyString += '<tbody class="data-body">';
-          bodyString += renderRowsOfTable(0, that.config.maxRows, that.dataArray, that.dataObject);
+          bodyString += renderRowsOfTable(0, maxRows, that.dataArray, that.dataObject);
           bodyString += '</tbody>';
           return bodyString;
         }
@@ -158,9 +158,7 @@
         }
 
         function renderTable(sortable, change) {
-          countOfPages = (maxDataLength % that.config.maxRows) ?
-            (maxDataLength / that.config.maxRows + 1).toFixed(0) :
-            (maxDataLength / that.config.maxRows).toFixed(0);
+
             if (change) {
               var bodyTable = that.container.querySelector(".data-body");
               bodyTable.innerHTML = renderBody(that.dataArray);
@@ -177,7 +175,7 @@
               el.addEventListener('click', headClicked);
             }
           });
-          PagerObject = new Pager(pager, maxDataLength, that.goTo, that.config.maxRows);
+          PagerObject = new Pager(pager, maxDataLength, that.goTo, maxRows);
         }
 
         function objToArray(object){
@@ -204,6 +202,9 @@
               pagesData[pageIndex - 1] = that.dataArray;
             }
             if (!that.root.innerHTML) {
+              countOfPages = (maxDataLength % maxRows) ?
+                (maxDataLength / maxRows + 1).toFixed(0) :
+                (maxDataLength / maxRows).toFixed(0);
                 renderTable(false,false);
             } else {
                 changePageData(true);
@@ -212,7 +213,7 @@
             return(xhr.responseText);
         }
 
-        this.changeTableData = function(newData){
+        this.changeTableData = function(newData, newMaxRow){
           pager = this.container.querySelector(".pages");
           if (newData[0] instanceof Array) {
             that.dataArray = newData;
@@ -221,6 +222,10 @@
             that.dataObject = newData;
             maxDataLength = that.dataArray.length;
           }
+          maxRows = newMaxRow;
+          countOfPages = (maxDataLength % maxRows) ?
+            (maxDataLength / maxRows + 1).toFixed(0) :
+            (maxDataLength / maxRows).toFixed(0);
           renderTable(false, true);
         }
 
@@ -231,9 +236,10 @@
             this.container.appendChild(this.root);
             this.container.appendChild(pager);
             that = this;
+            maxRows = this.config.maxRows;
             if (typeof this.config.arrayOrURL == 'string') {
                 if (this.config.loadByParts) {
-                    getData(this.config.arrayOrURL, 0, this.config.maxRows);
+                    getData(this.config.arrayOrURL, 0, maxRows);
                 } else {
                     getData(this.config.arrayOrURL);
                 }
@@ -245,6 +251,9 @@
                 that.dataObject = this.config.arrayOrURL;
                 maxDataLength = that.dataArray.length;
               }
+              countOfPages = (maxDataLength % maxRows) ?
+                (maxDataLength / maxRows + 1).toFixed(0) :
+                (maxDataLength / maxRows).toFixed(0);
               renderTable(false, false);
               if (that.config.withFilter) new Filterable(that);
             }
