@@ -40,7 +40,7 @@
      * generating calendar model
      * @returns {{daysNames: Array, days: Array}}
      */
-    function generateCalendar() {
+    var generateCalendar = this.generateCalendar = function () {
       var date = moment([config.year, config.month - 1, 1]),
         maxDaysNumber = (1 + parseFloat(Math.ceil(30 / config.daysInWeek))) * config.daysInWeek;
 
@@ -76,9 +76,8 @@
         return day;
       });
 
-      console.log(model);
       return model;
-    }
+    };
 
     this.dayTemplate = function (day) {
       //here goes day template logic
@@ -206,7 +205,6 @@
             } else{
               that.previousMonth();
             }
-            console.log(config.month);
             that.trigger('monthChanged', [config.month]);
             generateCalendar();
             render();
