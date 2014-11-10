@@ -5,7 +5,7 @@
         this.dataArray = [];
         this.dataObject;
         this.root = '';
-        var pagesData = [], pageIndex = 1, countOfPages, pager, maxDataLength, sortedColumn, that, PagerObject;
+        var pagesData = [], pageIndex = 1, countOfPages, pager, maxDataLength, sortedColumn, that, PagerObject, prevent=1;
 
         function getData(url, start, end) {
             url += '/getdata';
@@ -84,6 +84,7 @@
                 keyIndex += 1;
               });
             }
+          prevent += 1;
             changePageData(false);
             that.goTo(1);
         }
@@ -128,8 +129,9 @@
           return bodyString;
         }
 
-        function headClicked() {
+        function headClicked(e) {
           var reverse;
+          if (prevent == 2) { prevent = 1; return; }
           if (this.classList.contains('asc')) {
             this.classList.add('desc');
             this.classList.remove('asc');
@@ -148,6 +150,10 @@
           }
           sortedColumn = this.cellIndex;
           sortTable(sortedColumn, reverse);
+          prevent += 1;
+          e.stopPropagation();
+          e.preventDefault();
+          return false;
         }
 
         function deleteArrows() {
@@ -159,11 +165,11 @@
           }
         }
 
-        function renderTable(sortable) {
+        function renderTable(sortable, change) {
           countOfPages = (maxDataLength % that.config.maxRows) ?
             (maxDataLength / that.config.maxRows + 1).toFixed(0) :
             (maxDataLength / that.config.maxRows).toFixed(0);
-            if (that.config.changeData) {
+            if (change) {
               var bodyTable = that.container.querySelector(".data-body");
               bodyTable.innerHTML = renderBody(that.dataArray);
             } else {
@@ -203,12 +209,24 @@
             that.dataArray = objToArray(receivedObject);
             if (that.dataArray.length != maxDataLength) pagesData[pageIndex - 1] = that.dataArray;
             if (!that.root.innerHTML) {
-                renderTable(false);
+                renderTable(false,false);
             } else {
                 changePageData(true);
             }
             if (that.config.withFilter) new Filterable(that);
             return(xhr.responseText);
+        }
+
+        this.changeTableData = function(newData){
+          pager = this.container.querySelector(".pages");
+          if (newData[0] instanceof Array) {
+            that.dataArray = newData;
+          } else {
+            that.dataArray = objToArray(newData);
+            that.dataObject = newData;
+            maxDataLength = that.dataArray.length;
+          }
+          renderTable(false, true);
         }
 
         function init() {
@@ -236,7 +254,7 @@
                 that.dataObject = this.config.arrayOrURL;
                 maxDataLength = that.dataArray.length;
               }
-              renderTable(false);
+              renderTable(false, false);
               if (!that.config.changeData && that.config.withFilter) new Filterable(that);
             }
         }
