@@ -52,13 +52,11 @@
             if (!fromPagesData) { data = that.dataArray; }
             else { data = pagesData[pageIndex - 1]; }
             if (!fromPagesData) {
-                if (pageIndex == countOfPages) {
-                  dataString = renderRowsOfTable((pageIndex - 1) * that.config.maxRows, data.length, data);
-                } else {
-                  dataString = renderRowsOfTable((pageIndex - 1) * that.config.maxRows, pageIndex * that.config.maxRows, data);
-                }
+                var rowLength = (pageIndex == countOfPages) ? data.length : pageIndex * that.config.maxRows;
+                dataString = renderRowsOfTable((pageIndex - 1) * that.config.maxRows, rowLength, data);
             } else {
-                dataString = renderRowsOfTable(0, that.config.maxRows, data);
+                var rowLength = (pageIndex == countOfPages) ? data.length : that.config.maxRows;
+                dataString = renderRowsOfTable(0, rowLength, data);
             }
             dataBody.innerHTML = dataString;
         }
