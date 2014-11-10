@@ -106,7 +106,6 @@ config = {
 year: 2014,           // current year, type: number.
 month: 5,             // month - current month, type: number.
 firstDayOfWeek: "SUN" ,// firstDayOfWeek - first day of week in calendar,
-                      // only english language, type: string.
 locale: "en",         // locale - language of calendar, short name,
                       // type: string. Example: 'monday'.
 weekends:["SAT","SUN"]  //array of weekends days.
