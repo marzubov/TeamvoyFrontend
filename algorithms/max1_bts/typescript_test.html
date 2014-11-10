@@ -5,7 +5,7 @@
   <title></title>
   <script type="text/javascript" src="../../javascript/library/vendor/sigma.min.js"></script>
   <script type="text/javascript" src="../../javascript/library/event_machine.js"></script>
-  <script type="text/javascript" src="bts.js"></script>
+  <script type="text/javascript" src="typescript_bts.js"></script>
   <style type="text/css">
     h1{
       position: absolute;
@@ -81,7 +81,8 @@
 
 </body>
 <script>
-  var a = new BST();
+  var s = new sigma(document.getElementById('container')),
+    a = new BST();
   a.generateRandom(20);
   function findMin(){
     document.getElementById('result').value = a.findMin().key;
@@ -94,7 +95,7 @@
   }
   function insert(){
     var key = parseFloat(document.getElementById('insert').value);
-    if (key) a.insertAndShow(a.root, key.toString(), a.root, 10);
+    if (key) a.insert(a.root, key.toString(), a.root, 10);
   }
   function successor(){
     document.getElementById('result').value = a.successor().key;
@@ -109,5 +110,49 @@
   document.getElementById('successor').addEventListener('click', successor);
   document.getElementById('predecessor').addEventListener('click', predecessor);
   document.getElementById('btn-insert').addEventListener('click', insert);
+
+  function checkContain(key){
+    var contains = false;
+    s.graph.nodes().forEach(function(n){
+      if (n.id == key){
+        contains = true;
+      }
+    });
+    return contains;
+  }
+
+  function displayNode(node){
+    if (!checkContain(node.key)){
+      s.graph.addNode({
+        id: node.key.toString(),
+        label: node.key.toString(),
+        x: node.x,
+        y: node.y,
+        size: 1,
+        color: '#ec5148'
+      });
+      if (node != node.parent) {
+        s.graph.addEdge({
+          id: node.key.toString() + " to " + node.parent.key.toString(),
+          // Reference extremities:
+          source: node.parent.key.toString(),
+          target: node.key.toString()
+        });
+      }
+    }
+    if (node.leftChild.key) displayNode(node.leftChild);
+    if (node.rightChild.key) displayNode(node.rightChild)
+    console.log(node);
+  }
+  s.graph.addNode({
+    id: a.root.key.toString(),
+    label: a.root.key.toString(),
+    x: a.root.x,
+    y: a.root.y,
+    size: 1,
+    color: '#ec5148'
+  });
+  displayNode(a.root);
+  s.refresh();
 </script>
 </html>
