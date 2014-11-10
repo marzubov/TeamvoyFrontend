@@ -53,6 +53,11 @@
 
       date.locale(config.locale).day(config.firstDayOfWeek);//change to config locale
 
+      if (!date.isValid()){
+        console.log(date.invalidAt());
+        that.trigger('dateValidation', [date.invalidAt()]);
+        return date.invalidAt();
+      }
       //generate day names
       model.daysNames = Array.apply(null, {length: config.daysInWeek}).map(function (el, i) {
         var dayName = {
@@ -76,7 +81,7 @@
         return day;
       });
 
-      return model;
+      return date.invalidAt();
     };
 
     this.dayTemplate = function (day) {
@@ -201,18 +206,25 @@
       root
         .addEventListener('click', function (e) {
           if (e.target.classList.contains('calendar-button')) {
+            var currentMonth = config.month.valueOf(),
+              currentYear = config.year.valueOf();
             if (e.target.classList.contains('asc')){
               that.nextMonth();
             } else{
               that.previousMonth();
             }
             that.trigger('monthChanged', [e, config.month]);
-            generateCalendar();
+            if (generateCalendar() == -1){
+              config.month = currentMonth;
+              config.year = currentYear;
+              return false;
+            }
+
             render();
           }
           else if (e.target.date) {
             that.trigger('daySelected', [e, e.target.date])
-          };
+          }
         });
     }
 
@@ -249,9 +261,9 @@
 
       config.merge(properties);
 
-      generateCalendar();
-
-      render();
+      if (generateCalendar() == -1){
+       render();
+      }
 
       //get set config
       Object.defineProperty(that, "config", {
@@ -264,8 +276,9 @@
               value[propName] = value[propName] ? value[propName] : config[propName];
               if (value['month'] != config['month']) that.trigger('monthChanged');
               config.merge(value);
-              generateCalendar();
-              render();
+              if (generateCalendar() == -1){
+                render();
+              }
             }
         }
       });
