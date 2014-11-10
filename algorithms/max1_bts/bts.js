@@ -1,30 +1,55 @@
 (function (global, document) {
+  var Coordinates = function (x,y){
+    this.x = x || 0;
+    this.y = y || 0;
+    return this;
+  };
+  var Node = function (key, leftChild, rightChild, parent, value, x, y) {
+    EventMachine.call(this);
+    for(var prop in Coordinates) {
+      if (Coordinates.hasOwnProperty(prop)) {
+        this[prop] = Coordinates[prop];
+      }
+    }
+    this.key = key;
+    this.leftChild = leftChild;
+    this.rightChild = rightChild;
+    this.value = value;
+    this.parent = parent;
+    this.x = x || 0;
+    this.y = y || 0;
+
+    return this;
+  };
   var BST = global.BST = function () {
-    var that = this;
-    var Node = function (key, leftChild, rightChild, parent, value) {
-      this.key = key;
-      this.leftChild = leftChild;
-      this.rightChild = rightChild;
-      this.value = value;
-      this.parent = parent;
-      return this;
-    };
+    var s = new sigma('container'),
+      that = this;
+
 
     this.search = function (node, key) {
       return (!node) || (key == node.key) ? node : key < node.key
         ? this.search(node.leftChild, key) : this.search(node.rightChild, key);
     };
 
-    this.insert = function (node, key, parent) {
+    this.insert = function (node, key, parent, deep) {
       if (!node.key) {
         node.key = key;
         node.leftChild = new Node();
         node.rightChild = new Node();
         node.parent = parent;
-        return true;
+        if (key < parent.key) {
+          node.x = parent.x.valueOf() - 1 - deep;
+          node.y = parent.y.valueOf() + 1;
+        }
+        else if (key > parent.key) {
+          node.x = parent.x.valueOf() + 1 + deep;
+          node.y = parent.y.valueOf() + 1;
+        }
+        return {node: node, parent: parent};
       }
-      else if (key < node.key) that.insert(node.leftChild, key, node);
-      else if (key > node.key) that.insert(node.rightChild, key, node);
+      else if (key < node.key) return that.insert(node.leftChild, key, node, deep / 2);
+      else if (key > node.key) return that.insert(node.rightChild, key, node, deep / 2);
+      else console.log('same node');
     };
 
     this.findMin = function (node) {
@@ -93,7 +118,7 @@
       return parent.key;
     };
 
-    this.sort = function(node){
+    this.sort = function (node) {
       node = node || that.root;
       var result = [];
       that.traverse(node, function (element) {
@@ -102,22 +127,45 @@
       return result;
     };
 
-    this.generateFromArray = function(data) {
+    this.generateFromArray = function (data) {
       this.root = new Node();
       for (var i = 0; i < data.length; i++) {
-        that.insert(that.root, data[i]);
+        var edgeLength = data.length.valueOf();
+        that.insertAndShow(that.root, data[i], that.root, edgeLength/2);
       }
       return that;
     };
 
-    this.generateRandom = function(count) {
-      this.root = new Node();
-      for (var i = 0; i < count; i++) {
-        that.insert(that.root, Math.floor(Math.random() * 1000));
-      }
-      return that;
+    this.generateRandom = function (count) {
+      return that.generateFromArray(Array.apply(null, {length: count})
+        .map(function () {
+          return Math.floor(Math.random() * 100);
+        }));
     };
 
+    this.insertAndShow = function(node, key, parent, edgeLength){
+      var newNode = that.insert(node, key, parent, edgeLength);
+      if (!newNode) return false;
+      s.graph.addNode({
+        id: newNode.node.key.toString(),
+        label: newNode.node.key.toString(),
+        x: newNode.node.x,
+        y: newNode.node.y,
+        size: 1,
+        color: '#ec5148'
+      });
+      if (newNode.node != newNode.parent) {
+        s.graph.addEdge({
+          id: newNode.node.key.toString() + " to " + newNode.parent.key.toString(),
+          // Reference extremities:
+          source: newNode.parent.key.toString(),
+          target: newNode.node.key.toString()
+        });
+      }
+      s.refresh();
+      return true;
+    };
     return this;
-  }
+  };
+  BST.prototype = new Node();
 })(window, document);

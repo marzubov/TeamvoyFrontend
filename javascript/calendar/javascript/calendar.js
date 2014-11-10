@@ -18,7 +18,7 @@
         firstDayOfWeek: 'SUN',
         locale: 'en',
         daysInWeek: 7,
-        dayEvents: [],
+        dayEvents: [{date: moment([2014,10,10])}],
         weekends: ['SAT', 'SUN']
       };
     this.container = container;
@@ -57,9 +57,14 @@
 
       //set calendar start date
       while (date.format('ddd').toLowerCase() != config.firstDayOfWeek.toLowerCase()) {
+        i++;
         date.subtract(1, 'days');
+        if (i ==7) {
+          config.firstDayOfWeek = date.format('ddd');
+        }
       }
 
+      i=0;
       //generating days array
       while (i < maxDaysNumber) {
         var isWeekend = false;
@@ -92,14 +97,17 @@
       return day.toString();
     };
 
-    //TODO day events
     /**
-     * Getting day event
-     * @param day
-     * @returns {*}
+     * Getting event of date
+     * @param date
+     * @returns {Array}
      */
-    this.getDayEvent = function (day) {
-      return day;
+    this.getDayEvent = function (date) {
+      return config.dayEvents.map(function (dayEvent){
+        if (dayEvent.date.calendar() == date.calendar()){
+          return dayEvent;
+        }
+      });
     };
 
     /**
@@ -130,7 +138,6 @@
       return this;
     };
 
-    //TODO set needed width while rendering
     this.renderCaption = function () {
       var captionElement = document.createElement('div');
       captionElement.innerHTML = '<button class="calendar-button desc"></button>'

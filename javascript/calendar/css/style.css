@@ -5,14 +5,11 @@ input{
     float:right;
 }
 .selected {
-    background: #ECF0F1 !important;
+    background: #ECF0F1;
 }
 .selected-start{
-    background: #BDC3C7 !important;
-
-  /*border-radius: 5px ;*/
+    background: #BDC3C7;
 }
 .selected-end{
-    background: #BDC3C7 !important;
-  /*border-radius: 5px ;*/
+    background: #BDC3C7;
 }

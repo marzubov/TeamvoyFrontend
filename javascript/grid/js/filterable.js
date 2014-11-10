@@ -1,5 +1,5 @@
 var Filterable = function (grid){
-    var that, generatedModel=[], dataFromGrid, newData = [], configObj={};
+    var that, generatedModel=[], dataFromGrid, newData = [];
 
     this.init = function(){
         that = this;
@@ -49,7 +49,7 @@ var Filterable = function (grid){
         filterField.type = 'text';
         filterField.addEventListener('keyup', changeSearchField);
         //stopping click event on heading
-        filterField.addEventListener('click', function(e){e.stopPropagation();});
+        filterField.addEventListener('click', function(e){ e.stopPropagation();});
         return filterField;
     }
 
@@ -69,7 +69,6 @@ var Filterable = function (grid){
           if (i == index) element = mykey;
           i++;
         }
-      console.log(element);
         generatedModel[index].setAttribute("column-index", element);
     };
 
@@ -86,10 +85,7 @@ var Filterable = function (grid){
             newData.push(dataFromGrid[i])
           }
         });
-        configObj.merge(grid.config);
-        configObj.arrayOrURL = newData;
-        configObj.changeData = true;
-        var a = new SortableGrid(grid.container, configObj);
+        grid.changeTableData(newData);
         return newData;
     }
 

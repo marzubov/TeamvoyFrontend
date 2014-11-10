@@ -11,8 +11,10 @@
         pager.innerHTML = '';
         return;
       }
-      var pagesString = '<ul class="pagination"><li><a data-page = "previous">&laquo;</a></li>';
-      for (var i = 1; i <= (maxDataLength / maxRows).toFixed(0); i++) {
+      var pagesString = '<ul class="pagination"><li><a data-page = "previous">&laquo;</a></li>',
+          countPages;
+      countPages = (maxDataLength % maxRows) ? (maxDataLength / maxRows + 1).toFixed(0) : (maxDataLength / maxRows).toFixed(0);
+      for (var i = 1; i <= countPages; i++) {
         pagesString += '<li><a data-page ="' + i.toString() + '">' + i + '</a></li>';
       }
       pager.innerHTML = pagesString + '<li><a data-page = "next">&raquo;</a></li></ul>';
@@ -41,11 +43,12 @@
       } else if (e.target.getAttribute('data-page') === "next") {
         newIndex = this.querySelector('.page-active').getAttribute('data-page') - 1;
         newIndex += 2;
-        if (newIndex > (maxDataLength / maxRows).toFixed(0)) return;
+
+        if (newIndex > (maxDataLength / maxRows + 1).toFixed(0)) return;
       } else {
         newIndex = e.target.getAttribute('data-page');
-      }
 
+      }
       goTo(newIndex);
     }
 
