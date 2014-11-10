@@ -91,8 +91,8 @@ locale: "uk", weekends:["Сб","Нд"]}
 calendar.config = newConfig;
 ```
 <aside class="col-xs-4 aside-config">
-<input class="year" type="text" placeholder="Some year..">
-<input class="month" type="text" placeholder="Some month..">
+<input class="year" type="number" placeholder="Some year..">
+<input class="month" type="number" placeholder="Some month..">
 <button class="btn btn-success">Change date</button>
 </aside>
 <div class="container" id="secondContainer">
