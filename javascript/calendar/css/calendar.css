@@ -53,13 +53,14 @@
 
 .day{
   display: inline-block;
-  width: 14%;
+  width: 12%;
+  margin: 1%;
   padding-top: 10px;
   text-align: center;
 }
 
 .day:hover{
-  outline: 3px dashed dodgerblue;
+  outline: 3px dashed dodgerblue !important;
   cursor: pointer;
 }
 
