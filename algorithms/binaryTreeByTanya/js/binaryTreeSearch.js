@@ -1,6 +1,10 @@
 (function(global, document) {
-    global.BinaryTree = function BinaryTree(){
+    global.BinaryTree = function BinaryTree(array){
         this.root = null;
+        var _this = this;
+        array.forEach(function(el,i){
+          _this.add(el);
+        });
     };
 
     BinaryTree.prototype.add = function(value){
@@ -62,4 +66,5 @@
         console.log(root.value);
         if (root.right != null) { this.sort(root.right);}
     }
+
 })(window, document);
