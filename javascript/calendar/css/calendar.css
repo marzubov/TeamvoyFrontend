@@ -91,7 +91,9 @@
   position: relative;
   width: 50%;
 }
-
+.out-month .weekend{
+  opacity: 0.7 !important;
+}
 .date-range-picker{
   display: inline-block ;
   width: auto ;

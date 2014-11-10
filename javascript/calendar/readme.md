@@ -86,13 +86,13 @@ new Calendar(containerElement, {year: 2014, month: 5, locale: "fr"});
 But if you have created component you can set him new configure object.
 
 ```js
-newConfig = {year: 2014, month: 5,  firstDayOfWeek: "Пн" ,
-locale: "uk", weekends:["Сб","Нд"]}
+newConfig = {year: 2014, month: 5,  firstDayOfWeek: "Sun" ,
+locale: "uk", weekends:["Sat","Sun"]}
 calendar.config = newConfig;
 ```
 <aside class="col-xs-4 aside-config">
-<input class="year" type="number" placeholder="Some year..">
-<input class="month" type="number" placeholder="Some month..">
+<input class="year" type="number" placeholder="Enter year in digits" value="2014">
+<input class="month" type="number" placeholder="Enter month in digits from 1 to 12" value="1">
 <button class="btn btn-success">Change date</button>
 </aside>
 <div class="container" id="secondContainer">
@@ -103,12 +103,14 @@ calendar.config = newConfig;
 
 ```js
 config = {
-year: 2014,           // current year, type: number.
-month: 5,             // month - current month, type: number.
-firstDayOfWeek: "SUN" ,// firstDayOfWeek - first day of week in calendar,
-locale: "en",         // locale - language of calendar, short name,
-                      // type: string. Example: 'monday'.
-weekends:["SAT","SUN"]  //array of weekends days.
+year: 2014,             // current year, type: number.
+month: 5,               // month - current month, type: number.
+firstDayOfWeek: "Sun",  // firstDayOfWeek - first day of week in calendar,
+                        //starts with upcased letter
+locale: "en",           // locale - language of calendar, short name,
+                        // type: string. Example: 'monday'.
+weekends:["Sat","Sun"]  //array of weekends days.
+                        //starts with upcased letter
 }
 var calendar = new Calendar(containerElement, config);
 ```

@@ -11,7 +11,11 @@
     EventMachine.call(this);
     var root,
       that = this,
-      model = {},
+      model = {
+        daysNames: [],
+        days: [],
+        currentMonth: ''
+      },
       config = {
         year: (new Date()).getFullYear(),
         month: (new Date()).getMonth() + 1,
@@ -44,13 +48,6 @@
       var date = moment([config.year, config.month - 1, 1]),
         maxDaysNumber = (1 + parseFloat(Math.ceil(30 / config.daysInWeek))) * config.daysInWeek;
 
-      //resetting model
-      model = {
-        daysNames: [],
-        days: [],
-        currentMonth: ''
-      };
-
       date.locale(config.locale).day(config.firstDayOfWeek);//change to config locale
 
       //moment js validation
@@ -82,7 +79,6 @@
         date.add(1,'days');//setting date to next day
         return day;
       });
-
       return date.invalidAt(); //returns -1 if success
     };
 
@@ -195,7 +191,7 @@
               that.previousMonth();
             }
             that.trigger('monthChanged', [e, config.month]);
-            if (generateCalendar() == -1){
+            if (generateCalendar() != -1){
               config.month = currentMonth;
               config.year = currentYear;
               return false;
