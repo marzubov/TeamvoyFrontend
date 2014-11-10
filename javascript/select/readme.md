@@ -194,7 +194,7 @@ You can use templates to create nice look for you select:
  "image": 'http://3.bp.blogspot.com/-f0NsmUHz2kM/T8GUGoydNpI/AAAAAAAAAfg/KnEkgnFPzpc/s1600/smiley.png'
 }], templateConfig);
 ```
-  <div id="third">
+  <div id="third" style="padding-bottom: 200px;">
   </div>
 <link rel="stylesheet" href="../css/custom_select.css" type="text/css">
 <link rel="stylesheet" href="../css/template.css" type="text/css">

@@ -40,7 +40,7 @@
     };
 
     /**
-     *
+     * Updates data in selector
      * @param newData - object with properties title and value. Similar to argument data
      */
     this.setData = function (newData) {
