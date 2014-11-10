@@ -228,15 +228,11 @@
         }
 
         function init() {
-          if (this.config.changeData) {
-            pager = this.container.querySelector(".pages");
-          } else {
             this.root = document.createElement('table');
-          pager = document.createElement('nav');
-          pager.classList.add("pages");
+            pager = document.createElement('nav');
+            pager.classList.add("pages");
             this.container.appendChild(this.root);
             this.container.appendChild(pager);
-          }
             that = this;
             if (typeof this.config.arrayOrURL == 'string') {
                 if (this.config.loadByParts) {
@@ -253,7 +249,7 @@
                 maxDataLength = that.dataArray.length;
               }
               renderTable(false, false);
-              if (!that.config.changeData && that.config.withFilter) new Filterable(that);
+              if (that.config.withFilter) new Filterable(that);
             }
         }
 
