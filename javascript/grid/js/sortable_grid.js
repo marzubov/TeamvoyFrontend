@@ -5,7 +5,7 @@
         this.dataArray = [];
         this.dataObject;
         this.root = '';
-        var pagesData = [], pageIndex = 1, pager, maxDataLength, sortedColumn, that, PagerObject;
+        var pagesData = [], pageIndex = 1, countOfPages, pager, maxDataLength, sortedColumn, that, PagerObject;
 
         function getData(url, start, end) {
             url += '/getdata';
@@ -52,7 +52,11 @@
             if (!fromPagesData) { data = that.dataArray; }
             else { data = pagesData[pageIndex - 1]; }
             if (!fromPagesData) {
-                dataString = renderRowsOfTable((pageIndex - 1) * that.config.maxRows, pageIndex * that.config.maxRows, data);
+                if (pageIndex == countOfPages) {
+                  dataString = renderRowsOfTable((pageIndex - 1) * that.config.maxRows, data.length, data);
+                } else {
+                  dataString = renderRowsOfTable((pageIndex - 1) * that.config.maxRows, pageIndex * that.config.maxRows, data);
+                }
             } else {
                 dataString = renderRowsOfTable(0, that.config.maxRows, data);
             }
@@ -86,7 +90,7 @@
 
         this.goTo = function (newPageIndex) {
             if (!newPageIndex) { return; }
-            if ((parseFloat(newPageIndex) < 0) || (parseFloat(newPageIndex) > (maxDataLength / that.config.maxRows).toFixed(0))) { return; }
+            if ((parseFloat(newPageIndex) < 0) || (parseFloat(newPageIndex) > (maxDataLength / that.config.maxRows + 1).toFixed(0))) { return; }
             pageIndex = newPageIndex;
             if (pager.childNodes.length) PagerObject.changePagerSelection(pager, pageIndex);
             if (that.dataArray.length === maxDataLength) {
@@ -156,6 +160,9 @@
         }
 
         function renderTable(sortable) {
+          countOfPages = (maxDataLength % that.config.maxRows) ?
+            (maxDataLength / that.config.maxRows + 1).toFixed(0) :
+            (maxDataLength / that.config.maxRows).toFixed(0);
             if (that.config.changeData) {
               var bodyTable = that.container.querySelector(".data-body");
               bodyTable.innerHTML = renderBody(that.dataArray);

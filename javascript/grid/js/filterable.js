@@ -69,7 +69,6 @@ var Filterable = function (grid){
           if (i == index) element = mykey;
           i++;
         }
-      console.log(element);
         generatedModel[index].setAttribute("column-index", element);
     };
 
