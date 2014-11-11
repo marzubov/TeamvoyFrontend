@@ -1,4 +1,5 @@
 (function(document,window){
+
   window.menu = new CustomSelect(document.querySelector('.menu'),[
     {
       option: 'NEWS'
@@ -29,4 +30,21 @@
   }
   window.search = new CustomSelect(document.querySelector('.search'),dataUsers,{title: 'text', value:'text'});
   window.search.selector.placeholder = 'SEARCH';
+
+  window.dropbox = new CustomSelect(document.querySelector('.dropbox'),[
+    {
+      option: 'YOUR PROFILE'
+    },
+    {
+      option: 'SETTINGS'
+    },
+    {
+      option: 'LOGOUT'
+    }
+  ], {title: 'option', value:'option'});
+  var user ='<div class="template"><img class="photo" src="{{image}}"><div class="text">{{text}}</div></div>';
+  window.dropbox.on('change', function(){
+    window.dropbox.selector.innerHTML = user;
+  });
+  document.querySelector('.user-avatar').src = faker.image.avatar();
 })(document,window);

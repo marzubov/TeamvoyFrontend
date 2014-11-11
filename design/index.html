@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head lang="en">
   <meta charset="UTF-8">
   <title>UI</title>
@@ -8,6 +8,7 @@
   <script src="../javascript/library/faker.min.js"></script>
   <script src="../javascript/select/js/custom_select.js"></script>
   <link rel="stylesheet" href="../javascript/select/css/custom_select.css" type="text/css">
+  <link rel="stylesheet" href="css/nice_aqua_select.css" type="text/css">
   <link rel="stylesheet" href="css/style.css" type="text/css">
   <link rel="stylesheet" href="../javascript/select/css/template.css" type="text/css">
 </head>
@@ -17,8 +18,19 @@
 
 <nav class="menu"></nav>
 <div class="search"></div>
-<div class="dropdown"></div>
-
+<div class="dropbox"></div>
+<form class="sign-in-menu">
+  <img class="user-avatar">
+  <input class ="text-field" placeholder="USERNAME">
+  <input type="password" class ="text-field" placeholder="PASSWORD">
+  <button>SIGN IN</button>
+  <label>
+    <input class="radio-button" type="checkbox"><span>Remember me</span>
+  </label>
+  <a class="link">Forgot password?</a>
+  <span class="or-label">OR</span>
+  <div align="center" style="width: 100%">Select social network to get started</div>
+</form>
 </body>
 
 <script src="js/main.js"></script>
