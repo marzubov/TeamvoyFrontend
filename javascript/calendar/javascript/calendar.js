@@ -71,15 +71,17 @@
     };
 
     this.goToMonth = function (month){
+
+      //config.month is represented as number from 1 to 12
+      //all operations with date validation are easier if month is represented
+      //from 0 to 11, that's why we decrease month parameter at start
       month--;
-      console.log(month);
       if (month>=0){
-        console.log(month, month%12 + 1, Math.floor(month/12) );
         config.month = month%12 + 1;
         config.year = parseFloat(config.year) + Math.floor(month/12);
       } else{
-        config.month = (month+12)%12 + 1;
-        config.year = parseFloat(config.year) + Math.floor(month/12);
+        config.month = 13 + month%12;
+        config.year = config.year - Math.ceil(-month/12);
       }
     };
 
@@ -269,7 +271,7 @@
      bodyElement = document.createElement('div');
     bodyElement.classList.add('calendar-body');
 
-    model.days.map(function (day) {
+    model.days.forEach(function (day) {
       var dayElement = document.createElement('div');
       dayElement.date = day.date;
       if (day.isInMonth) {
@@ -281,11 +283,12 @@
         dayElement.classList.add('weekend');
       }
       var dayTemplate = that.dayTemplate(day.date.getDate());
-      try {
+      if (dayTemplate instanceof HTMLElement){
         dayElement.appendChild(dayTemplate);
-      }
-      catch (e) {
+      } else if (typeof dayTemplate == "string"){
         dayElement.innerHTML = dayTemplate;
+      } else{
+        dayElement.innerHTML = day.date.getDate().toString();
       }
       bodyElement.appendChild(dayElement);
     });
