@@ -54,15 +54,14 @@ input :-moz-placeholder { color:#bdc3c7; }
 .search .custom-select .options .option {
   background-color: #74ADC0;
 }
-.menu .custom-select .options{
-  border: 3px solid #ffffff;
-}
 .menu .custom-select .selector {
   display: none;
 }
 .menu .custom-select .options {
+  border: 3px solid #ffffff;
   font-size: 12px;
   display: flex;
+  position: relative;
   justify-content: space-around;
   height: 28px;
   top: -10px;
@@ -82,7 +81,7 @@ input :-moz-placeholder { color:#bdc3c7; }
 .dropbox .custom-select .options {
   height: auto;
   border: 3px solid #ffffff;
-  top: 10px;
+  top: 40px;
 }
 .dropbox .custom-select .option {
   padding: 12px;

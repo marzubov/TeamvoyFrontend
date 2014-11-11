@@ -28,7 +28,8 @@
 }
 .custom-select .options{
   outline: 3px solid #ffffff;
-  top: 15px;
+  top: 40px;
+  width: 100%;
 }
 .custom-select .selector:focus{
   background-color: #98B6C5;

@@ -1,5 +1,7 @@
 .custom-select{
   cursor: pointer;
+  position: relative;
+  width: 100%;
 }
 .custom-select .selector{
   font-weight: inherit;
@@ -17,8 +19,12 @@
 }
 .custom-select .options{
   cursor: inherit;
-  height: 0;
-  position: relative;
+  max-height: 300px;
+  overflow: auto;
+  width: 100%;
+  position: absolute;
+  top: 30px;
+  left: 0;
   z-index: 999;
 }
 .custom-select .highlighted{
