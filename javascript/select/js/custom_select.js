@@ -17,12 +17,12 @@
 
     this.hide = function () {
       this.options.classList.add('hide');
-      that.trigger('hide')
+      this.trigger('hide')
     };
 
     this.show = function () {
       this.options.classList.remove('hide');
-      that.trigger('show');
+      this.trigger('show');
     };
 
     this.toggle = function () {
@@ -46,7 +46,7 @@
     this.setData = function (newData) {
       data = newData;
       this.selected('','');
-      that.trigger('change');
+      this.trigger('change');
       this.filter('');
       return this;
     };

@@ -18,9 +18,6 @@
 .custom-select .options .option{
   padding: 8px 20px;
 }
-.custom-select .options{
-  outline: 3px solid #ffffff;
-}
 .custom-select .selector{
   background-color: transparent;
   border: 3px solid #ffffff;

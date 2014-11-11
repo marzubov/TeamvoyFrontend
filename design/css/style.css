@@ -19,21 +19,31 @@ h3{
 body{
   margin-left: 25%;
   width: 50%;
-  padding: 10px;
+  padding: 20px;
   font-family: Neris;
   font-size: 11px;
   color: #ffffff;
   background-color: #4595AE;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   outline: 3px solid #ffffff;
 }
 input ::-webkit-input-placeholder { color:#bdc3c7; }
 input::-moz-placeholder { color:#bdc3c7; } /* firefox 19+ */
 input :-ms-input-placeholder { color:#bdc3c7; } /* ie */
 input :-moz-placeholder { color:#bdc3c7; }
-
+.mini-menu{
+  width: 28px;
+  height: 28px;
+  border: 3px solid #ffffff;
+  display: flex;
+ }
+.menu-ico{
+  width: 18px;
+  height: 18px;
+  margin: auto;
+}
 .search .custom-select .img{
   top: 8px;
   right: 10px;
@@ -41,38 +51,41 @@ input :-moz-placeholder { color:#bdc3c7; }
 .search .custom-select .img:after {
   content: url('../../javascript/select/css/img/rsz_ico_search.png');
 }
-.search .custom-select .options {
-  outline: 0;
-}
 .search .custom-select .options .option {
   background-color: #74ADC0;
+}
+.menu .custom-select .options{
+  border: 3px solid #ffffff;
 }
 .menu .custom-select .selector {
   display: none;
 }
 .menu .custom-select .options {
+  font-size: 12px;
   display: flex;
   justify-content: space-around;
   height: 28px;
-  top: 3px;
+  top: -10px;
 }
 .search {
-  margin: 0 0 10px 0;
+  margin: 0;
   width: 30%;
 }
 .menu {
-  margin: 0;
+  margin: 10px 10px 10px 0;
 }
 .dropbox {
-  margin: 0;
+  margin: 10px;
+  width: 30%;
+  font-size: 10px;
 }
 .dropbox .custom-select .options {
   height: auto;
-  padding: 0 10px;
-  box-sizing: border-box;
-  outline: 0;
   border: 3px solid #ffffff;
   top: 10px;
+}
+.dropbox .custom-select .option {
+  padding: 12px;
 }
 .sign-in-menu {
   font-size: 10px;
@@ -81,13 +94,13 @@ input :-moz-placeholder { color:#bdc3c7; }
   padding: 10px;
   width: 30%;
   border: 3px solid #ffffff;
-  margin: auto;
+  margin: 10px auto auto auto;
 }
 .sign-in-menu .radio-button {
   margin: 10px auto;
 }
 .sign-in-menu .link {
-  margin: 10px auto;
+  margin: auto;
 }
 .sign-in-menu .or-label {
   width: 100%;
