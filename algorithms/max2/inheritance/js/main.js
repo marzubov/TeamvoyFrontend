@@ -1,7 +1,7 @@
 ﻿var dog = new Dog('Beethoven');
 var cat = new Cat('Vivaldi');
 var snake = new Snake('Chaykovsky');
-
+var unicorn = new Unicorn('Charlie');
 console.log('================','Inheritance by call Dog>Animal, Dog>EventMachine, Animal.prototype.func will not work');
 dog.makeSound();
 dog.makeSound();
@@ -16,3 +16,5 @@ Snake.prototype.bite = function(){
 snake.bite();
 snake.makeSound();
 snake.run();
+console.log('==========================   TypeScript inheritance');
+unicorn.run();
