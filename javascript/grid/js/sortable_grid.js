@@ -209,7 +209,8 @@
             } else {
                 changePageData(true);
             }
-            if (that.config.withFilter) new Filterable(that);
+            if (that.config.withFilter) { new Filterable(that); }
+            if (that.config.withDraggable) new Draggable(that.root, that.dataArray, that.dataObject);
             return(xhr.responseText);
         }
 
@@ -255,7 +256,8 @@
                 (maxDataLength / maxRows + 1).toFixed(0) :
                 (maxDataLength / maxRows).toFixed(0);
               renderTable(false, false);
-              if (that.config.withFilter) new Filterable(that);
+              if (that.config.withFilter) { new Filterable(that); }
+              if (that.config.withDraggable) { new Draggable(that.root, that.dataArray, that.dataObject); }
             }
         }
 

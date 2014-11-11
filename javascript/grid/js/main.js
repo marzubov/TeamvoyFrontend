@@ -15,6 +15,7 @@
             'maxRows': 5,
             'arrayOrURL' : numberArray,
             'withFilter': false,
+            'withDraggable': true,
             'columnTemplates': false
         };
 
@@ -24,6 +25,7 @@
             'maxRows': 5,
             'arrayOrURL': 'http://localhost:8001',
             'withFilter': false,
+            'withDraggable': false,
             'loadByParts': true,
             'columnTemplates': {
                 1: Handlebars.compile("<b>{{age2}}</b>")
@@ -35,6 +37,7 @@
             'maxRows': 5,
             'arrayOrURL': 'http://localhost:8001',
             'withFilter': true,
+            'withDraggable': true,
             'loadByParts': false,
             'columnTemplates': {
                 1: Handlebars.compile("<i><b>{{age2}}</b></i>"),
@@ -44,7 +47,7 @@
 
         var container = document.getElementById('draggable');
         draggableTable = new SortableGrid(container, configObject);
-        var draggable = new Draggable(draggableTable.root, draggableTable.dataArray);
+        //var draggable = new Draggable(draggableTable.root, draggableTable.dataArray);
 
         container = document.getElementById('withTemplate');
         fullDataTable = new SortableGrid(container, configObjectFullLoadingWithTemplate);

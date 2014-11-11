@@ -15,6 +15,7 @@ var Filterable = function (grid){
       filterChooseField.classList.add('field-choosing-column');
       for (var i = 0; i < grid.config.headers.length; i++) {
         var option = document.createElement('option');
+        option.setAttribute("data-column", i);
         option.innerHTML = i+1;
         filterChooseField.appendChild(option);
       }
@@ -30,7 +31,7 @@ var Filterable = function (grid){
 
     function toggleSearchField() {
         var selectField = grid.container.querySelector('.field-choosing-column');
-        var columnIndex = selectField.selectedIndex;
+        var columnIndex = selectField.options[selectField.selectedIndex].getAttribute("data-column");
         if (generatedModel[columnIndex].classList.contains('filterable-active')) {
           that.disableSearchField(columnIndex);
         } else {
