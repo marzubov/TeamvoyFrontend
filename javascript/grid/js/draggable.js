@@ -1,4 +1,4 @@
-function Draggable(table, dataArray) {
+function Draggable(table, dataArray, dataObject) {
   var that, col1, col2, draggedColumn, draggedShadow, previousPos, enabled, dragButtons = [];
 
   //onMouseDown
@@ -165,7 +165,31 @@ function Draggable(table, dataArray) {
       targetArray[i][firstCol] = targetArray[i][secondCol];
       targetArray[i][secondCol] = tempCell;
     }
+
+    var selectField = document.querySelector('.field-choosing-column');
+    var tempIndex = selectField.options[firstCol].getAttribute("data-column");
+    selectField.options[firstCol].setAttribute("data-column", selectField.options[secondCol].getAttribute("data-column"));
+    selectField.options[secondCol].setAttribute("data-column", tempIndex);
+
+    var targetArray1 = dataObject;
+    var rowLength = targetArray1.length, i = 0, tempCell = 0;
+    for (i; i < rowLength; i++) {
+      var first = getKeyByIndexColumn(firstCol),
+        second = getKeyByIndexColumn(secondCol);;
+      tempCell = targetArray1[i][first];
+      targetArray1[i][first] = targetArray1[i][second];
+      targetArray1[i][second] = tempCell;
+    }
   };
+
+  function getKeyByIndexColumn(index) {
+    var i = 0, mykey, element;
+    for (mykey in dataObject[0]) {
+      if (i == index) element = mykey;
+      i++;
+    }
+    return element;
+  }
 
   //binding events
   function bindEvents() {
