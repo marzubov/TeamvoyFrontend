@@ -7,7 +7,7 @@
    * @constructor
    */
 
-  var Calendar = global.Calendar = function (container, properties) {
+  global.Calendar = function (container, properties) {
     EventMachine.call(this);
     var root,
       that = this,
@@ -63,7 +63,7 @@
       if (!date.isValid()) {
 
         //typing error in console from 0 to 6: 0-days, 1-month and so on...
-        console.log('Date generation error:',date.invalidAt());
+        console.log('Date generation error:', date.invalidAt());
         that.trigger('dateValidation', [date.invalidAt()]); //triggering on error
         return date.invalidAt(); // exiting function and returning error
       }
@@ -265,7 +265,7 @@
             if (that.generateCalendar() != -1) {
               config.month = currentMonth;
               config.year = currentYear;
-            } else{ //if model generation was successful we can render calendar
+            } else { //if model generation was successful we can render calendar
               that.render();
             }
 
@@ -276,10 +276,16 @@
         });
     }
 
+    /**
+     * Creating all needed dom elements:
+     * root, caption, header, body
+     */
     this.createElements = function () {
 
       //creating root element and all calendar main parts
       root = document.createElement('div');
+      root.classList.add('calendar');
+
       var caption = document.createElement('div'),
         header = document.createElement('div'),
         body = document.createElement('div');
@@ -291,8 +297,6 @@
       root.appendChild(caption);
       root.appendChild(header);
       root.appendChild(body);
-      root.classList.add('calendar');
-
       container.appendChild(root);
     };
 
