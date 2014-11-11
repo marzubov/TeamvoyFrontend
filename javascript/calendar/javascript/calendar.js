@@ -88,13 +88,10 @@
       //render elements of calendar and replace already existing containers
       root.querySelector('.calendar-caption').parentNode
         .replaceChild(that.renderCaption(config, model), root.querySelector('.calendar-caption'));
-
       root.querySelector('.calendar-header').parentNode
-        .replaceChild(that.renderHeader(config, model), root.querySelector('.calendar-header'));
-
+        .replaceChild(that.renderHeader(config, model), root.querySelector('.calendar-header'))
       root.querySelector('.calendar-body').parentNode
         .replaceChild(that.renderBody(config, model), root.querySelector('.calendar-body'));
-
       that.trigger('render');
       return that;
     };
@@ -139,15 +136,12 @@
       //creating root element and all calendar main parts
       root = document.createElement('div');
       root.classList.add('calendar');
-
       var caption = document.createElement('div'),
         header = document.createElement('div'),
         body = document.createElement('div');
-
       caption.classList.add('calendar-caption');
       header.classList.add('calendar-header');
       body.classList.add('calendar-body');
-
       root.appendChild(caption);
       root.appendChild(header);
       root.appendChild(body);
@@ -162,7 +156,6 @@
       that.createElements();
       config.merge(properties);
 
-      //if model generation was successful we can render calendar
       generateAndRender();
 
       //get set config
@@ -184,7 +177,6 @@
       that.trigger('load', [that]);
       return that;
     }
-
     init();
   };
 
@@ -192,8 +184,8 @@
     var date = moment([config.year, config.month - 1, 1]).locale('en');
 
     return date.isAfter(date.clone().day(config.firstDayOfWeek)) ?
-      date.clone().day(config.firstDayOfWeek) :
-      date.clone().day(config.firstDayOfWeek).subtract(7, 'days');
+      date.day(config.firstDayOfWeek) :
+      date.day(config.firstDayOfWeek).subtract(7, 'days');
   }
 
   function getDaysArray(date, count, config) {
@@ -205,9 +197,7 @@
           isWeekend: (config.weekends.indexOf(currentDayName) != -1),
           date: date.clone()._d
         };
-
         date.add(1, 'days');
-
         return day;
       });
   }
@@ -231,6 +221,7 @@
 
   Calendar.prototype.generateCalendar = function (config) {
     var date = getFirstDate(config),
+      model = {},
       maxDaysNumber = (1 + parseFloat(Math.ceil(30 / config.daysInWeek))) * config.daysInWeek;
     date.locale(config.locale);
     if (!date.isValid()) {
@@ -238,7 +229,6 @@
       this.trigger('dateValidation', [date.invalidAt()]);
       return date.invalidAt();
     }
-    var model = {};
     model.daysNames = getDaysNamesArray(date, config);
     model.currentMonth = date.format('MMMM');
     date.subtract(config.daysInWeek, 'days');
@@ -282,17 +272,14 @@
     model.days.map(function (day) {
       var dayElement = document.createElement('div');
       dayElement.date = day.date;
-
       if (day.isInMonth) {
         dayElement.classList.add('day', 'in-month');
       } else {
         dayElement.classList.add('day', 'out-month');
       }
-
       if (day.isWeekend) {
         dayElement.classList.add('weekend');
       }
-
       var dayTemplate = that.dayTemplate(day.date.getDate());
       try {
         dayElement.appendChild(dayTemplate);
@@ -300,10 +287,8 @@
       catch (e) {
         dayElement.innerHTML = dayTemplate;
       }
-
       bodyElement.appendChild(dayElement);
     });
-
     return bodyElement;
   };
 
