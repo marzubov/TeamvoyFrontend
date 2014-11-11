@@ -1,4 +1,6 @@
-
+.table-header {
+    cursor: pointer;
+}
 
 .table-header.desc:before {
     content: url(img/arrow_up.png);

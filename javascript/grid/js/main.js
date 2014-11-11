@@ -47,7 +47,7 @@
 
         var container = document.getElementById('draggable');
         draggableTable = new SortableGrid(container, configObject);
-        //var draggable = new Draggable(draggableTable.root, draggableTable.dataArray);
+        var draggable = new Draggable(draggableTable.root, draggableTable.dataArray);
 
         container = document.getElementById('withTemplate');
         fullDataTable = new SortableGrid(container, configObjectFullLoadingWithTemplate);
