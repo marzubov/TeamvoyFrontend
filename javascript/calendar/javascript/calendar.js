@@ -46,24 +46,27 @@
      * @type {Function}
      */
     var generateCalendar = this.generateCalendar = function () {
-      var date = moment([config.year, config.month - 1, 1]),
+      var date = moment([config.year, config.month - 1, 1]), //setting moment to the config month and year
+      //calculating max number of days in month with previous and next month day for better view
         maxDaysNumber = (1 + parseFloat(Math.ceil(30 / config.daysInWeek))) * config.daysInWeek;
 
-      date.locale('en').day(config.firstDayOfWeek); //setting day
-      date.locale(config.locale);//change to config locale
+      //firstDayOfWeek and weekends are always in english
+      date.locale('en').day(config.firstDayOfWeek); //setting first day, using en locale
+      date.locale(config.locale);//now change to our config locale
 
       //moment js validation
       if (!date.isValid()){
-        console.log(date.invalidAt());
-        that.trigger('dateValidation', [date.invalidAt()]);
-        return date.invalidAt();
+        console.log(date.invalidAt());//typing error in console from 0 to 6: 0-days, 1-month and so on...
+        that.trigger('dateValidation', [date.invalidAt()]); //triggering on error
+        return date.invalidAt(); // exiting function and returning error
       }
 
       //generate day names
       model.daysNames = Array.apply(null, {length: config.daysInWeek}).map(function (el, i) {
+        var currentDayName = date.clone().locale('en').format('ddd');
         var dayName = {
           name: date.format('ddd'),
-          isWeekend: (config.weekends.indexOf(date.clone().locale('en').format('ddd')) != -1)
+          isWeekend: (config.weekends.indexOf(currentDayName) != -1) //check if our day is in weekends
         };
         date.add(1,'days');
         return dayName;
@@ -76,7 +79,7 @@
         var currentDayName = date.clone().locale('en').format('ddd');
         var day = {
           isInMonth: date.get('month') == (config.month - 1),
-          isWeekend: (config.weekends.indexOf(currentDayName) != -1),
+          isWeekend: (config.weekends.indexOf(currentDayName) != -1),//check if our day is in weekends
           date: date.clone()._d //getting Date() from moment object
         };
         date.add(1,'days');//setting date to next day
@@ -224,7 +227,7 @@
       return this;
     };
 
-    function init() {
+    this.createElements = function (){
       root = document.createElement('div');
       var caption = document.createElement('div'),
         header = document.createElement('div'),
@@ -238,7 +241,10 @@
       root.classList.add('calendar');
 
       container.appendChild(root);
+    };
 
+    function init() {
+      that.createElements();
       config.merge(properties);
 
       if (generateCalendar() == -1){
