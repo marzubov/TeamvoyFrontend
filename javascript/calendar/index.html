@@ -28,7 +28,7 @@
     var firstContainer = document.getElementById('firstContainer');
     var firstCalendar = new Calendar(firstContainer, {year: '2014', month: 5,firstDayOfWeek: "Mon" ,
       locale: "uk", weekends:["Sat","Sun"]});
-  firstCalendar.on('daySelected', function(e, date){
+  firstCalendar.on('daySelected', function(date){
     document.querySelector('.circle h3').innerHTML = moment().locale('en').day(date.getDay()).format('dddd');
     document.querySelector('.circle h1').innerHTML = date.getDate().toString();
   })
