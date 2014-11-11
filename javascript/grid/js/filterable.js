@@ -31,12 +31,13 @@ var Filterable = function (grid){
 
     function toggleSearchField() {
         var selectField = grid.container.querySelector('.field-choosing-column');
-        var columnIndex = selectField.options[selectField.selectedIndex].getAttribute("data-column");
+        var columnIndex = selectField.selectedIndex;
+        var dataIndex = selectField.options[selectField.selectedIndex].getAttribute("data-column");
         if (generatedModel[columnIndex].classList.contains('filterable-active')) {
           that.disableSearchField(columnIndex);
         } else {
           generatedModel.forEach(function (el, i) {
-            if (i == columnIndex) { that.enableSearchField(columnIndex);
+            if (i == columnIndex) { that.enableSearchField(columnIndex,dataIndex);
             } else {
               that.disableSearchField(i);
             }
@@ -63,11 +64,11 @@ var Filterable = function (grid){
             });
     }
 
-    this.enableSearchField = function(index){
+    this.enableSearchField = function(index, dataIndex){
         var mykey, element, i = 0;
         generatedModel[index].classList.add('filterable-active');
         for (mykey in dataFromGrid[0]) {
-          if (i == index) element = mykey;
+          if (i == dataIndex) element = mykey;
           i++;
         }
         generatedModel[index].setAttribute("column-index", element);
