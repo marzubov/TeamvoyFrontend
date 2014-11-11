@@ -38,7 +38,6 @@ function Draggable(table, dataArray, dataObject, config) {
   function renderDragButton(){
     var dragButton = document.createElement('button');
     dragButton.classList.add('drag-button');
-    dragButton.innerHTML = 'drag me';
     dragButton.addEventListener('mousedown', drag);
     return dragButton;
   }
