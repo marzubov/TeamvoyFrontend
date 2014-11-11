@@ -1,4 +1,23 @@
-function Draggable(table, dataArray, dataObject) {
+Object.prototype.renameProperty = function (oldName, newName) {
+  // Check for the old property name to avoid a ReferenceError in strict mode.
+  if (this.hasOwnProperty(oldName)) {
+    this[newName] = this[oldName];
+    delete this[oldName];
+  }
+  return this;
+};
+Object.prototype.swapProperty = function (oneName, twoName) {
+  // Check for the old property name to avoid a ReferenceError in strict mode.
+  if (this.hasOwnProperty(oneName) && this.hasOwnProperty(twoName)) {
+    var data1 = this[oneName];
+    var data2 = this[twoName];
+    this[oneName] = data2;
+    this[twoName] = data1;
+  }
+  return this;
+};
+
+function Draggable(table, dataArray, dataObject, config) {
   var that, col1, col2, draggedColumn, draggedShadow, previousPos, enabled, dragButtons = [];
 
   //onMouseDown
@@ -171,16 +190,44 @@ function Draggable(table, dataArray, dataObject) {
     selectField.options[firstCol].setAttribute("data-column", selectField.options[secondCol].getAttribute("data-column"));
     selectField.options[secondCol].setAttribute("data-column", tempIndex);
 
+    swapDataWithTemplates(firstCol, secondCol);
+    swapTemplates(firstCol, secondCol);
+  };
+
+  function swapDataWithTemplates(firstCol, secondCol) {
     var targetArray1 = dataObject;
     var rowLength = targetArray1.length, i = 0, tempCell = 0;
     for (i; i < rowLength; i++) {
       var first = getKeyByIndexColumn(firstCol),
-        second = getKeyByIndexColumn(secondCol);;
+        second = getKeyByIndexColumn(secondCol);
       tempCell = targetArray1[i][first];
       targetArray1[i][first] = targetArray1[i][second];
       targetArray1[i][second] = tempCell;
     }
-  };
+  }
+
+  function swapTemplates(firstCol, secondCol) {
+    var countWithTemplates = 0, whatColumn = 0;
+    for (var prop in config.columnTemplates) {
+      if (config.columnTemplates.hasOwnProperty(prop)){
+        if (prop == firstCol) {
+          countWithTemplates++;
+          whatColumn = firstCol;
+        }
+        if (prop == secondCol) {
+          countWithTemplates++;
+          whatColumn = secondCol;
+        }
+      }
+    }
+    if (countWithTemplates == 2) {
+      config.columnTemplates.swapProperty(firstCol, secondCol);
+    }
+    if (countWithTemplates == 1) {
+      if (whatColumn == firstCol) { config.columnTemplates.renameProperty(firstCol, secondCol); }
+      else { config.columnTemplates.renameProperty(secondCol, firstCol); }
+    }
+  }
 
   function getKeyByIndexColumn(index) {
     var i = 0, mykey, element;
