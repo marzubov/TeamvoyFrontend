@@ -22,7 +22,7 @@
         firstDayOfWeek: 'SUN',
         locale: 'en',
         daysInWeek: 7,
-        dayEvents: [{date: moment([2014,10,10])}],
+        dayEvents: [{date: moment([2014, 10, 10])}],
         weekends: ['Sat', 'Sun']
       };
     this.container = container;
@@ -47,6 +47,7 @@
      */
     var generateCalendar = this.generateCalendar = function () {
       var date = moment([config.year, config.month - 1, 1]), //setting moment to the config month and year
+        
       //calculating max number of days in month with previous and next month day for better view
         maxDaysNumber = (1 + parseFloat(Math.ceil(30 / config.daysInWeek))) * config.daysInWeek;
 
@@ -55,36 +56,45 @@
       date.locale(config.locale);//now change to our config locale
 
       //moment js validation
-      if (!date.isValid()){
+      if (!date.isValid()) {
         console.log(date.invalidAt());//typing error in console from 0 to 6: 0-days, 1-month and so on...
         that.trigger('dateValidation', [date.invalidAt()]); //triggering on error
         return date.invalidAt(); // exiting function and returning error
       }
 
       //generate day names
-      model.daysNames = Array.apply(null, {length: config.daysInWeek}).map(function (el, i) {
-        var currentDayName = date.clone().locale('en').format('ddd');
-        var dayName = {
-          name: date.format('ddd'),
-          isWeekend: (config.weekends.indexOf(currentDayName) != -1) //check if our day is in weekends
-        };
-        date.add(1,'days');
-        return dayName;
-      });
+      model.daysNames = Array.apply(null, {length: config.daysInWeek})
+        .map(function (el, i) {
+          var currentDayName = date.clone().locale('en').format('ddd');
+
+          var dayName = {
+            name: date.format('ddd'),
+            isWeekend: (config.weekends.indexOf(currentDayName) != -1) //check if our day is in weekends
+          };
+
+          date.add(1, 'days');//setting date to next day
+
+          return dayName;
+        });
 
       model.currentMonth = date.format('MMMM');//get current month
       date.subtract(config.daysInWeek, 'days');//setting date back to month start date
 
-      model.days = Array.apply(null, {length: maxDaysNumber}).map(function (el, i) {
-        var currentDayName = date.clone().locale('en').format('ddd');
-        var day = {
-          isInMonth: date.get('month') == (config.month - 1),
-          isWeekend: (config.weekends.indexOf(currentDayName) != -1),//check if our day is in weekends
-          date: date.clone()._d //getting Date() from moment object
-        };
-        date.add(1,'days');//setting date to next day
-        return day;
-      });
+      model.days = Array.apply(null, {length: maxDaysNumber})
+        .map(function (el, i) {
+
+          var currentDayName = date.clone().locale('en').format('ddd');
+
+          var day = {
+            isInMonth: date.get('month') == (config.month - 1),
+            isWeekend: (config.weekends.indexOf(currentDayName) != -1),//check if our day is in weekends
+            date: date.clone()._d //getting Date() from moment object
+          };
+
+          date.add(1, 'days');//setting date to next day
+
+          return day;
+        });
       return date.invalidAt(); //returns -1 if success
     };
 
@@ -99,8 +109,8 @@
      * @returns {Array}
      */
     this.getDayEvent = function (date) {
-      return config.dayEvents.map(function (dayEvent){
-        if (dayEvent.date.calendar() == date.calendar()){
+      return config.dayEvents.map(function (dayEvent) {
+        if (dayEvent.date.calendar() == date.calendar()) {
           return dayEvent;
         }
       });
@@ -135,7 +145,7 @@
         dayNameElement.dayName = dayName.name;
         dayNameElement.classList.add('day-name');
 
-        if (dayName.isWeekend){
+        if (dayName.isWeekend) {
           dayNameElement.classList.add('weekend');
         }
 
@@ -153,7 +163,7 @@
         var dayElement = document.createElement('div');
         dayElement.date = day.date;
 
-        if (day.isInMonth){
+        if (day.isInMonth) {
           dayElement.classList.add('day', 'in-month');
         } else {
           dayElement.classList.add('day', 'out-month');
@@ -169,19 +179,19 @@
       return bodyElement;
     };
 
-    this.previousMonth = function(){
+    this.previousMonth = function () {
       config.month--;
-      if (config.month < 1){
+      if (config.month < 1) {
         config.month = 12;
-        config.year --;
+        config.year--;
       }
     };
 
-    this.nextMonth = function(){
+    this.nextMonth = function () {
       config.month++;
-      if (config.month > 12){
+      if (config.month > 12) {
         config.month = 1;
-        config.year ++;
+        config.year++;
       }
     };
 
@@ -191,13 +201,13 @@
           if (e.target.classList.contains('calendar-button')) {
             var currentMonth = config.month.valueOf(),
               currentYear = config.year.valueOf();
-            if (e.target.classList.contains('asc')){
+            if (e.target.classList.contains('asc')) {
               that.nextMonth();
-            } else{
+            } else {
               that.previousMonth();
             }
             that.trigger('monthChanged', [e, config.month]);
-            if (generateCalendar() != -1){
+            if (generateCalendar() != -1) {
               config.month = currentMonth;
               config.year = currentYear;
               return false;
@@ -227,7 +237,7 @@
       return this;
     };
 
-    this.createElements = function (){
+    this.createElements = function () {
       root = document.createElement('div');
       var caption = document.createElement('div'),
         header = document.createElement('div'),
@@ -247,8 +257,8 @@
       that.createElements();
       config.merge(properties);
 
-      if (generateCalendar() == -1){
-       render();
+      if (generateCalendar() == -1) {
+        render();
       }
 
       //get set config
@@ -262,7 +272,7 @@
               value[propName] = value[propName] ? value[propName] : config[propName];
               if (value['month'] != config['month']) that.trigger('monthChanged');
               config.merge(value);
-              if (generateCalendar() == -1){
+              if (generateCalendar() == -1) {
                 render();
               }
             }
