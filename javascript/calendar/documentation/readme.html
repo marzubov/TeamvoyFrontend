@@ -94,12 +94,12 @@ new Calendar(containerElement, {year: 2014, month: 5, locale: &quot;fr&quot;});
 </div>
 
 <p>But if you have created component you can set him new configure object.</p>
-<pre class="prettyprint">newConfig = {year: 2014, month: 5,  firstDayOfWeek: &quot;Пн&quot; ,
-locale: &quot;uk&quot;, weekends:[&quot;Сб&quot;,&quot;Нд&quot;]}
+<pre class="prettyprint">newConfig = {year: 2014, month: 5,  firstDayOfWeek: &quot;Sun&quot; ,
+locale: &quot;uk&quot;, weekends:[&quot;Sat&quot;,&quot;Sun&quot;]}
 calendar.config = newConfig;</pre>
 <p><aside class="col-xs-4 aside-config"></p>
-<p><input class="year" type="text" placeholder="Some year.."></p>
-<p><input class="month" type="text" placeholder="Some month.."></p>
+<p><input class="year" type="number" placeholder="Enter year in digits" value="2014"></p>
+<p><input class="month" type="number" placeholder="Enter month in digits from 1 to 12" value="1"></p>
 <p><button class="btn btn-success">Change date</button>
 </aside></p>
 <div class="container" id="secondContainer">
@@ -108,12 +108,14 @@ calendar.config = newConfig;</pre>
 
 <a name="config_object___optional_parameter_with_fields_"></a><h3>Config Object - optional parameter with fields:<a class="anchorlink" href="#config_object___optional_parameter_with_fields_"></a></h3>
 <pre class="prettyprint">config = {
-year: 2014,           // current year, type: number.
-month: 5,             // month - current month, type: number.
-firstDayOfWeek: &quot;SUN&quot; ,// firstDayOfWeek - first day of week in calendar,
-locale: &quot;en&quot;,         // locale - language of calendar, short name,
-                      // type: string. Example: &#39;monday&#39;.
-weekends:[&quot;SAT&quot;,&quot;SUN&quot;]  //array of weekends days.
+year: 2014,             // current year, type: number.
+month: 5,               // month - current month, type: number.
+firstDayOfWeek: &quot;Sun&quot;,  // firstDayOfWeek - first day of week in calendar,
+                        //starts with upcased letter
+locale: &quot;en&quot;,           // locale - language of calendar, short name,
+                        // type: string. Example: &#39;monday&#39;.
+weekends:[&quot;Sat&quot;,&quot;Sun&quot;]  //array of weekends days.
+                        //starts with upcased letter
 }
 var calendar = new Calendar(containerElement, config);</pre>
 <a name="listen_to_events"></a><h3>Listen to events<a class="anchorlink" href="#listen_to_events"></a></h3>

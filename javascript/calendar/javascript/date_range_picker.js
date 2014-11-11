@@ -14,28 +14,65 @@
       return range;
     };
 
+    this.selectFirstDays = function(){
+      var momentDate,
+        calendarBody = that.firstCalendar.getRoot().querySelector('.calendar-body');
+      Array.prototype.slice.call(calendarBody.childNodes)
+        .forEach(function (day) {
+          momentDate = moment(day.date).locale('en');
+
+          //styling selected days
+          if (momentDate.isAfter(range.start) && momentDate.isBefore(range.end)) day.classList.add('selected');
+
+          //styling start and end
+          if (momentDate.calendar() == range.start.calendar()) day.classList.add('selected-start');
+          if (momentDate.calendar() == range.end.calendar()) day.classList.add('selected-end');
+        });
+      return this;
+    };
+
+    this.selectSecondDays = function(){
+      var momentDate,
+        calendarBody = that.secondCalendar.getRoot().querySelector('.calendar-body');
+      Array.prototype.slice.call(calendarBody.childNodes)
+        .forEach(function (day) {
+          momentDate = moment(day.date).locale('en');
+
+          //styling selected days
+          if (momentDate.isAfter(range.start) && momentDate.isBefore(range.end)) day.classList.add('selected');
+
+          //styling start and end
+          if (momentDate.calendar() == range.start.calendar()) day.classList.add('selected-start');
+          if (momentDate.calendar() == range.end.calendar()) day.classList.add('selected-end');
+        });
+      return this;
+    };
+
     this.render = function () {
       that.firstCalendar.render();
       that.secondCalendar.render();
-      that.firstCalendar.selectDays(range);
-      that.secondCalendar.selectDays(range);
+      that.selectFirstDays();
+      that.selectSecondDays();
     };
 
     /**
      * Event handler on first date range picker calendar
-     * @param e
+     * @param e - event object
      */
     var firstHandler = function (e) {
       e.preventDefault();
 
       if (!e.target.date) return false;
-      if (e.target.date.calendar() == range.end.calendar()) return false;
-      if (e.target.date.isBefore(range.start)) {
+
+      var selectedDate = moment(e.target.date).locale('en');
+
+      if (selectedDate.calendar() == range.end.calendar()) return false;
+      if (selectedDate.isBefore(range.start)) {
         var difference = range.end.diff(range.start);
-        range.end = e.target.date.clone();
+        range.end = selectedDate.clone();
         range.start = range.end.clone().subtract(difference, 'milliseconds');
       }
-      range.end = e.target.date.clone();
+      range.end = selectedDate.clone();
       that.render();
       that.trigger('rangeChanged', [range]);
     };
@@ -48,13 +85,16 @@
       e.preventDefault();
 
       if (!e.target.date) return false;
-      if (e.target.date.calendar() == range.start.calendar()) return false;
-      if (e.target.date.isAfter(range.end)) {
+
+      var selectedDate = moment(e.target.date).locale('en');
+
+      if (selectedDate.calendar() == range.start.calendar()) return false;
+      if (selectedDate.isAfter(range.end)) {
         var difference = range.end.diff(range.start);
-        range.start = e.target.date.clone();
+        range.start = selectedDate.clone();
         range.end = range.start.clone().add(difference, 'milliseconds');
       }
-      range.start = e.target.date.clone();
+      range.start = selectedDate.clone();
       that.render();
       that.trigger('rangeChanged', [range]);
     };
@@ -66,9 +106,6 @@
       that.secondCalendar.config = {year: range.end.get('year')};
     };
 
-    /**
-     * Initializing
-     */
     function init() {
       range.start.locale('en').format('LLL');
       range.end.locale('en').format('LLL')
@@ -78,8 +115,8 @@
 
       //setting on calendars load events
 
-      that.firstCalendar.selectDays(range);
-      that.secondCalendar.selectDays(range);
+      that.selectFirstDays();
+      that.selectSecondDays();
 
       //adding mousedown listener
       that.firstCalendar.getRoot().addEventListener('mousedown', function (e) {
@@ -105,12 +142,12 @@
 
       //adding render listener
       that.firstCalendar.on('render', function () {
-        that.firstCalendar.selectDays(range);
-        that.secondCalendar.selectDays(range);
+        that.selectFirstDays();
+        that.selectSecondDays();
       });
       that.secondCalendar.on('render', function () {
-        that.firstCalendar.selectDays(range);
-        that.secondCalendar.selectDays(range);
+        that.selectFirstDays();
+        that.selectSecondDays();
       });
 
     }
