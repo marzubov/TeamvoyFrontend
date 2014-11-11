@@ -4,7 +4,7 @@
       eventMachine = new EventMachine();
     for(propName in eventMachine){
       if(eventMachine.hasOwnProperty(propName))
-        this[propName] = EventMachine[propName];
+        this[propName] = eventMachine[propName];
     }
 
     var animal = new Animal(21,name);

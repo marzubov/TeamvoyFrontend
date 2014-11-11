@@ -1,5 +1,8 @@
 (function(document,window){
   window.Animal = function(runningSpeed,name){
+    //FOR SNAKE ONLY
+    Animal.superclass.constructor.call(this);
+
     var speed = runningSpeed,
      positionX =0;
     this.name = name;
@@ -11,5 +14,6 @@
       this.trigger('running');
       console.log('run', this.name);
     }
-  }
+  };
+  Animal.extend(EventMachine);
 })(document,window);
