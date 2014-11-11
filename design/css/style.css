@@ -19,13 +19,14 @@ h3{
 body{
   margin-left: 25%;
   width: 50%;
+  padding: 10px;
   font-family: Neris;
   font-size: 11px;
   color: #ffffff;
   background-color: #4595AE;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
   outline: 3px solid #ffffff;
 }
 input ::-webkit-input-placeholder { color:#bdc3c7; }
@@ -37,35 +38,35 @@ input :-moz-placeholder { color:#bdc3c7; }
   top: 8px;
   right: 10px;
 }
-.search .custom-select .img:after{
+.search .custom-select .img:after {
   content: url('../../javascript/select/css/img/rsz_ico_search.png');
 }
-.search .custom-select .options{
+.search .custom-select .options {
   outline: 0;
 }
-.search .custom-select .options .option{
+.search .custom-select .options .option {
   background-color: #74ADC0;
 }
-.menu .custom-select .selector{
+.menu .custom-select .selector {
   display: none;
 }
-.menu .custom-select .options{
+.menu .custom-select .options {
   display: flex;
   justify-content: space-around;
   height: 28px;
   top: 3px;
 }
-.search{
-  margin: 10px 20px 10px auto;
+.search {
+  margin: 0 0 10px 0;
   width: 30%;
 }
-.menu{
-  margin: 10px auto;
+.menu {
+  margin: 0;
 }
-.dropbox{
-  margin: 10px auto 10px 20px;
+.dropbox {
+  margin: 0;
 }
-.dropbox .custom-select .options{
+.dropbox .custom-select .options {
   height: auto;
   padding: 0 10px;
   box-sizing: border-box;
@@ -73,29 +74,29 @@ input :-moz-placeholder { color:#bdc3c7; }
   border: 3px solid #ffffff;
   top: 10px;
 }
-.sign-in-menu{
+.sign-in-menu {
   font-size: 10px;
   display: flex;
   flex-wrap: wrap;
   padding: 10px;
   width: 30%;
   border: 3px solid #ffffff;
-  margin: auto auto auto 0;
-}
-.sign-in-menu .radio-button{
-  margin: 10px auto;
-}
-.sign-in-menu .link{
   margin: auto;
 }
-.sign-in-menu .or-label{
+.sign-in-menu .radio-button {
+  margin: 10px auto;
+}
+.sign-in-menu .link {
+  margin: 10px auto;
+}
+.sign-in-menu .or-label {
   width: 100%;
   text-align: center;
   color:#bdc3c7;
   padding: 0 0 10px 0;
 }
-.sign-in-menu .user-avatar{
-  margin: 5px auto;
+.sign-in-menu .user-avatar {
+  margin: auto;
   resize: both;
   width: 50%;
   height: 50%;
