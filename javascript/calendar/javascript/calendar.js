@@ -6,7 +6,6 @@
    * @param properties - Optional. Config object, has such fields like: year, month, firstDayOfWeek, locale, output
    * @constructor
    */
-
   global.Calendar = function Calendar(container, properties) {
     EventMachine.call(this);
     var root,
