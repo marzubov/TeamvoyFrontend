@@ -30,13 +30,15 @@
     }
 
     function renderRowsOfTable(from, to, data, dataObject){
+      console.log(data);
+      console.log(dataObject);
       var dataString = '';
       for (var i = from; i < to; i++) {
         dataString += "<tr>";
         if (that.config.columnTemplates) {
           for (var j = 0; j < data[i].length; j++) {
             if (that.config.columnTemplates[j]) {
-              dataString += '<td>' + that.config.columnTemplates[j](dataObject[i]) + '</td>';
+              dataString += '<td>' + replaceTemplate(that.config.columnTemplates[j], dataObject[i]) + '</td>';
             } else {
               dataString += '<td>' + data[i][j] + '</td>';
             }
@@ -45,6 +47,15 @@
         dataString += "</tr>";
       }
       return dataString;
+    }
+
+    function replaceTemplate (template, dataObject) {
+      for (var key in dataObject){
+        if (dataObject.hasOwnProperty(key)){
+          if (template.indexOf(key) != -1) {var newTemplate = template.replace("{{" + key + "}}", dataObject[key]);}
+        }
+      }
+      return newTemplate;
     }
 
     function changePageData(fromPagesData) {
@@ -91,7 +102,7 @@
       if ((parseFloat(newPageIndex) < 0) || (parseFloat(newPageIndex) > (maxDataLength / maxRows + 1).toFixed(0))) { return; }
       pageIndex = newPageIndex;
       if (pager.childNodes.length) PagerObject.changePagerSelection(pager, pageIndex);
-      if (that.dataArray.length === maxDataLength) {
+      if (that.dataArray.length == maxDataLength) {
         changePageData(false);
       } else {
         if (!pagesData[pageIndex - 1]) {

@@ -16,6 +16,7 @@ For creating the table such code is used:
         'maxRows': 5,
         'arrayOrURL': 'http://localhost:8001',
         'withFilter': false,
+        'withDraggable': false,
         'loadByParts': false,
         'columnTemplates': false
      }
@@ -53,14 +54,16 @@ var configObjectFullLoadingWithTemplate = {
   'arrayOrURL': 'http://localhost:8001',
   //for including filter field to the table
   'withFilter': false,
+  //for including draggable to your table
+  'withDraggable': true,
    // {boolean} whether the file will be load partial by pages or not
   'loadByParts': false,
   // {object or boolean} if we don't use templates use {false}
   // if the table columns will be created with templates,
-  // in this option use: index of column and function with template
+  // in this option use: index of column and  template
   'columnTemplates': {
-     1: Handlebars.compile("<i><b>{{age2}}</b></i>"),
-     4: Handlebars.compile("<u>{{age5}}</u>")
+     1: "<i><b>{{age2}}</b></i>",
+     4: "<u>{{age5}}</u>"
    }
 };
 var fullDataTable = new SortableGrid(
@@ -119,6 +122,7 @@ Also you can create the table with data from file:
      'maxRows': 5,
      'arrayOrURL': 'http://localhost:8001',
      'withFilter': false,
+     'withDraggable': false,
      'loadByParts': false,
      'columnTemplates': false
   };
@@ -139,7 +143,7 @@ For using this addition you have to include the next js file:
 <script src="js/draggable.js" type="text/javascript"></script>
 ```
 
-For creating this table, you can use class Draggable, that have two arguments: table and data from this table.
+For creating this table, you can use 'withDraggable': true.
 
 You can create the draggable table with such code:
 
@@ -153,13 +157,10 @@ You can create the draggable table with such code:
         'headers': ['1', '2', '3', '4', '5'],
         'maxRows': 5,
         'arrayOrURL': 'http://localhost:8001',
+        'withDraggable': true,
         'loadByParts': false,
         'columnTemplates': false
      }
-  );
-  var draggable = new Draggable(
-    grid.root,
-    grid.dataArray
   );
 </script>
 ```
@@ -187,6 +188,7 @@ You can create table with filter with such code:
         'maxRows': 5,
         'arrayOrURL': 'http://localhost:8001',
         'withFilter': true,
+        'withDraggable': false,
         'loadByParts': false,
         'columnTemplates': false
      }
@@ -196,11 +198,7 @@ You can create table with filter with such code:
 
 ##Examples
 
-###Draggable table
-
-<div id="draggable" class="table-responsive"></div>
-
-###Table with full data from server with templates with filter
+###Table with full data from server with templates, filter and draggable
 
 <div id="withTemplate" class="table-responsive"></div>
 

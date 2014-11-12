@@ -28,7 +28,7 @@
             'withDraggable': false,
             'loadByParts': true,
             'columnTemplates': {
-                1: Handlebars.compile("<b>{{age2}}</b>")
+                1: "<b>{{age2}}</b>"
             }
         };
 
@@ -40,16 +40,12 @@
             'withDraggable': true,
             'loadByParts': false,
             'columnTemplates': {
-                1: Handlebars.compile("<i><b>{{age2}}</b></i>"),
-                4: Handlebars.compile("<u>{{age5}}</u>")
+                1: "<i><b>{{age2}}</b></i>",
+                4: "<u>{{age5}}</u>"
             }
         };
 
-        var container = document.getElementById('draggable');
-        draggableTable = new SortableGrid(container, configObject);
-       // var draggable = new Draggable(draggableTable.root, draggableTable.dataArray);
-
-        container = document.getElementById('withTemplate');
+        var container = document.getElementById('withTemplate');
         fullDataTable = new SortableGrid(container, configObjectFullLoadingWithTemplate);
 
         container = document.getElementById('partialServerData');
