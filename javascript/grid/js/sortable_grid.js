@@ -30,8 +30,8 @@
     }
 
     function renderRowsOfTable(from, to, data, dataObject){
-      console.log(data);
-      console.log(dataObject);
+      //console.log(data);
+      //console.log(dataObject);
       var dataString = '';
       for (var i = from; i < to; i++) {
         dataString += "<tr>";

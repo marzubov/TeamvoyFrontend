@@ -188,6 +188,7 @@ function Draggable(table, dataArray, dataObject, config) {
     var tempIndex = selectField.options[firstCol].getAttribute("data-column");
     selectField.options[firstCol].setAttribute("data-column", selectField.options[secondCol].getAttribute("data-column"));
     selectField.options[secondCol].setAttribute("data-column", tempIndex);
+    console.log(selectField);
 
     swapDataWithTemplates(firstCol, secondCol);
     swapTemplates(firstCol, secondCol);
@@ -226,9 +227,9 @@ function Draggable(table, dataArray, dataObject, config) {
       if (whatColumn == firstCol) { config.columnTemplates.renameProperty(firstCol, secondCol); }
       else { config.columnTemplates.renameProperty(secondCol, firstCol); }
     }
-    console.log(config.columnTemplates);
-    console.log(dataObject);
-    console.log(dataArray);
+    //console.log(config.columnTemplates);
+    //console.log(dataObject);
+    //console.log(dataArray);
   }
 
   function getKeyByIndexColumn(index) {
