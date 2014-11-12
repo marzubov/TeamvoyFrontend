@@ -17,11 +17,15 @@
 
     this.hide = function () {
       this.options.classList.add('hide');
+      this.selector.classList.add('hide');
+      this.wrapper.classList.remove('hide');
       this.trigger('hide')
     };
 
     this.show = function () {
       this.options.classList.remove('hide');
+      this.selector.classList.remove('hide');
+      this.wrapper.classList.add('hide');
       this.trigger('show');
     };
 
@@ -36,7 +40,7 @@
      */
     this.selected = function (value, title) {
       this.value = value;
-      this.selector.value = title;
+      this.wrapper.innerHTML = title;
     };
 
     /**
@@ -80,11 +84,11 @@
 
     // Generate root element
     function render() {
-      var mainElement = document.createElement('div'),
-        img = document.createElement('div');
+      var mainElement = document.createElement('div');
+      that.wrapper = document.createElement('button');
       mainElement.classList.add('custom-select');
-      img.classList.add('img');
-      mainElement.appendChild(img);
+      that.wrapper.classList.add('wrapper');
+      mainElement.appendChild(that.wrapper);
       return mainElement;
     }
 
@@ -130,20 +134,27 @@
       return selector;
     }
 
-    // Create listeners on selector and options
     function listenUserActions() {
+      that.wrapper.addEventListener('focus',function(){
+        that.toggle();
+        that.selector.focus();
+      });
+      that.wrapper.addEventListener('click',function(){
+        that.toggle();
+        that.selector.focus();
+      });
       that.options.addEventListener('mousedown', function () {
         that.selected(hovered.dataset['value'], that.hovered.dataset['title']);
         that.trigger('change');
+      });
+      that.selector.addEventListener('click', function(){
+        that.hide();
       });
       that.options.addEventListener('mouseover', function (e) {
         that.hovered = e.target.firstElementContains('option');
       });
       that.selector.addEventListener('blur', function () {
         that.hide();
-      });
-      that.selector.addEventListener('click', function () {
-        that.toggle();
       });
       that.selector.addEventListener('input', function () {
         that.filter(that.selector.value);

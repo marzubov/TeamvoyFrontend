@@ -3,6 +3,7 @@
   font-size: 12px;
   font-weight: 100;
 }
+.custom-select .wrapper,
 .custom-select .selector{
   padding: 5px;
   background-color: #74ADC0;
@@ -19,7 +20,7 @@
   color: #e74c3c;
   border-color: #c0392b;
 }
-.custom-select .img{
+.custom-select .wrapper{
   top: 8px;
   right: 10px;
 }
@@ -27,9 +28,10 @@
   content: url('img/rsz_ico_search.png');
 }
 .custom-select .options{
-  outline: 3px solid #ffffff;
+  border: 3px solid #ffffff;
   top: 40px;
   width: 100%;
+  box-sizing: border-box;
 }
 .custom-select .selector:focus{
   background-color: #98B6C5;
