@@ -75,7 +75,22 @@ input :-moz-placeholder { color:#bdc3c7; }
 .dropbox {
   margin: 10px;
   width: 30%;
-  font-size: 10px;
+}
+.dropbox .wrapper{
+  padding: 3px;
+}
+.dropbox .wrapper .template{
+  display: flex;
+  justify-content: space-between;
+}
+.dropbox .wrapper .user-avatar{
+  border-radius: 100px;
+  border: 1px solid #ffffff;
+  width: 15%;
+  height: 15%;
+}
+.dropbox .wrapper .text{
+  margin: auto 0;
 }
 .dropbox .custom-select .options {
   height: auto;

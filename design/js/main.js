@@ -33,18 +33,32 @@
 
   window.dropbox = new CustomSelect(document.querySelector('.dropbox'),[
     {
-      option: 'YOUR PROFILE'
+      option: 'YOUR PROFILE',
+      action: 'profile'
     },
     {
-      option: 'SETTINGS'
+      option: 'SETTINGS',
+      action: 'settings'
     },
     {
-      option: 'LOGOUT'
+      option: 'LOGOUT',
+      action: 'logout'
     }
-  ], {title: 'option', value:'option'});
-  var user ='<div class="template"><img class="photo" src="{{image}}"><div class="text">{{text}}</div></div>';
+  ], {title: 'option', value:'action'});
+  var image = faker.image.avatar();
+  var userTemplate ='<div class="template"><img class="user-avatar" src="'+image+'"><div class="text">'+ faker.name.findName() +'</div></div>';
+  window.dropbox.wrapper.innerHTML = userTemplate;
   window.dropbox.on('change', function(){
-    window.dropbox.selector.innerHTML = user;
+    window.dropbox.wrapper.innerHTML = userTemplate;
+    window.location.replace('index.html#' + window.dropbox.value);
+    window.dropbox.hide();
   });
-  document.querySelector('.user-avatar').src = faker.image.avatar();
+  window.dropbox.on('show', function(){
+    window.dropbox.wrapper.classList.remove('hide');
+    window.dropbox.selector.classList.add('hide');
+  });
+  Array.prototype.slice.call(document.querySelectorAll('.user-avatar'))
+    .forEach(function(e){
+    e.src = image;
+  });
 })(document,window);

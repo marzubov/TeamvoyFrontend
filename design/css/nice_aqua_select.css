@@ -5,7 +5,7 @@
   border-color: #c0392b;
 }
 .custom-select .options .option .highlighted {
-  color: #8e44ad !important;
+  color: #000 !important;
 }
 .custom-select .options .hover{
   background-color: #98B6C5 !important;

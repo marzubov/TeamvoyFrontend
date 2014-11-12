@@ -39,9 +39,9 @@
      * @param title {String}
      */
     this.selected = function (value, title) {
-      if(this.config.template) {
+      if (this.config.template) {
         this.wrapper.innerHTML = this.hovered.innerHTML;
-      } else{
+      } else {
         this.wrapper.innerHTML = title;
       }
       this.value = value;
@@ -54,7 +54,7 @@
      */
     this.setData = function (newData) {
       data = newData;
-      this.selected('','');
+      this.selected('', '');
       this.trigger('change');
       this.filter('');
       return this;
@@ -70,7 +70,7 @@
         return new RegExp(filterString).test(option[config.title]);
       });
       this.trigger('filtered');
-      return renderOptions(this.options,filterString);
+      return renderOptions(this.options, filterString);
     };
 
     // Setter need for automatic remove of previous hover
@@ -86,7 +86,6 @@
       }
     });
 
-
     // Generate root element
     function render() {
       var mainElement = document.createElement('div');
@@ -98,15 +97,15 @@
     }
 
     // Generate data from template
-    function generateTemplateData(data,textToMark) {
+    function generateTemplateData(data, textToMark) {
       var prop,
         result = data[config.title].toString().highLightText(textToMark);
       if (that.config.template) {
         result = that.config.template;
-        for (prop in data){
-          if(data.hasOwnProperty(prop)){
+        for (prop in data) {
+          if (data.hasOwnProperty(prop)) {
             prop == config.title ? // We need modify text but don't model data
-              result = result.replace('{{' + prop + '}}', data[prop].toString().highLightText(textToMark)):
+              result = result.replace('{{' + prop + '}}', data[prop].toString().highLightText(textToMark)) :
               result = result.replace('{{' + prop + '}}', data[prop]);
           }
         }
@@ -115,7 +114,7 @@
     }
 
     // Generate data in select options
-    function renderOptions(optionsElement,searchString) {
+    function renderOptions(optionsElement, searchString) {
       var options = optionsElement ? optionsElement : document.createElement('div'),
         optionString = '';
       that.model.length ? that.selector.classList.remove('alert')
@@ -125,7 +124,7 @@
         optionString += '<div data-value="' + option[config.value]
         + '" data-title="' + option[config.title]
         + '" class="option">'
-        + generateTemplateData(option,searchString)
+        + generateTemplateData(option, searchString)
         + '</div>'
       });
       options.innerHTML = optionString;
@@ -140,11 +139,11 @@
     }
 
     function listenUserActions() {
-      that.wrapper.addEventListener('focus',function(){
+      that.wrapper.addEventListener('focus', function () {
         that.toggle();
         that.selector.focus();
       });
-      that.wrapper.addEventListener('click',function(){
+      that.wrapper.addEventListener('click', function () {
         that.toggle();
         that.selector.focus();
       });
@@ -155,7 +154,7 @@
       that.options.addEventListener('mouseover', function (e) {
         that.hovered = e.target.firstElementContains('option');
       });
-      that.selector.addEventListener('click', function(){
+      that.selector.addEventListener('click', function () {
         that.hide();
       });
       that.selector.addEventListener('blur', function () {
