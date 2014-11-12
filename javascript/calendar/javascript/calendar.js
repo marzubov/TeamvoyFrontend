@@ -7,7 +7,7 @@
    * @constructor
    */
 
-  var Calendar = global.Calendar = function (container, properties) {
+  global.Calendar = function Calendar(container, properties) {
     EventMachine.call(this);
     var root,
       that = this,
