@@ -75,13 +75,14 @@
      * else resets config to backupConfig
      */
     function generateAndRender() {
-      var newModel = that.generateModel(config);
-      if (typeof newModel === "object") {
-        model = newModel;
+      try {
+        model = that.generateModel(config);
         that.render();
         backupConfig.merge(config);
-      } else {//if was error in generating model
+        return true;
+      } catch (error) {
         config = backupConfig;
+        return error;
       }
     }
 
@@ -212,7 +213,7 @@
    */
   function getDaysArray(date, count, config) {
     return Array.apply(null, {length: count})
-      .map(function (el, i) {
+      .map(function () {
         var currentDayName = date.clone().locale('en').format('ddd'),
           day = {
             isInMonth: date.get('month') === (config.month - 1),
@@ -232,7 +233,7 @@
    */
   function getDaysNamesArray(date, config) {
     return Array.apply(null, {length: config.daysInWeek})
-      .map(function (el, i) {
+      .map(function () {
         var currentDayName = date.clone().locale('en').format('ddd'),
           dayName = {
             name: date.format('ddd'),
@@ -264,8 +265,8 @@
       model = {},
       maxDaysNumber = (1 + parseFloat(Math.ceil(30 / config.daysInWeek))) * config.daysInWeek;
     if (!date.isValid()) {
-      this.trigger('dateValidation', [date.invalidAt()]);
-      return date.invalidAt();
+      //this.trigger('dateValidation', [date.invalidAt()]);
+      throw 'Date validation error: ' + date.invalidAt();
     }
     model.daysNames = getDaysNamesArray(date, config);
     model.currentMonth = date.format('MMMM');
