@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Calendar</title>
-  <link rel="stylesheet" href="css/calendar.css"/>
+  <link rel="stylesheet" href="css/blue_calendar_date_range_picker.css"/>
   <link rel="stylesheet" href="css/style.css"/>
   <script src="../library/vendor/moment/moment.js"></script>
   <script src="../library/vendor/moment/min/locales.js"></script>
@@ -17,8 +17,10 @@
 <article>
   <div class="container" id="container">
   </div>
-  <input id="rangeStart" type="text" placeholder="Range start day"/>
-  <input id="rangeEnd" type="text" placeholder="Range end day"/>
+  <div class="range-inputs" id="rang-inputs">
+  <input id="rangeStart" type="text" placeholder="Range start day" readonly/>
+  <input id="rangeEnd" type="text" placeholder="Range end day" readonly/>
+    </div>
 </article>
 </body>
 <script>

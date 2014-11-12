@@ -103,3 +103,18 @@
   height: 15px;
   padding-top: 5px;
 }
+input{
+  margin: 5px;
+}
+.aside-config{
+  float:right;
+}
+.selected {
+  background: #ECF0F1;
+}
+.selected-start{
+  background: #BDC3C7;
+}
+.selected-end{
+  background: #BDC3C7;
+}
