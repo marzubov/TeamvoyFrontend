@@ -1,7 +1,6 @@
 (function (global, document) {
   "use strict";
-
-  var EventCalendar = global.EventCalendar = function (container) {
+  global.EventCalendar = function EventCalendar(container) {
     EventMachine.call(this);
     var that = this;
     this.calendar = new Calendar(container, {});
