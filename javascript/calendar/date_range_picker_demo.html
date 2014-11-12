@@ -26,8 +26,8 @@
   var container = document.getElementById('container');
   var dateRangePicker = new DateRangePicker(container);
   dateRangePicker.on('rangeChanged', function (range) {
-    document.getElementById('rangeStart').value = range.start.calendar();
-    document.getElementById('rangeEnd').value = range.end.calendar();
+    document.getElementById('rangeStart').value = range[0].toDateString();
+    document.getElementById('rangeEnd').value = range[1].toDateString();
   })
 </script>
 </html>

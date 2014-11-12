@@ -74,7 +74,7 @@
       }
       range.end = selectedDate.clone();
       that.render();
-      that.trigger('rangeChanged', [range]);
+      that.trigger('rangeChanged', [[range.start.clone()._d, range.end.clone()._d]]);
     };
 
     /**
@@ -96,7 +96,7 @@
       }
       range.start = selectedDate.clone();
       that.render();
-      that.trigger('rangeChanged', [range]);
+      that.trigger('rangeChanged', [[range.start.clone()._d, range.end.clone()._d]]);
     };
 
     this.configMonthAndYear = function () {
