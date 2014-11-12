@@ -111,11 +111,11 @@
     };
 
     /**
-     * Calls generateCalendar and if the last was successful renders calendar
+     * Calls generateModel and if the last was successful renders calendar
      * else resets config to backupConfig
      */
     function generateAndRender() {
-      var newModel = that.generateCalendar(config);
+      var newModel = that.generateModel(config);
       if (typeof newModel == "object") {
         model = newModel;
         that.render();
@@ -217,7 +217,7 @@
   }
 
   /**
-   * Function for generating array of days from date, count and config
+   * Function for generating array of days from moment js date, count and config
    * @param date
    * @param count
    * @param config
@@ -238,7 +238,7 @@
   }
 
   /**
-   * Function for generating array of days names from date and config
+   * Function for generating array of days names from moment js date and config
    * @param date
    * @param config
    * @returns {Array}
@@ -272,7 +272,7 @@
    * else triggers on error and returns error number from 0 to 6
    * (0-error in day, 1-month, 2-year, ...)
    */
-  Calendar.prototype.generateCalendar = function (config) {
+  Calendar.prototype.generateModel = function (config) {
     var date = getFirstDate(config).locale(config.locale),
       model = {},
       maxDaysNumber = (1 + parseFloat(Math.ceil(30 / config.daysInWeek))) * config.daysInWeek;

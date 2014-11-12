@@ -6,6 +6,7 @@
     this.dataObject;
     this.root = '';
     var pagesData = [], pagesDataObject = [], pageIndex = 1, countOfPages, pager, maxDataLength, sortedColumn, that, PagerObject, maxRows;
+    var draggable;
 
     function getData(url, start, end) {
       url += '/getdata';
@@ -30,8 +31,8 @@
     }
 
     function renderRowsOfTable(from, to, data, dataObject){
-      console.log(data);
-      console.log(dataObject);
+      //console.log(data);
+      //console.log(dataObject);
       var dataString = '';
       for (var i = from; i < to; i++) {
         dataString += "<tr>";
@@ -93,6 +94,7 @@
           keyIndex += 1;
         });
       }
+      draggable.changeData(that.dataArray, that.dataObject);
       changePageData(false);
       that.goTo(1);
     }
@@ -222,7 +224,7 @@
       }
 
       if (that.config.withFilter) { new Filterable(that); }
-      if (that.config.withDraggable) new Draggable(that.root, that.dataArray, that.dataObject, that.config);
+      if (that.config.withDraggable) draggable = new Draggable(that.root, that.dataArray, that.dataObject, that.config);
 
       return(xhr.responseText);
     }
@@ -234,6 +236,7 @@
       } else {
         that.dataArray = objToArray(newData);
         that.dataObject = newData;
+        draggable.changeData(that.dataArray, that.dataObject);
         maxDataLength = that.dataArray.length;
       }
       maxRows = newMaxRow;
@@ -269,7 +272,7 @@
           (maxDataLength / maxRows + 1).toFixed(0) :
           (maxDataLength / maxRows).toFixed(0);
         renderTable(false, false);
-        if (that.config.withDraggable) { new Draggable(that.root, that.dataArray, that.dataObject, that.config); }
+        if (that.config.withDraggable) { draggable = new Draggable(that.root, that.dataArray, that.dataObject, that.config); }
         if (that.config.withFilter) { new Filterable(that); }
 
       }

@@ -41,7 +41,7 @@
 
 <a name="calendar_js"></a><h1>Calendar.js<a class="anchorlink" href="#calendar_js"></a></h1>
 <p>CalendarJS is an open source library that provides using custom calendar element.
-It&#39;s lightweight, doesn&#39;t depend on any other library (like jQuery).</p>
+It&#39;s lightweight, and depends only on moment js library (for localization).</p>
 <p>Try it out:</p>
 <pre class="prettyprint">&lt;div id=&quot;firstContainer&quot;&gt;
 &lt;/div&gt;
@@ -58,7 +58,8 @@ It&#39;s lightweight, doesn&#39;t depend on any other library (like jQuery).</p>
 <pre class="prettyprint">&lt;script src=&quot;./path/to/calendar.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;./path/to/event_machine.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;./path/to/helper.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;./path/to/calendar.js&quot;&gt;&lt;/script&gt;</pre>
+&lt;script src=&quot;./path/to/calendar.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;./path/to/moment.js&quot;&gt;&lt;/script&gt;</pre>
 <a name="usage"></a><h2>Usage<a class="anchorlink" href="#usage"></a></h2>
 <p>The typical way of using calendar is by creating a container element and call new Calendar(containerElement):</p>
 <pre class="prettyprint">&lt;div id=&quot;containerElement&quot;&gt;
@@ -146,6 +147,8 @@ Calendar.on(&#39;daySelected&#39;, daySelectedHandler);</pre>
 <li>selectDays(styles, range) - adding styles to the days in range.</li>
 <li>trigger(eventName, params) - trigger functions.</li>
 <li>getDayEvents(date) - getting concrete date events.</li>
+<li>dayTemplate(day) - sets view of day.</li>
+<li>generateModel(config) - generates calendar model.</li>
 </ol>
 <a name="more_examples"></a><h2>More examples<a class="anchorlink" href="#more_examples"></a></h2>
 <p>You can use calendar to create date range pickers:</p>

@@ -11,7 +11,7 @@ Calendar.js
 =============
 
 CalendarJS is an open source library that provides using custom calendar element.
-It's lightweight, doesn't depend on any other library (like jQuery).
+It's lightweight, and depends only on moment js library (for localization).
 
 Try it out:
 
@@ -36,6 +36,7 @@ Download the Calendar library from here: https://github.com/neformal13/TeamvoyFr
 <script src="./path/to/event_machine.js"></script>
 <script src="./path/to/helper.js"></script>
 <script src="./path/to/calendar.js"></script>
+<script src="./path/to/moment.js"></script>
 ```
 
 Usage
@@ -145,6 +146,8 @@ Calendar.on('daySelected', daySelectedHandler);
 8. selectDays(styles, range) - adding styles to the days in range.
 10. trigger(eventName, params) - trigger functions.
 11. getDayEvents(date) - getting concrete date events.
+12. dayTemplate(day) - sets view of day.
+13. generateModel(config) - generates calendar model.
 
 ##More examples
 

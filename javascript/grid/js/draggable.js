@@ -19,7 +19,8 @@ Object.prototype.swapProperty = function (oneName, twoName) {
 
 function Draggable(table, dataArray, dataObject, config) {
   var that, col1, col2, draggedColumn, draggedShadow, previousPos, enabled, dragButtons = [];
-
+  this.arrayOfData = dataArray;
+  this.objectOfData = dataObject;
   //onMouseDown
   function drag(e) {
     //if (e.target == this) return false;
@@ -33,6 +34,11 @@ function Draggable(table, dataArray, dataObject, config) {
     previousPos = e.clientX;
     e.preventDefault();
     return false;
+  }
+
+  this.changeData = function (dataArray, dataObject) {
+    this.arrayOfData = dataArray;
+    this.objectOfData = dataObject;
   }
 
   function renderDragButton(){
@@ -174,7 +180,7 @@ function Draggable(table, dataArray, dataObject, config) {
   //swapping array columns
   this.swapArrayColumns = function (firstCol, secondCol, targetArray) {
     if (!targetArray) {
-      targetArray = dataArray;
+      targetArray = that.arrayOfData;
     }
     var rowLength = targetArray.length, i = 0, tempCell = 0;
 
@@ -188,13 +194,12 @@ function Draggable(table, dataArray, dataObject, config) {
     var tempIndex = selectField.options[firstCol].getAttribute("data-column");
     selectField.options[firstCol].setAttribute("data-column", selectField.options[secondCol].getAttribute("data-column"));
     selectField.options[secondCol].setAttribute("data-column", tempIndex);
-
     swapDataWithTemplates(firstCol, secondCol);
     swapTemplates(firstCol, secondCol);
   };
 
   function swapDataWithTemplates(firstCol, secondCol) {
-    var targetArray1 = dataObject;
+    var targetArray1 = that.objectOfData;
     var rowLength = targetArray1.length, i = 0, tempCell = 0;
     for (i; i < rowLength; i++) {
       var first = getKeyByIndexColumn(firstCol),
@@ -226,14 +231,14 @@ function Draggable(table, dataArray, dataObject, config) {
       if (whatColumn == firstCol) { config.columnTemplates.renameProperty(firstCol, secondCol); }
       else { config.columnTemplates.renameProperty(secondCol, firstCol); }
     }
-    console.log(config.columnTemplates);
-    console.log(dataObject);
-    console.log(dataArray);
+    //console.log(config.columnTemplates);
+    //console.log(dataObject);
+    //console.log(dataArray);
   }
 
   function getKeyByIndexColumn(index) {
     var i = 0, mykey, element;
-    for (mykey in dataObject[0]) {
+    for (mykey in that.objectOfData[0]) {
       if (i == index) element = mykey;
       i++;
     }
@@ -281,4 +286,5 @@ function Draggable(table, dataArray, dataObject, config) {
     //console.log('disabled');
   }
   init.call(this);
+  return this;
 }
