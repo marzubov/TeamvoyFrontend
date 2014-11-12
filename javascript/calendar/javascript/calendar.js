@@ -54,22 +54,6 @@
     };
 
     /**
-     * Getting event of date
-     * @param date
-     * @returns {Array}
-     */
-    this.getDayEvent = function (date) {
-
-      //finds day events with same date in config.dayEvents array,
-      //and returns array of found day events
-      return config.dayEvents.map(function (dayEvent) {
-        if (dayEvent.date.calendar() == date.calendar()) {
-          return dayEvent;
-        }
-      });
-    };
-
-    /**
      * Get root element
      * @returns {element}
      */
