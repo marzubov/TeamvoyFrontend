@@ -11,8 +11,8 @@ Object.prototype.swapProperty = function (oneName, twoName) {
   if (this.hasOwnProperty(oneName) && this.hasOwnProperty(twoName)) {
     var data1 = this[oneName];
     var data2 = this[twoName];
-    this[oneName] = data2;
-    this[twoName] = data1;
+    this[oneName] = data2.replace(twoName + 1, oneName + 1);
+    this[twoName] = data1.replace(oneName + 1, twoName + 1);
   }
   return this;
 };
@@ -226,6 +226,7 @@ function Draggable(table, dataArray, dataObject, config) {
       if (whatColumn == firstCol) { config.columnTemplates.renameProperty(firstCol, secondCol); }
       else { config.columnTemplates.renameProperty(secondCol, firstCol); }
     }
+    console.log(config.columnTemplates);
     console.log(dataObject);
     console.log(dataArray);
   }
