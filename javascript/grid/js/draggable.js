@@ -1,7 +1,7 @@
 Object.prototype.renameProperty = function (oldName, newName) {
   // Check for the old property name to avoid a ReferenceError in strict mode.
   if (this.hasOwnProperty(oldName)) {
-    this[newName] = this[oldName];
+    this[newName] = this[oldName].replace(oldName + 1, newName + 1);
     delete this[oldName];
   }
   return this;
@@ -226,6 +226,8 @@ function Draggable(table, dataArray, dataObject, config) {
       if (whatColumn == firstCol) { config.columnTemplates.renameProperty(firstCol, secondCol); }
       else { config.columnTemplates.renameProperty(secondCol, firstCol); }
     }
+    console.log(dataObject);
+    console.log(dataArray);
   }
 
   function getKeyByIndexColumn(index) {
