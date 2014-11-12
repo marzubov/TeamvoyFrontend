@@ -9,6 +9,7 @@
   color: inherit;
   font-size: inherit;
   cursor: inherit;
+  line-height: inherit;
   width: 100%;
   box-sizing: border-box;
 }
@@ -39,6 +40,7 @@
   display: none;
 }
 .custom-select .wrapper{
+  line-height: inherit;
   font-weight: inherit;
   font-family:inherit;
   color: inherit;

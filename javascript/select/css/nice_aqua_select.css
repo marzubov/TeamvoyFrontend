@@ -5,9 +5,13 @@
 }
 .custom-select .wrapper,
 .custom-select .selector{
-  padding: 5px;
   background-color: #74ADC0;
   border: 3px solid #ffffff;
+  padding: 5px;
+}
+.custom-select .wrapper{
+  padding: 4px;
+  min-height: 28px;
 }
 .custom-select .option {
   padding: 5px;
@@ -19,10 +23,6 @@
 .custom-select .alert{
   color: #e74c3c;
   border-color: #c0392b;
-}
-.custom-select .wrapper{
-  top: 8px;
-  right: 10px;
 }
 .custom-select .img:after{
   content: url('img/rsz_ico_search.png');

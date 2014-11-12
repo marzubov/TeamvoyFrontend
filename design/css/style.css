@@ -81,6 +81,7 @@ input :-moz-placeholder { color:#bdc3c7; }
   height: auto;
   border: 3px solid #ffffff;
   top: 40px;
+  box-sizing: border-box;
 }
 .dropbox .custom-select .option {
   padding: 12px;
