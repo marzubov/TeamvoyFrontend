@@ -217,7 +217,7 @@
   }
 
   /**
-   * Function for generating array of days from date, count and config
+   * Function for generating array of days from moment js date, count and config
    * @param date
    * @param count
    * @param config
@@ -238,7 +238,7 @@
   }
 
   /**
-   * Function for generating array of days names from date and config
+   * Function for generating array of days names from moment js date and config
    * @param date
    * @param config
    * @returns {Array}
