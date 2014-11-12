@@ -25,7 +25,7 @@ body{
   background-color: #4595AE;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   outline: 3px solid #ffffff;
 }
 input ::-webkit-input-placeholder { color:#bdc3c7; }
@@ -37,6 +37,7 @@ input :-moz-placeholder { color:#bdc3c7; }
   height: 28px;
   border: 3px solid #ffffff;
   display: flex;
+  margin: 10px 0;
  }
 .menu-ico{
   width: 18px;
@@ -63,18 +64,19 @@ input :-moz-placeholder { color:#bdc3c7; }
   position: relative;
   justify-content: space-around;
   height: 28px;
-  top: -10px;
+  top: 0;
+  width: auto;
 }
 .search {
-  margin: 0;
+  margin: 10px;
   width: 30%;
 }
 .menu {
-  margin: 10px 10px 10px 0;
+  margin: 10px 0;
 }
 .dropbox {
-  margin: 10px;
-  width: 30%;
+  margin: 10px 0;
+  width: 25%;
 }
 .dropbox .wrapper{
   padding: 3px;
@@ -86,8 +88,8 @@ input :-moz-placeholder { color:#bdc3c7; }
 .dropbox .wrapper .user-avatar{
   border-radius: 100px;
   border: 1px solid #ffffff;
-  width: 15%;
-  height: 15%;
+  width: 18px;
+  height: 18px;
 }
 .dropbox .wrapper .text{
   margin: auto 0;
@@ -97,6 +99,7 @@ input :-moz-placeholder { color:#bdc3c7; }
   border: 3px solid #ffffff;
   top: 40px;
   box-sizing: border-box;
+  position: static;
 }
 .dropbox .custom-select .option {
   padding: 12px;
@@ -108,7 +111,8 @@ input :-moz-placeholder { color:#bdc3c7; }
   padding: 10px;
   width: 30%;
   border: 3px solid #ffffff;
-  margin: 10px auto auto auto;
+  height: 100%;
+  margin: 10px;
 }
 .sign-in-menu .radio-button {
   margin: 10px auto;
@@ -150,4 +154,10 @@ input :-moz-placeholder { color:#bdc3c7; }
   padding: 8px;
   border: 1px solid #ffffff;
   width: 100%;
+}
+.calendar{
+  width: 30%;
+  margin: 10px;
+  min-height: 300px;
+  background-color: #ffffff;
 }
