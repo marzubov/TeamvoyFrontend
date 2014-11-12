@@ -39,8 +39,13 @@
      * @param title {String}
      */
     this.selected = function (value, title) {
+      if(this.config.template) {
+        this.wrapper.innerHTML = this.hovered.innerHTML;
+      } else{
+        this.wrapper.innerHTML = title;
+      }
       this.value = value;
-      this.wrapper.innerHTML = title;
+      return this;
     };
 
     /**
@@ -147,11 +152,11 @@
         that.selected(hovered.dataset['value'], that.hovered.dataset['title']);
         that.trigger('change');
       });
-      that.selector.addEventListener('click', function(){
-        that.hide();
-      });
       that.options.addEventListener('mouseover', function (e) {
         that.hovered = e.target.firstElementContains('option');
+      });
+      that.selector.addEventListener('click', function(){
+        that.hide();
       });
       that.selector.addEventListener('blur', function () {
         that.hide();

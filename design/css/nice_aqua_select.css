@@ -8,7 +8,7 @@
   color: #8e44ad !important;
 }
 .custom-select .options .hover{
-  background-color: #98B6C5;
+  background-color: #98B6C5 !important;
   color: #106879;
 }
 .custom-select .options .option{
