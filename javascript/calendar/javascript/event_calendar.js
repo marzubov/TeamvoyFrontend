@@ -15,7 +15,9 @@
 
 
     function setEvents(){
-      that.calendar.on('daySelected', that.showEvents);
+      that.calendar.on('daySelected', function (day){
+        that.showEvents.call(that,day);
+      });
       console.log('binded');
     }
 
@@ -56,6 +58,7 @@
     eventsElement.classList.add('events');
     Array.prototype.slice.call(events)
       .forEach(function (dayEvent) {
+        if (dayEvent)
         eventsElement.innerHTML+=dayEvent.name;
       });
     return eventsElement;
@@ -68,11 +71,12 @@
    */
   EventCalendar.prototype.renderPopup = function (events, dayElement) {
     var dayElementPos = findPos(dayElement),
-      popup = EventCalendar.calendar.getRoot().querySelector('events-popup');
-    popup.offsetLeft = dayElementPos.left;
-    popup.offsetTop = dayElementPos.top;
+      popup = this.calendar.getRoot().querySelector('.events-popup');
+    console.log(popup, dayElementPos);
+    popup.style.left = dayElementPos.left.toString() + 'px';
+    popup.style.top = dayElementPos.top.toString() + 'px';
 
-    var eventsTemplate = EventCalendar.eventsTemplate;
+    var eventsTemplate = this.eventsTemplate(events);
     if (eventsTemplate instanceof HTMLElement) {
       popup.appendChild(eventsTemplate);
     } else if (typeof eventsTemplate == "string") {
@@ -88,19 +92,21 @@
    */
   EventCalendar.prototype.showEvents = function (date) {
     console.log(date);
-    console.log(EventCalendar);
+    console.log(this);
     var selectedDay,
-      events = EventCalendar.prototype.getDayEvents(date);
-    Array.prototype.slice.call(EventCalendar.calendar.getRoot().querySelector('.calendar-body').childNodes)
+      events = this.getDayEvents(date);
+    Array.prototype.slice.call(this.calendar.getRoot().querySelector('.calendar-body').childNodes)
       .some(function (day) {
-        if (date = day.date) {
+        if (date == day.date) {
           selectedDay = day;
           return true;
         }
       });
     if (selectedDay) {
-      EventCalendar.renderPopup(events, selectedDay);
-      EventCalendar.calendar.getRoot().querySelector('events-popup')
+      this.renderPopup(events, selectedDay);
+      this.calendar.getRoot().querySelector('.events-popup')
+        .classList.remove('non-active');
+      this.calendar.getRoot().querySelector('.events-popup')
         .classList.add('active');
     }
   };
