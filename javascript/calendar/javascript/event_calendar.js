@@ -3,7 +3,7 @@
 
   var EventCalendar = global.EventCalendar = function(container){
     EventMachine.call(this);
-    moment.locale('en');
+    //moment.locale('en');
     var that = this;
     this.calendar = new Calendar(container, {});
 
