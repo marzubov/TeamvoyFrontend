@@ -8,6 +8,7 @@
    */
   global.Calendar = function Calendar(container, properties) {
     EventMachine.call(this);
+    moment.locale('en');
     var root,
       that = this,
       model = {
@@ -195,7 +196,7 @@
    * @returns {*}
    */
   function getFirstDate(config) {
-    var date = moment([config.year, config.month - 1, 1]).locale('en');
+    var date = moment([config.year, config.month - 1, 1]);
 
     return date.isAfter(date.clone().day(config.firstDayOfWeek)) ?
       date.day(config.firstDayOfWeek) :

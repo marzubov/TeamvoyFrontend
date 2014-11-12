@@ -2,6 +2,7 @@
   "use strict";
   global.DateRangePicker = function (container) {
     EventMachine.call(this);
+    moment.locale('en');
     var that = this,
       range = {
         start: moment([2014, 10, 1]),
@@ -20,7 +21,7 @@
         calendarBody = that.firstCalendar.getRoot().querySelector('.calendar-body');
       Array.prototype.slice.call(calendarBody.childNodes)
         .forEach(function (day) {
-          momentDate = moment(day.date).locale('en');
+          momentDate = moment(day.date);
 
           //styling selected days
           if (momentDate.isAfter(range.start) && momentDate.isBefore(range.end)) {
@@ -43,7 +44,7 @@
         calendarBody = that.secondCalendar.getRoot().querySelector('.calendar-body');
       Array.prototype.slice.call(calendarBody.childNodes)
         .forEach(function (day) {
-          momentDate = moment(day.date).locale('en');
+          momentDate = moment(day.date);
 
           //styling selected days
           if (momentDate.isAfter(range.start) && momentDate.isBefore(range.end)) {
@@ -80,7 +81,7 @@
       }
 
       var difference,
-        selectedDate = moment(e.target.date).locale('en');
+        selectedDate = moment(e.target.date);
 
       if (selectedDate.calendar() === range.end.calendar()) {
         return false;
@@ -107,7 +108,7 @@
       }
 
       var difference,
-        selectedDate = moment(e.target.date).locale('en');
+        selectedDate = moment(e.target.date);
 
       if (selectedDate.calendar() === range.start.calendar()) {
         return false;
@@ -130,8 +131,8 @@
     };
 
     function init() {
-      range.start.locale('en').format('LLL');
-      range.end.locale('en').format('LLL');
+      range.start.format('LLL');
+      range.end.format('LLL');
 
       that.firstCalendar = new Calendar(container, {});
       that.secondCalendar = new Calendar(container, {});
@@ -180,7 +181,6 @@
         that.selectFirstDays();
         that.selectSecondDays();
       });
-
     }
 
     init.call(this);
