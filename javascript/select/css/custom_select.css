@@ -9,6 +9,7 @@
   color: inherit;
   font-size: inherit;
   cursor: inherit;
+  line-height: inherit;
   width: 100%;
   box-sizing: border-box;
 }
@@ -37,4 +38,14 @@
 }
 .custom-select .hide{
   display: none;
+}
+.custom-select .wrapper{
+  line-height: inherit;
+  font-weight: inherit;
+  font-family:inherit;
+  color: inherit;
+  font-size: inherit;
+  cursor: inherit;
+  text-align: start;
+  width: 100%;
 }

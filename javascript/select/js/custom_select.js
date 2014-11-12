@@ -17,11 +17,15 @@
 
     this.hide = function () {
       this.options.classList.add('hide');
+      this.selector.classList.add('hide');
+      this.wrapper.classList.remove('hide');
       this.trigger('hide')
     };
 
     this.show = function () {
       this.options.classList.remove('hide');
+      this.selector.classList.remove('hide');
+      this.wrapper.classList.add('hide');
       this.trigger('show');
     };
 
@@ -35,8 +39,13 @@
      * @param title {String}
      */
     this.selected = function (value, title) {
+      if (this.config.template) {
+        this.wrapper.innerHTML = this.hovered.innerHTML;
+      } else {
+        this.wrapper.innerHTML = title;
+      }
       this.value = value;
-      this.selector.value = title;
+      return this;
     };
 
     /**
@@ -45,7 +54,7 @@
      */
     this.setData = function (newData) {
       data = newData;
-      this.selected('','');
+      this.selected('', '');
       this.trigger('change');
       this.filter('');
       return this;
@@ -61,7 +70,7 @@
         return new RegExp(filterString).test(option[config.title]);
       });
       this.trigger('filtered');
-      return renderOptions(this.options,filterString);
+      return renderOptions(this.options, filterString);
     };
 
     // Setter need for automatic remove of previous hover
@@ -77,27 +86,26 @@
       }
     });
 
-
     // Generate root element
     function render() {
-      var mainElement = document.createElement('div'),
-        img = document.createElement('div');
+      var mainElement = document.createElement('div');
+      that.wrapper = document.createElement('button');
       mainElement.classList.add('custom-select');
-      img.classList.add('img');
-      mainElement.appendChild(img);
+      that.wrapper.classList.add('wrapper');
+      mainElement.appendChild(that.wrapper);
       return mainElement;
     }
 
     // Generate data from template
-    function generateTemplateData(data,textToMark) {
+    function generateTemplateData(data, textToMark) {
       var prop,
         result = data[config.title].toString().highLightText(textToMark);
       if (that.config.template) {
         result = that.config.template;
-        for (prop in data){
-          if(data.hasOwnProperty(prop)){
+        for (prop in data) {
+          if (data.hasOwnProperty(prop)) {
             prop == config.title ? // We need modify text but don't model data
-              result = result.replace('{{' + prop + '}}', data[prop].toString().highLightText(textToMark)):
+              result = result.replace('{{' + prop + '}}', data[prop].toString().highLightText(textToMark)) :
               result = result.replace('{{' + prop + '}}', data[prop]);
           }
         }
@@ -106,7 +114,7 @@
     }
 
     // Generate data in select options
-    function renderOptions(optionsElement,searchString) {
+    function renderOptions(optionsElement, searchString) {
       var options = optionsElement ? optionsElement : document.createElement('div'),
         optionString = '';
       that.model.length ? that.selector.classList.remove('alert')
@@ -116,7 +124,7 @@
         optionString += '<div data-value="' + option[config.value]
         + '" data-title="' + option[config.title]
         + '" class="option">'
-        + generateTemplateData(option,searchString)
+        + generateTemplateData(option, searchString)
         + '</div>'
       });
       options.innerHTML = optionString;
@@ -130,8 +138,15 @@
       return selector;
     }
 
-    // Create listeners on selector and options
     function listenUserActions() {
+      that.wrapper.addEventListener('focus', function () {
+        that.toggle();
+        that.selector.focus();
+      });
+      that.wrapper.addEventListener('click', function () {
+        that.toggle();
+        that.selector.focus();
+      });
       that.options.addEventListener('mousedown', function () {
         that.selected(hovered.dataset['value'], that.hovered.dataset['title']);
         that.trigger('change');
@@ -139,11 +154,11 @@
       that.options.addEventListener('mouseover', function (e) {
         that.hovered = e.target.firstElementContains('option');
       });
-      that.selector.addEventListener('blur', function () {
+      that.selector.addEventListener('click', function () {
         that.hide();
       });
-      that.selector.addEventListener('click', function () {
-        that.toggle();
+      that.selector.addEventListener('blur', function () {
+        that.hide();
       });
       that.selector.addEventListener('input', function () {
         that.filter(that.selector.value);

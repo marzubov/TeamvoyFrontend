@@ -3,10 +3,15 @@
   font-size: 12px;
   font-weight: 100;
 }
+.custom-select .wrapper,
 .custom-select .selector{
-  padding: 5px;
   background-color: #74ADC0;
   border: 3px solid #ffffff;
+  padding: 5px;
+}
+.custom-select .wrapper{
+  padding: 4px;
+  min-height: 28px;
 }
 .custom-select .option {
   padding: 5px;
@@ -19,17 +24,14 @@
   color: #e74c3c;
   border-color: #c0392b;
 }
-.custom-select .img{
-  top: 8px;
-  right: 10px;
-}
 .custom-select .img:after{
   content: url('img/rsz_ico_search.png');
 }
 .custom-select .options{
-  outline: 3px solid #ffffff;
+  border: 3px solid #ffffff;
   top: 40px;
   width: 100%;
+  box-sizing: border-box;
 }
 .custom-select .selector:focus{
   background-color: #98B6C5;
@@ -40,5 +42,5 @@
   background-color: #98B6C5 !important;
 }
 .custom-select .options .option .highlighted {
-  color: #8e44ad !important;
+  color: #000 !important;
 }

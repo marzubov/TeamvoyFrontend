@@ -19,8 +19,8 @@ Object.prototype.merge = function (obj) {
  */
 Element.prototype.firstElementContains = function(cssClass){
   return this.classList.contains(cssClass) ?
-    this : this.parentNode ?
-      this.parentNode.firstElementContains(cssClass) : false;
+    this : this.parentElement ?
+      this.parentElement.firstElementContains(cssClass) : false;
 };
 /**
  * Wraps text with span with class 'highlighted'

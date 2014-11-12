@@ -6,8 +6,8 @@
     firstConfig = {
       title:'title',
       value: 'value'
-    },
-    firstSelect = new CustomSelect(containerOne, [
+    };
+    window.firstSelect = new CustomSelect(containerOne, [
         {
           "title": "january",
           "value": 1
@@ -32,8 +32,8 @@
       ,firstConfig
     );
   //New data example
-  var newDataContainer = document.getElementById("newData"),
-    monthArray = [
+  window.newDataContainer = document.getElementById("newData");
+   var monthArray = [
       {
         "title": "january",
         "value": 1
@@ -87,7 +87,7 @@
   newDataSelect.on('change', function(){
     document.querySelector("#output").innerHTML = 'Value: '+newDataSelect.value;
   });
-  document.querySelector("button").onclick = function(){
+  document.querySelector(".clicky").onclick = function(){
     newDataSelect.model.length == monthArray.length ?
     newDataSelect.setData(numberArray):
       newDataSelect.setData(monthArray);
@@ -118,7 +118,7 @@
     ],secondConfig);
 
   // Event example
-  var nativeSelect = document.querySelector('#native');
+  window.nativeSelect = document.querySelector('#native');
   nativeSelect.addEventListener('mousedown', function () {
     eventsSelect.toggle();
   });
@@ -128,22 +128,21 @@
   nativeSelect.addEventListener('change', function () {
     eventsSelect.selected(nativeSelect.value, nativeSelect.value);
   });
-  //New data example
 
   // Third example
-  var templateConfig = {
+  window.templateConfig = {
     template: '<div class="template"><img class="photo" src="{{image}}"><div class="text">{{text}}</div></div>',
     title: 'text',
     value: 'text'
   };
-  var containerThree = document.getElementById('third'),
-    dataUsers = [];
+  window.containerThree = document.getElementById('third');
+   var dataUsers = [];
     for(var i=0;i<10;i++){
       dataUsers.push({
         "text": faker.name.findName().toUpperCase(),
         "image": faker.image.avatar()
       })
     }
-     var templateSelector = new CustomSelect(containerThree,dataUsers, templateConfig);
+  window.templateSelector = new CustomSelect(containerThree,dataUsers, templateConfig);
 
 })(document, window);

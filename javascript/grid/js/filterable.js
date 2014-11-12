@@ -32,7 +32,7 @@ var Filterable = function (grid){
     function toggleSearchField() {
         var selectField = grid.container.querySelector('.field-choosing-column');
         var columnIndex = selectField.selectedIndex;
-        var dataIndex = selectField.options[selectField.selectedIndex].getAttribute("data-column");
+        var dataIndex = searchColumnIndex(columnIndex, selectField) - 1;
         if (generatedModel[columnIndex].classList.contains('filterable-active')) {
           that.disableSearchField(columnIndex);
         } else {
@@ -43,6 +43,14 @@ var Filterable = function (grid){
             }
           });
         }
+    }
+
+    function searchColumnIndex(data, select) {
+      var options = select.childNodes;
+      for (var i = 0; i < options.length; i++) {
+        if (options[i].getAttribute("data-column") == data) return options[i].text;
+      }
+      return false;
     }
 
     function renderSearchField(){
