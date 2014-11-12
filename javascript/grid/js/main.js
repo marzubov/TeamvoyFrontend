@@ -45,11 +45,7 @@
             }
         };
 
-        var container = document.getElementById('draggable');
-        draggableTable = new SortableGrid(container, configObject);
-       // var draggable = new Draggable(draggableTable.root, draggableTable.dataArray);
-
-        container = document.getElementById('withTemplate');
+        var container = document.getElementById('withTemplate');
         fullDataTable = new SortableGrid(container, configObjectFullLoadingWithTemplate);
 
         container = document.getElementById('partialServerData');
