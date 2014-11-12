@@ -121,15 +121,14 @@ input{
 
 .events-popup{
   position: absolute;
-  background: #000000;
-  width: 100px;
-  height: 100px;
+  background: #ffffff;
+  border: 2px solid #000000;
+  padding: 10px;
 }
-
-.events-popup .active {
+.active {
   display: block;
 }
 
-.events-popup .non-active{
+.non-active{
   display: none;
 }

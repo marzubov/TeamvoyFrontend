@@ -7,18 +7,18 @@
     var that = this;
     this.calendar = new Calendar(container, {});
 
-    /**
-     * Getting event of date
-     * @param date
-     * @returns {Array}
-     */
-
-
     function setEvents(){
       that.calendar.on('daySelected', function (day){
         that.showEvents.call(that,day);
       });
-      console.log('binded');
+      document.addEventListener('click', function(e){
+       if ((e.target != that.calendar.getRoot())&&(!that.calendar.getRoot().contains(e.target))){
+        that.calendar.getRoot().querySelector('.events-popup')
+          .classList.remove('active');
+         that.calendar.getRoot().querySelector('.events-popup')
+           .classList.add('non-active');
+       }
+      });
     }
 
     function init(){
@@ -35,14 +35,14 @@
 
   };
 
-  EventCalendar.prototype.dayEvents = [{date: moment([2014, 10, 10])._d, name:"eventName"}];
+  EventCalendar.prototype.dayEvents = [{date: moment([2014, 10, 10])._d, name:"First Event"}, {date: moment([2014, 10, 10])._d, name:"First Event"}, {date: moment([2014, 10, 10])._d, name:"First Event"}];
 
   EventCalendar.prototype.getDayEvents = function (date) {
 
     //finds day events with same date in config.dayEvents array,
     //and returns array of found day events
     return this.dayEvents.map(function (dayEvent) {
-      if (dayEvent.date == date) {
+      if (dayEvent.date.getTime() == date.getTime()) {
         return dayEvent;
       }
     });
@@ -58,10 +58,14 @@
     eventsElement.classList.add('events');
     Array.prototype.slice.call(events)
       .forEach(function (dayEvent) {
-        if (dayEvent)
-        eventsElement.innerHTML+=dayEvent.name;
+        if (dayEvent){
+          //eventsElement.innerHTML+=dayEvent.name;
+          var dayEventElement = document.createElement('div');
+          dayEventElement.innerHTML+=dayEvent.name;
+          eventsElement.appendChild(dayEventElement);
+        }
       });
-    return eventsElement;
+    return eventsElement.innerHTML ? eventsElement : null;
   };
 
   /**
@@ -72,27 +76,22 @@
   EventCalendar.prototype.renderPopup = function (events, dayElement) {
     var dayElementPos = findPos(dayElement),
       popup = this.calendar.getRoot().querySelector('.events-popup');
-    console.log(popup, dayElementPos);
-    popup.style.left = dayElementPos.left.toString() + 'px';
-    popup.style.top = dayElementPos.top.toString() + 'px';
-
+    popup.style.left = (dayElementPos.left + dayElement.offsetWidth).toString() + 'px';
+    popup.style.top = (dayElementPos.top + dayElement.offsetHeight).toString() + 'px';
+    while (popup.firstChild) {
+      popup.removeChild(popup.firstChild);
+    }
     var eventsTemplate = this.eventsTemplate(events);
     if (eventsTemplate instanceof HTMLElement) {
       popup.appendChild(eventsTemplate);
     } else if (typeof eventsTemplate == "string") {
       popup.innerHTML = eventsTemplate;
     } else {
-      popup.innerHTML = events.toString();
+      popup.innerHTML = "No events";
     }
   };
 
-  /**
-   *
-   * @param date
-   */
   EventCalendar.prototype.showEvents = function (date) {
-    console.log(date);
-    console.log(this);
     var selectedDay,
       events = this.getDayEvents(date);
     Array.prototype.slice.call(this.calendar.getRoot().querySelector('.calendar-body').childNodes)
