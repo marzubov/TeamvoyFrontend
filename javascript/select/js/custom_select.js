@@ -44,6 +44,7 @@
       } else {
         this.wrapper.innerHTML = title;
       }
+      this.selector.value='';
       this.value = value;
       return this;
     };
@@ -148,7 +149,7 @@
         that.selector.focus();
       });
       that.options.addEventListener('mousedown', function () {
-        that.selected(hovered.dataset['value'], that.hovered.dataset['title']);
+        that.hovered && that.selected(hovered.dataset['value'], that.hovered.dataset['title']);
         that.trigger('change');
       });
       that.options.addEventListener('mouseover', function (e) {
@@ -164,22 +165,21 @@
         that.filter(that.selector.value);
         that.hovered = 0;
       });
-      that.selector.addEventListener('keydown', function (e) {
+      that.rootElement.addEventListener('keydown', function (e) {
         switch (e.keyCode) {
           case 13://enter
             that.hide();
             that.trigger('change');
+            that.hovered && that.selected(that.hovered.dataset['value'], that.hovered.dataset['title']);
             break;
           case 27://esc
             that.hide();
             break;
           case 40://down
             that.hovered = that.hovered.nextSibling || that.options.firstChild;
-            that.selected(that.hovered.dataset['value'], that.hovered.dataset['title']);
             break;
           case 38://up
             that.hovered = that.hovered.previousSibling || that.options.lastChild;
-            that.selected(that.hovered.dataset['value'], that.hovered.dataset['title']);
             break;
           default :
             that.show();

@@ -51,6 +51,7 @@
   window.dropbox.on('change', function(){
     window.dropbox.wrapper.innerHTML = userTemplate;
     window.location.replace('index.html#' + window.dropbox.value);
+    window.dropbox.wrapper.blur();
     window.dropbox.hide();
   });
   window.dropbox.on('show', function(){
