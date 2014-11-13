@@ -77,11 +77,10 @@
    * @param dayElement
    */
   EventCalendar.prototype.renderPopup = function (events, dayElement) {
-    var dayElementPos = findPos(dayElement),
-      popup = this.calendar.getRoot().querySelector('.events-popup'),
+    var popup = this.calendar.getRoot().querySelector('.events-popup'),
       eventsTemplate = this.eventsTemplate(events);
-    popup.style.left = (dayElementPos.left + dayElement.offsetWidth).toString() + 'px';
-    popup.style.top = (dayElementPos.top + dayElement.offsetHeight).toString() + 'px';
+    popup.style.left = (dayElement.offsetLeft + dayElement.offsetWidth).toString() + 'px';
+    popup.style.top = (dayElement.offsetTop + dayElement.offsetHeight).toString() + 'px';
     while (popup.firstChild) {
       popup.removeChild(popup.firstChild);
     }
