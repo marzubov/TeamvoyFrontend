@@ -80,9 +80,14 @@
         model = that.generateModel(config);
         that.render();
         backupConfig.merge(config);
+        root.querySelector('.error-popup').classList.add('non-active');
+        root.querySelector('.error-popup').classList.remove('active');
         return true;
       } catch (error) {
         config = backupConfig;
+        root.querySelector('.error-popup').innerHTML = error;
+        root.querySelector('.error-popup').classList.remove('non-active');
+        root.querySelector('.error-popup').classList.add('active');
         return error;
       }
     }
@@ -118,6 +123,8 @@
     function setEvents() {
       root
         .addEventListener('click', function (e) {
+          root.querySelector('.error-popup').classList.add('non-active');
+          root.querySelector('.error-popup').classList.remove('active');
           if (e.target.classList.contains('calendar-button')) {
 
             //checking what type of button was clicked
@@ -145,13 +152,16 @@
       root.classList.add('calendar');
       var caption = document.createElement('div'),
         header = document.createElement('div'),
-        body = document.createElement('div');
+        body = document.createElement('div'),
+        errorPopup = document.createElement('div');
       caption.classList.add('calendar-caption');
       header.classList.add('calendar-header');
       body.classList.add('calendar-body');
+      errorPopup.classList.add('error-popup', 'non-active');
       root.appendChild(caption);
       root.appendChild(header);
       root.appendChild(body);
+      root.appendChild(errorPopup);
       container.appendChild(root);
     };
 
