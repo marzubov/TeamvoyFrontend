@@ -37,6 +37,7 @@
 <script src="../../library/helper.js"></script>
 <script src="../javascript/calendar.js"></script>
 <script src="../javascript/date_range_picker.js"></script>
+<script src="../javascript/event_calendar.js"></script>
 
 <a name="calendar_js"></a><h1>Calendar.js<a class="anchorlink" href="#calendar_js"></a></h1>
 <p>CalendarJS is an open source library that provides using custom calendar element.
@@ -160,6 +161,15 @@ Calendar.on(&#39;daySelected&#39;, daySelectedHandler);</pre>
 <div class="container" id="seventhContainer">
 </div>
 
+<p>Or Event Calendars:</p>
+<pre class="prettyprint">&lt;div id=&quot;containerElement&quot;&gt;
+&lt;/div&gt;
+&lt;script&gt;
+  var containerElement = document.getElementById(&#39;containerElement&#39;);
+  var eventCalendar = new EventCalendar(containerElement);
+&lt;/script&gt;</pre>
+<p><div class="container" id="eventContainer">
+</div></p>
 <script src="../javascript/main.js"></script>
 
 

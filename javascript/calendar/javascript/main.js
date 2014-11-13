@@ -1,14 +1,15 @@
 (function (global, document) {
   "use strict";
-  /*global moment:true, EventMachine: true, Calendar:true, DateRangePicker: true,
+  /*global moment:true, EventMachine: true, Calendar:true, DateRangePicker: true, EventCalendar:true,
   window:true, document:true, HTMLElement: true */
-  var firstCalendar, secondCalendar, fifthCalendar, sixthCalendar, seventhCalendar, eightsCalendar,
+  var firstCalendar, secondCalendar, fifthCalendar, sixthCalendar, seventhCalendar, eightsCalendar, eventCalendar,
     firstContainer = document.getElementById('firstContainer'),
     secondContainer = document.getElementById('secondContainer'),
     fifthContainer = document.getElementById('fifthContainer'),
     sixthContainer = document.getElementById('sixthContainer'),
     seventhContainer = document.getElementById('seventhContainer'),
-    eightsContainer = document.getElementById('eightsContainer');
+    eightsContainer = document.getElementById('eightsContainer'),
+    eventContainer = document.getElementById('eventContainer');
 
   firstCalendar = new Calendar(firstContainer, {});
   secondCalendar = new Calendar(secondContainer, {
@@ -34,6 +35,7 @@
   });
   seventhCalendar.firstCalendar.getRoot().classList.add('date-range-picker');
   seventhCalendar.secondCalendar.getRoot().classList.add('date-range-picker');
+  eventCalendar = new EventCalendar(eventContainer);
   document.querySelector('.btn').onclick = function () {
     var newConfig = {};
     newConfig.year = document.querySelector('.year').value;
