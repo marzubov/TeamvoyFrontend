@@ -162,15 +162,17 @@ var containerTwo = document.getElementById("second"),
         customSelect.setSelected(nativeSelect.value,nativeSelect.value);
     });
 ```
-
-<label><select style="width: 50%" id="native">
+<div style="display: flex;">
+<label><select style="min-width: 300px;" id="native">
 <option>1</option>
 <option>2</option>
 <option>3</option>
 <option>4</option>
 <option>5</option>
-</select></label>
-<div id="second"></div>
+</select>
+</label>
+<div style="min-width: 40%;" id="second"></div>
+</div>
 ### Work with templates
 You can use templates to create nice look for you select:
 

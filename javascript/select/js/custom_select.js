@@ -68,9 +68,7 @@
      */
     this.setData = function (newData) {
       data = newData;
-      var temp = {};
-      temp[config.title] = '';
-      this.selected(temp);
+      this.selected('', '');
       this.filter('');
       this.trigger('change');
       return this;
