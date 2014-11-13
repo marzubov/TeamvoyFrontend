@@ -5,6 +5,7 @@
 <script src="../../library/helper.js"></script>
 <script src="../javascript/calendar.js"></script>
 <script src="../javascript/date_range_picker.js"></script>
+<script src="../javascript/event_calendar.js"></script>
 
 Calendar.js
 =============
@@ -162,4 +163,15 @@ You can use calendar to create date range pickers:
 <div class="container" id="seventhContainer">
 </div>
 
+Or Event Calendars:
+```js
+<div id="containerElement">
+</div>
+<script>
+  var containerElement = document.getElementById('containerElement');
+  var eventCalendar = new EventCalendar(containerElement);
+</script>
+```
+<div class="container" id="eventContainer">
+</div>
 <script src="../javascript/main.js"></script>
