@@ -136,11 +136,24 @@ var BST = (function () {
         });
         return result;
     };
+    BST.prototype.balance = function (data) {
+        var balanceData = [data[Math.floor(data.length / 2)]], first = data.slice(0, Math.floor(data.length / 2)), second = data.slice(Math.floor(data.length / 2) + 1);
+        if (first.length != 0) {
+            balanceData = balanceData.concat(this.balance(first));
+        }
+        if (second.length != 0) {
+            balanceData = balanceData.concat(this.balance(second));
+        }
+        return balanceData;
+    };
     BST.prototype.generateFromArray = function (data) {
         this.root = new TreeNode(null, null, null, null, null, 0, 0);
-        for (var i = 0; i < data.length; i++) {
-            var edgeLength = data.length;
-            this.insert(this.root, data[i].toString(), this.root, edgeLength / 2);
+        var balancedData = this.balance(data);
+        console.log('original data', data);
+        console.log('balanced data', balancedData);
+        for (var i = 0; i < balancedData.length; i++) {
+            var edgeLength = balancedData.length;
+            this.insert(this.root, balancedData[i].toString(), this.root, edgeLength / 2);
         }
         return this;
     };
