@@ -124,10 +124,12 @@ input{
 }
 
 .error-popup{
+  width: 150px;
   position: relative;
   background: #ffffff;
   border: 2px solid #000000;
   padding: 10px;
+  color: red;
 }
 
 .active {
