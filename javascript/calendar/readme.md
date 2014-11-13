@@ -1,5 +1,4 @@
 <link rel="stylesheet" href="../css/calendar.css"/>
-<link rel="stylesheet" href="../css/style.css"/>
 <script src="../../library/vendor/moment/moment.js"></script>
 <script src="../../library/vendor/moment/min/locales.js"></script>
 <script src="../../library/event_machine.js"></script>

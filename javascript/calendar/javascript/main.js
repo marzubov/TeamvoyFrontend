@@ -1,31 +1,43 @@
-(function (global, document){
-    var firstContainer = document.getElementById('firstContainer');
-    var secondContainer = document.getElementById('secondContainer');
-    //var thirdContainer = document.getElementById('thirdContainer');
-    //var fourthContainer = document.getElementById('fourthContainer');
-    var fifthContainer = document.getElementById('fifthContainer');
-    var sixthContainer = document.getElementById('sixthContainer');
-    var seventhContainer = document.getElementById('seventhContainer');
-    var eightsContainer = document.getElementById('eightsContainer');
+(function (global, document) {
+  "use strict";
+  /*global moment:true, EventMachine: true, Calendar:true, DateRangePicker: true,
+  window:true, document:true, HTMLElement: true */
+  var firstCalendar, secondCalendar, fifthCalendar, sixthCalendar, seventhCalendar, eightsCalendar,
+    firstContainer = document.getElementById('firstContainer'),
+    secondContainer = document.getElementById('secondContainer'),
+    fifthContainer = document.getElementById('fifthContainer'),
+    sixthContainer = document.getElementById('sixthContainer'),
+    seventhContainer = document.getElementById('seventhContainer'),
+    eightsContainer = document.getElementById('eightsContainer');
 
-    var firstCalendar  = new Calendar(firstContainer,{});
-    var secondCalendar = new Calendar(secondContainer,{year: 2014, month: 5,firstDayOfWeek: "Mon" ,
-      locale: "uk", weekends:["Sat","Sun"]});
-    //var thirdCalendar = new Calendar(thirdContainer,{daysInWeek: 14});
-   // var fourthCalendar = new Calendar(fourthContainer,{daysInWeek: 13});
-    var fifthCalendar = new Calendar(fifthContainer,{year: 2014, month: 5,firstDayOfWeek: "Mon",
-      locale: "en", weekends:["Sat","Sun"]});
-    var sixthCalendar = new Calendar(sixthContainer,{});
-    var seventhCalendar = new DateRangePicker(seventhContainer);
-    var eightsCalendar = new Calendar(eightsContainer,{year: 2014, month: 5, locale: "fr"});
-    seventhCalendar.firstCalendar.getRoot().classList.add('date-range-picker');
-    seventhCalendar.secondCalendar.getRoot().classList.add('date-range-picker');
-    document.querySelector('.btn').onclick = function () {
-        var newConfig = {};
-        newConfig.year=document.querySelector('.year').value;
-        newConfig.month=document.querySelector('.month').value;
-        //newConfig.locale=document.querySelector('.locale').value;
-        //newConfig.weekends = ['SAT','SUN'];
-        secondCalendar.config = newConfig;
-    };
+  firstCalendar = new Calendar(firstContainer, {});
+  secondCalendar = new Calendar(secondContainer, {
+    year: 2014,
+    month: 5,
+    firstDayOfWeek: "Mon",
+    locale: "uk",
+    weekends: ["Sat", "Sun"]
+  });
+  fifthCalendar = new Calendar(fifthContainer, {
+    year: 2014,
+    month: 5,
+    firstDayOfWeek: "Mon",
+    locale: "en",
+    weekends: ["Sat", "Sun"]
+  });
+  sixthCalendar = new Calendar(sixthContainer, {});
+  seventhCalendar = new DateRangePicker(seventhContainer);
+  eightsCalendar = new Calendar(eightsContainer, {
+    year: 2014,
+    month: 5,
+    locale: "fr"
+  });
+  seventhCalendar.firstCalendar.getRoot().classList.add('date-range-picker');
+  seventhCalendar.secondCalendar.getRoot().classList.add('date-range-picker');
+  document.querySelector('.btn').onclick = function () {
+    var newConfig = {};
+    newConfig.year = document.querySelector('.year').value;
+    newConfig.month = document.querySelector('.month').value;
+    secondCalendar.config = newConfig;
+  };
 })(window, document);

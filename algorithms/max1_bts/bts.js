@@ -1,12 +1,13 @@
 (function (global, document) {
-  var Coordinates = function (x,y){
+  "use strict";
+  var Coordinates = function (x, y) {
     this.x = x || 0;
     this.y = y || 0;
     return this;
   };
   var Node = function (key, leftChild, rightChild, parent, value, x, y) {
     EventMachine.call(this);
-    for(var prop in Coordinates) {
+    for (var prop in Coordinates) {
       if (Coordinates.hasOwnProperty(prop)) {
         this[prop] = Coordinates[prop];
       }
@@ -127,11 +128,29 @@
       return result;
     };
 
+    this.balance = function (data) {
+      //if (data.length == 0)return;
+      var balanceData = [data[Math.floor(data.length/2)]],
+      first = data.slice(0, Math.floor(data.length/2)),
+      second = data.slice(Math.floor(data.length/2) + 1);
+      //var result = [];
+      if (first.length != 0){
+        balanceData = balanceData.concat(that.balance(first));
+      }
+      if (second.length != 0){
+        balanceData = balanceData.concat(that.balance(second));
+      }
+      return balanceData;
+    };
+
     this.generateFromArray = function (data) {
+      var balancedData = this.balance(data);
+      console.log('original data', data);
+      console.log('balanced data', balancedData);
       this.root = new Node();
-      for (var i = 0; i < data.length; i++) {
-        var edgeLength = data.length.valueOf();
-        that.insertAndShow(that.root, data[i], that.root, edgeLength/2);
+      for (var i = 0; i < balancedData.length; i++) {
+        var edgeLength = balancedData.length.valueOf();
+        that.insertAndShow(that.root, balancedData[i], that.root, edgeLength / 2);
       }
       return that;
     };
@@ -143,7 +162,7 @@
         }));
     };
 
-    this.insertAndShow = function(node, key, parent, edgeLength){
+    this.insertAndShow = function (node, key, parent, edgeLength) {
       var newNode = that.insert(node, key, parent, edgeLength);
       if (!newNode) return false;
       s.graph.addNode({
