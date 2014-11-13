@@ -7,33 +7,33 @@
       title:'title',
       value: 'value'
     };
-    window.firstSelect = new CustomSelect(containerOne, [
-        {
-          "title": "january",
-          "value": 1
-        },
-        {
-          "title": "february",
-          "value": 2
-        },
-        {
-          "title": "march",
-          "value": 3
-        },
-        {
-          "title": "april",
-          "value": 4
-        },
-        {
-          "title": "may",
-          "value": 5
-        }
-      ]
-      ,firstConfig
-    );
+  window.firstSelect = new CustomSelect(containerOne, [
+      {
+        "title": "january",
+        "value": 1
+      },
+      {
+        "title": "february",
+        "value": 2
+      },
+      {
+        "title": "march",
+        "value": 3
+      },
+      {
+        "title": "april",
+        "value": 4
+      },
+      {
+        "title": "may",
+        "value": 5
+      }
+    ]
+    , firstConfig
+  );
   //New data example
   window.newDataContainer = document.getElementById("newData");
-   var monthArray = [
+  var monthArray = [
       {
         "title": "january",
         "value": 1
@@ -81,15 +81,13 @@
         "value": 6
       }
     ],
-  newDataSelect = new CustomSelect(newDataContainer, monthArray
-    ,firstConfig
-  );
-  newDataSelect.on('change', function(){
+    newDataSelect = new CustomSelect(newDataContainer, monthArray, firstConfig);
+  newDataSelect.on('change', function () {
     document.querySelector("#output").innerHTML = 'Value: '+newDataSelect.value;
   });
   document.querySelector(".clicky").onclick = function(){
     newDataSelect.model.length == monthArray.length ?
-    newDataSelect.setData(numberArray):
+      newDataSelect.setData(numberArray) :
       newDataSelect.setData(monthArray);
   };
 
@@ -115,7 +113,7 @@
       {
         "number": 5
       }
-    ],secondConfig);
+    ], secondConfig);
 
   // Event example
   window.nativeSelect = document.querySelector('#native');
@@ -126,26 +124,24 @@
     nativeSelect.value = this.value;
   });
   nativeSelect.addEventListener('change', function () {
-    var data = {};
-    data.number = nativeSelect.value;
-    eventsSelect.selected(data);
+    eventsSelect.selected(nativeSelect.value, nativeSelect.value);
   });
 
   // Third example
   window.templateConfig = {
     optionTemplate: '<div class="template"><img class="photo" src="{{image}}"><div class="text">{{text}}</div></div>',
-    selectorTemplate: '<div class="template"><img class="photo" src="{{image}}"><div class="text">{{text}}</div></div>',
+    selectorTemplate: '<div class="template"><div class="text">{{text}}</div><img class="photo" src="{{image}}"></div>',
     title: 'text',
     value: 'text'
   };
   window.containerThree = document.getElementById('third');
-   var dataUsers = [];
-    for(var i=0;i<10;i++){
-      dataUsers.push({
-        "text": faker.name.findName().toUpperCase(),
-        "image": faker.image.avatar()
-      })
-    }
+  var dataUsers = [];
+  for (var i = 0; i < 10; i++) {
+    dataUsers.push({
+      "text": faker.name.findName().toUpperCase(),
+      "image": faker.image.avatar()
+    })
+  }
   window.templateSelector = new CustomSelect(containerThree,dataUsers, templateConfig);
 
 })(document, window);

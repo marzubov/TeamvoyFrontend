@@ -41,20 +41,26 @@
     };
 
     /**
-     * Set new value
-     * @param data {Object} - object with data properties
+     * Set new value and title to selector. Doesn't creates new option;
+     * @param value {String} - new value in selector;
+     * @param title {String} - new title in selector;
      * @return {global.CustomSelect}
      */
-    this.selected = function (data) {
-      if (this.config.selectorTemplate) {
-        this.wrapper.innerHTML = generateTemplateData(data, '', this.config.selectorTemplate);
+    this.selected = function (value, title) {
+      this.value = value;
+      this.wrapper.innerHTML = title;
+    };
+
+    function selected(data) {
+      if (that.config.selectorTemplate) {
+        that.wrapper.innerHTML = generateTemplateData(data, '', that.config.selectorTemplate);
       } else {
-        this.wrapper.innerHTML = generateTemplateData(data, '');
+        that.wrapper.innerHTML = generateTemplateData(data, '');
       }
-      this.value = data[config.value];
+      that.value = data[config.value];
       that.trigger('change');
       return this;
-    };
+    }
 
     /**
      * Updates data in selector
@@ -173,7 +179,7 @@
         that.selector.focus();
       });
       that.options.addEventListener('mousedown', function () {
-        return that.hovered && that.selected(hovered.data);
+        return that.hovered && selected(hovered.data);
       });
       that.options.addEventListener('mouseover', function (e) {
         that.hovered = e.target.firstElementContains('option');
@@ -192,7 +198,7 @@
         switch (e.keyCode) {
           case 13://enter
             that.hide();
-            that.hovered && that.selected(that.hovered.data);
+            that.hovered && selected(that.hovered.data);
             break;
           case 27://esc
             that.hide();
