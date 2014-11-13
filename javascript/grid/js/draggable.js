@@ -171,9 +171,12 @@ function Draggable(table, dataArray, dataObject, config) {
     var rowLength = targetTable.rows.length, i = 0;
 
     for (i; i < rowLength; i++) {
-      targetTable.rows[i].cells[firstCol].parentNode.insertBefore(targetTable.rows[i].cells[firstCol],targetTable.rows[i].cells[secondCol]);
+      if (firstCol > secondCol) {
+        targetTable.rows[i].cells[firstCol].parentNode.insertBefore(targetTable.rows[i].cells[firstCol], targetTable.rows[i].cells[secondCol]);
+      } else {
+        targetTable.rows[i].cells[secondCol].parentNode.insertBefore(targetTable.rows[i].cells[secondCol], targetTable.rows[i].cells[firstCol]);
+      }
     }
-
 
   };
 
@@ -194,6 +197,12 @@ function Draggable(table, dataArray, dataObject, config) {
     var tempIndex = selectField.options[firstCol].getAttribute("data-column");
     selectField.options[firstCol].setAttribute("data-column", selectField.options[secondCol].getAttribute("data-column"));
     selectField.options[secondCol].setAttribute("data-column", tempIndex);
+
+    if (document.querySelector('.filterable-active')) {
+      var searchFierld = document.querySelector('.filterable-active');
+      var newAttrInField = searchFierld.getAttribute('column-index').replace(firstCol + 1, secondCol + 1);
+      searchFierld.setAttribute('column-index', newAttrInField);
+    }
     swapDataWithTemplates(firstCol, secondCol);
     swapTemplates(firstCol, secondCol);
   };
@@ -208,6 +217,7 @@ function Draggable(table, dataArray, dataObject, config) {
       targetArray1[i][first] = targetArray1[i][second];
       targetArray1[i][second] = tempCell;
     }
+    console.log(dataObject);
   }
 
   function swapTemplates(firstCol, secondCol) {
