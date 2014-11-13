@@ -1,5 +1,6 @@
 (function (global, document) {
   "use strict";
+  /*global moment:true, EventMachine: true, Calendar:true, window:true, document:true, HTMLElement: true */
   global.DateRangePicker = function (container) {
     EventMachine.call(this);
     moment.locale('en');

@@ -1,5 +1,6 @@
 (function (global, document) {
   "use strict";
+  /*global moment:true, EventMachine: true, Calendar:true, window:true, document:true, HTMLElement: true */
   /**
    * Creates calendar and inserts it in container
    * @param container - Place in the DOM where calendar will be inserted

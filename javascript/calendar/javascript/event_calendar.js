@@ -1,5 +1,7 @@
 (function (global, document) {
   "use strict";
+  /*global moment:true, EventMachine: true, Calendar:true, EventCalendar:true,
+   window:true, document:true, HTMLElement: true */
   global.EventCalendar = function EventCalendar(container) {
     EventMachine.call(this);
     var that = this;

@@ -1,5 +1,7 @@
 (function (global, document) {
   "use strict";
+  /*global moment:true, EventMachine: true, Calendar:true, DateRangePicker: true,
+  window:true, document:true, HTMLElement: true */
   var firstCalendar, secondCalendar, fifthCalendar, sixthCalendar, seventhCalendar, eightsCalendar,
     firstContainer = document.getElementById('firstContainer'),
     secondContainer = document.getElementById('secondContainer'),
