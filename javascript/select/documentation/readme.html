@@ -202,14 +202,23 @@ template - HTML code with templates, that matches properties name in data array.
     nativeSelect.addEventListener(&#39;change&#39;,function(){
         customSelect.setSelected(nativeSelect.value,nativeSelect.value);
     });</pre>
-<p><label><select style="width: 50%" id="native"></p>
+        <p>
+
+        <div style="display: flex;">
+        </p>
+        <p><label><select style="min-width: 300px;" id="native"></p>
 <p><option>1</option></p>
 <p><option>2</option></p>
 <p><option>3</option></p>
 <p><option>4</option></p>
 <p><option>5</option>
-</select></label></p>
-<p><div id="second"></div></p>
+  </select>
+  </label></p>
+        <p>
+
+        <div style="min-width: 40%;" id="second"></div>
+      </div>
+      </p>
 <a name="work_with_templates"></a><h3>Work with templates<a class="anchorlink" href="#work_with_templates"></a></h3>
 <p>You can use templates to create nice look for you select:</p>
 <pre class="prettyprint">  templateConfig = {
@@ -232,7 +241,7 @@ template - HTML code with templates, that matches properties name in data array.
 <p><link rel="stylesheet" href="../css/custom_select.css" type="text/css"></p>
 <p><link rel="stylesheet" href="../css/template.css" type="text/css"></p>
 <p><link rel="stylesheet" href="../css/nice_aqua_select.css" type="text/css"></p>
-        <script src="../../library/faker.min.js"></script>
+      <script src="../../library/faker.min.js"></script>
 <script src="../../library/helper.js"></script>
 <script src="../../library/event_machine.js"></script>
 <script src="../js/custom_select.js"></script>
