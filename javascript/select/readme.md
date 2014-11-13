@@ -20,7 +20,8 @@ The arguments of this class are:
 * **data**  - array with objects of data, with any properties.
 
 * **config** - object witch contains properties title, value  and *template*
-> title - contains property name, that will be showed and filtered in selector
+> title - contains property name from data, that will be showed and filtered in selector.
+> value - contains property name from data, that will be saved in selector value.
 > template - HTML code with templates, that matches properties name in data array.
 
 ##Methods
@@ -32,7 +33,7 @@ The methods of this class are:
 
 3. **toggle()** - show/hide options of select.
 
-4. **selected(title,value)** - set new title and value to select, doesn't add new option.
+4. **selected(value, title)** - set new value and title to select, doesn't add new option.
 
 5. **setData(newData)** - set new data for options, newData must contain same properties as [data](#syntax).
  
@@ -122,7 +123,8 @@ Example of simple select with different title and value:
       select.setData(monthArray);
   };
 ```
-<div class="half-page" id="newData"> <div id="output">Value: </div><button>Change data!</button></div>
+
+<div class="half-page" id="newData"> <div id="output">Value: </div><button class="clicky">Change data!</button></div>
 ### Events in action
 You can easily bind native and custom select with such code:
 ```js
@@ -173,32 +175,28 @@ var containerTwo = document.getElementById("second"),
 You can use templates to create nice look for you select:
 
 ```js
-  var templateConfig = {
-    template: '<div class="template img-circle">+
-    <img class="film-logo" src="{{image}}"><div class="text">{{text}}</div></div>',
-    title: 'text',
+  templateConfig = {
+    optionTemplate: '<div class="template"><img class="photo" src="{{image}}"><div class="text">{{text}}</div></div>',
+    selectorTemplate: '<div class="template"><div class="text">{{text}}</div><img class="photo" src="{{image}}"></div>',
+    title: 'text', //This field will be filtered by selector
     value: 'text'
   };
-  var containerThree = document.getElementById('third');
-  var templateSelector = new CustomSelect(containerThree, [
-{"text": 'The Hobbit',
- "image": 'http://www.egmnow.com/wp-content/themes/egmnowv3/images/icons/renobadgeicon/The-Hobbit-An-Unexpected-Journey.png'
-}
-{"text": 'Metallica Movie!',
- "image": 'http://pyramida.info/2013/10/01/Metallica%2BThrough%2Bthe%2BNever%2BHD%2B%2BPNG.png'
-}
-{"text": 'Terminator',
- "image": 'http://icon.gamerzcraft.com/capas/Terminator_Salvation_%5B530-51-1202609%5D.png'
-}
-{"text": 'Awesome face!!',
- "image": 'http://3.bp.blogspot.com/-f0NsmUHz2kM/T8GUGoydNpI/AAAAAAAAAfg/KnEkgnFPzpc/s1600/smiley.png'
-}], templateConfig);
+  container = document.getElementById('some-element');
+   var dataUsers = [];
+    for(var i=0;i<10;i++){
+      dataUsers.push({
+        "text": faker.name.findName().toUpperCase(), //Random data
+        "image": faker.image.avatar()
+      })
+    }
+  templateSelector = new CustomSelect(containerThree, dataUsers, templateConfig);
 ```
   <div id="third" style="padding-bottom: 200px;">
   </div>
 <link rel="stylesheet" href="../css/custom_select.css" type="text/css">
 <link rel="stylesheet" href="../css/template.css" type="text/css">
 <link rel="stylesheet" href="../css/nice_aqua_select.css" type="text/css">
+<script src="../../library/faker.min.js"></script>
 <script src="../../library/helper.js"></script>
 <script src="../../library/event_machine.js"></script>
 <script src="../js/custom_select.js"></script>

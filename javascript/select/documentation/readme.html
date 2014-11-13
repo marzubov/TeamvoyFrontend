@@ -53,7 +53,8 @@
 </li>
 <li><p><strong>config</strong> - object witch contains properties title, value  and <em>template</em></p>
 <blockquote>
-<p>title - contains property name, that will be showed and filtered in selector
+  <p>title - contains property name from data, that will be showed and filtered in selector.
+    value - contains property name from data, that will be saved in selector value.
 template - HTML code with templates, that matches properties name in data array.</p>
 </blockquote>
 </li>
@@ -67,7 +68,7 @@ template - HTML code with templates, that matches properties name in data array.
 </li>
 <li><p><strong>toggle()</strong> - show/hide options of select.</p>
 </li>
-<li><p><strong>selected(title,value)</strong> - set new title and value to select, doesn&#39;t add new option.</p>
+  <li><p><strong>selected(value, title)</strong> - set new value and title to select, doesn&#39;t add new option.</p>
 </li>
 <li><p><strong>setData(newData)</strong> - set new data for options, newData must contain same properties as <a href="#syntax">data</a>.</p>
 </li>
@@ -159,7 +160,13 @@ template - HTML code with templates, that matches properties name in data array.
     select.setData(numberArray):
       select.setData(monthArray);
   };</pre>
-<p><div class="half-page" id="newData"> <div id="output">Value: </div><button>Change data!</button></div></p>
+        <p>
+
+        <div class="half-page" id="newData">
+          <div id="output">Value:</div>
+          <button class="clicky">Change data!</button>
+        </div>
+        </p>
 <a name="events_in_action"></a><h3>Events in action<a class="anchorlink" href="#events_in_action"></a></h3>
 <p>You can easily bind native and custom select with such code:</p>
 <pre class="prettyprint">var containerTwo = document.getElementById(&quot;second&quot;),
@@ -205,31 +212,27 @@ template - HTML code with templates, that matches properties name in data array.
 <p><div id="second"></div></p>
 <a name="work_with_templates"></a><h3>Work with templates<a class="anchorlink" href="#work_with_templates"></a></h3>
 <p>You can use templates to create nice look for you select:</p>
-<pre class="prettyprint">  var templateConfig = {
-    template: &#39;&lt;div class=&quot;template img-circle&quot;&gt;+
-    &lt;img class=&quot;film-logo&quot; src=&quot;{{image}}&quot;&gt;&lt;div class=&quot;text&quot;&gt;{{text}}&lt;/div&gt;&lt;/div&gt;&#39;,
-    title: &#39;text&#39;,
+<pre class="prettyprint">  templateConfig = {
+    optionTemplate: &#39;&lt;div class=&quot;template&quot;&gt;&lt;img class=&quot;photo&quot; src=&quot;{{image}}&quot;&gt;&lt;div class=&quot;text&quot;&gt;{{text}}&lt;/div&gt;&lt;/div&gt;&#39;,
+    selectorTemplate: &#39;&lt;div class=&quot;template&quot;&gt;&lt;div class=&quot;text&quot;&gt;{{text}}&lt;/div&gt;&lt;img class=&quot;photo&quot; src=&quot;{{image}}&quot;&gt;&lt;/div&gt;&#39;,
+    title: &#39;text&#39;, //This field will be filtered by selector
     value: &#39;text&#39;
   };
-  var containerThree = document.getElementById(&#39;third&#39;);
-  var templateSelector = new CustomSelect(containerThree, [
-{&quot;text&quot;: &#39;The Hobbit&#39;,
- &quot;image&quot;: &#39;http://www.egmnow.com/wp-content/themes/egmnowv3/images/icons/renobadgeicon/The-Hobbit-An-Unexpected-Journey.png&#39;
-}
-{&quot;text&quot;: &#39;Metallica Movie!&#39;,
- &quot;image&quot;: &#39;http://pyramida.info/2013/10/01/Metallica%2BThrough%2Bthe%2BNever%2BHD%2B%2BPNG.png&#39;
-}
-{&quot;text&quot;: &#39;Terminator&#39;,
- &quot;image&quot;: &#39;http://icon.gamerzcraft.com/capas/Terminator_Salvation_%5B530-51-1202609%5D.png&#39;
-}
-{&quot;text&quot;: &#39;Awesome face!!&#39;,
- &quot;image&quot;: &#39;http://3.bp.blogspot.com/-f0NsmUHz2kM/T8GUGoydNpI/AAAAAAAAAfg/KnEkgnFPzpc/s1600/smiley.png&#39;
-}], templateConfig);</pre>
+  container = document.getElementById(&#39;some-element&#39;);
+   var dataUsers = [];
+    for(var i=0;i&lt;10;i++){
+      dataUsers.push({
+        &quot;text&quot;: faker.name.findName().toUpperCase(), //Random data
+        &quot;image&quot;: faker.image.avatar()
+      })
+    }
+  templateSelector = new CustomSelect(containerThree, dataUsers, templateConfig);</pre>
 <p>  <div id="third" style="padding-bottom: 200px;">
   </div></p>
 <p><link rel="stylesheet" href="../css/custom_select.css" type="text/css"></p>
 <p><link rel="stylesheet" href="../css/template.css" type="text/css"></p>
 <p><link rel="stylesheet" href="../css/nice_aqua_select.css" type="text/css"></p>
+        <script src="../../library/faker.min.js"></script>
 <script src="../../library/helper.js"></script>
 <script src="../../library/event_machine.js"></script>
 <script src="../js/custom_select.js"></script>

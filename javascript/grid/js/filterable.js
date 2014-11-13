@@ -10,7 +10,9 @@ var Filterable = function (grid){
     };
 
     function renderFormForFilter() {
-      var model = document.createDocumentFragment();
+      var wrapperForFilter = document.createElement("div");
+      wrapperForFilter.classList.add("filter-form");
+
       var filterChooseField = document.createElement('select');
       filterChooseField.classList.add('field-choosing-column');
       for (var i = 0; i < grid.config.headers.length; i++) {
@@ -19,14 +21,14 @@ var Filterable = function (grid){
         option.innerHTML = i+1;
         filterChooseField.appendChild(option);
       }
-      model.appendChild(filterChooseField);
+      wrapperForFilter.appendChild(filterChooseField);
       var chooseButton = document.createElement('input');
       chooseButton.classList.add("filter-button");
       chooseButton.type = 'button';
       chooseButton.value = "Add/Remove filter field";
       chooseButton.addEventListener("click", toggleSearchField);
-      model.appendChild(chooseButton);
-      grid.container.insertBefore(model, grid.container.firstChild);
+      wrapperForFilter.appendChild(chooseButton);
+      grid.container.insertBefore(wrapperForFilter, grid.container.firstChild);
     }
 
     function toggleSearchField() {

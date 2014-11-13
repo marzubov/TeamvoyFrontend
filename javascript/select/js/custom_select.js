@@ -19,7 +19,8 @@
       this.options.classList.add('hide');
       this.selector.classList.add('hide');
       this.wrapper.classList.remove('hide');
-      this.trigger('hide')
+      this.trigger('hide');
+      return this;
     };
 
     this.show = function () {
@@ -27,27 +28,39 @@
       this.selector.classList.remove('hide');
       this.wrapper.classList.add('hide');
       this.trigger('show');
+      return this;
     };
 
     this.toggle = function () {
-      this.options.classList.contains('hide') ? this.show() : this.hide();
+      if (this.options.classList.contains('hide')) {
+        this.show();
+      } else {
+        this.hide();
+      }
+      return this;
     };
 
     /**
-     * Set new value
-     * @param value {String}
-     * @param title {String}
+     * Set new value and title to selector. Doesn't creates new option;
+     * @param value {String} - new value in selector;
+     * @param title {String} - new title in selector;
+     * @return {global.CustomSelect}
      */
     this.selected = function (value, title) {
-      if (this.config.template) {
-        this.wrapper.innerHTML = this.hovered.innerHTML;
-      } else {
-        this.wrapper.innerHTML = title;
-      }
-      this.selector.value='';
       this.value = value;
-      return this;
+      this.wrapper.innerHTML = title;
     };
+
+    function selected(data) {
+      if (that.config.selectorTemplate) {
+        that.wrapper.innerHTML = generateTemplateData(data, '', that.config.selectorTemplate);
+      } else {
+        that.wrapper.innerHTML = generateTemplateData(data, '');
+      }
+      that.value = data[config.value];
+      that.trigger('change');
+      return this;
+    }
 
     /**
      * Updates data in selector
@@ -55,9 +68,11 @@
      */
     this.setData = function (newData) {
       data = newData;
-      this.selected('', '');
-      this.trigger('change');
+      var temp = {};
+      temp[config.title] = '';
+      this.selected(temp);
       this.filter('');
+      this.trigger('change');
       return this;
     };
 
@@ -68,7 +83,7 @@
      */
     this.filter = function (filterString) {
       this.model = data.filter(function (option) {
-        return new RegExp(filterString).test(option[config.title]);
+        return new RegExp('(' + filterString + ')', 'i').test(option[config.title]);
       });
       this.trigger('filtered');
       return renderOptions(this.options, filterString);
@@ -80,9 +95,13 @@
         return hovered;
       },
       set: function (element) {
-        hovered && hovered.classList && (hovered.classList.remove('hover'));
+        if (hovered) {
+          hovered.classList.remove('hover');
+        }
         hovered = element;
-        hovered && hovered.classList && (hovered.classList.add('hover'));
+        if (hovered) {
+          hovered.classList.add('hover');
+        }
         return hovered;
       }
     });
@@ -98,16 +117,18 @@
     }
 
     // Generate data from template
-    function generateTemplateData(data, textToMark) {
+    function generateTemplateData(data, textToMark, template) {
       var prop,
         result = data[config.title].toString().highLightText(textToMark);
-      if (that.config.template) {
-        result = that.config.template;
+      if (template) {
+        result = template;
         for (prop in data) {
           if (data.hasOwnProperty(prop)) {
-            prop == config.title ? // We need modify text but don't model data
-              result = result.replace('{{' + prop + '}}', data[prop].toString().highLightText(textToMark)) :
+            if (prop === config.title) { // We need modify text but don't model data
+              result = result.replace('{{' + prop + '}}', data[prop].toString().highLightText(textToMark));
+            } else {
               result = result.replace('{{' + prop + '}}', data[prop]);
+            }
           }
         }
       }
@@ -116,19 +137,28 @@
 
     // Generate data in select options
     function renderOptions(optionsElement, searchString) {
-      var options = optionsElement ? optionsElement : document.createElement('div'),
-        optionString = '';
-      that.model.length ? that.selector.classList.remove('alert')
-        : that.selector.classList.add('alert');
+      var options = optionsElement || document.createElement('div');
+      options.innerHTML = '';
+      if (that.model.length) {
+        that.selector.classList.remove('alert');
+      } else {
+        that.selector.classList.add('alert');
+      }
+
       options.classList.add('options');
-      that.model.forEach(function (option) {
-        optionString += '<div data-value="' + option[config.value]
-        + '" data-title="' + option[config.title]
-        + '" class="option">'
-        + generateTemplateData(option, searchString)
-        + '</div>'
+      that.model.forEach(function (option, i) {
+        var optionElement = document.createElement('div'),
+          prop;
+        optionElement.classList.add('option');
+        optionElement.data = {};
+        for (prop in data[i]) {
+          if (data[i].hasOwnProperty(prop)) {
+            optionElement.data[prop] = data[i][prop];
+          }
+        }
+        optionElement.innerHTML = generateTemplateData(option, searchString, that.config.optionTemplate);
+        options.appendChild(optionElement);
       });
-      options.innerHTML = optionString;
       return options;
     }
 
@@ -149,8 +179,7 @@
         that.selector.focus();
       });
       that.options.addEventListener('mousedown', function () {
-        that.hovered && that.selected(hovered.dataset['value'], that.hovered.dataset['title']);
-        that.trigger('change');
+        return that.hovered && selected(hovered.data);
       });
       that.options.addEventListener('mouseover', function (e) {
         that.hovered = e.target.firstElementContains('option');
@@ -169,8 +198,7 @@
         switch (e.keyCode) {
           case 13://enter
             that.hide();
-            that.trigger('change');
-            that.hovered && that.selected(that.hovered.dataset['value'], that.hovered.dataset['title']);
+            that.hovered && selected(that.hovered.data);
             break;
           case 27://esc
             that.hide();
@@ -181,14 +209,13 @@
           case 38://up
             that.hovered = that.hovered.previousSibling || that.options.lastChild;
             break;
-          default :
+          default:
             that.show();
             break;
         }
       });
     }
 
-    init(); // It`s all begins here!
     function init() {
       that.rootElement = render();
       that.rootElement.appendChild(that.selector = renderSelector());
@@ -197,6 +224,8 @@
       listenUserActions(that.rootElement);
       that.hide();
     }
+
+    init(); // It`s all begins here!
   };
   CustomSelect.extend(EventMachine);
 })(window, document);
