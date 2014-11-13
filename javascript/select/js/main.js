@@ -126,12 +126,15 @@
     nativeSelect.value = this.value;
   });
   nativeSelect.addEventListener('change', function () {
-    eventsSelect.selected(nativeSelect.value, nativeSelect.value);
+    var data = {};
+    data.number = nativeSelect.value;
+    eventsSelect.selected(data);
   });
 
   // Third example
   window.templateConfig = {
-    template: '<div class="template"><img class="photo" src="{{image}}"><div class="text">{{text}}</div></div>',
+    optionTemplate: '<div class="template"><img class="photo" src="{{image}}"><div class="text">{{text}}</div></div>',
+    selectorTemplate: '<div class="template"><img class="photo" src="{{image}}"><div class="text">{{text}}</div></div>',
     title: 'text',
     value: 'text'
   };
