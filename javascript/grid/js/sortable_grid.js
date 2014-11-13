@@ -6,7 +6,7 @@
     this.dataObject;
     this.root = '';
     var pagesData = [], pagesDataObject = [], pageIndex = 1, countOfPages, pager, maxDataLength, sortedColumn, that, PagerObject, maxRows;
-    var draggable;
+    var draggable, arrayCheck = [];
 
     function getData(url, start, end) {
       url += '/getdata';
@@ -31,12 +31,9 @@
     }
 
     function renderRowsOfTable(from, to, data, dataObject){
-      //console.log(data);
-      //console.log(dataObject);
       var dataString = '';
       for (var i = from; i < to; i++) {
         dataString += "<tr>";
-        if (that.config.columnTemplates) {
           for (var j = 0; j < data[i].length; j++) {
             if (that.config.columnTemplates[j]) {
               dataString += '<td>' + replaceTemplate(that.config.columnTemplates[j], dataObject[i]) + '</td>';
@@ -44,7 +41,6 @@
               dataString += '<td>' + data[i][j] + '</td>';
             }
           }
-        } else dataString += '<td>' + data[i].join('</td><td>') + '</td>';
         dataString += "</tr>";
       }
       return dataString;
@@ -71,6 +67,7 @@
         dataString = renderRowsOfTable(0, rowLength, data, dataObject);
       }
       dataBody.innerHTML = dataString;
+      arrayCheck.forEach(function(el){ that.hideColumn(el); });
     }
 
     function sortTable(cellIndex, reverse) {
@@ -171,10 +168,10 @@
     }
 
     function renderTable(sortable, change) {
-
       if (change) {
         var bodyTable = that.container.querySelector(".data-body");
         bodyTable.innerHTML = renderBody(that.dataArray);
+        arrayCheck.forEach(function(el){ that.hideColumn(el); });
       } else {
         var tableString = renderHeader();
         tableString += renderBody(that.dataArray);
@@ -222,7 +219,7 @@
       } else {
         changePageData(true);
       }
-
+      if (that.config.withHidden) { renderCheckForm(); }
       if (that.config.withFilter) { new Filterable(that); }
       if (that.config.withDraggable) draggable = new Draggable(that.root, that.dataArray, that.dataObject, that.config);
 
@@ -245,6 +242,75 @@
         (maxDataLength / maxRows).toFixed(0);
       renderTable(false, true);
     }
+
+    function renderCheckForm (){
+      var allForm = document.createDocumentFragment();
+      var openFormButton = document.createElement('button');
+      openFormButton.innerHTML = "Open edit form";
+      openFormButton.classList.add("check-form-button");
+      openFormButton.addEventListener('click', toggleHiddenForm);
+      allForm.appendChild(openFormButton);
+
+      var wrapperForm = document.createElement("div");
+      wrapperForm.classList.add('hidden-form', 'hidden-form-not-active');
+      for (var i = 0; i < config.headers.length; i++) {
+        var checkBox = document.createElement('input');
+        checkBox.type = "checkbox";
+        checkBox.value = i;
+        checkBox.addEventListener("change", checkBoxEvent);
+        checkBox.id = "field" + i;
+        var label = document.createElement('label');
+        label.htmlFor = "field" + i;
+        label.appendChild(document.createTextNode(i+1));
+        wrapperForm.appendChild(checkBox);
+        wrapperForm.appendChild(label);
+      }
+      allForm.appendChild(wrapperForm);
+      container.insertBefore(allForm, container.firstChild);
+    }
+
+    function checkBoxEvent(e) {
+      var columnIndex = e.target.value;
+      toggleColumn(columnIndex);
+    }
+
+    function toggleColumn(columnIndex){
+          if (!that.root.rows[0].cells[columnIndex].classList.contains("hidden-column")) {
+            that.hideColumn(columnIndex);
+          } else {
+            that.showColumn(columnIndex);
+          }
+      console.log(arrayCheck);
+    }
+
+    this.hideColumn = function(columnIndex) {
+      var rowCount = that.root.rows.length;
+      for (var i  = 0; i < rowCount; i += 1) {
+        that.root.rows[i].cells[columnIndex].classList.add("hidden-column");
+        if (arrayCheck.indexOf(columnIndex) == -1) {
+          arrayCheck.push(columnIndex);
+        }
+      }
+    }
+
+    this.showColumn = function(columnIndex) {
+      var rowCount = that.root.rows.length;
+      for (var i  = 0; i < rowCount; i += 1) {
+        that.root.rows[i].cells[columnIndex].classList.remove("hidden-column");
+        if (arrayCheck.indexOf(columnIndex) != -1) {
+          arrayCheck.splice(arrayCheck.indexOf(columnIndex), 1);
+        }
+      }
+    }
+
+    function toggleHiddenForm () {
+      var form = container.querySelector('.hidden-form');
+      if (form.classList.contains("hidden-form-not-active")) {
+        form.classList.remove("hidden-form-not-active");
+      } else {
+        form.classList.add("hidden-form-not-active");
+      }
+    };
 
     function init() {
       this.root = document.createElement('table');
@@ -272,9 +338,9 @@
           (maxDataLength / maxRows + 1).toFixed(0) :
           (maxDataLength / maxRows).toFixed(0);
         renderTable(false, false);
+        if (that.config.withHidden) { renderCheckForm(); }
         if (that.config.withDraggable) { draggable = new Draggable(that.root, that.dataArray, that.dataObject, that.config); }
         if (that.config.withFilter) { new Filterable(that); }
-
       }
     }
 
