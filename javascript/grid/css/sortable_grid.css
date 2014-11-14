@@ -1,5 +1,6 @@
 .table {
   max-width: 600px;
+  clear: both;
 }
 .table .table-header {
   cursor: pointer;
@@ -73,7 +74,6 @@
 }
 .table .dragged {
   position: absolute;
-  outline: 3px dashed lightblue;
   z-index: 1000;
   opacity: 0.9;
   pointer-events: none;
