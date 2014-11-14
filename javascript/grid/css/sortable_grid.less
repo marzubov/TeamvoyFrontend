@@ -1,5 +1,5 @@
 @table-bg-header: #7F8C8D;
-@table-border: #C1C3D1;
+@table-border: #d1d3e1;
 @table-border-bottom: #9EA7AF;
 @table-bg-odd: #fff;
 @table-bg-even: #ECF0F1;
@@ -46,6 +46,7 @@
     padding: 20px;
     text-shadow: 0 1px 1px rgba(0,0,0,0.1);
     border-right: 1px solid @table-border;
+    -moz-border-right: 1px solid @table-border;
     position: relative;
 
     &:last-child { border-right: none; }
@@ -75,7 +76,7 @@
     font-weight:300;
     font-size:18px;
     text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
-    border-right: 1px solid @table-border;
+    /*border-right: 1px solid @table-border;*/
 
     &:last-child { border-right: none; }
   }
