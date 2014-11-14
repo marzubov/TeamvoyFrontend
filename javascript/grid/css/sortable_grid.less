@@ -1,0 +1,217 @@
+@table-bg-header: #7F8C8D;
+@table-border: #C1C3D1;
+@table-border-bottom: #9EA7AF;
+@table-bg-odd: #fff;
+@table-bg-even: #ECF0F1;
+
+@button-bg: #ECF0F1;
+@button-bg-hover: #fff;
+
+@page-bg-active: #7F8C8D;
+@page-bg: #ECF0F1;
+
+@checkbox-bg-checked: #1ABC9C;
+@checkbox-bg: #BDC3C7;
+
+@font-color-header: #D5DDE5;
+@font-color-body: #666B85;
+
+.button(@float:left) {
+  width: 200px;
+  border-radius: 3px;
+  background: @button-bg;
+  border: 1px solid @table-border;
+  margin: 0 15px 15px 0;
+  float: @float;
+  font-family: 'PT Sans', sans-serif;
+  font-size: 16px;
+  text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  color: @font-color-body;
+  &:hover { background: @button-bg-hover; }
+}
+
+.table {
+  max-width: 600px;
+
+  .table-header {
+    cursor: pointer;
+    color: @font-color-header;
+    background: @table-bg-header;
+    border-bottom: 4px solid @table-border-bottom;
+    font-size: 23px;
+    font-family: 'PT Sans', sans-serif;
+    font-weight: 100;
+    padding: 20px;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    border-right: 1px solid @table-border;
+    position: relative;
+
+    &:last-child { border-right: none; }
+    &.desc:before {  content: url(img/arrow_up.png); float: left;  }
+    &.asc:before {  content: url(img/arrow_down.png);  float: left;  }
+  }
+
+  .data-body tr {
+    border-bottom: 1px solid @table-border-bottom;
+    border-top: 1px solid @table-border-bottom;
+    color: @font-color-body;
+    font-size: 16px;
+    font-weight: normal;
+    text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+
+    &:first-child { border-top: none; }
+    &:last-child { border-bottom: none; }
+    &:nth-child(odd) td { background: @table-bg-odd; }
+    &:nth-child(even) td { background: @table-bg-even; }
+  }
+
+  td {
+    width: 80px;
+    padding:15px;
+    text-align:left;
+    vertical-align:middle;
+    font-weight:300;
+    font-size:18px;
+    text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid @table-border;
+
+    &:last-child { border-right: none; }
+  }
+
+  .drag-button {
+    position: absolute;
+    color: @button-bg;
+    top:0;
+    left: 0;
+    background: #2e2e2e;
+    border: none;
+    width: 100%;
+    height: 10px;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 3px;
+  }
+
+  .dragged{
+    position: absolute;
+    outline: 3px dashed lightblue;
+    z-index: 1000;
+    opacity: 0.9;
+    pointer-events: none;
+  }
+
+  .dragged-shadow{
+    position: absolute;
+    background-color: lightgrey;
+    border: 1px solid black;
+    z-index: 999;
+  }
+}
+
+.pages {
+  .pagination li {
+      display: inline;
+      margin: 0.5px;
+  }
+  .pagination li > a {
+    cursor: pointer;
+    color: @font-color-body;
+    padding: 10px;
+    background: @page-bg;
+    width: 23px;
+    &.page-active, &:hover {
+      background: @page-bg-active;
+      color: @page-bg;
+      font-weight: 600;
+    }
+  }
+}
+
+.check-form-button {
+  .button;
+}
+
+.hidden-form {
+  margin-top: 15px;
+  input[type='checkbox'] { display: none; }
+  label {
+    color: @font-color-body;
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    padding-left: 30px;
+    margin-right: 25px;
+    font-size: 20px;
+  }
+  label:before {
+    content: "";
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+    position: absolute;
+    left: 0;
+    bottom: 1px;
+    background-color: #aaa;
+    box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);
+  }
+  input[type='checkbox']:checked + label:before {
+    content: "\2713";
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+    font-size: 20px;
+    color: #f3f3f3;
+    text-align: center;
+    line-height: 20px;
+    padding-top: 5px;
+  }
+}
+
+.filter-form {
+  .filter-button { .button(none); }
+
+}
+
+.noselect {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.filterable{
+    position: absolute;
+    left: 60px;
+    top: 23px;
+    height: 20px;
+    display: none;
+    z-index:1000;
+    width: 40px;
+    border: none;
+    text-align: center;
+    outline: 1px solid lightblue;
+    font-family: 'PT Sans', sans-serif;
+}
+
+.filterable-active{
+   display: block;
+}
+
+.field-choosing-column {
+  width: 200px;
+  font-family: 'PT Sans', sans-serif;
+  font-size: 18px;
+  margin: 0 10px 20px 0;
+  border-radius: 0;
+}
+
+
+.hidden-form-not-active {
+  display: none;
+}
+
+.hidden-column {
+  display: none;
+}
+

@@ -5,8 +5,9 @@
     this.dataArray = [];
     this.dataObject;
     this.root = '';
+    this.arrayCheck = [];
     var pagesData = [], pagesDataObject = [], pageIndex = 1, countOfPages, pager, maxDataLength, sortedColumn, that, PagerObject, maxRows;
-    var draggable, arrayCheck = [];
+    var draggable;
 
     function getData(url, start, end) {
       url += '/getdata';
@@ -67,7 +68,7 @@
         dataString = renderRowsOfTable(0, rowLength, data, dataObject);
       }
       dataBody.innerHTML = dataString;
-      arrayCheck.forEach(function(el){ that.hideColumn(el); });
+      that.arrayCheck.forEach(function(el){ that.hideColumn(el); });
     }
 
     function sortTable(cellIndex, reverse) {
@@ -171,7 +172,7 @@
       if (change) {
         var bodyTable = that.container.querySelector(".data-body");
         bodyTable.innerHTML = renderBody(that.dataArray);
-        arrayCheck.forEach(function(el){ that.hideColumn(el); });
+        that.arrayCheck.forEach(function(el){ that.hideColumn(el); });
       } else {
         var tableString = renderHeader();
         tableString += renderBody(that.dataArray);
@@ -221,7 +222,7 @@
       }
       if (that.config.withHidden) { renderCheckForm(); }
       if (that.config.withFilter) { new Filterable(that); }
-      if (that.config.withDraggable) draggable = new Draggable(that.root, that.dataArray, that.dataObject, that.config);
+      if (that.config.withDraggable) draggable = new Draggable(that);
 
       return(xhr.responseText);
     }
@@ -246,7 +247,7 @@
     function renderCheckForm (){
       var allForm = document.createDocumentFragment();
       var openFormButton = document.createElement('button');
-      openFormButton.innerHTML = "Open edit form";
+      openFormButton.innerHTML = "Open/Close form for hide columns";
       openFormButton.classList.add("check-form-button");
       openFormButton.addEventListener('click', toggleHiddenForm);
       allForm.appendChild(openFormButton);
@@ -275,20 +276,21 @@
     }
 
     function toggleColumn(columnIndex){
-          if (!that.root.rows[0].cells[columnIndex].classList.contains("hidden-column")) {
+      console.log(that.arrayCheck.indexOf(columnIndex));
+          if (that.arrayCheck.indexOf(columnIndex) == -1) {
             that.hideColumn(columnIndex);
           } else {
             that.showColumn(columnIndex);
           }
-      console.log(arrayCheck);
+      console.log(that.arrayCheck);
     }
 
     this.hideColumn = function(columnIndex) {
       var rowCount = that.root.rows.length;
       for (var i  = 0; i < rowCount; i += 1) {
         that.root.rows[i].cells[columnIndex].classList.add("hidden-column");
-        if (arrayCheck.indexOf(columnIndex) == -1) {
-          arrayCheck.push(columnIndex);
+        if (that.arrayCheck.indexOf(columnIndex) == -1) {
+          that.arrayCheck.push(columnIndex);
         }
       }
     }
@@ -297,8 +299,8 @@
       var rowCount = that.root.rows.length;
       for (var i  = 0; i < rowCount; i += 1) {
         that.root.rows[i].cells[columnIndex].classList.remove("hidden-column");
-        if (arrayCheck.indexOf(columnIndex) != -1) {
-          arrayCheck.splice(arrayCheck.indexOf(columnIndex), 1);
+        if (that.arrayCheck.indexOf(columnIndex) != -1) {
+          that.arrayCheck.splice(that.arrayCheck.indexOf(columnIndex), 1);
         }
       }
     }
@@ -339,7 +341,7 @@
           (maxDataLength / maxRows).toFixed(0);
         renderTable(false, false);
         if (that.config.withHidden) { renderCheckForm(); }
-        if (that.config.withDraggable) { draggable = new Draggable(that.root, that.dataArray, that.dataObject, that.config); }
+        if (that.config.withDraggable) { draggable = new Draggable(that); }
         if (that.config.withFilter) { new Filterable(that); }
       }
     }
