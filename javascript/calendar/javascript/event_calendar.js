@@ -2,20 +2,21 @@
   "use strict";
   /*global moment:true, EventMachine: true, Calendar:true, EventCalendar:true,
    window:true, document:true, HTMLElement: true */
-  global.EventCalendar = function EventCalendar(container) {
-    EventMachine.call(this);
+  global.EventCalendar = function EventCalendar(container, config) {
+
+    Calendar.apply(this, arguments);
+    console.log(this);
     var that = this;
-    this.calendar = new Calendar(container, {});
 
     function setEvents() {
-      that.calendar.on('daySelected', function (day) {
+      that.on('daySelected', function (day) {
         that.showEvents.call(that, day);
       });
       document.addEventListener('click', function (e) {
-        if ((e.target !== that.calendar.getRoot()) && (!that.calendar.getRoot().contains(e.target))) {
-          that.calendar.getRoot().querySelector('.events-popup')
+        if ((e.target !== that.getRoot()) && (!that.getRoot().contains(e.target))) {
+          that.getRoot().querySelector('.events-popup')
             .classList.remove('active');
-          that.calendar.getRoot().querySelector('.events-popup')
+          that.getRoot().querySelector('.events-popup')
             .classList.add('non-active');
         }
       });
@@ -24,7 +25,7 @@
     function init() {
       var popup = document.createElement('div');
       popup.classList.add('events-popup', 'non-active');
-      that.calendar.getRoot().appendChild(popup);
+      that.getRoot().appendChild(popup);
       setEvents();
       that.trigger('load', [that]);
     }
@@ -34,6 +35,8 @@
     return this;
 
   };
+
+  EventCalendar.prototype = Object.create(Calendar.prototype);
 
   EventCalendar.prototype.dayEvents = [{
     date: moment([2014, 10, 10])._d,
@@ -77,7 +80,7 @@
    * @param dayElement
    */
   EventCalendar.prototype.renderPopup = function (events, dayElement) {
-    var popup = this.calendar.getRoot().querySelector('.events-popup'),
+    var popup = this.getRoot().querySelector('.events-popup'),
       eventsTemplate = this.eventsTemplate(events);
     popup.style.left = (dayElement.offsetLeft + dayElement.offsetWidth).toString() + 'px';
     popup.style.top = (dayElement.offsetTop + dayElement.offsetHeight).toString() + 'px';
@@ -96,7 +99,7 @@
   EventCalendar.prototype.showEvents = function (date) {
     var selectedDay,
       events = this.getDayEvents(date);
-    Array.prototype.slice.call(this.calendar.getRoot().querySelector('.calendar-body').childNodes)
+    Array.prototype.slice.call(this.getRoot().querySelector('.calendar-body').childNodes)
       .some(function (day) {
         if (date === day.date) {
           selectedDay = day;
@@ -105,9 +108,9 @@
       });
     if (selectedDay) {
       this.renderPopup(events, selectedDay);
-      this.calendar.getRoot().querySelector('.events-popup')
+      this.getRoot().querySelector('.events-popup')
         .classList.remove('non-active');
-      this.calendar.getRoot().querySelector('.events-popup')
+      this.getRoot().querySelector('.events-popup')
         .classList.add('active');
     }
   };
