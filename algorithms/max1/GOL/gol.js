@@ -14,7 +14,7 @@
       .map(function () {
         return Array.apply(null, {length: length2})
           .map(function (el, i) {
-            if (i % 5 === 0) {
+            if (i % 2 === 0) {
               return 1;
             }
             return 0;
@@ -27,10 +27,23 @@
     console.log('created', this.universe);
   };
   GOL.prototype.clearUniverse = function clearUniverse() {
+    this.universe = this.createArray(config.length1, config.length2);
     console.log('cleared');
   };
   GOL.prototype.nextGen = function nextGen() {
-    console.log('nextGen');
+    var that = this;
+    this.universe.forEach(function (row,i) {
+       row.forEach(function (el, j){
+        if (that.checkNeighbours(i,j)){
+          console.log('lol');
+          that.universe[i][j] = 1;
+        } else{
+          that.universe[i][j] = 0;
+        }
+      });
+    });
+    console.log(this.universe);
+    return this.universe;
   };
   GOL.prototype.checkNeighbours = function checkNeighbours(x, y) {
     var i,
@@ -43,7 +56,6 @@
         }
       }
     }
-    console.log(aliveNeighboursCount);
     return aliveNeighboursCount;
   }
 })(window, document);
