@@ -67,6 +67,7 @@
         if (dayEvent) {
           //eventsElement.innerHTML+=dayEvent.name;
           var dayEventElement = document.createElement('div');
+          dayEventElement.classList.add('event');
           dayEventElement.innerHTML += dayEvent.name;
           eventsElement.appendChild(dayEventElement);
         }
