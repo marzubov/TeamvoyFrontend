@@ -12,6 +12,7 @@
 <button id = "step">NEXT GENERATION</button>
 <button id = "start">START</button>
 <button id = "stop">STOP</button>
+<button id = "clear">CLEAR</button>
 </body>
 <script>
   var firstCanvas = document.getElementById('firstCanvas'),
@@ -29,6 +30,10 @@
   document.getElementById("stop")
     .addEventListener('click', function(){
       firstGOL.stopInterval.call(firstGOL);
+    });
+  document.getElementById("clear")
+    .addEventListener('click', function(){
+      firstGOL.clearUniverse.call(firstGOL, {length1:100, length2:100});
     });
 </script>
 </html>

@@ -3,9 +3,9 @@
   global.GOL = function GOL(canvas) {
     //EventMachine.call(this);
     this.canvas = canvas;
-    this.intervalID = {};
+    this.intervalID = null;
     function init() {
-      console.log('init');
+      //console.log('init');
     }
 
     init();
@@ -27,11 +27,10 @@
   GOL.prototype.createUniverse = function createUniverse(config) {
     this.universe = this.createArray(config.length1, config.length2);
     this.showUniverse();
-    console.log('created', this.universe);
   };
-  GOL.prototype.clearUniverse = function clearUniverse() {
+  GOL.prototype.clearUniverse = function clearUniverse(config) {
     this.universe = this.createArray(config.length1, config.length2);
-    console.log('cleared');
+    this.showUniverse();
   };
   GOL.prototype.nextGen = function nextGen() {
     var that = this;
@@ -52,7 +51,6 @@
       });
     });
     this.showUniverse();
-    console.log(this.universe);
     return this.universe;
   };
   GOL.prototype.checkNeighbours = function checkNeighbours(x, y) {
@@ -70,8 +68,7 @@
   };
 
   GOL.prototype.showUniverse = function showUniverse() {
-    var that = this,
-      ctx = this.canvas.getContext('2d'),
+    var ctx = this.canvas.getContext('2d'),
       cellWidth = this.canvas.offsetWidth / this.universe.length,
       cellHeight = this.canvas.offsetHeight / this.universe.length;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -85,11 +82,18 @@
 
     GOL.prototype.startInterval = function startInterval() {
       var that = this;
-      this.intervalID = setInterval(function(){that.nextGen.call(that)}, 1000);
+      if (!this.intervalID) {
+        this.intervalID = setInterval(function () {
+          that.nextGen.call(that);
+        }, 1000);
+      }
     };
 
     GOL.prototype.stopInterval = function stopInterval() {
-      if (this.intervalID) clearInterval(this.intervalID);
+      if (this.intervalID) {
+        clearInterval(this.intervalID);
+        this.intervalID = null;
+      }
     };
     return this.universe;
   }
