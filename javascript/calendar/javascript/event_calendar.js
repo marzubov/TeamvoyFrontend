@@ -82,8 +82,10 @@
   EventCalendar.prototype.renderPopup = function (events, dayElement) {
     var popup = this.getRoot().querySelector('.events-popup'),
       eventsTemplate = this.eventsTemplate(events);
-    popup.style.left = (dayElement.offsetLeft + dayElement.offsetWidth).toString() + 'px';
-    popup.style.top = (dayElement.offsetTop + dayElement.offsetHeight).toString() + 'px';
+    //popup.style.left = (dayElement.offsetLeft + dayElement.offsetWidth).toString() + 'px';
+    //popup.style.top = (dayElement.offsetTop + dayElement.offsetHeight).toString() + 'px';
+    popup.style.left = (this.getRoot().offsetLeft + this.getRoot().offsetWidth).toString() + 'px';
+    popup.style.top = (this.getRoot().offsetTop /*+ this.getRoot().offsetHeight*/).toString() + 'px';
     while (popup.firstChild) {
       popup.removeChild(popup.firstChild);
     }
