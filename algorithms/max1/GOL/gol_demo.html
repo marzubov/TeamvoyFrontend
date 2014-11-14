@@ -6,10 +6,18 @@
   <script type="text/javascript" src="gol.js"></script>
 </head>
 <body>
+<canvas id="firstCanvas" width="800" height="500" style="border:1px solid #d3d3d3;">
 
+</canvas>
+<button id = "step">NEXT GENERATION</button>
 </body>
 <script>
-  var firstGOL = new GOL();
-  firstGOL.createUniverse({length1:10, length2:10});
+  var firstCanvas = document.getElementById('firstCanvas'),
+    firstGOL = new GOL(firstCanvas);
+  firstGOL.createUniverse({length1:100, length2:100});
+  document.getElementById("step")
+    .addEventListener('click', function(){
+      firstGOL.nextGen.call(firstGOL);
+    });
 </script>
 </html>

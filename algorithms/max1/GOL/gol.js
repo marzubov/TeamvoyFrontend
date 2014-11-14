@@ -1,7 +1,8 @@
 (function (global, document) {
   "use strict";
-  global.GOL = function GOL() {
+  global.GOL = function GOL(canvas) {
     //EventMachine.call(this);
+    this.canvas = canvas;
     function init() {
       console.log('init');
     }
@@ -24,6 +25,7 @@
   GOL.prototype.universe = [[]];
   GOL.prototype.createUniverse = function createUniverse(config) {
     this.universe = this.createArray(config.length1, config.length2);
+    this.showUniverse();
     console.log('created', this.universe);
   };
   GOL.prototype.clearUniverse = function clearUniverse() {
@@ -32,16 +34,23 @@
   };
   GOL.prototype.nextGen = function nextGen() {
     var that = this;
-    this.universe.forEach(function (row,i) {
-       row.forEach(function (el, j){
-        if (that.checkNeighbours(i,j)){
-          console.log('lol');
-          that.universe[i][j] = 1;
-        } else{
-          that.universe[i][j] = 0;
+    this.universe.forEach(function (row, i) {
+      row.forEach(function (el, j) {
+        var aliveNeighboursCount = that.checkNeighbours(i, j);
+        if (el === 1) {
+          if (aliveNeighboursCount < 2) {
+            that.universe[i][j] = 0;
+          } else if (aliveNeighboursCount > 3){
+            that.universe[i][j] = 0;
+          }
+        } else {
+          if (aliveNeighboursCount === 3){
+            that.universe[i][j] = 1;
+          }
         }
       });
     });
+    this.showUniverse();
     console.log(this.universe);
     return this.universe;
   };
@@ -57,5 +66,21 @@
       }
     }
     return aliveNeighboursCount;
+  };
+
+  GOL.prototype.showUniverse = function showUniverse() {
+    var that = this,
+      ctx = this.canvas.getContext('2d'),
+      cellWidth = this.canvas.offsetWidth / this.universe.length,
+      cellHeight = this.canvas.offsetHeight / this.universe.length;
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.universe.forEach(function (row, i) {
+      row.forEach(function (el, j) {
+        if (el === 1) {
+          ctx.fillRect(cellWidth * j, cellHeight * i, cellWidth, cellHeight);
+        }
+      });
+    });
+    return this.universe;
   }
 })(window, document);
