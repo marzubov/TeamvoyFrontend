@@ -3,6 +3,7 @@
   global.GOL = function GOL(canvas) {
     //EventMachine.call(this);
     this.canvas = canvas;
+    this.intervalID = {};
     function init() {
       console.log('init');
     }
@@ -81,6 +82,15 @@
         }
       });
     });
+
+    GOL.prototype.startInterval = function startInterval() {
+      var that = this;
+      this.intervalID = setInterval(function(){that.nextGen.call(that)}, 1000);
+    };
+
+    GOL.prototype.stopInterval = function stopInterval() {
+      if (this.intervalID) clearInterval(this.intervalID);
+    };
     return this.universe;
   }
 })(window, document);
