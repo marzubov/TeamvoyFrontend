@@ -143,7 +143,7 @@
     };
 
     this.generateFromArray = function (data) {
-      var balancedData = this.balance(data);
+      var balancedData = this.balance(data.sort(function(a,b){return a-b;}));
       this.root = new Node();
       for (var i = 0; i < balancedData.length; i++) {
         var edgeLength = balancedData.length.valueOf();

@@ -146,7 +146,9 @@ var BST = (function () {
     };
     BST.prototype.generateFromArray = function (data) {
         this.root = new TreeNode(null, null, null, null, null, 0, 0);
-        var balancedData = this.balance(data);
+        var balancedData = this.balance(data.sort(function (a, b) {
+            return a - b;
+        }));
         for (var i = 0; i < balancedData.length; i++) {
             var edgeLength = balancedData.length;
             this.insert(this.root, balancedData[i].toString(), this.root, edgeLength / 2);
