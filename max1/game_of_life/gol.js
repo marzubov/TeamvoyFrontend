@@ -33,8 +33,8 @@
     var i,
       frag = document.createDocumentFragment(),
       cell = document.createElement('div'),
-      cellWidth = this.grid.offsetWidth / this.universe.length - 1 + 'px',
-      cellHeight = this.grid.offsetHeight / this.universe.length - 1 + 'px';
+      cellWidth = this.grid.offsetWidth / length1 - 0.1 + 'px',
+      cellHeight = this.grid.offsetHeight / length2 + 'px';
     for (i = 0; i < length1 * length2; i = i + 1) {
       cell = document.createElement('div');
       cell.classList.add('cell');

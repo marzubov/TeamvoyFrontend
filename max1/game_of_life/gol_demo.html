@@ -4,9 +4,16 @@
     <meta charset="UTF-8">
     <title></title>
   <script type="text/javascript" src="gol.js"></script>
+  <!--<link rel="stylesheet" href="../../html_codding/reset.css"/>-->
   <style>
+    body{
+      line-height: 0;
+    }
     .cell{
       display: inline-block;
+      margin: 0 0 0 0;
+      padding: 0 0 0 0;
+      outline: none;
     }
     .active{
       background: #000000;
@@ -15,6 +22,7 @@
       background: #ffffff;
     }
   </style>
+
 </head>
 <body>
 <canvas id="firstCanvas" width="200" height="100" style="border:1px solid #d3d3d3;">
@@ -29,7 +37,7 @@
   var firstCanvas = document.getElementById('firstCanvas'),
     firstGrid = document.getElementById('firstGrid');
     firstGOL = new GOL(firstCanvas, firstGrid);
-  firstGOL.createUniverse({length1:5, length2:5});
+  firstGOL.createUniverse({length1:25, length2:25});
   document.getElementById("step")
     .addEventListener('click', function(){
       firstGOL.stopInterval.call(firstGOL);
@@ -45,7 +53,7 @@
     });
   document.getElementById("clear")
     .addEventListener('click', function(){
-      firstGOL.clearUniverse.call(firstGOL, {length1:100, length2:100});
+      firstGOL.clearUniverse.call(firstGOL, {length1:25, length2:25});
     });
 </script>
 </html>
