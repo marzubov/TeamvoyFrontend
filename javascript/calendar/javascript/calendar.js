@@ -295,8 +295,9 @@
   Calendar.prototype.renderCaption = function (config, model) {
     var captionElement = document.createElement('div');
     captionElement.innerHTML = '<button class="calendar-button desc"></button>'
-    + '<span class="month-name">' + model.currentMonth.toString() + '</span>'
-    + '<span class="year-name">' + config.year + '</span><button class="calendar-button asc"></button>';
+      +'<button class="calendar-button asc"></button>'
+    + '<div class="month-and-year"><span class="month-name">' + model.currentMonth.toString() + '</span>'
+    + '<span class="year-name">' + config.year + '</span> </div>';
     captionElement.classList.add('calendar-caption');
     return captionElement;
   };
