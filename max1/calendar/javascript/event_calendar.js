@@ -16,7 +16,7 @@
         that.showEvents(day);
       });
       that.on('monthChanged', function () {
-        that.displayDaysWithEvents();
+        that.renderEventDays();
       });
       document.addEventListener('click', function (e) {
         if ((e.target !== that.getRoot()) && (!that.getRoot().contains(e.target))) {
@@ -27,15 +27,15 @@
     }
 
     function init() {
-      that.popup.classList.add('events-popup', 'non-active');
       that.eventCalendarContainer.classList.add('event-calendar');
+      that.popup.classList.add('events-popup', 'non-active');
+      that.eventCalendarContainer.appendChild(that.popup);
       container.appendChild(that.eventCalendarContainer);
       Calendar.call(that, that.eventCalendarContainer, config);
       if (dayEvents) {
         that.dayEvents = dayEvents;
       }
-      that.displayDaysWithEvents();
-      that.eventCalendarContainer.appendChild(that.popup);
+      that.renderEventDays();
       setEvents();
       that.trigger('load', [that]);
     }
@@ -60,7 +60,7 @@
     return currentDayEvents;
   };
 
-  EventCalendar.prototype.displayDaysWithEvents = function () {
+  EventCalendar.prototype.renderEventDays = function () {
     var that = this;
     Array.prototype.slice.call(this.getRoot().querySelector('.calendar-body').childNodes)
       .map(function (day) {
@@ -87,7 +87,6 @@
   EventCalendar.prototype.deleteDayEvent = function (toDeleteDayEvent) {
     var that = this;
     return this.dayEvents.some(function (dayEvent, i) {
-      //console.log(dayEvent.date.getTime() == toDeleteDayEvent.date.getTime());
       if ((dayEvent.name === toDeleteDayEvent.name) && (dayEvent.date.getTime() === toDeleteDayEvent.date.getTime())) {
         that.dayEvents.splice(i, 1);
         return true;
@@ -122,10 +121,6 @@
    */
   EventCalendar.prototype.renderPopup = function (events, dayElement) {
     var eventsTemplate = this.eventsTemplate(events);
-    //popup.style.left = (dayElement.offsetLeft + dayElement.offsetWidth).toString() + 'px';
-    //popup.style.top = (dayElement.offsetTop + dayElement.offsetHeight).toString() + 'px';
-    this.popup.style.left = (this.getRoot().offsetLeft + this.getRoot().offsetWidth).toString() + 'px';
-    this.popup.style.top = (this.getRoot().offsetTop /*+ this.getRoot().offsetHeight*/).toString() + 'px';
     while (this.popup.firstChild) {
       this.popup.removeChild(this.popup.firstChild);
     }
