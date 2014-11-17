@@ -6,6 +6,7 @@
     this.dataObject;
     this.root = '';
     this.arrayCheck = [];
+    this.arrayOfPositions = [];
     var pagesData = [], pagesDataObject = [], pageIndex = 1, countOfPages, pager, maxDataLength, sortedColumn, that, PagerObject, maxRows;
     var draggable;
 
@@ -220,7 +221,7 @@
       } else {
         changePageData(true);
       }
-      if (that.config.withHidden) { renderCheckForm(); }
+      if (that.config.withHidden) { renderHiddenForm(); }
       if (that.config.withFilter) { new Filterable(that); }
       if (that.config.withDraggable) draggable = new Draggable(that);
 
@@ -244,7 +245,7 @@
       renderTable(false, true);
     }
 
-    function renderCheckForm (){
+    function renderHiddenForm (){
       var allForm = document.createDocumentFragment();
       var openFormButton = document.createElement('button');
       openFormButton.innerHTML = "Open/Close form for hide columns";
@@ -340,10 +341,14 @@
           (maxDataLength / maxRows + 1).toFixed(0) :
           (maxDataLength / maxRows).toFixed(0);
         renderTable(false, false);
-        if (that.config.withHidden) { renderCheckForm(); }
+        if (that.config.withHidden) { renderHiddenForm(); }
         if (that.config.withDraggable) { draggable = new Draggable(that); }
         if (that.config.withFilter) { new Filterable(that); }
       }
+      for (var i = 0; i < that.config.headers.length; i++){
+        that.arrayOfPositions.push(i);
+      }
+      console.log(that.arrayOfPositions);
     }
 
     function createCORSRequest(method, url) {
