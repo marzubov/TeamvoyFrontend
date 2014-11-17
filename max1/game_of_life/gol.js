@@ -1,8 +1,9 @@
 (function (global, document) {
   "use strict";
-  global.GOL = function GOL(canvas) {
+  global.GOL = function GOL(canvas, grid) {
     //EventMachine.call(this);
     this.canvas = canvas;
+    this.grid = grid;
     this.intervalID = null;
 
     return this;
@@ -21,8 +22,27 @@
   };
   GOL.prototype.universe = [[]];
   GOL.prototype.createUniverse = function createUniverse(config) {
+    while (this.grid.firstChild) {
+      this.grid.removeChild(this.grid.firstChild);
+    }
     this.universe = this.createArray(config.length1, config.length2);
+    this.createCells(config.length1, config.length2);
     this.showUniverse();
+  };
+  GOL.prototype.createCells = function (length1, length2) {
+    var i,
+      frag = document.createDocumentFragment(),
+      cell = document.createElement('div'),
+      cellWidth = this.grid.offsetWidth / this.universe.length - 1 + 'px',
+      cellHeight = this.grid.offsetHeight / this.universe.length - 1 + 'px';
+    for (i = 0; i < length1 * length2; i = i + 1) {
+      cell = document.createElement('div');
+      cell.classList.add('cell');
+      cell.style.width = cellWidth;
+      cell.style.height = cellHeight;
+      frag.appendChild(cell);
+    }
+    this.grid.appendChild(frag);
   };
   GOL.prototype.clearUniverse = function clearUniverse(config) {
     this.universe = this.createArray(config.length1, config.length2);
@@ -64,14 +84,20 @@
   };
 
   GOL.prototype.showUniverse = function showUniverse() {
-    var ctx = this.canvas.getContext('2d'),
-      cellWidth = this.canvas.offsetWidth / this.universe.length,
-      cellHeight = this.canvas.offsetHeight / this.universe.length;
-    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    var that = this;
+    //ctx = this.canvas.getContext('2d'),
+    //  cellWidth = this.canvas.offsetWidth / this.universe.length,
+    //  cellHeight = this.canvas.offsetHeight / this.universe.length;
+    //ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.universe.forEach(function (row, i) {
       row.forEach(function (el, j) {
         if (el === 1) {
-          ctx.fillRect(cellWidth * j, cellHeight * i, cellWidth, cellHeight);
+          //ctx.fillRect(cellWidth * j, cellHeight * i, cellWidth, cellHeight);
+          that.grid.childNodes[i * row.length + j].classList.remove('inactive');
+          that.grid.childNodes[i * row.length + j].classList.add('active');
+        } else {
+          that.grid.childNodes[i * row.length + j].classList.remove('active');
+          that.grid.childNodes[i * row.length + j].classList.add('inactive');
         }
       });
     });

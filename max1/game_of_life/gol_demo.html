@@ -4,11 +4,22 @@
     <meta charset="UTF-8">
     <title></title>
   <script type="text/javascript" src="gol.js"></script>
+  <style>
+    .cell{
+      display: inline-block;
+    }
+    .active{
+      background: #000000;
+    }
+    .inactive{
+      background: #ffffff;
+    }
+  </style>
 </head>
 <body>
-<canvas id="firstCanvas" width="800" height="500" style="border:1px solid #d3d3d3;">
-
+<canvas id="firstCanvas" width="200" height="100" style="border:1px solid #d3d3d3;">
 </canvas>
+<div id="firstGrid" style="width:800px; height:500px; border:1px solid #d3d3d3;"></div>
 <button id = "step">NEXT GENERATION</button>
 <button id = "start">START</button>
 <button id = "stop">STOP</button>
@@ -16,8 +27,9 @@
 </body>
 <script>
   var firstCanvas = document.getElementById('firstCanvas'),
-    firstGOL = new GOL(firstCanvas);
-  firstGOL.createUniverse({length1:100, length2:100});
+    firstGrid = document.getElementById('firstGrid');
+    firstGOL = new GOL(firstCanvas, firstGrid);
+  firstGOL.createUniverse({length1:5, length2:5});
   document.getElementById("step")
     .addEventListener('click', function(){
       firstGOL.stopInterval.call(firstGOL);
