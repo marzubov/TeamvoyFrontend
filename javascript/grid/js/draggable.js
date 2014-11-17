@@ -6,6 +6,7 @@ Object.prototype.renameProperty = function (oldName, newName) {
   }
   return this;
 };
+
 Object.prototype.swapProperty = function (oneName, twoName) {
   // Check for the old property name to avoid a ReferenceError in strict mode.
   if (this.hasOwnProperty(oneName) && this.hasOwnProperty(twoName)) {
@@ -318,6 +319,7 @@ function Draggable(grid) {
     grid.root.rows[0].removeEventListener('mousedown', drag);
     //console.log('disabled');
   }
+
   init.call(this);
   return this;
 }
