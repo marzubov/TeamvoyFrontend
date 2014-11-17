@@ -166,7 +166,22 @@ Calendar.on(&#39;daySelected&#39;, daySelectedHandler);</pre>
 &lt;/div&gt;
 &lt;script&gt;
   var containerElement = document.getElementById(&#39;containerElement&#39;);
-  var eventCalendar = new EventCalendar(containerElement);
+  var eventCalendar = new EventCalendar(containerElement,
+    {}, //calendar config
+    [{
+        date: moment()._d,
+        name: &quot;Today Event&quot;
+      },
+      {
+        date: moment([2014,10,10])._d,
+        name: &quot;First Event&quot;
+      },
+      {
+        date: moment([2014,10,1])._d,
+        name: &quot;Second Event&quot;
+      }
+    ]
+  );
 &lt;/script&gt;</pre>
 <p><div class="container" id="eventContainer">
 </div></p>

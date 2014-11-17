@@ -53,7 +53,8 @@
   display: inline-block;
   width: 13%;
   margin: 0.5%;
-  padding-top: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   text-align: center;
 }
 
@@ -129,4 +130,8 @@ input{
 
 .non-active{
   display: none;
+}
+
+.calendar-event-day{
+  background: #1abc9c;
 }

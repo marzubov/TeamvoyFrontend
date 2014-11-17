@@ -35,7 +35,20 @@
   });
   seventhCalendar.firstCalendar.getRoot().classList.add('date-range-picker');
   seventhCalendar.secondCalendar.getRoot().classList.add('date-range-picker');
-  eventCalendar = new EventCalendar(eventContainer);
+  eventCalendar = new EventCalendar(eventContainer,
+    {},
+    [{
+      date: moment()._d,
+      name: "Today Event"
+    },
+      {
+        date: moment([2014, 10, 10])._d,
+        name: "First Event"
+      },
+      {
+        date: moment([2014, 10, 1])._d,
+        name: "Second Event"
+      }]);
   document.querySelector('.btn').onclick = function () {
     var newConfig = {};
     newConfig.year = document.querySelector('.year').value;

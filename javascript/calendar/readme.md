@@ -169,7 +169,22 @@ Or Event Calendars:
 </div>
 <script>
   var containerElement = document.getElementById('containerElement');
-  var eventCalendar = new EventCalendar(containerElement);
+  var eventCalendar = new EventCalendar(containerElement,
+    {}, //calendar config
+    [{
+        date: moment()._d,
+        name: "Today Event"
+      },
+      {
+        date: moment([2014,10,10])._d,
+        name: "First Event"
+      },
+      {
+        date: moment([2014,10,1])._d,
+        name: "Second Event"
+      }
+    ]
+  );
 </script>
 ```
 <div class="container" id="eventContainer">

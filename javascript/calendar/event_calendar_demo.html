@@ -18,6 +18,21 @@
 </body>
 <script>
   var container = document.getElementById('container');
-  var eventCalendar = new EventCalendar(container, {});
+  var eventCalendar = new EventCalendar(container,
+      {},
+      [{
+        date: moment()._d,
+        name: "Today Event"
+      },
+        {
+          date: moment([2014,10,10])._d,
+          name: "First Event"
+        },
+        {
+          date: moment([2014,10,1])._d,
+          name: "Second Event"
+        }
+      ]
+    );
 </script>
 </html>
