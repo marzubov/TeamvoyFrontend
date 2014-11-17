@@ -202,6 +202,11 @@ function Draggable(grid) {
         targetArray[i][second] = tempCell;
       }
 
+      var tempPos = grid.arrayOfPositions[first];
+      grid.arrayOfPositions[first] = grid.arrayOfPositions[second];
+      grid.arrayOfPositions[second] = tempPos;
+      console.log(grid.arrayOfPositions);
+
       var selectField = document.querySelector('.field-choosing-column');
       var tempIndex = selectField.options[first].getAttribute("data-column");
       selectField.options[first].setAttribute("data-column", selectField.options[second].getAttribute("data-column"));
@@ -217,7 +222,6 @@ function Draggable(grid) {
       if (secondCol > firstCol) secondCol = first;
       else firstCol = first;
     }
-    console.log(grid.arrayCheck);
     grid.arrayCheck = grid.arrayCheck.map(function(el) {
     for (var i = 0; i < selectField.options.length; i++) {
 
@@ -228,7 +232,6 @@ function Draggable(grid) {
 
     };
     });
-    console.log(grid.arrayCheck);
   };
 
   function swapDataWithTemplates(firstCol, secondCol) {
@@ -241,7 +244,6 @@ function Draggable(grid) {
       targetArray1[i][first] = targetArray1[i][second];
       targetArray1[i][second] = tempCell;
     }
-    console.log(grid.dataObject);
   }
 
   function swapTemplates(firstCol, secondCol) {
