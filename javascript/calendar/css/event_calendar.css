@@ -1,131 +1,113 @@
-.calendar{
+.calendar {
   position: relative;
   font-size: 10px;
   padding-left: 10px;
   padding-right: 10px;
   margin-bottom: 20px;
-}
+  float: left; }
 
-.calendar .calendar-caption{
+.calendar .calendar-caption {
   position: relative;
   font-size: 20px;
   text-align: center;
   padding-top: 5px;
-  padding-bottom: 5px;
-}
+  padding-bottom: 5px; }
 
 .calendar .calendar-button {
   position: absolute;
   border: none;
   background: transparent;
   cursor: pointer;
-  outline: none;
-}
-.calendar .calendar-button:active{
-  opacity: 0.7;
-}
-.calendar .calendar-button.asc{
-  right: 0;
-}
-.calendar .calendar-caption .month-name{
+  outline: none; }
+
+.calendar .calendar-button:active {
+  opacity: 0.7; }
+
+.calendar .calendar-button.asc {
+  right: 0; }
+
+.calendar .calendar-caption .month-name {
   position: relative;
-  padding: 10px;
-}
-.calendar .calendar-caption .year-name{
-  position: relative;
-}
+  padding: 10px; }
 
+.calendar .calendar-caption .year-name {
+  position: relative; }
 
-.calendar .calendar-button.asc:after{
-  content: url(img/right.png);
-}
+.calendar .calendar-button.asc:after {
+  content: url(img/right.png); }
 
-.calendar .calendar-button.desc{
-  left: 0;
-}
+.calendar .calendar-button.desc {
+  left: 0; }
 
-.calendar .calendar-button.desc:after{
-  content: url(img/left.png);
-}
+.calendar .calendar-button.desc:after {
+  content: url(img/left.png); }
 
-.day{
+.day {
   display: inline-block;
   width: 13%;
   margin: 0.5%;
   padding-top: 10px;
-  text-align: center;
-}
+  text-align: center; }
 
-.day:hover{
+.day:hover {
   outline: 3px dashed dodgerblue !important;
-  cursor: pointer;
-}
+  cursor: pointer; }
 
-.out-month{
-  color: lightgray;
-}
+.out-month {
+  color: lightgray; }
 
-.in-month{
-}
-
-.day-name{
+.day-name {
   display: inline-block;
   width: 14%;
-  text-align: center;
-}
+  text-align: center; }
 
-.weekend{
-  color: red;
-}
+.weekend {
+  color: red; }
 
-.today{
-  border:2px solid dodgerblue !important;
+.today {
+  border: 2px solid dodgerblue !important;
   font-weight: bold;
-  color: dodgerblue;
-}
+  color: dodgerblue; }
 
-.container{
+.container {
   position: relative;
-  width: 50%;
-}
+  width: 50%; }
 
-.date-range-picker{
-  display: inline-block ;
-  width: auto ;
-  padding: 10px;
-}
+.date-range-picker {
+  display: inline-block;
+  width: auto;
+  padding: 10px; }
 
-.calendar-header{
+.calendar-header {
   margin-top: 10px;
   height: 15px;
-  padding-top: 5px;
-}
-input{
-  margin: 5px;
-}
-.aside-config{
-  float:right;
-}
-.selected {
-  background: #ECF0F1;
-}
-.selected-start{
-  background: #BDC3C7;
-}
-.selected-end{
-  background: #BDC3C7;
-}
+  padding-top: 5px; }
 
-.events-popup{
+input {
+  margin: 5px; }
+
+.aside-config {
+  float: right; }
+
+.selected {
+  background: #ECF0F1; }
+
+.selected-start {
+  background: #BDC3C7; }
+
+.selected-end {
+  background: #BDC3C7; }
+
+.events-popup {
   position: absolute;
   background: #ffffff;
   border: 2px solid #000000;
-  padding: 10px;
-}
-.active {
-  display: block;
-}
+  padding: 10px; }
 
-.non-active{
-  display: none;
-}
+.active {
+  display: block; }
+
+.non-active {
+  display: none; }
+
+/*# sourceMappingURL=event_calendar.css.map */
