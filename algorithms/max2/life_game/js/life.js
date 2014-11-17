@@ -10,6 +10,11 @@
       cell.classList.add('alive');
       liveCells.push(cell);
     };
+    this.start = function () {
+      while (true) {
+        setTimeout(this.makeStep(), speed);
+      }
+    };
     this.getCellByPosition = function (positionX, positionY) {
       var index = (rows - positionY - 1) * columns + positionX;
       return container.childNodes[index];
@@ -20,28 +25,29 @@
       });
       markNeighbours();
       evolve();
+      return this;
     };
 
     function evolve() {
       liveCells.forEach(function (el) {
-        if (el.neighbours === 1 || el.neighbours) {
+        if (el.neighbours === 1 || !el.neighbours) {
           el.classList.remove('alive');
           el.classList.add('dead');
-          liveCells[el] = undefined;
         } else if (el.neighbours > 3) {
           el.classList.remove('alive');
           el.classList.add('dead');
-          liveCells.remove(el);
         }
       });
+      liveCells = [];
       Array.prototype.slice.call(container.childNodes).forEach(function (el) {
         if (el.neighbours === 3) {
           el.classList.remove('dead');
           el.classList.add('alive');
+        }
+        if (el.classList.contains('alive')) {
           liveCells.push(el);
         }
       });
-
     }
 
     function markNeighbours() {
