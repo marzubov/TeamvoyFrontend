@@ -50,7 +50,6 @@
       }
       else if (key < node.key) return that.insert(node.leftChild, key, node, deep / 2);
       else if (key > node.key) return that.insert(node.rightChild, key, node, deep / 2);
-      else console.log('same node');
     };
 
     this.findMin = function (node) {
@@ -130,14 +129,14 @@
 
     this.balance = function (data) {
       //if (data.length == 0)return;
-      var balanceData = [data[Math.floor(data.length/2)]],
-      first = data.slice(0, Math.floor(data.length/2)),
-      second = data.slice(Math.floor(data.length/2) + 1);
+      var balanceData = [data[Math.floor(data.length / 2)]],
+        first = data.slice(0, Math.floor(data.length / 2)),
+        second = data.slice(Math.floor(data.length / 2) + 1);
       //var result = [];
-      if (first.length != 0){
+      if (first.length != 0) {
         balanceData = balanceData.concat(that.balance(first));
       }
-      if (second.length != 0){
+      if (second.length != 0) {
         balanceData = balanceData.concat(that.balance(second));
       }
       return balanceData;
@@ -145,8 +144,6 @@
 
     this.generateFromArray = function (data) {
       var balancedData = this.balance(data);
-      console.log('original data', data);
-      console.log('balanced data', balancedData);
       this.root = new Node();
       for (var i = 0; i < balancedData.length; i++) {
         var edgeLength = balancedData.length.valueOf();

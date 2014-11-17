@@ -5,7 +5,6 @@
   global.EventCalendar = function EventCalendar(container, config) {
 
     Calendar.apply(this, arguments);
-    console.log(this);
     var that = this;
 
     function setEvents() {

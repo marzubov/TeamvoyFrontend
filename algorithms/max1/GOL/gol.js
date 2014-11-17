@@ -4,11 +4,7 @@
     //EventMachine.call(this);
     this.canvas = canvas;
     this.intervalID = null;
-    function init() {
-      //console.log('init');
-    }
 
-    init();
     return this;
   };
   GOL.prototype.createArray = function createArray(length1, length2) {
@@ -40,11 +36,11 @@
         if (el === 1) {
           if (aliveNeighboursCount < 2) {
             that.universe[i][j] = 0;
-          } else if (aliveNeighboursCount > 3){
+          } else if (aliveNeighboursCount > 3) {
             that.universe[i][j] = 0;
           }
         } else {
-          if (aliveNeighboursCount === 3){
+          if (aliveNeighboursCount === 3) {
             that.universe[i][j] = 1;
           }
         }

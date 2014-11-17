@@ -53,8 +53,6 @@ var BST = (function () {
             return this.insert(node.leftChild, key, node, deep / 2);
         else if (parseFloat(key) > parseFloat(node.key))
             return this.insert(node.rightChild, key, node, deep / 2);
-        else
-            console.log('same node');
     };
     BST.prototype.findMin = function (node) {
         node = node || this.root;
@@ -149,8 +147,6 @@ var BST = (function () {
     BST.prototype.generateFromArray = function (data) {
         this.root = new TreeNode(null, null, null, null, null, 0, 0);
         var balancedData = this.balance(data);
-        console.log('original data', data);
-        console.log('balanced data', balancedData);
         for (var i = 0; i < balancedData.length; i++) {
             var edgeLength = balancedData.length;
             this.insert(this.root, balancedData[i].toString(), this.root, edgeLength / 2);
