@@ -1,8 +1,8 @@
 (function (document, window) {
   "use strict";
-  var columns = 50, rows = 20;
+  var columns = 50, rows = 40;
   window.Life = function (container, speed) {
-    var liveCells = [];
+    var intervalThread, liveCells = [];
     this.speed = speed;
     this.addLife = function (positionX, positionY) {
       var cell = this.getCellByPosition(positionX, positionY);
@@ -11,9 +11,10 @@
       liveCells.push(cell);
     };
     this.start = function () {
-      while (true) {
-        setTimeout(this.makeStep(), speed);
-      }
+      intervalThread = setInterval(this.makeStep, speed);
+    };
+    this.stop = function () {
+      clearInterval(intervalThread);
     };
     this.getCellByPosition = function (positionX, positionY) {
       var index = (rows - positionY - 1) * columns + positionX;
@@ -66,6 +67,7 @@
     }
 
     function markCell(cell) {
+      if (cell)
       cell.neighbours += 1;
     }
 
@@ -77,8 +79,16 @@
         cell.index = i;
         container.appendChild(cell);
       }
+      listenEvents();
     }
 
+    function listenEvents() {
+      container.addEventListener('click', function (e) {
+        e.target.classList.remove('dead');
+        e.target.classList.add('alive');
+        liveCells.push(e.target);
+      });
+    }
     createUniverse();
   };
 })(document, window);
