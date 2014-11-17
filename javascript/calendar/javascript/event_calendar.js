@@ -4,27 +4,29 @@
    window:true, document:true, HTMLElement: true */
   global.EventCalendar = function EventCalendar(container, config) {
 
-    Calendar.apply(this, arguments);
     var that = this;
-
+    this.eventCalendar = {};
+    this.popup = {};
     function setEvents() {
       that.on('daySelected', function (day) {
-        that.showEvents.call(that, day);
+        that.showEvents(day);
       });
       document.addEventListener('click', function (e) {
         if ((e.target !== that.getRoot()) && (!that.getRoot().contains(e.target))) {
-          that.getRoot().querySelector('.events-popup')
-            .classList.remove('active');
-          that.getRoot().querySelector('.events-popup')
-            .classList.add('non-active');
+          that.popup.classList.remove('active');
+          that.popup.classList.add('non-active');
         }
       });
     }
 
     function init() {
-      var popup = document.createElement('div');
-      popup.classList.add('events-popup', 'non-active');
-      that.getRoot().appendChild(popup);
+      that.popup = document.createElement('div');
+      that.popup.classList.add('events-popup', 'non-active');
+      that.eventCalendar = document.createElement('div');
+      that.eventCalendar.classList.add('event-calendar');
+      container.appendChild(that.eventCalendar);
+      Calendar.call(that, that.eventCalendar, config);
+      that.eventCalendar.appendChild(that.popup);
       setEvents();
       that.trigger('load', [that]);
     }
@@ -80,21 +82,20 @@
    * @param dayElement
    */
   EventCalendar.prototype.renderPopup = function (events, dayElement) {
-    var popup = this.getRoot().querySelector('.events-popup'),
-      eventsTemplate = this.eventsTemplate(events);
+    var eventsTemplate = this.eventsTemplate(events);
     //popup.style.left = (dayElement.offsetLeft + dayElement.offsetWidth).toString() + 'px';
     //popup.style.top = (dayElement.offsetTop + dayElement.offsetHeight).toString() + 'px';
-    popup.style.left = (this.getRoot().offsetLeft + this.getRoot().offsetWidth).toString() + 'px';
-    popup.style.top = (this.getRoot().offsetTop /*+ this.getRoot().offsetHeight*/).toString() + 'px';
-    while (popup.firstChild) {
-      popup.removeChild(popup.firstChild);
+    this.popup.style.left = (this.getRoot().offsetLeft + this.getRoot().offsetWidth).toString() + 'px';
+    this.popup.style.top = (this.getRoot().offsetTop /*+ this.getRoot().offsetHeight*/).toString() + 'px';
+    while (this.popup.firstChild) {
+      this.popup.removeChild(this.popup.firstChild);
     }
     if (eventsTemplate instanceof HTMLElement) {
-      popup.appendChild(eventsTemplate);
+      this.popup.appendChild(eventsTemplate);
     } else if (typeof eventsTemplate === "string") {
-      popup.innerHTML = eventsTemplate;
+      this.popup.innerHTML = eventsTemplate;
     } else {
-      popup.innerHTML = "No events";
+      this.popup.innerHTML = "No events";
     }
   };
 
@@ -110,10 +111,8 @@
       });
     if (selectedDay) {
       this.renderPopup(events, selectedDay);
-      this.getRoot().querySelector('.events-popup')
-        .classList.remove('non-active');
-      this.getRoot().querySelector('.events-popup')
-        .classList.add('active');
+      this.popup.classList.remove('non-active');
+      this.popup.classList.add('active');
     }
   };
 
