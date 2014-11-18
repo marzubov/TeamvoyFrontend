@@ -1,0 +1,24 @@
+{
+  "name": "TeamvoyFrontend",
+  "version": "0.0.0",
+  "homepage": "https://github.com/neformal13/TeamvoyFrontend",
+  "authors": [
+    "MU <m.arzubov@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "library/vendor/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "moment": "~2.8.3",
+    "sigma.js": "*",
+    "handlebars": "~2.0.0",
+    "Faker": "~2.0.2"
+  }
+}
