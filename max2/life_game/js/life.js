@@ -72,7 +72,9 @@
         if (el.neighbours === 3) {
           el.classList.remove('dead');
           el.classList.add('alive');
-          el.style.backgroundColor = el.color;
+          if (el.style.backgroundColor !== el.color) {
+            el.style.backgroundColor = el.color;
+          }
         }
         if (el.classList.contains('alive')) {
           liveCells.push(el);
@@ -122,6 +124,7 @@
       container.addEventListener('click', function (e) {
         e.target.classList.toggle('dead');
         e.target.classList.toggle('alive');
+        e.target.style.backgroundColor = that.color;
         liveCells.push(e.target);
       });
     }

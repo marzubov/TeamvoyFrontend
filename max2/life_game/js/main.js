@@ -37,6 +37,9 @@
   document.querySelector('.random').addEventListener('click', function () {
     myUniverse.randomLife();
   });
+  document.querySelector('.color').addEventListener('change', function (e) {
+    myUniverse.color = e.target.value;
+  });
   document.querySelector('.glider').addEventListener('click', createGlider);
   document.querySelector('.spaceship').addEventListener('click', createSpaceship);
 
