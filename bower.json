@@ -16,7 +16,6 @@
     "tests"
   ],
   "dependencies": {
-    "moment": "~2.8.3",
     "sigma.js": "*",
     "handlebars": "~2.0.0",
     "Faker": "~2.0.2",
