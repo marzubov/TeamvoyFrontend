@@ -14,38 +14,77 @@
       margin: 0 0 0 0;
       padding: 0 0 0 0;
       outline: none;
+      border: 1px solid #d3d3d3 ;
     }
     .active{
-      background: #000000;
+      background: #3498db;
     }
     .inactive{
-      background: #ffffff;
+      background: #ecf0f1;
+    }
+    button{
+      margin: 5px;
+      padding: 5px;
+      background: #bdc3c7;
+      border: none;
+      /*outline: none;*/
     }
   </style>
 
 </head>
 <body>
-<canvas id="firstCanvas" width="200" height="100" style="border:1px solid #d3d3d3;">
+<canvas id="firstCanvas" width="0" height="0" style="border:1px solid #d3d3d3;">
 </canvas>
 <div id="firstGrid" style="width:800px; height:500px; border:1px solid #d3d3d3;"></div>
-<button id = "step">NEXT GENERATION</button>
-<button id = "start">START</button>
+<div><button id = "step">STEP</button>
+<button id = "run">RUN</button>
 <button id = "stop">STOP</button>
-<button id = "clear">CLEAR</button>
+<select id="speed">
+  <option value="1">
+    1
+  </option>
+  <option value="10">
+    10
+  </option>
+  <option value="100">
+    100
+  </option>
+  <option value="1000">
+    1000
+  </option>
+  <option value="10000">
+    10000
+  </option>
+</select>
+</div>
+<div>
+  <button id = "random">RANDOM</button>
+  <button id = "gun">GUN</button>
+  <button id = "clear">CLEAR</button>
+</div>
+
+<!--<input id="patternText" type="text" placeholder="Insert your pattern here">-->
+<div contenteditable="true" id="patternText" style="width:300px; height:200px; overflow: auto; border:1px solid #d3d3d3;">
+
+</div>
+<button id="createFromText">CREATE FROM TEXT</button>
+
 </body>
 <script>
   var firstCanvas = document.getElementById('firstCanvas'),
     firstGrid = document.getElementById('firstGrid');
     firstGOL = new GOL(firstCanvas, firstGrid);
-  firstGOL.createUniverse({length1:25, length2:25});
+  firstGOL.createUniverse({length1:100, length2:100});
   document.getElementById("step")
     .addEventListener('click', function(){
       firstGOL.stopInterval.call(firstGOL);
       firstGOL.nextGen.call(firstGOL);
     });
-  document.getElementById("start")
+  document.getElementById("run")
     .addEventListener('click', function(){
-      firstGOL.startInterval.call(firstGOL);
+      var speed = document.getElementById('speed')
+        .options[document.getElementById('speed').selectedIndex].value;
+      firstGOL.startInterval.call(firstGOL, speed);
     });
   document.getElementById("stop")
     .addEventListener('click', function(){
@@ -53,7 +92,34 @@
     });
   document.getElementById("clear")
     .addEventListener('click', function(){
-      firstGOL.clearUniverse.call(firstGOL, {length1:25, length2:25});
+      firstGOL.stopInterval.call(firstGOL);
+      firstGOL.clearUniverse.call(firstGOL, {length1:100, length2:100});
     });
+  document.getElementById("gun")
+    .addEventListener('click', function(){
+      firstGOL.stopInterval.call(firstGOL);
+      firstGOL.clearUniverse.call(firstGOL, {length1:100, length2:100});
+      firstGOL.gun.call(firstGOL);
+    });
+  document.getElementById("random")
+    .addEventListener('click', function(){
+      firstGOL.stopInterval.call(firstGOL);
+      firstGOL.createRandom.call(firstGOL);
+    });
+  document.getElementById("createFromText")
+    .addEventListener('click', function(){
+      firstGOL.stopInterval.call(firstGOL);
+      firstGOL.clearUniverse.call(firstGOL, {length1:100, length2:100});
+      firstGOL.patternFromText.call(firstGOL,
+      document.getElementById('patternText').innerText);
+    });
+  document.getElementById("speed")
+    .addEventListener('change', function(){
+      var speed = document.getElementById('speed')
+      .options[document.getElementById('speed').selectedIndex].value;
+      firstGOL.stopInterval.call(firstGOL);
+      firstGOL.startInterval.call(firstGOL, speed);
+    });
+
 </script>
 </html>
