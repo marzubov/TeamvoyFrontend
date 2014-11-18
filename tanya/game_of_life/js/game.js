@@ -7,13 +7,15 @@ var GameOfLife = function(params){
       canvas_id   = params["canvas_id"]   || "life",
       colourful   = params["colourful"] || params["colorful"] || false,
       cell_array = [],
-      display = new GameDisplay(num_cells_x, num_cells_y, cell_width, cell_height, canvas_id, colourful),
+      display = new GameDisplay(num_cells_x, num_cells_y, cell_width, cell_height, canvas_id, this),
       interval = null;
 
     function init() {
       var length_y = init_cells.length,
+        that = this,
         length_x,
         y, x;
+
       for (y = 0; y < length_y; y++) {
         length_x = init_cells[y].length;
         for (x = 0; x < length_x; x++) {
@@ -23,6 +25,27 @@ var GameOfLife = function(params){
       }
       cell_array = init_cells;
       display.update(cell_array);
+
+      document.getElementById(canvas_id).addEventListener("click", function (e) {
+        e = e || window.event;
+        var target =  e.target || e.srcElement;
+        if (target.classList.contains("alive")) {
+          target.classList.remove("alive");
+          target.classList.add("dead");
+        } else {
+          target.classList.remove("dead");
+          target.classList.add("alive");
+        }
+        var countChilds = 0;
+        for (y = 0; y < length_y; y++) {
+          length_x = cell_array[y].length;
+          for (x = 0; x < length_x; x++) {
+            var state = (document.getElementById(canvas_id).childNodes[countChilds++].classList.contains("alive")) ? 'alive' : 'dead';
+            cell_array[y][x] = new Cell(x, y, state);
+          }
+        }
+      });
+
     };
 
      function nextGenCells() {
@@ -78,9 +101,10 @@ var GameOfLife = function(params){
         }
       }
       return next_gen;
-    }
-    ;
+    };
+
   init();
+
   return {
     step: function(){
       var next_gen = nextGenCells();
@@ -92,52 +116,57 @@ var GameOfLife = function(params){
     },
     getInterval: function() {
       return interval;
+    },
+    setNewFigure: function(array){
+      var length_y = array.length,
+        length_x, y, x;
+      for (y = 0; y < length_y; y++) {
+        length_x = array[y].length;
+        for (x = 0; x < length_x; x++) {
+          var state = (array[y][x] == 1) ? 'alive' : 'dead';
+          array[y][x] = new Cell(x, y, state);
+        }
+      }
+      cell_array = array;
+      display.update(cell_array);
     }
   };
 };
 
 
-var GameDisplay = function(num_cells_x, num_cells_y, cell_width, cell_height, canvas_id, colourful) {
+var GameDisplay = function(num_cells_x, num_cells_y, cell_width, cell_height, canvas_id, that) {
   var canvas = document.getElementById(canvas_id),
-    ctx = canvas.getContext && canvas.getContext('2d'),
-    width_pixels = num_cells_x * cell_width,
-    height_pixels = num_cells_y * cell_height;
+      width_pixels = num_cells_x * cell_width + num_cells_x * 2,
+      height_pixels = num_cells_y * cell_height + num_cells_y * 2;
 
-     function updateCells(cell_array) {
-      var length_y = cell_array.length,
-        length_x,
-        y, x;
-      // each row
-      for (y = 0; y < length_y; y++) {
+  function updateCells(cell_array) {
+     var allCells = document.createDocumentFragment();
+     var length_y = cell_array.length,
+          length_x, y, x;
+     for (y = 0; y < length_y; y++) {
         length_x = cell_array[y].length;
-        // each column in rows
         for (x = 0; x < length_x; x++) {
-          // Draw Cell on Canvas
-          drawCell(cell_array[y][x]);
+            allCells.appendChild(drawCell(cell_array[y][x]));
         }
-      }
-    };
-    function drawCell(cell) {
-      var start_x = cell.getXPos() * cell_width,
-        start_y = cell.getYPos() * cell_height;
+     }
+     canvas.style.width = width_pixels + "px";
+     canvas.style.height = height_pixels + "px";
+     canvas.innerHTML = "";
+     canvas.appendChild(allCells);
+
+
+  };
+
+  function drawCell(cell) {
+      var cells = document.createElement("div");
       if (cell.getState() == "alive") {
-        if (colourful === true) {
-          var r=Math.floor(Math.random()*256),
-            g=Math.floor(Math.random()*256),
-            b=Math.floor(Math.random()*256),
-            a=(Math.floor(Math.random()*6)+5)/10;
-          ctx.fillStyle = "rgba(" + r + "," + g + "," + b + "," + a + ")";
-        }
-        ctx.fillRect(start_x, start_y, cell_width, cell_height);
+        cells.classList.add("alive");
       } else {
-        ctx.clearRect(start_x, start_y, cell_width, cell_height);
+        cells.classList.add("dead");
       }
-    };
-    function init() {
-      canvas.width = width_pixels;
-      canvas.height = height_pixels;
-    };
-  init();
+      return cells;
+  };
+
   return {
     update: function(cell_array) {
       updateCells(cell_array);

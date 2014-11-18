@@ -49,7 +49,7 @@ input :-moz-placeholder { color:#bdc3c7; }
   right: 10px;
 }
 .search .custom-select .img:after {
-  content: url('../../javascript/select/css/img/rsz_ico_search.png');
+  content: url('../../max2/select/css/img/rsz_ico_search.png');
 }
 .search .custom-select .options .option {
   background-color: #74ADC0;
