@@ -1,26 +1,54 @@
 (function (document, window) {
   "use strict";
-  var columns = 50, rows = 40;
-  window.Life = function (container, speed) {
-    var intervalThread, liveCells = [];
-    this.speed = speed;
+  var columns = 60, rows = 60;
+  window.Life = function (container) {
+    var intervalThread,
+      liveCells = [],
+      that = this;
+    this.speed = 10;
+    this.color = '#bdc3c7';
+    this.clear = function () {
+      this.stop();
+      liveCells = [];
+      Array.prototype.slice.call(container.childNodes).forEach(function (el) {
+        el.classList.remove('alive');
+        el.classList.add('dead');
+      });
+      return this;
+    };
+
+    this.randomLife = function () {
+      Array.prototype.slice.call(container.childNodes).forEach(function (el) {
+        if (Math.random() > 0.6) {
+          makeAlive(el);
+          liveCells.push(el);
+        }
+      });
+      return this;
+    };
+
     this.addLife = function (positionX, positionY) {
       var cell = this.getCellByPosition(positionX, positionY);
-      cell.classList.remove('dead');
-      cell.classList.add('alive');
+      makeAlive(cell);
       liveCells.push(cell);
+      return this;
     };
+
     this.start = function () {
-      intervalThread = setInterval(this.makeStep, speed);
+      intervalThread = setInterval(this.nextGeneration, 1000 / this.speed);
+      return this;
     };
+
     this.stop = function () {
       clearInterval(intervalThread);
     };
+
     this.getCellByPosition = function (positionX, positionY) {
-      var index = (rows - positionY - 1) * columns + positionX;
+      var index = positionY * columns + positionX;
       return container.childNodes[index];
     };
-    this.makeStep = function () {
+
+    this.nextGeneration = function () {
       Array.prototype.slice.call(container.childNodes).forEach(function (el) {
         el.neighbours = 0;
       });
@@ -44,6 +72,7 @@
         if (el.neighbours === 3) {
           el.classList.remove('dead');
           el.classList.add('alive');
+          el.style.backgroundColor = el.color;
         }
         if (el.classList.contains('alive')) {
           liveCells.push(el);
@@ -53,22 +82,24 @@
 
     function markNeighbours() {
       liveCells.forEach(function (el) {
-        markCell(container.childNodes[el.index + 1]);
-        markCell(container.childNodes[el.index - 1]);
+        addNeighbour(container.childNodes[el.index + 1], el);
+        addNeighbour(container.childNodes[el.index - 1], el);
 
-        markCell(container.childNodes[el.index - columns]);
-        markCell(container.childNodes[el.index - columns - 1]);
-        markCell(container.childNodes[el.index - columns + 1]);
+        addNeighbour(container.childNodes[el.index - columns], el);
+        addNeighbour(container.childNodes[el.index - columns - 1], el);
+        addNeighbour(container.childNodes[el.index - columns + 1], el);
 
-        markCell(container.childNodes[el.index + columns]);
-        markCell(container.childNodes[el.index + columns - 1]);
-        markCell(container.childNodes[el.index + columns + 1]);
+        addNeighbour(container.childNodes[el.index + columns], el);
+        addNeighbour(container.childNodes[el.index + columns - 1], el);
+        addNeighbour(container.childNodes[el.index + columns + 1], el);
       });
     }
 
-    function markCell(cell) {
-      if (cell)
-      cell.neighbours += 1;
+    function addNeighbour(cell, neighbour) {
+      if (cell) {
+        cell.neighbours += 1;
+        cell.color = neighbour.style.backgroundColor;
+      }
     }
 
     function createUniverse() {
@@ -82,13 +113,19 @@
       listenEvents();
     }
 
+    function makeAlive(cell) {
+      cell.classList.remove('dead');
+      cell.classList.add('alive');
+      cell.style.backgroundColor = that.color;
+    }
     function listenEvents() {
       container.addEventListener('click', function (e) {
-        e.target.classList.remove('dead');
-        e.target.classList.add('alive');
+        e.target.classList.toggle('dead');
+        e.target.classList.toggle('alive');
         liveCells.push(e.target);
       });
     }
+
     createUniverse();
   };
 })(document, window);
