@@ -4,15 +4,18 @@
     //EventMachine.call(this);
     this.canvas = canvas;
     this.grid = grid;
+    this.size = {xLenght: 100,
+      yLength: 100
+    };
     this.universe = [[]];
     this.intervalID = null;
 
     return this;
   };
   GOL.prototype.createArray = function createArray(length1, length2) {
-    return Array.apply(null, {length: length1})
+    return Array.apply(null, {length: length1 + 10})
       .map(function () {
-        return Array.apply(null, {length: length2})
+        return Array.apply(null, {length: length2 + 10})
           .map(function () {
             return 0;
           });
@@ -35,6 +38,10 @@
   };
 
   GOL.prototype.createUniverse = function createUniverse(config) {
+    this.size = {
+      xLength: config.length1,
+      yLength: config.length2
+    };
     while (this.grid.firstChild) {
       this.grid.removeChild(this.grid.firstChild);
     }
@@ -144,13 +151,16 @@
     //ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.universe.forEach(function (row, i) {
       row.forEach(function (el, j) {
+        if ((i >= that.size.yLength + 5) || (j >= that.size.xLength + 5) || (i < 5) || (j < 5)) {
+          return;
+        }
         if (el === 1) {
           //ctx.fillRect(cellWidth * j, cellHeight * i, cellWidth, cellHeight);
-          that.grid.childNodes[i * row.length + j].classList.remove('inactive');
-          that.grid.childNodes[i * row.length + j].classList.add('active');
+          that.grid.childNodes[(i - 5) * that.size.yLength  + (j - 5)].classList.remove('inactive');
+          that.grid.childNodes[(i - 5) * that.size.yLength + (j - 5)].classList.add('active');
         } else {
-          that.grid.childNodes[i * row.length + j].classList.remove('active');
-          that.grid.childNodes[i * row.length + j].classList.add('inactive');
+          that.grid.childNodes[(i - 5) * that.size.yLength + (j - 5)].classList.remove('active');
+          that.grid.childNodes[(i - 5) * that.size.yLength + (j - 5)].classList.add('inactive');
         }
       });
     });
