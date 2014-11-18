@@ -19,6 +19,7 @@
     "sigma.js": "*",
     "handlebars": "~2.0.0",
     "Faker": "~2.0.2",
-    "flat-ui": "~2.2.1"
+    "flat-ui": "~2.2.1",
+    "moment": "~2.8.3"
   }
 }
