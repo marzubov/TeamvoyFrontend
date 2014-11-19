@@ -7,13 +7,18 @@ var gulp = require('gulp'),
 
 gulp.task('default', ['watch', 'build']);
 
-gulp.task('build', ['compress']);
+gulp.task('build', ['compress', 'documentation']);
 
 gulp.task('compress', function () {
   gulp.src(path.scripts)
     .pipe(plugins.uglify())
     .pipe(plugins.concat('all.min.js'))
     .pipe(gulp.dest('build/js'));
+});
+
+gulp.task("documentation", function () {
+  gulp.src(path.scripts)
+    .pipe(plugins.jsdoc('build/documentation'));
 });
 
 // Rerun the task when a file changes

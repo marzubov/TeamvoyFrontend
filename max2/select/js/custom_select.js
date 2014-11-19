@@ -1,4 +1,4 @@
-(function (global, document) {
+(function (window, document) {
   "use strict";
 
   /**
@@ -6,9 +6,10 @@
    * @param container {Element} - the place where select will be inserted
    * @param data {Array} - array of objects with data
    * @param config {Object} - the object which configure created element
+   * @constructor
    * @return {Object}
    */
-  var CustomSelect = global.CustomSelect = function (container, data, config) {
+  window.CustomSelect = function (container, data, config) {
     CustomSelect.superclass.constructor.call(this);
     var that = this,
       hovered = 0;
