@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title></title>
   <script type="text/javascript" src="gol.js"></script>
+  <script type="text/javascript" src="../../library/event_machine.js"></script>
   <!--<link rel="stylesheet" href="../../html_codding/reset.css"/>-->
   <style>
     body{
@@ -23,19 +24,115 @@
       background: #ecf0f1;
     }
     button{
-      margin: 5px;
-      padding: 5px;
-      background: #bdc3c7;
+      position: relative;
+      top: 100px;
+      /*margin: 5px;*/
+      /*padding: 5px;*/
+      /*background: #bdc3c7;*/
       border: none;
+      background: #26ae90;
+      width: 100px;
+      border-radius: 3px;
+      padding: 8px 10px 10px 10px;
+      color: #FFF;
+      line-height:20px;
+      font-size:12px;
+      text-align:center;
+      -webkit-font-smoothing: antialiased;
+      cursor: pointer;
+      margin:10px ;
       /*outline: none;*/
+    }
+    select{
+      position: relative;
+      top: 100px;
+    }
+    .message {
+      background:#181818;
+      color:#FFF;
+      width:100%;
+      position: absolute;
+      top: -300px;
+      left: 0;
+      height: 300px;
+      padding: 20px;
+      transition: top 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
+      overflow: hidden;
+      box-sizing: border-box;
+
+    }
+    #toggle {
+       position:absolute;
+       appearance:none;
+       cursor:pointer;
+       left:-100%;
+       top:-100%;
+     }
+
+    #toggle + label {
+      position:absolute;
+      cursor:pointer;
+      background: #26ae90;
+      width: 100px;
+      border-radius: 3px;
+      padding: 8px 10px 10px 10px;
+      color: #FFF;
+      line-height:20px;
+      font-size:12px;
+      text-align:center;
+      -webkit-font-smoothing: antialiased;
+      cursor: pointer;
+      margin:20px 50px;
+      transition:all 500ms ease;
+    }
+    .container {
+      top: 100px;
+      position: relative;
+      transition: margin 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
+    }
+    #toggle + label:after {
+      content:"Edit array"
+    }
+    #toggle:checked ~ .message {
+      top: 0;
+    }
+
+    #toggle:checked ~ .container {
+      margin-top: 300px;
+    }
+
+    #toggle:checked + label {
+      background:#dd6149;
+    }
+
+    #toggle:checked + label:after {
+      content:"Close";
+    }
+
+    #patternText{
+      background: transparent;
+      border: none;
+      color:#FFF;
+      position: relative;
+    }
+
+    #change{
+      top: 0;
     }
   </style>
 
 </head>
 <body>
-<canvas id="firstCanvas" width="0" height="0" style="border:1px solid #d3d3d3;">
-</canvas>
-<div id="firstGrid" style="width:800px; height:500px; border:1px solid #d3d3d3;"></div>
+<input type="checkbox" name="toggle" id="toggle" />
+<label for="toggle"></label>
+
+<div id="firstGrid" class="container" style="width:800px; height:500px; border:1px solid #d3d3d3;"></div>
+<div class="message">
+  <textarea id="patternText" style=" width:100%;height:200px; overflow: auto; display: block;" >
+    Click to edit data.
+  </textarea>
+  <button id="change">Change</button>
+</div>
 <div><button id = "step">STEP</button>
 <button id = "run">RUN</button>
 <button id = "stop">STOP</button>
@@ -63,18 +160,42 @@
   <button id = "clear">CLEAR</button>
 </div>
 
-<!--<input id="patternText" type="text" placeholder="Insert your pattern here">-->
-<div contenteditable="true" id="patternText" style="width:300px; height:200px; overflow: auto; border:1px solid #d3d3d3;">
-
-</div>
-<button id="createFromText">CREATE FROM TEXT</button>
-
 </body>
 <script>
   var firstCanvas = document.getElementById('firstCanvas'),
     firstGrid = document.getElementById('firstGrid');
     firstGOL = new GOL(firstCanvas, firstGrid);
   firstGOL.createUniverse({length1:100, length2:100});
+  firstGOL.gun.call(firstGOL);
+  function getData (universe){
+    var values = "";
+    universe.forEach(function (row, i) {
+      row.forEach(function (el, j) {
+        if (el == 1){
+          values+= (j - 50) + ' ' + (i - 50) + "\n";
+        }
+      });
+    });
+    return values;
+  }
+  function addCell (e){
+    e.preventDefault();
+    if (e.target.classList.contains('inactive')) {
+      firstGOL.universe[e.target.x_pos][e.target.y_pos] = 1;
+    }
+  }
+
+  firstGrid.addEventListener('mousedown', function (e){
+    document.addEventListener('mousemove', addCell);
+    document.addEventListener('mouseup', function removeAddCell(){
+      document.removeEventListener('mousemove', addCell);
+      document.removeEventListener('mouseup', removeAddCell)
+    });
+  });
+
+  firstGOL.on('dataChanged', function(universe) {
+    document.getElementById('patternText').value = getData(universe);
+  });
   document.getElementById("step")
     .addEventListener('click', function(){
       firstGOL.stopInterval.call(firstGOL);
@@ -106,12 +227,13 @@
       firstGOL.stopInterval.call(firstGOL);
       firstGOL.createRandom.call(firstGOL);
     });
-  document.getElementById("createFromText")
+  document.getElementById("change")
     .addEventListener('click', function(){
+      var patternText = document.getElementById('patternText').value
       firstGOL.stopInterval.call(firstGOL);
       firstGOL.clearUniverse.call(firstGOL, {length1:100, length2:100});
       firstGOL.patternFromText.call(firstGOL,
-      document.getElementById('patternText').innerText);
+      patternText);
     });
   document.getElementById("speed")
     .addEventListener('change', function(){
