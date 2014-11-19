@@ -19,7 +19,7 @@
         that.renderEventDays();
       });
       document.addEventListener('click', function (e) {
-        if ((e.target !== that.getRoot()) && (!that.getRoot().contains(e.target))) {
+        if ((e.target !== that.getRoot()) && (!e.target.classList.contains('events-popup')) && (!that.getRoot().contains(e.target))) {
           that.popup.classList.remove('active');
           that.popup.classList.add('non-active');
         }
