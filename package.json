@@ -1,0 +1,28 @@
+{
+  "name": "TeamvoyFrontend",
+  "version": "1.0.0",
+  "description": "## Calendar",
+  "main": "gulpfile.js",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.8.10",
+    "gulp-concat": "^2.4.2",
+    "gulp-install": "^0.2.0",
+    "gulp-jsdoc": "^0.1.4",
+    "gulp-load-plugins": "^0.7.1",
+    "gulp-uglify": "^1.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neformal13/TeamvoyFrontend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/neformal13/TeamvoyFrontend/issues"
+  },
+  "homepage": "https://github.com/neformal13/TeamvoyFrontend"
+}
