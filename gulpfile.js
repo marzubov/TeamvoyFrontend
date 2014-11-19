@@ -7,7 +7,7 @@ var gulp = require('gulp'),
 
 gulp.task('default', ['watch', 'build']);
 
-gulp.task('build', ['compress', 'documentation']);
+gulp.task('build', ['compress', 'documentation', 'install']);
 
 gulp.task('compress', function () {
   gulp.src(path.scripts)
@@ -21,6 +21,10 @@ gulp.task("documentation", function () {
     .pipe(plugins.jsdoc('build/documentation'));
 });
 
+gulp.task('install', function () {
+  gulp.src(['./bower.json', './package.json'])
+    .pipe(plugins.install());
+});
 // Rerun the task when a file changes
 gulp.task('watch', function () {
   gulp.watch(path.scripts, ['compress']);
