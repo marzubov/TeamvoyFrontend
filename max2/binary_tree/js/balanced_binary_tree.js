@@ -27,6 +27,7 @@
     // Self reBalance
     this.on('add', function (el) {
       that.perfectBalance();
+      console.log('height', that.height);
     });
   };
   BalancedBinaryTree.extend(BinaryTree);
