@@ -23,8 +23,13 @@
           if (value < currentNode.value) {
             if (currentNode.left === null) {
               currentNode.left = node;
-              if (this.parent(currentNode.value))
-                this.balance(this.parent(currentNode.value));
+              if (this.parent(currentNode.value)) {
+                var parentNode = this.parent(currentNode.value);
+                var resultNode = this.balance(parentNode);
+                parentNode = this.parent(parentNode.value);
+                if (parentNode == null) this.root = resultNode;
+                else parentNode.left = resultNode;
+              }
               break;
             } else {
               currentNode = currentNode.left;
@@ -32,8 +37,13 @@
           } else if (value > currentNode.value) {
             if (currentNode.right === null) {
               currentNode.right = node;
-              if (this.parent(currentNode.value))
-                this.balance(this.parent(currentNode.value));
+              if (this.parent(currentNode.value)) {
+                var parentNode = this.parent(currentNode.value);
+                var resultNode = this.balance(parentNode);
+                parentNode = this.parent(parentNode.value);
+                if (parentNode == null) this.root = resultNode;
+                else parentNode.right = resultNode;
+              }
               break;
             } else {
               currentNode = currentNode.right;
@@ -63,36 +73,54 @@
     }
 
     BinaryTree.prototype.rotateRight = function(node) {
-      var newNode = node.left;
-      node.left = newNode.right;
-      newNode.right = node;
+      if (node.left.right != null) {
+        var newNode = node;
+        node = newNode.left.right;
+        newNode.left.right = null;
+        node.left = newNode.left;
+        this.changeHeight(node.left);
+        newNode.left = null;
+        node.right = newNode;
+        this.changeHeight(node.right);
+      } else {
+        var newNode = node;
+        node = newNode.left;
+        newNode.left = null;
+        node.right = newNode;
+      }
       this.changeHeight(node);
       this.changeHeight(newNode);
-      return newNode;
+      return node;
     }
 
     BinaryTree.prototype.rotateLeft = function(node) {
-      var newNode = node.right;
-      node.right = newNode.left;
-      newNode.left = node;
+      if (node.right.left) {
+        var newNode = node;
+        node = newNode.right.left;
+        newNode.right.left = null;
+        node.right = newNode.right;
+        this.changeHeight(node.right);
+        newNode.right = null;
+        node.left = newNode;
+        this.changeHeight(node.left);
+      } else {
+        var newNode = node;
+        node = newNode.right;
+        newNode.right = null;
+        node.left = newNode;
+      }
       this.changeHeight(node);
       this.changeHeight(newNode);
-      return newNode;
+      return node;
     }
 
     BinaryTree.prototype.balance = function(node){
       this.changeHeight(node);
       if (this.balanceFactor(node) == 2) {
-        if (this.balanceFactor(node.right) < 0) {
-          node.right = this.rotateRight(node.right);
-        }
-        return this.rotateLeft(node);
+          return this.rotateLeft(node);
       }
       if (this.balanceFactor(node) == -2) {
-        if (this.balanceFactor(node.left) < 0) {
-          node.left = this.rotateLeft(node.left);
-        }
-        return this.rotateRight(node);
+          return this.rotateRight(node);
       }
       return node;
     }

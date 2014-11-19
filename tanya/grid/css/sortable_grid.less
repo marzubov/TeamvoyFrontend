@@ -1,17 +1,17 @@
-@table-bg-header: #7F8C8D;
+@table-bg-header: #40859c;
 @table-border: #d1d3e1;
 @table-border-bottom: #9EA7AF;
-@table-bg-odd: #fff;
-@table-bg-even: #ECF0F1;
+@table-bg-odd: rgba(118, 187, 204, 0.41);
+@table-bg-even: rgba(207, 254, 252, 0.19);
 
-@button-bg: #ECF0F1;
-@button-bg-hover: #fff;
+@button-bg: rgba(207, 254, 252, 0.19);
+@button-bg-hover: rgba(118, 187, 204, 0.41);
 
-@page-bg-active: #7F8C8D;
-@page-bg: #ECF0F1;
+@page-bg-active: #40859c;
+@page-bg: rgba(118, 187, 204, 0.41);
 
 @checkbox-bg-checked: #1ABC9C;
-@checkbox-bg: #BDC3C7;
+@checkbox-bg: rgba(118, 187, 204, 0.41);
 
 @font-color-header: #D5DDE5;
 @font-color-body: #666B85;
@@ -32,7 +32,7 @@
 }
 
 .table {
-  max-width: 600px;
+  max-width: 1000px;
   clear: both;
 
   .table-header {
@@ -44,6 +44,7 @@
     font-family: 'PT Sans', sans-serif;
     font-weight: 100;
     padding: 20px;
+    width: 150px;
     text-shadow: 0 1px 1px rgba(0,0,0,0.1);
     border-right: 1px solid @table-border;
     -moz-border-right: 1px solid @table-border;
@@ -69,7 +70,7 @@
   }
 
   td {
-    width: 80px;
+    width: 150px;
     padding:15px;
     text-align:left;
     vertical-align:middle;
@@ -86,7 +87,7 @@
     color: @button-bg;
     top:0;
     left: 0;
-    background: #2e2e2e;
+    background: #145c7e;
     border: none;
     width: 100%;
     height: 10px;
@@ -124,7 +125,7 @@
     width: 23px;
     &.page-active, &:hover {
       background: @page-bg-active;
-      color: @page-bg;
+      color: #fff;
       font-weight: 600;
     }
   }
@@ -155,7 +156,7 @@
     position: absolute;
     left: 0;
     bottom: 1px;
-    background-color: #aaa;
+    background-color: @checkbox-bg;
     box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, .3), 0px 1px 0px 0px rgba(255, 255, 255, .8);
   }
   input[type='checkbox']:checked + label:before {
@@ -184,7 +185,7 @@
 
 .filterable{
     position: absolute;
-    left: 60px;
+    left: 120px;
     top: 23px;
     height: 20px;
     display: none;
