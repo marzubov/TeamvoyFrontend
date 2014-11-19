@@ -1,19 +1,20 @@
 ﻿(function (document, window) {
-  window.BinaryTree = function (data,parent) {
-    this.value = data;
+  'use strict';
+  var BinaryTree = window.BinaryTree = function (parent) {
+    BinaryTree.superclass.constructor.call(this);
     this.parent = parent;
-
+    this.height = 0;
     /**
      * Add array to the tree
      * @param dataArray
      */
-    this.addArray = function(dataArray){
-      console.log('add',dataArray);
-      var that=this;
-      dataArray.forEach(function(el){
-        that.add(el)
+    this.addArray = function (dataArray) {
+      console.log('add', dataArray);
+      var that = this;
+      dataArray.forEach(function (el) {
+        that.add(el);
       });
-      console.log('tree',this)
+      console.log('tree', this);
     };
 
     /**
@@ -34,14 +35,29 @@
      * @param value - value thats need to be added
      * @returns {window.BinaryTree} - returns added element
      */
-    this.add = function(value){
-       this.value ?
-        this.value > value ?
-          this.left ?
-            this.add.call(this.left,value) : this.left = new BinaryTree(value,this) :
-          this.right ?
-            this.add.call(this.right,value) : this.right = new BinaryTree(value,this) :
+    this.add = function (value) {
+      if (this.value) {
+        if (this.value > value) {
+          if (!this.left) {
+            this.left = new BinaryTree(this);
+            this.left.height = this.height + 1;
+          }
+          this.add.call(this.left, value);
+        } else {
+          if (!this.right) {
+            this.right = new BinaryTree(this);
+            this.right.height = this.height + 1;
+          }
+          this.add.call(this.right, value);
+        }
+      } else {
         this.value = value;
+        var root = this;
+        while (root.parent) {
+          root = root.parent;
+        }
+        root.trigger('add', [this]);
+      }
       return this;
     };
 
@@ -49,14 +65,15 @@
      * Sort values in tree and put it to the array
      * @returns {Array} - array with data
      */
-    this.toArray = function(){
-      var result=[];
+    this.toArray = function () {
+      var result = [];
       inorder(this);
       function inorder(tree) {
         tree.left && inorder(tree.left);
         result.push(tree.value);
         tree.right && inorder(tree.right);
       }
+
       return result;
     };
 
@@ -64,7 +81,7 @@
      * Finds min value in the tree
      * @returns {*} - element with value
      */
-    this.min = function(){
+    this.min = function () {
       return this.left ? this.min.call(this.left) : this;
     };
 
@@ -72,7 +89,7 @@
      * Finds max value in the tree
      * @returns {*} - returns element with value
      */
-    this.max = function(){
+    this.max = function () {
       return this.right ? this.max.call(this.right) : this;
     };
 
@@ -80,38 +97,39 @@
      * Removes element with value
      * @param value - value needs to be removed
      */
-    this.remove = function(value){
+    this.remove = function (value) {
       var tree = this.search(value);
-      if(!(tree.left && tree.right))
-        tree.parent.left.value == value ? tree.parent.left =undefined : tree.parent.right =undefined
-        else if(tree.left && !tree.right){
-        tree.parent.left= tree.left;
-        }
-        else if (!tree.left && tree.right) {
+      if (!(tree.left && tree.right))
+        tree.parent.left.value == value ? tree.parent.left = undefined : tree.parent.right = undefined;
+      else if (tree.left && !tree.right) {
+        tree.parent.left = tree.left;
+      }
+      else if (!tree.left && tree.right) {
         tree.parent.right = tree.right;
       }
-        else{
+      else {
         var successor = tree.successor();
         tree.right = successor.right;
         tree.value = successor.value;
-        }
-      };
+      }
+    };
 
     /**
      * Finds element that must be inserted if current tree would be removed ( min element from right tree )
      * @returns {*} - element with such value
      */
-    this.successor = function(){
-      if(this.right)
-      return this.right.min();
-      else{
-        var parent = this.parent, that=this;
-        while(!parent && that == parent.right){
+    this.successor = function () {
+      if (this.right)
+        return this.right.min();
+      else {
+        var parent = this.parent, that = this;
+        while (!parent && that == parent.right) {
           that = parent;
           parent = that.parent;
         }
-        return !parent? -1 : parent;
+        return !parent ? -1 : parent;
       }
     }
   };
+  BinaryTree.extend(EventMachine);
 })(document, window);
