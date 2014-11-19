@@ -2,18 +2,32 @@ var gulp = require('gulp'),
   gulpLoadPlugins = require('gulp-load-plugins'),
   plugins = gulpLoadPlugins(),
   path = {
-    scripts: ['**/*.js', '!library/vendor/**/*.js', '!node_modules/**/*.js', '!build/**/*.js', '!gulpfile.js'] // except vendor
+    scripts: ['**/*.js', '!library/vendor/**/*.js', '!node_modules/**/*.js', '!build/**/*.js', '!gulpfile.js'], // except vendor
+    scss: ['**/*.scss', '!library/vendor/**/*.scss', '!node_modules/**/*.scss'], // except vendor
+    less: ['**/*.less', '!library/vendor/**/*.less', '!node_modules/**/*.less'] // except vendor
   };
 
 gulp.task('default', ['watch', 'build']);
 
-gulp.task('build', ['compress', 'documentation', 'install']);
+gulp.task('build', ['compress', 'documentation', 'install', 'sassToCss']);
 
 gulp.task('compress', function () {
   gulp.src(path.scripts)
     .pipe(plugins.uglify())
     .pipe(plugins.concat('all.min.js'))
     .pipe(gulp.dest('build/js'));
+});
+
+gulp.task("sassToCss", function () {
+  gulp.src(path.scss)
+    .pipe(plugins.sass())
+    .pipe(gulp.dest('build/css'));
+});
+
+gulp.task("lessToCss", function () {
+  gulp.src(path.less)
+    .pipe(plugins.less())
+    .pipe(gulp.dest('build/css'));
 });
 
 gulp.task("documentation", function () {
@@ -25,7 +39,10 @@ gulp.task('install', function () {
   gulp.src(['./bower.json', './package.json'])
     .pipe(plugins.install());
 });
+
 // Rerun the task when a file changes
 gulp.task('watch', function () {
   gulp.watch(path.scripts, ['compress']);
+  gulp.watch(path.scss, ['sassToCss']);
+  gulp.watch(path.scss, ['lessToCss']);
 });
