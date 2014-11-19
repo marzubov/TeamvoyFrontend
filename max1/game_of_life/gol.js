@@ -1,7 +1,7 @@
 (function (global, document) {
   "use strict";
   global.GOL = function GOL(canvas, grid) {
-    //EventMachine.call(this);
+    EventMachine.call(this);
     this.canvas = canvas;
     this.grid = grid;
     this.size = {xLenght: 100,
@@ -65,6 +65,7 @@
             }
           });
           that.showUniverse();
+          that.trigger('dataChanged', [that.universe]);
         }
       }
     };
@@ -81,6 +82,7 @@
         }
       }
     });
+    that.trigger('dataChanged', [that.universe]);
     that.showUniverse();
   };
   GOL.prototype.createCells = function (length1, length2) {
@@ -104,8 +106,10 @@
   };
 
   GOL.prototype.clearUniverse = function clearUniverse(config) {
+    var that = this;
     this.universe = this.createArray(config.length1, config.length2);
     this.showUniverse();
+    that.trigger('dataChanged', [that.universe]);
   };
 
   GOL.prototype.nextGen = function nextGen() {
@@ -127,6 +131,7 @@
       });
     });
     this.showUniverse();
+    //that.trigger('data changed', [that.universe]);
     return this.universe;
   };
   GOL.prototype.checkNeighbours = function checkNeighbours(x, y) {
@@ -175,9 +180,11 @@
     };
 
     GOL.prototype.stopInterval = function stopInterval() {
+      var that = this;
       if (this.intervalID) {
         clearInterval(this.intervalID);
         this.intervalID = null;
+        that.trigger('dataChanged', [that.universe]);
       }
     };
     return this.universe;
