@@ -1,6 +1,12 @@
 ﻿(function (document, window) {
   'use strict';
-  var BinaryTree = window.BinaryTree = function (parent) {
+
+  /**
+   * Creates binary search tree.
+   * @param parent {window.BinaryTree} - the parent tree
+   * @constructor
+   */
+  window.BinaryTree = function (parent) {
     BinaryTree.superclass.constructor.call(this);
     this.parent = parent;
     this.height = 0;
@@ -23,8 +29,7 @@
      * @returns {window.BinaryTree} - subtree with value
      */
     this.search = function (value) {
-      console.log('search counter');
-      return value == this.value ?
+      return value === this.value ?
         this : value > this.value ?
         this.right ? this.right.search(value) : null :
         this.left ? this.left.search(value) : null;
@@ -32,7 +37,7 @@
 
     /**
      * Add one subtree with value to the tree
-     * @param value - value thats need to be added
+     * @param value - value that is need to be added
      * @returns {window.BinaryTree} - returns added element
      */
     this.add = function (value) {
@@ -40,13 +45,13 @@
         if (this.value > value) {
           if (!this.left) {
             this.left = new BinaryTree(this);
-            this.left.height = this.height + 1;
+            this.height += 1;
           }
           this.add.call(this.left, value);
         } else {
           if (!this.right) {
             this.right = new BinaryTree(this);
-            this.right.height = this.height + 1;
+            this.height += 1;
           }
           this.add.call(this.right, value);
         }
@@ -99,15 +104,13 @@
      */
     this.remove = function (value) {
       var tree = this.search(value);
-      if (!(tree.left && tree.right))
+      if (!(tree.left && tree.right)) {
         tree.parent.left.value == value ? tree.parent.left = undefined : tree.parent.right = undefined;
-      else if (tree.left && !tree.right) {
+      } else if (tree.left && !tree.right) {
         tree.parent.left = tree.left;
-      }
-      else if (!tree.left && tree.right) {
+      } else if (!tree.left && tree.right) {
         tree.parent.right = tree.right;
-      }
-      else {
+      } else {
         var successor = tree.successor();
         tree.right = successor.right;
         tree.value = successor.value;
@@ -131,5 +134,6 @@
       }
     }
   };
+
   BinaryTree.extend(EventMachine);
 })(document, window);
