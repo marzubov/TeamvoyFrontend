@@ -1,0 +1,112 @@
+body{
+  line-height: 0;
+}
+.cell{
+  display: inline-block;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  outline: none;
+  border: 1px solid #d3d3d3 ;
+}
+.active{
+  background: #3498db;
+}
+.inactive{
+  background: #ecf0f1;
+}
+button{
+  position: relative;
+  top: 100px;
+  /*margin: 5px;*/
+  /*padding: 5px;*/
+  /*background: #bdc3c7;*/
+  border: none;
+  background: #26ae90;
+  width: 100px;
+  border-radius: 3px;
+  padding: 8px 10px 10px 10px;
+  color: #FFF;
+  line-height:20px;
+  font-size:12px;
+  text-align:center;
+  -webkit-font-smoothing: antialiased;
+  cursor: pointer;
+  margin:10px ;
+  /*outline: none;*/
+}
+select{
+  position: relative;
+  top: 100px;
+}
+.message {
+  background:#181818;
+  color:#FFF;
+  width:100%;
+  position: absolute;
+  top: -300px;
+  left: 0;
+  height: 300px;
+  padding: 20px;
+  transition: top 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  overflow: hidden;
+  box-sizing: border-box;
+
+}
+#toggle {
+  position:absolute;
+  appearance:none;
+  cursor:pointer;
+  left:-100%;
+  top:-100%;
+}
+
+#toggle + label {
+  position:absolute;
+  cursor:pointer;
+  background: #26ae90;
+  width: 100px;
+  border-radius: 3px;
+  padding: 8px 10px 10px 10px;
+  color: #FFF;
+  line-height:20px;
+  font-size:12px;
+  text-align:center;
+  -webkit-font-smoothing: antialiased;
+  cursor: pointer;
+  margin:20px 50px;
+  transition:all 500ms ease;
+}
+.container {
+  top: 100px;
+  position: relative;
+  transition: margin 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
+}
+#toggle + label:after {
+  content:"Edit array"
+}
+#toggle:checked ~ .message {
+  top: 0;
+}
+
+#toggle:checked ~ .container {
+  margin-top: 300px;
+}
+
+#toggle:checked + label {
+  background:#dd6149;
+}
+
+#toggle:checked + label:after {
+  content:"Close";
+}
+
+#patternText{
+  background: transparent;
+  border: none;
+  color:#FFF;
+  position: relative;
+}
+
+#change{
+  top: 0;
+}
