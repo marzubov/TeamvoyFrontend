@@ -2,14 +2,14 @@ var gulp = require('gulp'),
   gulpLoadPlugins = require('gulp-load-plugins'),
   plugins = gulpLoadPlugins(),
   path = {
-    scripts: ['**/*.js', '!library/vendor/**/*.js', '!node_modules/**/*.js', '!build/**/*.js', '!gulpfile.js'], // except vendor
+    scripts: ['**/*.js', '!library/vendor/**/*.js', '!node_modules/**/*.js', '!build/**/*.js', '!gulpfile.js', '!gruntfile.js'], // except vendor
     scss: ['**/*.scss', '!library/vendor/**/*.scss', '!node_modules/**/*.scss'], // except vendor
     less: ['**/*.less', '!library/vendor/**/*.less', '!node_modules/**/*.less'] // except vendor
   };
 
 gulp.task('default', ['watch', 'build']);
 
-gulp.task('build', ['compress', 'documentation', 'install', 'sassToCss']);
+gulp.task('build', ['install', 'compress', 'documentation', 'sassToCss']);
 
 gulp.task('compress', function () {
   gulp.src(path.scripts)
