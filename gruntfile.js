@@ -95,7 +95,6 @@ module.exports = function(grunt) {
   // Default task(s).
   grunt.registerTask('build', ['sass', 'less', 'uglify', 'jsdoc']);
 
-  grunt.registerTask('default', ['npm-install', 'install-dependencies', 'bowerInstall', 'bower'
-    ,'checkDependencies', "watch", 'build']);
+  grunt.registerTask('default', ['install-dependencies', 'bowerInstall', 'bower', 'checkDependencies', "watch", 'build']);
 
 };
