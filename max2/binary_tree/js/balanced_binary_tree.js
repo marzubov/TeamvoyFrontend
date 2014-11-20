@@ -1,11 +1,16 @@
 (function (document, window) {
+  'use strict';
+  /**
+   * Binary tree with self balance.
+   * @constructor
+   */
   window.BalancedBinaryTree = function () {
     var that = this;
     BalancedBinaryTree.superclass.constructor.call(this);
 
     this.perfectBalance = function () {
-      var array = this.toArray();
-      var result = [];
+      var array = this.toArray(),
+        result = [];
 
       //recoursiv call
       function findRoot(dataArray) {
@@ -19,13 +24,11 @@
           });
         }
       }
-
       findRoot(array);
-
       console.log(result);
     };
     // Self reBalance
-    this.on('add', function (el) {
+    this.on('add', function () {
       that.perfectBalance();
       console.log('height', that.height);
     });
