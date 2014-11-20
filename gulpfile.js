@@ -2,7 +2,7 @@ var gulp = require('gulp'),
   gulpLoadPlugins = require('gulp-load-plugins'),
   plugins = gulpLoadPlugins(),
   path = {
-    scripts: ['**/*.js', '!library/vendor/**/*.js', '!node_modules/**/*.js', '!build/**/*.js', '!gulpfile.js', '!gruntfile.js'], // except vendor
+    scripts: ['**/*.js', '!library/vendor/**/*.js', '!node_modules/**/*.js', '!build/**/*.js', '!gulpfile.js'], // except vendor
     scss: ['**/*.scss', '!library/vendor/**/*.scss', '!node_modules/**/*.scss'], // except vendor
     less: ['**/*.less', '!library/vendor/**/*.less', '!node_modules/**/*.less'] // except vendor
   };
