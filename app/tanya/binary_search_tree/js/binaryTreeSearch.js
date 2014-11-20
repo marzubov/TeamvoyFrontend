@@ -145,19 +145,19 @@
        * @returns {object} - new tree
        */
       function addWithBalancing(node, side) {
-        if (this.parent(node.value)) {
-          var parentNode = this.parent(node.value);
+        if (_this.parent(node.value)) {
+          var parentNode = _this.parent(node.value);
           var resultNode = balance(parentNode);
-          parentNode = this.parent(parentNode.value);
+          parentNode = _this.parent(parentNode.value);
           if (parentNode == null) {
-            this.root = resultNode;
+            _this.root = resultNode;
           } else if (side == "left") {
             parentNode.left = resultNode;
           } else {
             parentNode.right = resultNode;
           }
         }
-        return this.root;
+        return _this.root;
       }
 
       /** ----------------------------------------
