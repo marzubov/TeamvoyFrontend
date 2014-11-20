@@ -136,7 +136,6 @@
   EventCalendar.prototype.showEvents = function (date) {
     var selectedDay,
       events = this.getDayEvents(date);
-    console.log(events);
     Array.prototype.slice.call(this.getRoot().querySelector('.calendar-body').childNodes)
       .some(function (day) {
         if (date === day.date) {
