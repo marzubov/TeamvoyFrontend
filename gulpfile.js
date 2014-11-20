@@ -7,7 +7,7 @@ var gulp = require('gulp'),
     less: ['**/*.less', '!library/vendor/**/*.less', '!node_modules/**/*.less'] // except vendor
   };
 
-gulp.task('default', ['watch', 'build']);
+gulp.task('default', ['build', 'watch']);
 
 gulp.task('build', ['install', 'compress', 'documentation', 'sassToCss']);
 
@@ -44,5 +44,5 @@ gulp.task('install', function () {
 gulp.task('watch', function () {
   gulp.watch(path.scripts, ['compress']);
   gulp.watch(path.scss, ['sassToCss']);
-  gulp.watch(path.scss, ['lessToCss']);
+  gulp.watch(path.less, ['lessToCss']);
 });

@@ -37,7 +37,7 @@
 
     /**
      * Add one subtree with value to the tree
-     * @param value - value thats need to be added
+     * @param value - value that is need to be added
      * @returns {window.BinaryTree} - returns added element
      */
     this.add = function (value) {
