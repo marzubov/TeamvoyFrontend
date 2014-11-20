@@ -1,3 +1,14 @@
+# Development install
+
+## bower
+
+TODO
+
+## gulp
+npm install --global gulp
+npm install --save-dev gulp
+[install gulp](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md#getting-started)
+
 # Links to resources.
 
 ## Calendar 
