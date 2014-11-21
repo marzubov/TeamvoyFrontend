@@ -67,10 +67,10 @@ gulp.task('serve', function () {
     root: '.temp'
   });
 });
-
+var deploy = require('gulp-gh-pages');
 gulp.task('deploy', function () {
     return gulp.src('./dist/**/*')
-        .pipe(plugins.deploy());
+        .pipe(deploy());
 });
 
 // Rerun the task when a file changes
