@@ -4,6 +4,7 @@ var gulp = require('gulp'),
   path = {
     html: ['app/**/*.html'],
     scripts: ['app/**/*.js'],
+    library: ['library/**/*.js'],
     scss: ['app/**/*.scss'],
     less: ['app/**/*.less']
   };
@@ -22,6 +23,8 @@ gulp.task('compress', function () {
 gulp.task('copyJS', function () {
   gulp.src(path.scripts)
     .pipe(gulp.dest('.temp'));
+  gulp.src(path.library)
+    .pipe(gulp.dest('.temp/library'));
 });
 
 gulp.task('copyHTML', function () {
@@ -53,7 +56,7 @@ gulp.task('install', function () {
 
 gulp.task('serve', function () {
   plugins.connect.server({
-    port: 4000,
+    port: 9000,
     root: '.temp'
   });
 });
