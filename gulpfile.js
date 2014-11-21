@@ -2,14 +2,15 @@ var gulp = require('gulp'),
   gulpLoadPlugins = require('gulp-load-plugins'),
   plugins = gulpLoadPlugins(),
   path = {
-    scripts: ['**/*.js', '!library/vendor/**/*.js', '!node_modules/**/*.js', '!build/**/*.js', '!gulpfile.js', '!gruntfile.js'], // except vendor
-    scss: ['**/*.scss', '!library/vendor/**/*.scss', '!node_modules/**/*.scss'], // except vendor
-    less: ['**/*.less', '!library/vendor/**/*.less', '!node_modules/**/*.less'] // except vendor
+    html: ['app/**/*.html'],
+    scripts: ['app/**/*.js'],
+    scss: ['app/**/*.scss', '!app/library/**/*.scss'],
+    less: ['app/**/*.less', '!app/library/**/*.less']
   };
 
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', ['build', 'serve', 'watch']);
 
-gulp.task('build', ['install', 'compress', 'documentation', 'sassToCss']);
+gulp.task('build', ['install', 'copyJS', 'copyHTML', 'sassToCSS', 'lessToCSS']);
 
 gulp.task('compress', function () {
   gulp.src(path.scripts)
@@ -18,16 +19,36 @@ gulp.task('compress', function () {
     .pipe(gulp.dest('build/js'));
 });
 
-gulp.task("sassToCss", function () {
-  gulp.src(path.scss)
-    .pipe(plugins.sass())
-    .pipe(gulp.dest('build/css'));
+gulp.task('copyJS', function () {
+  gulp.src(path.scripts)
+    .pipe(gulp.dest('.temp'));
 });
 
-gulp.task("lessToCss", function () {
+gulp.task('copyHTML', function () {
+  gulp.src(path.html)
+    .pipe(gulp.dest('.temp'));
+});
+
+gulp.task("sassToCSS", function () {
+  var s = plugins.sass({});
+  s.on('error', function (e) {
+    console.log(e);
+    s.end();
+  });
+  gulp.src(path.scss)
+    .pipe(s)
+    .pipe(gulp.dest('.temp'));
+});
+
+gulp.task("lessToCSS", function () {
+  var l = plugins.less({});
+  l.on('error', function (e) {
+    console.log(e);
+    l.end();
+  });
   gulp.src(path.less)
-    .pipe(plugins.less())
-    .pipe(gulp.dest('build/css'));
+    .pipe(l)
+    .pipe(gulp.dest('.temp'));
 });
 
 gulp.task("documentation", function () {
@@ -40,9 +61,17 @@ gulp.task('install', function () {
     .pipe(plugins.install());
 });
 
+gulp.task('serve', function () {
+  plugins.connect.server({
+    port: 9000,
+    root: '.temp'
+  });
+});
+
 // Rerun the task when a file changes
 gulp.task('watch', function () {
-  gulp.watch(path.scripts, ['compress']);
-  gulp.watch(path.scss, ['sassToCss']);
-  gulp.watch(path.less, ['lessToCss']);
+  gulp.watch(path.scripts, ['copyJS']);
+  gulp.watch(path.html, ['copyHTML']);
+  gulp.watch(path.scss, ['sassToCSS']);
+  gulp.watch(path.less, ['lessToCSS']);
 });
