@@ -69,7 +69,7 @@ gulp.task('serve', function () {
 });
 var deploy = require('gulp-gh-pages');
 gulp.task('deploy', function () {
-    return gulp.src('./app/**/*')
+    return gulp.src('./dist/**/*')
         .pipe(deploy());
 });
 
