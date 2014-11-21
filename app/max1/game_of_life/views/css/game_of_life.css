@@ -1,3 +1,4 @@
+@import url(slider.css);
 body {
   line-height: 0; }
 
@@ -74,7 +75,13 @@ body {
   margin: 10px;
   /*outline: none;*/ }
 
-select {
+#speed {
+  position: relative;
+  top: 100px;
+  background: #26ae90;
+  cursor: pointer; }
+
+#current-speed {
   position: relative;
   top: 100px; }
 

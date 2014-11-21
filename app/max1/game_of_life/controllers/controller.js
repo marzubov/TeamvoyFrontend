@@ -34,9 +34,19 @@
     });
   document.getElementById("run")
     .addEventListener('click', function () {
-      var speed = document.getElementById('speed')
-        .options[document.getElementById('speed').selectedIndex].value;
+      var speed = document.getElementById('speed').value;
       if (!intervalID) {
+        intervalID = setInterval(function () {
+          firstGOLModel.nextGeneration.call(firstGOLModel);
+        }, speed);
+      }
+    });
+  document.getElementById('speed')
+    .addEventListener('change', function (){
+      var speed = document.getElementById('speed').value;
+      document.getElementById('current-speed').innerHTML = speed;
+      if (intervalID) {
+        stopInterval();
         intervalID = setInterval(function () {
           firstGOLModel.nextGeneration.call(firstGOLModel);
         }, speed);

@@ -24,23 +24,8 @@
   <button id = "step" class = "primary-button">STEP</button>
 <button id = "run" class = "primary-button">RUN</button>
 <button id = "stop" class = "primary-button">STOP</button>
-<select id="speed">
-  <option value="1">
-    1
-  </option>
-  <option value="10">
-    10
-  </option>
-  <option value="100">
-    100
-  </option>
-  <option value="1000">
-    1000
-  </option>
-  <option value="10000">
-    10000
-  </option>
-</select>
+  <input id="speed" type="range"  min="1" max="1000" value="1"/>
+  <span id="current-speed">1</span>
 </div>
 <div>
   <button id = "random" class = "default-button">RANDOM</button>
