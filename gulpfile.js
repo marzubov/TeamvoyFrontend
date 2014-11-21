@@ -65,6 +65,6 @@ gulp.task('serve', function () {
 gulp.task('watch', function () {
   gulp.watch(path.html, ['copyJS']);
   gulp.watch(path.html, ['copyHTML']);
-  gulp.watch(path.scss, ['sassToCss']);
-  gulp.watch(path.less, ['lessToCss']);
+  gulp.watch(path.scss, ['sassToCSS']);
+  gulp.watch(path.less, ['lessToCSS']);
 });
