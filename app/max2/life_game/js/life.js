@@ -1,6 +1,6 @@
 (function (document, window) {
   "use strict";
-  var columns = 70, rows = 70;
+  var columns = 40, rows = 40;
   window.Life = function (container) {
     var intervalThread,
       liveCells = [],
