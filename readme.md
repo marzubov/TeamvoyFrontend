@@ -1,4 +1,5 @@
-# Development install
+# Development installed ok
+need few checks 
 
 ## bower
 
