@@ -14,6 +14,7 @@
 
   GOL.prototype.setCells = function setCells(size, data) {
     var that = this;
+    that.liveCells = [];
     this.size = {
       xLength: size.xLength,
       yLength: size.yLength
@@ -25,34 +26,13 @@
             return 0;
           });
       });
-    if (typeof data === 'string') {
-      data.split("\n").forEach(function (el) {
-        if (el) {
-          var coordinates = el.split(" ");
-          if ((parseFloat(coordinates[0]) + that.size.xLength / 2) && (parseFloat(coordinates[1]) + that.size.yLength / 2)) {
-            that.liveCells.push({
-              x: parseFloat(coordinates[1]) + that.size.yLength / 2,
-              y: parseFloat(coordinates[0]) + that.size.xLength / 2
-            });
-            that.cells[parseFloat(coordinates[1]) + that.size.yLength / 2][parseFloat(coordinates[0]) + that.size.xLength / 2] = 1;
-          }
-        }
-      });
-    } else {
-      this.liveCells = data;
-      this.liveCells.forEach(function (el) {
-        if (el) {
-          var coordinates = el.split(" ");
-          if ((parseFloat(coordinates[0] + that.size.xLength)) && (parseFloat(coordinates[1] + that.size.yLength))) {
-            that.liveCells.push({
-              x: parseFloat(coordinates[1] + that.size.yLength),
-              y: parseFloat(coordinates[0] + that.size.xLength)
-            });
-            that.cells[parseFloat(coordinates[1]) + that.size.yLength / 2][parseFloat(coordinates[0]) + that.size.xLength / 2] = 1;
-          }
-        }
-      });
-    }
+    this.liveCells = data;
+    this.liveCells.forEach(function (liveCell) {
+      if (!liveCell) {
+        return false;
+      }
+      that.cells[liveCell[1] + that.size.yLength / 2][liveCell[0] + that.size.xLength / 2] = 1;
+    });
     that.trigger('dataChanged', [that.liveCells]);
     return this;
   };
@@ -67,13 +47,11 @@
           if ((aliveNeighboursCount !== 2) && (aliveNeighboursCount !== 3)) {
             return 0;
           }
-          that.liveCells.push({
-            x: parseFloat(i),
-            y: parseFloat(j)
-          });
+          that.liveCells.push([j - that.size.yLength / 2, i - that.size.xLength / 2]);
           return 1;
         }
         if (aliveNeighboursCount === 3) {
+          that.liveCells.push([j - that.size.yLength / 2, i - that.size.xLength / 2]);
           return 1;
         }
         return 0;
@@ -85,7 +63,8 @@
 
   GOL.prototype.checkNeighbours = function checkNeighbours(x, y) {
     var i,
-      neighbours = [[x - 1, y - 1], [x, y - 1], [x + 1, y - 1], [x - 1, y], [x + 1, y], [x - 1, y + 1], [x, y + 1], [x + 1, y + 1]],
+      neighbours = [[x - 1, y - 1], [x, y - 1], [x + 1, y - 1], [x - 1, y],
+        [x + 1, y], [x - 1, y + 1], [x, y + 1], [x + 1, y + 1]],
       aliveNeighboursCount = 0;
     for (i = 0; i < 8; i = i + 1) {
       if (this.cells[neighbours[i][0]]) {
