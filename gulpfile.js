@@ -1,6 +1,5 @@
 var gulp = require('gulp'),
   gulpLoadPlugins = require('gulp-load-plugins'),
-  deploy = require('gulp-gh-pages'),
   plugins = gulpLoadPlugins(),
   path = {
     html: ['app/**/*.html'],
@@ -8,11 +7,6 @@ var gulp = require('gulp'),
     scss: ['app/**/*.scss', '!app/library/**/*.scss'],
     less: ['app/**/*.less', '!app/library/**/*.less']
   };
-
-gulp.task('deploy', function () {
-    return gulp.src('./dist/**/*')
-        .pipe(deploy(options));
-});
 
 gulp.task('default', ['build', 'serve', 'watch']);
 
@@ -72,6 +66,11 @@ gulp.task('serve', function () {
     port: 9000,
     root: '.temp'
   });
+});
+
+gulp.task('deploy', function () {
+    return gulp.src('./dist/**/*')
+        .pipe(plugins.deploy(options));
 });
 
 // Rerun the task when a file changes
