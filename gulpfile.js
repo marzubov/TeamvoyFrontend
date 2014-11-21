@@ -4,9 +4,8 @@ var gulp = require('gulp'),
   path = {
     html: ['app/**/*.html'],
     scripts: ['app/**/*.js'],
-    library: ['library/**/*.js'],
-    scss: ['app/**/*.scss'],
-    less: ['app/**/*.less']
+    scss: ['app/**/*.scss', '!app/library/**/*.scss'],
+    less: ['app/**/*.less', '!app/library/**/*.less']
   };
 
 gulp.task('default', ['build', 'serve', 'watch']);
@@ -23,8 +22,6 @@ gulp.task('compress', function () {
 gulp.task('copyJS', function () {
   gulp.src(path.scripts)
     .pipe(gulp.dest('.temp'));
-  gulp.src(path.library)
-    .pipe(gulp.dest('.temp/library'));
 });
 
 gulp.task('copyHTML', function () {
@@ -33,14 +30,24 @@ gulp.task('copyHTML', function () {
 });
 
 gulp.task("sassToCSS", function () {
+  var s = plugins.sass({});
+  s.on('error', function (e) {
+    console.log(e);
+    s.end();
+  });
   gulp.src(path.scss)
-    .pipe(plugins.sass())
+    .pipe(s)
     .pipe(gulp.dest('.temp'));
 });
 
 gulp.task("lessToCSS", function () {
+  var l = plugins.less({});
+  l.on('error', function (e) {
+    console.log(e);
+    l.end();
+  });
   gulp.src(path.less)
-    .pipe(plugins.less())
+    .pipe(l)
     .pipe(gulp.dest('.temp'));
 });
 
@@ -63,7 +70,7 @@ gulp.task('serve', function () {
 
 // Rerun the task when a file changes
 gulp.task('watch', function () {
-  gulp.watch(path.html, ['copyJS']);
+  gulp.watch(path.scripts, ['copyJS']);
   gulp.watch(path.html, ['copyHTML']);
   gulp.watch(path.scss, ['sassToCSS']);
   gulp.watch(path.less, ['lessToCSS']);
