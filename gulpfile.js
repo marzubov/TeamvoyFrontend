@@ -70,7 +70,7 @@ gulp.task('serve', function () {
 
 gulp.task('deploy', function () {
     return gulp.src('./dist/**/*')
-        .pipe(plugins.deploy(options));
+        .pipe(plugins.deploy());
 });
 
 // Rerun the task when a file changes
