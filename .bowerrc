@@ -1,4 +1,4 @@
 {
-  "directory": "library/vendor/",
+  "directory": "app/library/vendor/",
   "analytics": true
 }
