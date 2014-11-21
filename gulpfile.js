@@ -21,7 +21,7 @@ gulp.task('compress', function () {
 gulp.task("sassToCss", function () {
   gulp.src(path.scss)
     .pipe(plugins.sass())
-    .pipe(gulp.dest('build/css'));
+    .pipe(gulp.dest('.temp/css'));
 });
 
 gulp.task("lessToCss", function () {
@@ -42,7 +42,6 @@ gulp.task('install', function () {
 
 // Rerun the task when a file changes
 gulp.task('watch', function () {
-  gulp.watch(path.scripts, ['compress']);
   gulp.watch(path.scss, ['sassToCss']);
   gulp.watch(path.less, ['lessToCss']);
 });
