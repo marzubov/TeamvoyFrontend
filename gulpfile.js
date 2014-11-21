@@ -7,6 +7,12 @@ var gulp = require('gulp'),
     scss: ['app/**/*.scss', '!app/library/**/*.scss'],
     less: ['app/**/*.less', '!app/library/**/*.less']
   };
+var deploy = require('gulp-gh-pages');
+
+gulp.task('deploy', function () {
+    return gulp.src('./dist/**/*')
+        .pipe(deploy(options));
+});
 
 gulp.task('default', ['build', 'serve', 'watch']);
 
