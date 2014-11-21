@@ -4,8 +4,7 @@ body {
 
 @font-face {
   font-family: Neris;
-  src: url("../../../app/design/white_stripes_ui_kit/Neris/neris-thin.ttf") format("truetype");
-}
+  src: url("../../../design/white_stripes_ui_kit/Neris/neris-thin.ttf") format("truetype"); }
 .calendar {
   width: 100%;
   top: -15px;
