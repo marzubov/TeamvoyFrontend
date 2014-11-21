@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <title></title>
   <script type="text/javascript" src="../../../library/event_machine.js"></script>
-  <script type="text/javascript" src="../model/model.js"></script>
-  <link rel="stylesheet" href="../../../html_codding/reset.css"/>
+  <!--<link rel="stylesheet" href="../../../html_codding/reset.css"/>-->
   <link rel="stylesheet" href="css/game_of_life.css"/>
 </head>
 <body>
@@ -19,11 +18,12 @@
     You can also copy ready sample from here http://www.conwaylife.com/patterns/bigun_106.lif
     Or search for samples here http://www.conwaylife.com/wiki/Main_Page
   </textarea>
-  <button id="change">Change</button>
+  <button id="change" class = "success-button">Change</button>
 </div>
-<div><button id = "step">STEP</button>
-<button id = "run">RUN</button>
-<button id = "stop">STOP</button>
+<div>
+  <button id = "step" class = "primary-button">STEP</button>
+<button id = "run" class = "primary-button">RUN</button>
+<button id = "stop" class = "primary-button">STOP</button>
 <select id="speed">
   <option value="1">
     1
@@ -42,13 +42,15 @@
   </option>
 </select>
 </div>
-<div style="display: none">
-  <button id = "random">RANDOM</button>
-  <button id = "gun">GUN</button>
-  <button id = "clear">CLEAR</button>
+<div>
+  <button id = "random" class = "default-button">RANDOM</button>
+  <!--<button id = "gun" class = "default-button">GUN</button>-->
+  <button id = "clear" class = "default-button">CLEAR</button>
 </div>
 
 </body>
-<script type="text/javascript" src="view.js"></script>
-<script type="text/javascript" src="../controller/controller.js"></script>
+<script type="text/javascript" src="js/view.js"></script>
+<script type="text/javascript" src="../models/game_of_life.js"></script>
+<script type="text/javascript" src="../models/model.js"></script>
+<script type="text/javascript" src="../controllers/controller.js"></script>
 </html>

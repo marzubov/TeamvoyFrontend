@@ -4,6 +4,7 @@
     this.grid = container;
     return this;
   };
+
   GOLView.prototype.createCells = function (xLength, yLength) {
     var i, j,
       frag = document.createDocumentFragment(),
@@ -24,6 +25,7 @@
     this.grid.appendChild(frag);
     return this;
   };
+
   GOLView.prototype.renderCells = function renderCells(cells) {
     var that = this;
     cells.forEach(function (row, i) {
@@ -40,6 +42,18 @@
         }
       });
     });
+    return this;
+  };
+
+  GOLView.prototype.renderData = function renderData(liveCells, size) {
+    var that = this,
+      patternText = '';
+    console.log(liveCells);
+    liveCells.forEach(function (liveCell) {
+      if (!liveCell) return false;
+         patternText += liveCell[0] + ' ' + liveCell[1] + '\n';
+      });
+    document.getElementById('patternText').value = patternText;
     return this;
   };
 })(window, document);
