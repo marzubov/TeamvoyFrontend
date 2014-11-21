@@ -1,5 +1,6 @@
 var gulp = require('gulp'),
   gulpLoadPlugins = require('gulp-load-plugins'),
+  deploy = require('gulp-gh-pages'),
   plugins = gulpLoadPlugins(),
   path = {
     html: ['app/**/*.html'],
@@ -7,7 +8,6 @@ var gulp = require('gulp'),
     scss: ['app/**/*.scss', '!app/library/**/*.scss'],
     less: ['app/**/*.less', '!app/library/**/*.less']
   };
-var deploy = require('gulp-gh-pages');
 
 gulp.task('deploy', function () {
     return gulp.src('./dist/**/*')
