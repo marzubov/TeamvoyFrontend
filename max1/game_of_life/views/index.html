@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+  <script type="text/javascript" src="../../../library/event_machine.js"></script>
+  <link rel="stylesheet" href="../../../design/css/reset.css"/>
+  <link rel="stylesheet" href="css/game_of_life.css"/>
+</head>
+<body>
+<input type="checkbox" name="toggle" id="toggle" />
+<label for="toggle"></label>
+
+<div id="firstGrid" class="container" style="width:800px; height:500px; border:1px solid #d3d3d3;"></div>
+<div class="message">
+  <textarea id="patternText" style=" width:100%;height:200px; overflow: auto; display: block;" >
+    Click to edit data.
+    You can also copy ready sample from here http://www.conwaylife.com/patterns/bigun_106.lif
+    Or search for samples here http://www.conwaylife.com/wiki/Main_Page
+  </textarea>
+  <button id="change" class = "success-button">Change</button>
+</div>
+<div>
+  <button id = "step" class = "primary-button">STEP</button>
+<button id = "run" class = "primary-button">RUN</button>
+<button id = "stop" class = "primary-button">STOP</button>
+  <input id="speed" type="range"  min="1" max="1000" value="1"/>
+  <span id="current-speed">1</span>
+</div>
+<div>
+  <button id = "random" class = "default-button">RANDOM</button>
+  <!--<button id = "gun" class = "default-button">GUN</button>-->
+  <button id = "clear" class = "default-button">CLEAR</button>
+</div>
+
+</body>
+<script type="text/javascript" src="js/view.js"></script>
+<script type="text/javascript" src="../models/game_of_life.js"></script>
+<script type="text/javascript" src="../models/model.js"></script>
+<script type="text/javascript" src="../controllers/controller.js"></script>
+</html>

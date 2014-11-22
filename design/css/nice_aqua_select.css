@@ -1,0 +1,24 @@
+.custom-select {
+}
+.custom-select .alert{
+  color: #e74c3c;
+  border-color: #c0392b;
+}
+.custom-select .options .option .highlighted {
+  color: #000 !important;
+}
+.custom-select .options .hover{
+  background-color: #98B6C5 !important;
+  color: #106879;
+}
+.custom-select .options .option{
+  padding: 8px 20px;
+  background-color: transparent;
+}
+.custom-select .wrapper,
+.custom-select .selector{
+  background-color: transparent;
+  border: 3px solid #ffffff;
+  padding: 5px 8px;
+  min-height: 34px;
+}
