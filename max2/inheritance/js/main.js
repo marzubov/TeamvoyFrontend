@@ -1,4 +1,4 @@
-﻿var dog = new Dog('Beethoven');
+var dog = new Dog('Beethoven');
 var cat = new Cat('Vivaldi');
 var snake = new Snake('Chaykovsky');
 var unicorn = new Unicorn('Charlie');

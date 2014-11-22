@@ -265,7 +265,7 @@ function Draggable(grid) {
     }
     if (countWithTemplates == 1) {
       if (whatColumn == firstCol) { grid.config.columnTemplates.renameProperty(firstCol, secondCol); }
-      else { grid.config.columnTemplates.renameProperty(secondCol, firstCol); }
+      else { grid.config.columnTemplates.renameProperty(getKeyByIndexColumn(secondCol), gfirstCol); }
     }
     //console.log(config.columnTemplates);
     //console.log(dataObject);

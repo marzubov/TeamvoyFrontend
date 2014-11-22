@@ -1,10 +1,11 @@
 (function (document, window) {
   "use strict";
-  var columns = 60, rows = 60;
+  var columns = 40, rows = 40;
   window.Life = function (container) {
     var intervalThread,
       liveCells = [],
-      that = this;
+      that = this,
+      addNeighbours = markNeighbours;
     this.speed = 10;
     this.color = '#bdc3c7';
     this.clear = function () {
@@ -16,7 +17,10 @@
       });
       return this;
     };
-
+    this.activateInfinityField = function () {
+      this.clear();
+      addNeighbours = experimentalInfiniteField;
+    };
     this.randomLife = function () {
       Array.prototype.slice.call(container.childNodes).forEach(function (el) {
         if (Math.random() > 0.6) {
@@ -35,6 +39,9 @@
     };
 
     this.start = function () {
+      if (intervalThread) {
+        clearInterval(intervalThread);
+      }
       intervalThread = setInterval(this.nextGeneration, 1000 / this.speed);
       return this;
     };
@@ -52,7 +59,7 @@
       Array.prototype.slice.call(container.childNodes).forEach(function (el) {
         el.neighbours = 0;
       });
-      markNeighbours();
+      addNeighbours();
       evolve();
       return this;
     };
@@ -82,22 +89,49 @@
       });
     }
 
-    function markNeighbours() {
+    function experimentalInfiniteField() {
       liveCells.forEach(function (el) {
-        addNeighbour(container.childNodes[el.index + 1], el);
-        addNeighbour(container.childNodes[el.index - 1], el);
-
-        addNeighbour(container.childNodes[el.index - columns], el);
-        addNeighbour(container.childNodes[el.index - columns - 1], el);
-        addNeighbour(container.childNodes[el.index - columns + 1], el);
-
-        addNeighbour(container.childNodes[el.index + columns], el);
-        addNeighbour(container.childNodes[el.index + columns - 1], el);
-        addNeighbour(container.childNodes[el.index + columns + 1], el);
+        var neighbours = {
+            up: el.index - columns < 0 ? rows * (columns - 1) + el.index : el.index - columns,
+            left: el.index - 1,
+            right: el.index + 1,
+            down: el.index + columns > (rows * columns) - 1 ? el.index - rows * (columns - 1) : el.index + columns,
+            leftUp: el.index - columns - 1 < 0 ? (rows * (columns - 1) + el.index) - 1 : el.index - columns - 1,
+            rightUp: el.index - columns + 1 < 0 ? (rows * (columns - 1) + el.index) + 1 : el.index - columns + 1,
+            leftDown: el.index + columns - 1 > (rows * columns) - 1 ? el.index - rows * (columns - 1) - 1 : el.index + columns - 1,
+            rightDown: el.index + columns + 1 > (rows * columns) - 1 ? el.index - rows * (columns - 1) + 1 : el.index + columns + 1
+          },
+          neighbour;
+        for (neighbour in neighbours) {
+          if (neighbours.hasOwnProperty(neighbour)) {
+            countNeighbours(container.childNodes[neighbours[neighbour]], el);
+          }
+        }
       });
     }
 
-    function addNeighbour(cell, neighbour) {
+    function markNeighbours() {
+      liveCells.forEach(function (el) {
+        var neighbours = {
+            up: el.index - columns,
+            left: el.index - 1,
+            right: el.index + 1,
+            down: el.index + columns,
+            leftUp: el.index - columns - 1,
+            rightUp: el.index - columns + 1,
+            leftDown: el.index + columns - 1,
+            rightDown: el.index + columns + 1
+          },
+          neighbour;
+        for (neighbour in neighbours) {
+          if (neighbours.hasOwnProperty(neighbour)) {
+            countNeighbours(container.childNodes[neighbours[neighbour]], el);
+          }
+        }
+      });
+    }
+
+    function countNeighbours(cell, neighbour) {
       if (cell) {
         cell.neighbours += 1;
         cell.color = neighbour.style.backgroundColor;

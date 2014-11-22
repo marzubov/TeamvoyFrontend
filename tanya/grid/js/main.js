@@ -11,12 +11,12 @@
             'withHidden': false,
             'loadByParts': true,
             'columnTemplates': {
-                1: "<b>{{age2}}</b>"
+                1: "<b>{{name}}</b>"
             }
         };
 
         var configObjectFullLoadingWithTemplate = {
-            'headers': ['1', '2', '3', '4', '5'],
+            'headers': ['id', 'name', 'age', 'gender', 'email'],
             'maxRows': 5,
             'arrayOrURL': 'http://localhost:8001',
             'withFilter': true,
@@ -24,8 +24,8 @@
             'withHidden': true,
             'loadByParts': false,
             'columnTemplates': {
-                1: "<i><b>{{age2}}</b></i>",
-                4: "<u>{{age5}}</u>"
+                1: "<i><b>{{name}}</b></i>",
+                4: "<a href='http://www.google.com.ua' target='_blank'>{{email}}</a>"
             }
         };
 

@@ -10,6 +10,8 @@
     myUniverse.addLife(20, 22);
   }
 
+  function space() {
+  }
   function createSpaceship() {
     myUniverse.addLife(6, 6);
     myUniverse.addLife(6, 7);
@@ -22,25 +24,42 @@
     myUniverse.addLife(2, 7);
   }
 
+  document.querySelector('.speed').addEventListener('change', function (e) {
+    myUniverse.stop();
+    myUniverse.speed = e.target.value;
+    myUniverse.start();
+  });
+
   document.querySelector('.stop').addEventListener('click', function () {
     myUniverse.stop();
   });
+
   document.querySelector('.start').addEventListener('click', function () {
     myUniverse.start();
   });
+
   document.querySelector('.clear').addEventListener('click', function () {
     myUniverse.clear();
   });
+
   document.querySelector('.next_generation').addEventListener('click', function () {
     myUniverse.nextGeneration();
   });
+
   document.querySelector('.random').addEventListener('click', function () {
     myUniverse.randomLife();
   });
+
   document.querySelector('.color').addEventListener('change', function (e) {
     myUniverse.color = e.target.value;
   });
+
+  document.querySelector('.infinite-field').addEventListener('click', function () {
+    myUniverse.activateInfinityField();
+  });
+
   document.querySelector('.glider').addEventListener('click', createGlider);
+
   document.querySelector('.spaceship').addEventListener('click', createSpaceship);
 
 })(document, window);

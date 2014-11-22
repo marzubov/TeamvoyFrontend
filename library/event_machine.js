@@ -1,5 +1,9 @@
-(function(window,document){
-    var EventMachine = window.EventMachine = function(){
+(function (window, document) {
+  /**
+   *
+   * @constructor
+   */
+  window.EventMachine = function () {
         var funcArray={};
 
         /**

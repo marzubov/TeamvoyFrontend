@@ -1,60 +1,380 @@
-@import "../../reset.css";
-
-.show-grid {}
-
+@import "../../../design/css/reset.css";
 .show-grid .main-header {
-    background: #d9e4df;
+  background: #1ABC9C;
 }
-
-
-.show-grid .main-content .repository-header {
-    background: #fff;
+.show-grid .main-content {
+  background: #F1C40F;
 }
-.show-grid .main-content .repository-files {    background: #fff;}
-
-
-.show-grid .main-content .repository-options {background: #fff;}
+.show-grid .repository-header {
+  background: #16A085;
+}
+.show-grid .repository-options {
+  background: #E67E22;
+}
+.show-grid .repository-files {
+  background: #F39C12;
+}
 .show-grid .github-info {
-    background: #fff;
+  background: #3498DB;
 }
-
 .content-wrapper {
-    width: 1100px;
-    margin: auto;
+  width: 1000px;
+  margin: auto;
 }
-
-.main-header                 { background: #efefef; border-bottom: 1px solid lightgray;  }
-.main-header .logo,
-.github-info .logo           { width: 45px; height: 45px; padding-top: 3px; }
-.main-header .input-group    { padding: 6px; }
-.main-header #mainMenu       { padding-top: 3px; }
-.main-header #mainMenu ul li { font-weight: 700; }
-.main-header .avatar         { font-size: 20px; float: left; padding: 12px 5px 0 0; }
-.main-header .avatar + figcaption { font-size: 12px; padding: 15px 15px 0 0; font-weight: bold; letter-spacing: 0.7px; float: left; }
-.main-header #ToolBar ul li { padding: 15px 7px 0 0; }
-
-.repository-header { border-bottom: 1px solid lightgray; }
-.repository-header .container, .repository-header .col-lg-7 { padding-left: 8px; }
-.repository-header .repository { font-size: 35px; padding: 15px 10px 0 0; color: lightgrey; float: left;  }
-.repository-header .marks button { margin: 15px 15px 0 0; float: left;}
-.repository-header .marks .input-group { float: left; width: 20%; }
-
-.main-content {overflow: hidden; margin-top: 20px; }
-.main-content #actionInRepository { padding:0 10px; border: 1px solid lightgray; border-radius: 5px; margin: 10px 0; }
-.main-content #actionInRepository ul li { width: 24%; }
-.main-content #branch button { float: left; margin-right: 20px; }
-.main-content #branch h4 { padding-top: 10px; }
-.main-content .readme { border-radius: 5px; background: #98D3C5; padding: 20px; }
-
-.repository-options #actionWithFolder { margin-bottom: 10px; }
-.repository-options article p, .repository-options article label { font-size: 12px; }
-
-.github-info { border-top: 1px solid lightgrey; padding-top: 25px; margin-top: 20px; }
-.github-info p { color: gray; font-size: 12px; float: left; padding: 13px 20px 0 0;  }
-
-
-.main-content .repository-options { padding: 10px;
-float: right;
-    overflow: hidden;
+.main-header {
+  padding: 10px 0;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #e5e5e5;
+  overflow: hidden;
+  font-family: Helvetica;
 }
-
+.main-header .logo {
+  width: 30px;
+  margin-right: 10px;
+  float: left;
+}
+.main-header .search-form {
+  margin-right: 10px;
+  float: left;
+  position: relative;
+  font-size: 12px;
+}
+.main-header .search-form input {
+  width: 260px;
+  padding: 4px 20px 4px 105px;
+  font-size: 12px;
+  color: #333;
+  vertical-align: middle;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  height: 20px;
+}
+.main-header .search-form .location {
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  bottom: 3px;
+  background-color: #eee;
+  color: #777;
+  border-radius: 2px;
+  padding: 6px 6px;
+}
+.main-header .main-menu {
+  margin-top: 6px;
+}
+.main-header .main-menu li {
+  float: left;
+}
+.main-header .main-menu li a {
+  font-size: 13px;
+  font-family: Helvetica;
+  font-weight: 700;
+  color: #333;
+  padding: 5px 9px;
+  text-decoration: none;
+}
+.main-header .main-menu li a:hover {
+  color: #4183c4;
+}
+.main-header .main-menu li a span {
+  padding: 12px 4px;
+}
+.main-header .main-menu li a img {
+  width: 17px;
+  vertical-align: middle;
+}
+.main-header .main-menu.left {
+  float: left;
+}
+.main-header .main-menu.right {
+  float: right;
+}
+.main-content {
+  overflow: hidden;
+}
+.main-content .repository-header {
+  position: relative;
+  margin-bottom: 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid #eeeeee;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+.main-content .repository-header .path-to-folder {
+  float: left;
+  width: 400px;
+}
+.main-content .repository-header .path-to-folder .folder-img {
+  width: 35px;
+  float: left;
+  vertical-align: middle;
+  margin-right: 15px;
+}
+.main-content .repository-header .path-to-folder .path {
+  line-height: 35px;
+  font-family: Helvetica;
+  font-size: 20px;
+}
+.main-content .repository-header .path-to-folder .path a {
+  text-decoration: none;
+}
+.main-content .repository-header .path-to-folder .path .author,
+.main-content .repository-header .path-to-folder .path .folder-name {
+  color: #4183c4;
+}
+.main-content .repository-header .path-to-folder .path .author:hover,
+.main-content .repository-header .path-to-folder .path .folder-name:hover {
+  text-decoration: underline;
+}
+.main-content .repository-header .path-to-folder .path .folder-name {
+  font-weight: 800;
+}
+.main-content .repository-header .path-to-folder .path .slash {
+  color: #333;
+}
+.main-content .repository-header .menu-actions {
+  float: right;
+}
+.main-content .repository-header .menu-actions li {
+  float: left;
+  line-height: 30px;
+}
+.main-content .repository-header .menu-actions .button-group {
+  margin: 0 6px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  position: relative;
+  width: 110px;
+  height: 30px;
+}
+.main-content .repository-header .menu-actions .button-group .action {
+  position: absolute;
+  height: 100%;
+  width: 90px;
+  border-radius: 2px 0 0 2px;
+  border: 0;
+  background-color: #f5f5f5;
+  color: #333;
+  font-weight: 800;
+  font-size: 13px;
+}
+.main-content .repository-header .menu-actions .button-group .action img {
+  width: 14px;
+  display: inline;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+.main-content .repository-header .menu-actions .button-group .action:hover {
+  background-color: #e3e3e3;
+}
+.main-content .repository-header .menu-actions .button-group .count {
+  float: right;
+  width: 20px;
+  height: 100%;
+  background: none;
+  border: none;
+  font-weight: 700;
+}
+.main-content .repository-header .menu-actions .button-group .count:hover {
+  color: #4183c4;
+}
+.main-content .repository-options {
+  width: 170px;
+  float: right;
+  overflow: hidden;
+}
+.main-content .repository-options .first li,
+.main-content .repository-options .second li {
+  font-family: Helvetica;
+  width: 100%;
+  border-left: 4px solid #f5f5f5;
+  padding: 10px 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0));
+}
+.main-content .repository-options .first li a,
+.main-content .repository-options .second li a {
+  line-height: 15px;
+  font-size: 13px;
+  padding: 8px 10px;
+  color: #4183c4;
+  text-decoration: none;
+  margin: 5px 0;
+}
+.main-content .repository-options .first li a img,
+.main-content .repository-options .second li a img {
+  width: 15px;
+  vertical-align: middle;
+  margin-right: 5px;
+  margin-top: -3px;
+}
+.main-content .repository-options .first li.active,
+.main-content .repository-options .second li.active {
+  border: none;
+  padding-left: 4px;
+  background: #fff;
+  width: 96%;
+  border-bottom: 1px solid #e5e5e5;
+  border-top: 1px solid #e5e5e5;
+  border-right: 4px solid #d26911;
+  border-radius: 0px 3px 3px 0;
+}
+.main-content .repository-options .first li.active a,
+.main-content .repository-options .second li.active a {
+  color: #333;
+  font-weight: 700;
+}
+.main-content .repository-options .first li:hover a,
+.main-content .repository-options .second li:hover a {
+  border-left: 3px solid #e5e5e5;
+  padding: 8px 10px 8px 7px;
+}
+.main-content .repository-options .first {
+  border-bottom: 1px solid #eeeeee;
+}
+.main-content .repository-options .clone-options {
+  font-family: Helvetica;
+  margin-top: 10px;
+}
+.main-content .repository-options .clone-options p {
+  color: #777;
+  font-size: 11px;
+  padding: 7px 0;
+}
+.main-content .repository-options .clone-options p span {
+  font-weight: 800;
+  color: #333;
+}
+.main-content .repository-options .clone-options .clone-path {
+  border: 1px solid #e5e5e5;
+  border-radius: 3px;
+  width: 98%;
+  padding: 0;
+  overflow: hidden;
+}
+.main-content .repository-options .clone-options .clone-path input {
+  width: 79%;
+  height: 24px;
+  border: 0;
+}
+.main-content .repository-options .clone-options .clone-path button {
+  width: 30px;
+  float: right;
+  padding-top: 4px;
+  border-radius: 0 2px 2px 0;
+  margin-right: 0;
+  background: #f5f5f5;
+  border-left: 1px solid #e5e5e5;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  cursor: pointer;
+}
+.main-content .repository-options .clone-options .clone-path button img {
+  width: 17px;
+}
+.main-content .repository-options .clone-options > button {
+  text-align: center;
+  width: 98%;
+  margin: 10px 0;
+  border-radius: 3px;
+  padding: 5px;
+  line-height: 17px;
+  background: #f5f5f5;
+  cursor: pointer;
+  border: 1px solid #e5e5e5;
+  font-size: 12px;
+  font-weight: 800;
+}
+.main-content .repository-options .clone-options > button img {
+  display: inline;
+  width: 17px;
+  margin-top: -2px;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+.main-content .repository-files {
+  margin-right: 180px;
+}
+.main-content .repository-files .path-to-page {
+  font-family: Helvetica;
+  font-size: 17px;
+  text-decoration: none;
+  color: #4183c4;
+}
+.main-content .repository-files .path-to-page:hover {
+  text-decoration: underline;
+}
+.main-content .repository-files .repository-actions {
+  margin-top: 20px;
+  border: 1px solid #e5e5e5;
+  border-radius: 3px;
+}
+.main-content .repository-files .repository-actions img {
+  width: 15px;
+  vertical-align: middle;
+  margin-right: 5px;
+  margin-top: -3px;
+}
+.main-content .repository-files .repository-actions ul {
+  padding: 10px 0;
+  text-align: center;
+}
+.main-content .repository-files .repository-actions ul li {
+  display: inline;
+  padding: 0 50px;
+}
+.main-content .repository-files .repository-actions ul li a {
+  text-decoration: none;
+  color: #777;
+  font-family: Helvetica;
+  font-size: 13px;
+}
+.main-content .repository-files .repository-actions ul li a b {
+  color: #000;
+  font-weight: 600;
+}
+.main-content .repository-files .repository-actions .languages {
+  height: 7px;
+  border-radius: 0 0 2px 2px;
+  width: 100%;
+}
+.main-content .repository-files .repository-actions .languages .js {
+  background: #f1e05a;
+  width: 60%;
+  float: left;
+  height: 100%;
+}
+.main-content .repository-files .repository-actions .languages .css {
+  background: #563d7c;
+  width: 40%;
+  height: 100%;
+  float: left;
+}
+.main-content .repository-files .branch-actions {
+  margin-top: 10px;
+}
+.main-content .repository-files .branch-actions .request {
+  background-color: #60b044;
+  background-image: linear-gradient(#8add6d, #60b044);
+  border: #5ca941;
+  border-radius: 3px;
+}
+.main-content .repository-files .branch-actions .request img {
+  width: 15px;
+  margin: 4px 5px 0 5px;
+}
+.main-content .repository-files .branch-actions .branch img {
+  width: 15px;
+}
+.main-content .repository-files .branch-actions .list img {
+  width: 15px;
+}
+.github-info {
+  position: relative;
+  margin-top: 40px;
+  padding: 40px 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #777777;
+  border-top: 1px solid #eeeeee;
+}

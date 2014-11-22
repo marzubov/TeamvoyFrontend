@@ -100,18 +100,16 @@ input {
   background: #BDC3C7; }
 
 .events-popup {
-  position: absolute;
+  position: relative;
   background: #ffffff;
   border: 2px solid #000000;
   padding: 10px; }
 
 .active {
-  display: block; }
+  display: inline-block; }
 
 .non-active {
   display: none; }
 
 .calendar-event-day {
   background: #1abc9c; }
-
-/*# sourceMappingURL=event_calendar.css.map */

@@ -19,7 +19,7 @@
         that.renderEventDays();
       });
       document.addEventListener('click', function (e) {
-        if ((e.target !== that.getRoot()) && (!that.getRoot().contains(e.target))) {
+        if ((e.target !== that.getRoot()) && (!e.target.classList.contains('events-popup')) && (!that.getRoot().contains(e.target))) {
           that.popup.classList.remove('active');
           that.popup.classList.add('non-active');
         }
@@ -136,7 +136,6 @@
   EventCalendar.prototype.showEvents = function (date) {
     var selectedDay,
       events = this.getDayEvents(date);
-    console.log(events);
     Array.prototype.slice.call(this.getRoot().querySelector('.calendar-body').childNodes)
       .some(function (day) {
         if (date === day.date) {

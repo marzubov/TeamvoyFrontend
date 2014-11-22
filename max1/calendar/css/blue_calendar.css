@@ -4,7 +4,8 @@ body {
 
 @font-face {
   font-family: Neris;
-  src: url("../../../design/white_stripes_ui_kit/Neris/neris-thin.ttf") format("truetype"); }
+  src: url('../../../design/white_stripes_ui_kit/Neris/neris-thin.ttf') format('truetype'); }
+
 .calendar {
   color: #f5f5f5;
   position: relative;
@@ -60,8 +61,9 @@ body {
   font-weight: bold; }
 
 .day:hover {
-  outline: 3px dashed #f5f5f5;
-  cursor: pointer; }
+  cursor: pointer;
+  background: #f5f5f5;
+  color: #4595AE; }
 
 .out-month {
   color: #6EA7B2; }
@@ -71,9 +73,6 @@ body {
   width: 14%;
   text-align: center;
   text-transform: uppercase; }
-
-.weekend {
-  /*color: red;*/ }
 
 .today {
   background: #f5f5f5;
@@ -99,6 +98,7 @@ body {
   height: 15px;
   color: #125D72;
   padding-top: 5px;
+  padding-bottom: 5px;
   font-size: 11px; }
 
 .circle {
@@ -138,5 +138,3 @@ input {
 
 .selected-end {
   background: #BDC3C7; }
-
-/*# sourceMappingURL=blue_calendar.css.map */

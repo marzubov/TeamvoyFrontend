@@ -4,7 +4,8 @@ body {
 
 @font-face {
   font-family: Neris;
-  src: url("../../../design/white_stripes_ui_kit/Neris/neris-thin.ttf") format("truetype"); }
+  src: url('../../../design/white_stripes_ui_kit/Neris/neris-thin.ttf') format('truetype'); }
+
 .calendar {
   width: 100%;
   top: -15px;
@@ -64,8 +65,9 @@ body {
   font-weight: bold; }
 
 .day:hover {
-  outline: 3px dashed #f5f5f5;
-  cursor: pointer; }
+  cursor: pointer;
+  background: #f5f5f5;
+  color: #4595AE; }
 
 .out-month {
   color: #6EA7B2; }
@@ -75,9 +77,6 @@ body {
   width: 14%;
   text-align: center;
   text-transform: uppercase; }
-
-.weekend {
-  /*color: red;*/ }
 
 .today {
   background: #f5f5f5;
@@ -103,6 +102,7 @@ body {
   height: 15px;
   color: #125D72;
   padding-top: 5px;
+  padding-bottom: 5px;
   font-size: 11px; }
 
 .range-inputs {
@@ -128,10 +128,8 @@ input {
 
 .selected-start {
   background: #34495e;
-  color: #6EA7B2; }
+  color: #f5f5f5; }
 
 .selected-end {
   background: #34495e;
-  color: #6EA7B2; }
-
-/*# sourceMappingURL=blue_calendar_date_range_picker.css.map */
+  color: #f5f5f5; }
