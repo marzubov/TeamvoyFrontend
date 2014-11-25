@@ -11,7 +11,7 @@
         end: moment().startOf('day')
       };
 
-    this.getRoot = function getRoot(){
+    this.getRoot = function getRoot() {
       return root;
     };
 
@@ -19,7 +19,7 @@
       return range;
     };
 
-    this.changeRange = function changeRange(newRange){
+    this.changeRange = function changeRange(newRange) {
       if (!newRange) {
         return range;
       }
@@ -47,13 +47,13 @@
       that.secondCalendar.config = {year: range.end.get('year')};
     };
 
-    function setEvents(){
+    function setEvents() {
 
-      function firstCalendarMouseMove(e){
+      function firstCalendarMouseMove(e) {
         that.firstHandler.call(that, e);
       }
 
-      function secondCalendarMouseMove(e){
+      function secondCalendarMouseMove(e) {
         that.secondHandler.call(that, e);
       }
 
@@ -114,7 +114,6 @@
 
       root.classList.add('date-range-picker');
       container.appendChild(root);
-
 
 
       that.firstCalendar.getRoot().classList.add('date-range-picker-first-calendar');
