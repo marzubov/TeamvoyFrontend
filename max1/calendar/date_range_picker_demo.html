@@ -13,6 +13,11 @@
 </head>
 <body>
 <article>
+  <div class="range-inputs" id="rang-inputs" style="padding: 10px">
+    <input id="rangeStart" type="text" placeholder="Range start day" readonly
+           style="font-size: 20px; line-height: 25px; padding: 5px"/>
+    <input id="rangeEnd" type="text" placeholder="Range end day" readonly style="font-size: 20px; line-height: 25px; padding: 5px; margin-left:10px"/>
+  </div>
   <div class="container" id="container">
   </div>
 </article>
@@ -20,5 +25,14 @@
 <script>
   var container = document.getElementById('container');
   var dateRangePicker = new DateRangePicker(container);
+  document.getElementById('rangeStart').value = dateRangePicker.getRange().start._d.toDateString();
+  document.getElementById('rangeEnd').value = dateRangePicker.getRange().end._d.toDateString();
+
+  dateRangePicker.on('rangeChanged', function (range) {
+    document.getElementById('rangeStart').value = range[0].toDateString();
+    document.getElementById('rangeEnd').value = range[1].toDateString();
+  });
+
+
 </script>
 </html>

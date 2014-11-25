@@ -7,7 +7,7 @@ define(["draggable", "filterable", "pager"], function (Draggable, Filterable, Pa
     this.root = '';
     this.arrayCheck = [];
     this.arrayOfPositions = {};
-    var pagesData = [], pagesDataObject = [], pageIndex = 1, countOfPages, pager, maxDataLength, sortedColumn, that, PagerObject, maxRows;
+    var pagesData = [], pagesDataObject = [], pageIndex = 1, countOfPages, pager, maxDataLength, sortedColumn, sortedColumnKey, that, PagerObject, maxRows;
     var draggable;
 
     function getData(url, start, end) {
@@ -65,8 +65,7 @@ define(["draggable", "filterable", "pager"], function (Draggable, Filterable, Pa
       if (!fromPagesData) {
         data = that.dataObject;
       } else {
-        data = pagesData[pageIndex - 1];
-        dataObject = pagesDataObject[pageIndex - 1];
+        data = pagesDataObject[pageIndex - 1];
       }
       if (!fromPagesData) {
         var rowLength = (pageIndex == countOfPages) ? data.length : pageIndex * maxRows;
@@ -112,7 +111,6 @@ define(["draggable", "filterable", "pager"], function (Draggable, Filterable, Pa
       } else {
         if (!pagesData[pageIndex - 1]) {
           if (that.dataObject.length != maxDataLength) {
-            console.log("new request");
             getData(that.config.arrayOrURL, (pageIndex - 1) * maxRows, pageIndex * maxRows);
           } else {
             changePageData(false);
@@ -162,11 +160,10 @@ define(["draggable", "filterable", "pager"], function (Draggable, Filterable, Pa
       sortedColumn = this.cellIndex;
       var i = 0;
       for (key in that.arrayOfPositions) {
-        if (i == sortedColumn) sortedColumn = key;
+        if (i == sortedColumn) sortedColumnKey = key;
         i++;
       }
-      console.log(sortedColumn);
-      sortTable(sortedColumn, reverse);
+      sortTable(sortedColumnKey, reverse);
     }
 
     function deleteArrows() {
@@ -203,7 +200,6 @@ define(["draggable", "filterable", "pager"], function (Draggable, Filterable, Pa
     function xhrOnLoad(xhr) {
       var receivedText = xhr.responseText.split("__obj__"),
         receivedObject = JSON.parse(receivedText[0]);
-      console.log(receivedObject);
       maxDataLength = receivedText[1];
       that.dataObject = receivedObject;
       if (that.dataObject.length != maxDataLength) {
@@ -272,13 +268,11 @@ define(["draggable", "filterable", "pager"], function (Draggable, Filterable, Pa
     }
 
     function toggleColumn(columnIndex) {
-      console.log(that.arrayCheck.indexOf(columnIndex));
       if (that.arrayCheck.indexOf(columnIndex) == -1) {
         that.hideColumn(columnIndex);
       } else {
         that.showColumn(columnIndex);
       }
-      console.log(that.arrayCheck);
     }
 
     this.hideColumn = function (columnIndex) {
