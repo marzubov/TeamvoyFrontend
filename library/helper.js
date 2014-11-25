@@ -101,6 +101,15 @@
     }
   };
 
+  /**
+   * Deleting all child nodes of HTMLElement
+   */
+  Element.prototype.deleteAllChildNodes = function () {
+    while (this.firstChild) {
+      this.removeChild(this.firstChild);
+    }
+  };
+
   function createCORSRequest(method, url) {
     var xhr = new XMLHttpRequest();
     if ("withCredentials" in xhr) {

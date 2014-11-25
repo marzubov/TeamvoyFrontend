@@ -52,8 +52,11 @@ body {
 .calendar .calendar-button.desc:after {
   content: url(img/white_left.png); }
 
+.calendar-body div {
+  flex: 1; }
+
 .day {
-  display: inline-block;
+  display: inline-flex;
   width: 14%;
   padding-top: 2px;
   padding-bottom: 2px;

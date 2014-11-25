@@ -15,6 +15,7 @@ http.createServer(function (request, response) {
             if (!((path[1]) && (path[2]))) {
                 response.writeHead(200, { 'Content-Type': 'text/html', 'Access-Control-Allow-Origin': '*' });
                 data = JSON.stringify(obj.items) + "__obj__" + obj.items.length.toString() + "__obj__" + JSON.stringify(obj);
+              console.log(data);
                 response.end(data);
             }
             //else {

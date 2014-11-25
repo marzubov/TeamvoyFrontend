@@ -91,7 +91,7 @@ vjs.MenuItem.prototype.selected = function(selected){
 
 
 /**
- * A button class with a popup menu
+ * A button class with a eventsContainer menu
  * @param {vjs.Player|Object} player
  * @param {Object=} options
  * @constructor

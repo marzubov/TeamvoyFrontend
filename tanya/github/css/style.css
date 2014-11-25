@@ -20,13 +20,13 @@
 .content-wrapper {
   width: 1000px;
   margin: auto;
+  font-family: Helvetica;
 }
 .main-header {
   padding: 10px 0;
   background-color: #f5f5f5;
   border-bottom: 1px solid #e5e5e5;
   overflow: hidden;
-  font-family: Helvetica;
 }
 .main-header .logo {
   width: 30px;
@@ -67,7 +67,6 @@
 }
 .main-header .main-menu li a {
   font-size: 13px;
-  font-family: Helvetica;
   font-weight: 700;
   color: #333;
   padding: 5px 9px;
@@ -91,6 +90,7 @@
 }
 .main-content {
   overflow: hidden;
+  position: relative;
 }
 .main-content .repository-header {
   position: relative;
@@ -112,7 +112,6 @@
 }
 .main-content .repository-header .path-to-folder .path {
   line-height: 35px;
-  font-family: Helvetica;
   font-size: 20px;
 }
 .main-content .repository-header .path-to-folder .path a {
@@ -144,19 +143,19 @@
   border: 1px solid #ccc;
   border-radius: 3px;
   position: relative;
-  width: 110px;
+  width: 120px;
   height: 30px;
 }
 .main-content .repository-header .menu-actions .button-group .action {
   position: absolute;
   height: 100%;
-  width: 90px;
+  width: 100px;
   border-radius: 2px 0 0 2px;
   border: 0;
   background-color: #f5f5f5;
   color: #333;
   font-weight: 800;
-  font-size: 13px;
+  font-size: 12.5px;
 }
 .main-content .repository-header .menu-actions .button-group .action img {
   width: 14px;
@@ -185,7 +184,6 @@
 }
 .main-content .repository-options .first li,
 .main-content .repository-options .second li {
-  font-family: Helvetica;
   width: 100%;
   border-left: 4px solid #f5f5f5;
   padding: 10px 0;
@@ -223,8 +221,8 @@
   color: #333;
   font-weight: 700;
 }
-.main-content .repository-options .first li:hover a,
-.main-content .repository-options .second li:hover a {
+.main-content .repository-options .first li:hover:not(.active) a,
+.main-content .repository-options .second li:hover:not(.active) a {
   border-left: 3px solid #e5e5e5;
   padding: 8px 10px 8px 7px;
 }
@@ -232,7 +230,6 @@
   border-bottom: 1px solid #eeeeee;
 }
 .main-content .repository-options .clone-options {
-  font-family: Helvetica;
   margin-top: 10px;
 }
 .main-content .repository-options .clone-options p {
@@ -296,7 +293,6 @@
   margin-right: 180px;
 }
 .main-content .repository-files .path-to-page {
-  font-family: Helvetica;
   font-size: 17px;
   text-decoration: none;
   color: #4183c4;
@@ -326,7 +322,6 @@
 .main-content .repository-files .repository-actions ul li a {
   text-decoration: none;
   color: #777;
-  font-family: Helvetica;
   font-size: 13px;
 }
 .main-content .repository-files .repository-actions ul li a b {
@@ -358,16 +353,189 @@
   background-image: linear-gradient(#8add6d, #60b044);
   border: #5ca941;
   border-radius: 3px;
+  float: left;
+  margin-right: 5px;
 }
 .main-content .repository-files .branch-actions .request img {
   width: 15px;
   margin: 4px 5px 0 5px;
 }
-.main-content .repository-files .branch-actions .branch img {
-  width: 15px;
+.main-content .repository-files .branch-actions .branch {
+  border-radius: 3px;
+  border: 1px solid #e5e5e5;
+  background: #f5f5f5;
+  padding: 6px 4px;
+  margin-right: 10px;
+}
+.main-content .repository-files .branch-actions .branch:hover {
+  background: #e5e5e5;
+}
+.main-content .repository-files .branch-actions .branch b {
+  font-weight: 700;
+}
+.main-content .repository-files .branch-actions .folder,
+.main-content .repository-files .branch-actions .add-folder {
+  font-size: 16px;
+  color: #4183c4;
+  text-decoration: none;
+  font-weight: 700;
+  line-height: 16px;
+}
+.main-content .repository-files .branch-actions .folder:hover,
+.main-content .repository-files .branch-actions .add-folder:hover {
+  text-decoration: underline;
+}
+.main-content .repository-files .branch-actions .slash {
+  font-size: 16px;
+  font-weight: 400;
+}
+.main-content .repository-files .branch-actions .list {
+  float: right;
+  border-radius: 3px;
+  border: 1px solid #e5e5e5;
+  background: #f5f5f5;
+  cursor: pointer;
+}
+.main-content .repository-files .branch-actions .list:hover {
+  background: #e5e5e5;
 }
 .main-content .repository-files .branch-actions .list img {
   width: 15px;
+  margin: 4px 5px 0 5px;
+}
+.main-content .repository-project {
+  margin-top: 10px;
+  margin-right: 180px;
+}
+.main-content .repository-project .header-project {
+  border-radius: 3px 3px 0 0;
+  border: 1px solid #b7c7cf;
+  background: #e6f1f6;
+  padding: 10px 10px;
+  font-size: 13px;
+  color: #333;
+}
+.main-content .repository-project .author-project {
+  padding: 6px 10px;
+  border: 1px solid #b7c7cf;
+  border-top: 0;
+  overflow: hidden;
+}
+.main-content .repository-project .author-project .author-info {
+  float: left;
+}
+.main-content .repository-project .author-project .author-info .avatar {
+  width: 15px;
+  float: left;
+  margin-right: 6px;
+  margin-top: 1px;
+}
+.main-content .repository-project .author-project .author-info .name {
+  font-size: 13px;
+  color: #333;
+  font-weight: 700;
+}
+.main-content .repository-project .author-project .author-info .time {
+  font-size: 13px;
+  color: #888;
+}
+.main-content .repository-project .author-project .commit-info {
+  float: right;
+}
+.main-content .repository-project .author-project .commit-info a {
+  text-decoration: none;
+  float: left;
+  margin-right: 6px;
+}
+.main-content .repository-project .author-project .commit-info .latest-commit {
+  font-size: 13px;
+  color: #888;
+}
+.main-content .repository-project .author-project .commit-info .latest-commit:hover {
+  text-decoration: underline;
+}
+.main-content .repository-project .author-project .commit-info .code {
+  font-size: 13px;
+  color: #333;
+}
+.main-content .repository-project .author-project .commit-info .code:hover {
+  text-decoration: underline;
+}
+.main-content .repository-project .author-project .commit-info .copy-sha {
+  width: 15px;
+}
+.main-content .repository-project .content-project {
+  border-radius: 0 0 3px 3px;
+  border: 1px solid #dddddd;
+}
+.main-content .repository-project .content-project .row {
+  border-bottom: 1px solid #dddddd;
+  background: #f8f8f8;
+  padding: 10px 10px;
+}
+.main-content .repository-project .content-project .row:last-child {
+  border-bottom: 0;
+}
+.main-content .repository-project .content-project .row .file-name {
+  width: 180px;
+  float: left;
+}
+.main-content .repository-project .content-project .row .file-name img {
+  width: 15px;
+  float: left;
+  margin-right: 6px;
+}
+.main-content .repository-project .content-project .row .file-name a {
+  text-decoration: none;
+  font-size: 14px;
+  color: #4183c4;
+}
+.main-content .repository-project .content-project .row .file-name a:hover {
+  text-decoration: underline;
+}
+.main-content .repository-project .content-project .row .comment {
+  width: 440px;
+  float: left;
+}
+.main-content .repository-project .content-project .row .comment a {
+  text-decoration: none;
+  font-size: 14px;
+  color: #888;
+}
+.main-content .repository-project .content-project .row .comment a:hover {
+  text-decoration: underline;
+}
+.main-content .repository-project .content-project .row .time {
+  text-align: right;
+}
+.main-content .repository-project .content-project .row .time span {
+  font-size: 14px;
+  color: #888;
+}
+.main-content .readme {
+  border-radius: 3px;
+  border: 1px solid #d8d8d8;
+  margin-right: 180px;
+  margin-top: 10px;
+}
+.main-content .readme .readme-header {
+  border-bottom: 1px solid #d8d8d8;
+  padding: 10px;
+  background: #f5f5f5;
+}
+.main-content .readme .readme-header img {
+  width: 15px;
+  float: left;
+  margin-right: 10px;
+}
+.main-content .readme .readme-header .name-of-file {
+  font-size: 14px;
+  font-weight: 700;
+}
+.main-content .readme .readme-content {
+  padding: 30px;
+  font-size: 14px;
+  line-height: 19px;
 }
 .github-info {
   position: relative;
@@ -377,4 +545,32 @@
   line-height: 1.5;
   color: #777777;
   border-top: 1px solid #eeeeee;
+}
+.github-info .copyright {
+  font-size: 12px;
+  color: #888;
+  font-family: Helvetica;
+  float: left;
+  margin-right: 15px;
+}
+.github-info .footer-menu li {
+  float: left;
+}
+.github-info .footer-menu li a {
+  text-decoration: none;
+  color: #4183c4;
+  font-family: Helvetica;
+  font-size: 12px;
+  margin-right: 15px;
+}
+.github-info .footer-menu li a:hover {
+  text-decoration: underline;
+}
+.github-info .footer-menu.right {
+  float: right;
+}
+.github-info .logo {
+  width: 25px;
+  float: left;
+  margin-left: 150px;
 }

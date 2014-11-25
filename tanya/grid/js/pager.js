@@ -1,8 +1,5 @@
-/**
- * Created by MU on 10/23/14.
- */
-(function (global, document) {
-  global.Pager = function Pager(pager, maxDataLength, goTo, maxRows) {
+define (function() {
+  function Pager(pager, maxDataLength, goTo, maxRows) {
     "use strict";
 
     function renderPages(pager, maxDataLength, goTo, maxRows) {
@@ -12,7 +9,7 @@
         return;
       }
       var pagesString = '<ul class="pagination"><li><a data-page = "previous">&laquo;</a></li>',
-          countPages;
+        countPages;
       countPages = (maxDataLength % maxRows) ? (maxDataLength / maxRows + 1).toFixed(0) : (maxDataLength / maxRows).toFixed(0);
       for (var i = 1; i <= countPages; i++) {
         pagesString += '<li><a data-page ="' + i.toString() + '">' + i + '</a></li>';
@@ -69,4 +66,5 @@
 
     renderPages.call(this, pager, maxDataLength, goTo, maxRows);
   };
-})(window, document);
+  return Pager;
+});

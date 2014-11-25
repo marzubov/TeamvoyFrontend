@@ -15,53 +15,17 @@
 <div class="container" id="container">
 </div>
 
-<div class="add-event" style="clear: both;">
-  <input id="dateInput" type="text" placeholder="Click to choose date"/>
-  <input id="nameInput" type="text" placeholder="Please enter event name"/>
-  <button id="addSubmit">Add</button>
-  <div class="container" id="datePickerContainer" style="display: none;">
-    </div>
-</div>
-
 </body>
 <script>
   var container = document.getElementById('container');
-  var eventCalendar = new EventCalendar(container,
-      {},
-      [{
-        date: moment()._d,
-        name: "Today Event"
-      },
-        {
-          date: moment([2014,10,10])._d,
-          name: "First Event"
-        },
-        {
-          date: moment([2014,10,1])._d,
-          name: "Second Event"
-        }
-      ]
-    );
-  var datePickerContainer = document.getElementById('datePickerContainer');
-  var datePickerCalendar = new Calendar(datePickerContainer, {});
-  datePickerCalendar.on('daySelected', function (date){
-    document.getElementById('dateInput').value = date;
-  });
-  document.getElementById('dateInput').addEventListener('click', function(){
-    if (datePickerContainer.style.display == 'none'){
-      datePickerContainer.style.display = 'block';
-    } else{
-      datePickerContainer.style.display = 'none';
-    }
-  });
-  document.getElementById('addSubmit').addEventListener('click', function(){
-    var eventDate = moment(document.getElementById('dateInput').value)._d,
-      eventName = document.getElementById('nameInput').value;
-    eventCalendar.createDayEvent({
-      date: eventDate,
-      name: eventName
-    });
-    eventCalendar.renderEventDays();
-  });
+  var eventCalendar = new EventCalendar(container, {} ,[{
+    date: moment([2014,10,10])._d,
+    name: "First Event"
+  },
+    {
+      date: moment([2014,10,1])._d,
+      name: "Second Event"
+    }]);
+
 </script>
 </html>

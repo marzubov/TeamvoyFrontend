@@ -2,23 +2,23 @@
 
   window.menu = new CustomSelect(document.querySelector('.menu'),[
     {
-      option: 'NEWS'
+      option: 'news'
     },
     {
-      option: 'BLOG'
+      option: 'blog'
     },
     {
-      option: 'ABOUT'
+      option: 'about'
     },
     {
-      option: 'CONTACT'
+      option: 'contact'
     }
-  ],{title: 'option', value:'option'});
+  ], {title: 'option', value: 'option'});
   window.menu.show();
-  window.menu.on('hide',function(){
+  window.menu.on('hide', function () {
     this.show();
   });
-  window.menu.on('change',function(){
+  window.menu.on('change', function () {
     window.location.replace('index.html#' + window.menu.value);
   });
 
@@ -33,18 +33,15 @@
 
   window.dropbox = new CustomSelect(document.querySelector('.dropbox'),[
     {
-      option: 'YOUR PROFILE',
-      action: 'profile'
+      option: 'your profile'
     },
     {
-      option: 'SETTINGS',
-      action: 'settings'
+      option: 'settings'
     },
     {
-      option: 'LOGOUT',
-      action: 'logout'
+      option: 'logout'
     }
-  ], {title: 'option', value:'action'});
+  ], {title: 'option', value: 'option'});
   var image = faker.image.avatar();
   var userTemplate ='<div class="template"><img class="user-avatar" src="'+image+'"><div class="text">'+ faker.name.findName() +'</div></div>';
   window.dropbox.wrapper.innerHTML = userTemplate;

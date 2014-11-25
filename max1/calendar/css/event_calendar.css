@@ -26,6 +26,9 @@
 .calendar .calendar-button.asc {
   right: 0; }
 
+.calendar .calendar-button.asc:after {
+  content: url(img/right.png); }
+
 .calendar .calendar-caption .month-name {
   position: relative;
   padding: 10px; }
@@ -33,25 +36,26 @@
 .calendar .calendar-caption .year-name {
   position: relative; }
 
-.calendar .calendar-button.asc:after {
-  content: url(img/right.png); }
-
 .calendar .calendar-button.desc {
   left: 0; }
 
 .calendar .calendar-button.desc:after {
   content: url(img/left.png); }
 
+.calendar-header {
+  margin-top: 10px;
+  height: 15px;
+  padding-top: 5px; }
+
 .day {
   display: inline-block;
-  width: 13%;
-  margin: 0.5%;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  width: 14%;
+  font-size: 14px;
+  line-height: 30px;
+  vertical-align: middle;
   text-align: center; }
 
 .day:hover {
-  outline: 3px dashed dodgerblue !important;
   cursor: pointer; }
 
 .out-month {
@@ -66,43 +70,12 @@
   color: red; }
 
 .today {
-  border: 2px solid dodgerblue !important;
   font-weight: bold;
   color: dodgerblue; }
-
-.container {
-  position: relative;
-  width: 50%; }
 
 .date-range-picker {
   display: inline-block;
   width: auto;
-  padding: 10px; }
-
-.calendar-header {
-  margin-top: 10px;
-  height: 15px;
-  padding-top: 5px; }
-
-input {
-  margin: 5px; }
-
-.aside-config {
-  float: right; }
-
-.selected {
-  background: #ECF0F1; }
-
-.selected-start {
-  background: #BDC3C7; }
-
-.selected-end {
-  background: #BDC3C7; }
-
-.events-popup {
-  position: relative;
-  background: #ffffff;
-  border: 2px solid #000000;
   padding: 10px; }
 
 .active {
@@ -112,4 +85,39 @@ input {
   display: none; }
 
 .calendar-event-day {
-  background: #1abc9c; }
+  color: white;
+  background: #2ecc71; }
+
+.calendar-event-day:hover {
+  color: #2c3e50; }
+
+.calendar-events-wrapper {
+  position: relative;
+  display: inline-block;
+  background: #ffffff;
+  border: 2px solid #000000;
+  padding: 10px; }
+
+.calendar-events {
+  padding: 10px;
+  border-bottom: 1px solid #d3d3d3; }
+
+.calendar-event {
+  color: #3498db; }
+
+.calendar-event:hover {
+  color: #3498db; }
+
+.calendar-events-controls {
+  padding: 10px; }
+
+.calendar-events-wrapper button {
+  margin: 10px 10px 5px 10px; }
+
+.calendar-event-info-popup {
+  position: absolute;
+  visibility: hidden; }
+
+.calendar-event-add-popup {
+  position: absolute;
+  visibility: hidden; }

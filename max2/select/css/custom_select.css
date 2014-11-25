@@ -26,7 +26,8 @@
   position: absolute;
   top: 30px;
   left: 0;
-  z-index: 999; }
+  z-index: 999;
+  box-sizing: border-box; }
 
 .custom-select .highlighted {
   color: #c0392b; }

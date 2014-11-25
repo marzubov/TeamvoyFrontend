@@ -1,0 +1,141 @@
+.event-calendar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0; }
+
+.calendar {
+  position: absolute;
+  font-size: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0; }
+
+.calendar .calendar-caption {
+  position: relative;
+  font-size: 20px;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px; }
+
+.calendar .calendar-button {
+  position: absolute;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  outline: none; }
+
+.calendar .calendar-button:active {
+  opacity: 0.7; }
+
+.calendar .calendar-button.asc {
+  right: 0; }
+
+.calendar .calendar-caption .month-name {
+  position: relative;
+  padding: 10px; }
+
+.calendar .calendar-caption .year-name {
+  position: relative; }
+
+.calendar .calendar-button.asc:after {
+  content: url(img/right.png); }
+
+.calendar .calendar-button.desc {
+  left: 0; }
+
+.calendar .calendar-button.desc:after {
+  content: url(img/left.png); }
+
+.calendar-body {
+  position: relative;
+  height: 93%; }
+
+.day {
+  display: inline-flex;
+  width: 14%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: center;
+  height: 14%;
+  border: 1px solid #ddd; }
+
+.out-month {
+  color: lightgray; }
+
+.day-name {
+  display: inline-block;
+  width: 14%;
+  text-align: center; }
+
+.weekend {
+  color: red; }
+
+.today {
+  font-weight: bold;
+  color: dodgerblue; }
+
+.container {
+  position: absolute;
+  top: 0;
+  right: 10%;
+  bottom: 30%;
+  left: 0; }
+
+.date-range-picker {
+  display: inline-block;
+  width: auto;
+  padding: 10px; }
+
+.calendar-header {
+  margin-top: 10px;
+  height: 15px;
+  padding-top: 5px; }
+
+input {
+  margin: 5px; }
+
+.aside-config {
+  float: right; }
+
+.selected {
+  background: #ECF0F1; }
+
+.selected-start {
+  background: #BDC3C7; }
+
+.selected-end {
+  background: #BDC3C7; }
+
+.events-popup {
+  position: absolute;
+  background: #ffffff;
+  border: 2px solid #000000;
+  padding: 10px;
+  z-index: 9999;
+  border: 1px solid #ddd; }
+
+.active {
+  display: inline-block; }
+
+.non-active {
+  display: none; }
+
+.day-number {
+  position: relative;
+  display: block;
+  clear: both; }
+
+.events {
+  position: relative; }
+
+.event {
+  color: #1abc9c;
+  background: #34495e; }
+
+.event:hover {
+  cursor: pointer; }

@@ -2989,7 +2989,7 @@ vjs.MenuItem.prototype.selected = function(selected){
 
 
 /**
- * A button class with a popup menu
+ * A button class with a eventsContainer menu
  * @param {vjs.Player|Object} player
  * @param {Object=} options
  * @constructor
@@ -5533,7 +5533,7 @@ vjs.MuteToggle.prototype.update = function(){
   vjs.addClass(this.el_, 'vjs-vol-'+level);
 };
 /**
- * Menu button with a popup for showing the volume slider.
+ * Menu button with a eventsContainer for showing the volume slider.
  * @constructor
  */
 vjs.VolumeMenuButton = vjs.MenuButton.extend({

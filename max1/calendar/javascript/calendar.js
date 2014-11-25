@@ -136,6 +136,7 @@
             that.trigger('monthChanged', [config.month]);
             generateAndRender();
           } else if (e.target.date) {
+            //TODO: fix daySelected event when clicked day with view from template
             that.trigger('daySelected', [e.target.date]);
           }
         });
@@ -165,6 +166,26 @@
       container.appendChild(root);
     };
 
+    //get set config
+    Object.defineProperty(that, "config", {
+      get: function () {
+        return config;
+      },
+      set: function (value) {
+        var propName;
+        for (propName in value) {
+          if (that.config.hasOwnProperty(propName)) {
+            value[propName] = value[propName] ? value[propName] : config[propName];
+            if (value['month'] !== config['month']) {
+              that.trigger('monthChanged');
+            }
+            config.merge(value);
+            generateAndRender();
+          }
+        }
+      }
+    });
+
     /**
      * Initializing calendar
      * @returns {global.Calendar}
@@ -175,25 +196,7 @@
 
       generateAndRender();
 
-      //get set config
-      Object.defineProperty(that, "config", {
-        get: function () {
-          return config;
-        },
-        set: function (value) {
-          var propName;
-          for (propName in value) {
-            if (that.config.hasOwnProperty(propName)) {
-              value[propName] = value[propName] ? value[propName] : config[propName];
-              if (value['month'] !== config['month']) {
-                that.trigger('monthChanged');
-              }
-              config.merge(value);
-              generateAndRender();
-            }
-          }
-        }
-      });
+
       setEvents();
       that.trigger('load', [that]);
       return that;
@@ -261,6 +264,9 @@
    * @returns {string|*}
    */
   Calendar.prototype.dayTemplate = function (day) {
+    //var dayNumber = document.createElement('div');
+    //dayNumber.classList.add('day-number');
+    //dayNumber.innerHTML = day.toString();
     return day.toString();
   };
 
