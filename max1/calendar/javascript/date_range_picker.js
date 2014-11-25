@@ -20,6 +20,9 @@
     };
 
     this.changeRange = function changeRange(newRange){
+      if (!newRange) {
+        return range;
+      }
       range = {
         start: moment(newRange.start).startOf('day') || range.start,
         end: moment(newRange.end).startOf('day') || range.end
